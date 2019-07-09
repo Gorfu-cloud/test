@@ -24,7 +24,7 @@ public interface IUserPrivacyInfoService {
      * @date: 2019/7/9
      */
 
-    boolean insert(TbUserPrivacyInfo privacyInfo);
+    boolean insertUserPrivacyInfo(TbUserPrivacyInfo privacyInfo);
 
     /**
      * @Description: 删除隐私信息记录
@@ -34,7 +34,7 @@ public interface IUserPrivacyInfoService {
      * @date: 2019/7/9
      */
 
-    boolean delete(int id);
+    boolean deleteUserPrivacyInfoById(int id);
 
     /**
      * @Description: 更新用户隐私信息
@@ -44,7 +44,7 @@ public interface IUserPrivacyInfoService {
      * @date: 2019/7/9
      */
 
-    boolean update(TbUserPrivacyInfo privacyInfo);
+    boolean updateUserPrivacyInfo(TbUserPrivacyInfo privacyInfo);
 
     List<TbUserPrivacyInfo> findAllByUID(int UID);
 
