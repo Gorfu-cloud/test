@@ -1,11 +1,11 @@
-package com.bkit.fatdown.common.api;
+package com.bkit.fatdown.dto;
 
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
 /**
- * @file: CommonPage
+ * @file: CommonPageDTO
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: 分页数据封装类
  * @date: Created in 2019/7/10 14:02
@@ -13,7 +13,7 @@ import java.util.List;
  * @version: 1.0
  */
 
-public class CommonPage<T> {
+public class CommonPageDTO<T> {
     /**
      * 页号
      */
@@ -38,8 +38,8 @@ public class CommonPage<T> {
     /**
      * 将PageHelper分页后的list转为分页信息
      */
-    public static <T> CommonPage<T> restPage(List<T> list) {
-        CommonPage<T> result = new CommonPage<T>();
+    public static <T> CommonPageDTO<T> restPage(List<T> list) {
+        CommonPageDTO<T> result = new CommonPageDTO<T>();
         PageInfo<T> pageInfo = new PageInfo<T>(list);
         result.setTotalPage(pageInfo.getPages());
         result.setPageNum(pageInfo.getPageNum());

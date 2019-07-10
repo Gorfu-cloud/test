@@ -21,7 +21,7 @@ public interface IUserBasicInfoService {
 
     int countByOpenid(String openid);
 
-    TbUserBasicInfo register(String openid);
+    TbUserBasicInfo login(String code);
 
     TbUserBasicInfo getByOpenid(String openid);
 

@@ -1,15 +1,10 @@
 package com.bkit.fatdown.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.bkit.fatdown.common.api.CommonResult;
-import com.bkit.fatdown.dto.RestResult;
+import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.utils.WxappUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @file: UserController
@@ -28,39 +23,34 @@ public class UserController {
     IUserBasicInfoService userBasicInfoService;
 
     @CrossOrigin
-    @RequestMapping(value = "/login/{openid}", method = RequestMethod.GET)
-    public RestResult loginUser(@PathVariable String openid) {
-        System.out.println(openid);
-
-        if (userBasicInfoService.countByOpenid(openid) > 0) {
-            return new RestResult(200, "true");
-        } else {
-            return new RestResult(400, "false");
-        }
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/register/{openid}", method = RequestMethod.GET)
-    public RestResult registerUser(@PathVariable String openid) {
-
-        return new RestResult();
-    }
-
-    @CrossOrigin
-    @RequestMapping(value = "/getOpenid/{code}", method = RequestMethod.GET)
-    public CommonResult getOpenid(@PathVariable String code) {
+    @RequestMapping(value = "/login/{code}", method = RequestMethod.POST)
+    public CommonResultDTO registerUser(@PathVariable String code) {
         if (code == null || code.length() == 0) {
-            return CommonResult.failed("code错误");
+            return CommonResultDTO.failed("code错误");
+        }
+        return CommonResultDTO.success(userBasicInfoService.login(code));
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getBasicInfoByOpenid/{openid}", method = RequestMethod.POST)
+    public CommonResultDTO getUserBasicInfo(@PathVariable String openid) {
+        if (openid == null || openid.length() == 0) {
+            return CommonResultDTO.failed("openid错误");
         }
 
-        JSONObject jsonObject = JSONObject.parseObject(WxappUtil.getSessionKeyOropenid(code));
-        System.out.println(jsonObject.toJSONString());
+        if (userBasicInfoService.countByOpenid(openid) == 0) {
+            return CommonResultDTO.failed("用户不存在");
+        }
 
-        String openid = (String) jsonObject.get("openid");
-        String sessionKey = jsonObject.get("session_key").toString();
-        Map map = new HashMap(2);
-        map.put("openid", openid);
-        map.put("sessionKey", sessionKey);
-        return CommonResult.success(map);
+        return CommonResultDTO.success(userBasicInfoService.getByOpenid(openid));
     }
+
+//    @CrossOrigin
+//    @RequestMapping(value = "/getBasicInfoByUid/{uid}", method = RequestMethod.POST)
+//    public CommonResultDTO getUserBasicInfo(@PathVariable String uid) {
+//        if (uid == null || uid.length() == 0) {
+//            return CommonResultDTO.failed("uid错误");
+//        }
+//
+//    }
 }

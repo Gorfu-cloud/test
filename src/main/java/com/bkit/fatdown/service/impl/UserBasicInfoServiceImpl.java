@@ -1,9 +1,11 @@
 package com.bkit.fatdown.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.utils.WxappUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * @file: UserBasicInfoServiceImpl
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
- * @description:  用户基础信息功能实现类
+ * @description: 用户基础信息功能实现类
  * @date: Created in 2019/7/10  10:32
  * @modified:
  * @version: 1.0
@@ -43,13 +45,25 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
         criteria.andOpenidEqualTo(openid);
 
-        return (int)userBasicInfoMapper.countByExample(basicInfoExample);
+        return (int) userBasicInfoMapper.countByExample(basicInfoExample);
     }
 
     @Override
-    public TbUserBasicInfo register(String openid) {
+    public TbUserBasicInfo login(String code) {
+        JSONObject jsonObject = JSONObject.parseObject(WxappUtil.getSessionKeyOropenid(code));
+        System.out.println(jsonObject.toJSONString());
+        String openid = (String) jsonObject.get("openid");
 
-        return null;
+        // 用户不存在时
+        if (countByOpenid(openid) == 0) {
+            TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
+            // TODO 以后获取解码后信息再进行补充,2019年7月10日, 预计2019年7月15日
+            userBasicInfo.setOpenid(openid);
+            // 创建新用户
+            insert(userBasicInfo);
+        }
+
+        return getByOpenid(openid);
     }
 
     @Override
