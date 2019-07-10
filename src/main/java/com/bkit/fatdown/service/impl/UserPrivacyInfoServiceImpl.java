@@ -26,7 +26,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
 
     @Override
     public boolean insert(TbUserPrivacyInfo privacyInfo) {
-        int num = userPrivacyInfoMapper.insertSelective(privacyInfo);
+        int num = userPrivacyInfoMapper.insert(privacyInfo);
 
         return num > 0;
     }
@@ -67,13 +67,17 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     }
 
     @Override
-    public TbUserPrivacyInfo getById(int id) {
+    public List<TbUserPrivacyInfo> getByUid(int uid) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
 
-        criteria.andUseridEqualTo(id);
-        List<TbUserPrivacyInfo> userPrivacyInfoList = userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
+        criteria.andUseridEqualTo(uid);
 
-        return userPrivacyInfoList.get(0);
+        return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
+    }
+
+    @Override
+    public TbUserPrivacyInfo getById(int id) {
+        return userPrivacyInfoMapper.selectByPrimaryKey(id);
     }
 }

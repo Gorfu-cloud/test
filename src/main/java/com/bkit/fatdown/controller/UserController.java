@@ -1,10 +1,14 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.service.IUserPrivacyInfoService;
+import com.sun.istack.internal.NotNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @file: UserController
@@ -22,9 +26,12 @@ public class UserController {
     @Resource
     IUserBasicInfoService userBasicInfoService;
 
+    @Resource
+    IUserPrivacyInfoService privacyInfoService;
+
     @CrossOrigin
     @RequestMapping(value = "/login/{code}", method = RequestMethod.POST)
-    public CommonResultDTO registerUser(@PathVariable String code) {
+    public CommonResultDTO registerUser(@PathVariable @NotNull String code) {
         if (code == null || code.length() == 0) {
             return CommonResultDTO.failed("code错误");
         }
@@ -53,5 +60,18 @@ public class UserController {
 //        }
 //
 //    }
+
+    @CrossOrigin
+    @RequestMapping(value = "getPrivacyInfo/{uid}", method = RequestMethod.POST)
+    public CommonResultDTO getUserPrivacyInfo(@PathVariable Integer uid) {
+        if (uid == null) {
+            return CommonResultDTO.failed("uid非空");
+        }
+        List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.getByUid(uid);
+        if (privacyInfoList.size()==0){
+            return CommonResultDTO.validateFailed("用户不存在");
+        }
+        return CommonResultDTO.success(privacyInfoList.get(0));
+    }
 
 }
