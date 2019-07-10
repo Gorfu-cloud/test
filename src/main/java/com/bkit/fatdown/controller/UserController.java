@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @FileName: UserController
- * @Author: YuJian
- * @Description: 用户相关功能控制器
- * @Date: Created in 2019/7/9 17:24
- * @Modified:
- * @Version: 1.0
+ * @file: UserController
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 用户相关控制器
+ * @date: Created in 7/10/19  8:53 AM
+ * @modified:
+ * @version: 1.0
  */
 
 @RestController
@@ -28,11 +28,7 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/login/{openid}", method = RequestMethod.GET)
-    public RestResult loginUser(@PathVariable String openid, HttpServletRequest request, HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setContentType("application/json;charset=UTF-8");
-
-        String callback = request.getParameter("callback");
+    public RestResult loginUser(@PathVariable String openid) {
         System.out.println(openid);
 
         if (userBasicInfoService.countByOpenid(openid) > 0) {
@@ -44,7 +40,7 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/register/{openid}", method = RequestMethod.GET)
-    public RestResult registerUser(@PathVariable String openid, HttpServletRequest request, HttpServletResponse response) {
+    public RestResult registerUser(@PathVariable String openid) {
 
         return new RestResult();
     }
