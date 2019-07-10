@@ -35,11 +35,18 @@ public class UserController {
         String callback = request.getParameter("callback");
         System.out.println(openid);
 
-        if (userBasicInfoService.checkUser(openid)) {
+        if (userBasicInfoService.countByOpenid(openid) > 0) {
             return new RestResult(200, "true");
         } else {
             return new RestResult(400, "false");
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/register/{openid}", method = RequestMethod.GET)
+    public RestResult registerUser(@PathVariable String openid, HttpServletRequest request, HttpServletResponse response) {
+
+        return new RestResult();
     }
 
 }
