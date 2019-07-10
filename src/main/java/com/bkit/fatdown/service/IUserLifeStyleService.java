@@ -13,7 +13,11 @@ import com.bkit.fatdown.entity.TbUserLifeStyle;
 
 public interface IUserLifeStyleService {
 
-    boolean insertUserLifeStyle(TbUserLifeStyle userLifeStyle);
+    boolean insert(TbUserLifeStyle userLifeStyle);
 
-    boolean deleteUserLifeStyle(int id);
+    TbUserLifeStyle getByUid(int uid);
+
+    TbUserLifeStyle getById(int id);
+
+    boolean delete(int id);
 }

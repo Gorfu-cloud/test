@@ -24,7 +24,7 @@ public interface IUserPrivacyInfoService {
      * @date: 2019/7/9
      */
 
-    boolean insertUserPrivacyInfo(TbUserPrivacyInfo privacyInfo);
+    boolean insert(TbUserPrivacyInfo privacyInfo);
 
     /**
      * @Description: 删除隐私信息记录
@@ -34,21 +34,21 @@ public interface IUserPrivacyInfoService {
      * @date: 2019/7/9
      */
 
-    boolean deleteUserPrivacyInfoById(int id);
+    boolean deleteById(int id);
 
     /**
      * @Description: 更新用户隐私信息
-     * @Param:
-     * @return:
+     * @Params:
+     * @Return:
      * @Author: YuJian
-     * @date: 2019/7/9
+     * @Date: 7/10/19
      */
 
-    boolean updateUserPrivacyInfo(TbUserPrivacyInfo privacyInfo);
+    boolean update(TbUserPrivacyInfo privacyInfo);
 
-    List<TbUserPrivacyInfo> findAllByUID(int UID);
+    List<TbUserPrivacyInfo> listByUid(int uid);
 
-    List<TbUserPrivacyInfo> findBetweenDate(int UID, Date starDate, Date endDate);
+    List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate);
 
-    TbUserPrivacyInfo findByUID(int UID);
+    TbUserPrivacyInfo getById(int id);
 }

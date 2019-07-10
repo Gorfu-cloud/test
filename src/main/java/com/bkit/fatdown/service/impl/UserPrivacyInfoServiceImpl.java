@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @FileName: UserPrivacyInfoService
+ * @FileName: UserPrivacyInfoServiceImpl
  * @Author: YuJian
  * @Description: 用户隐私信息功能实现类
  * @Date: Created in 2019/7/9 17:49
@@ -20,43 +20,43 @@ import java.util.List;
  */
 
 @Service
-public class UserPrivacyInfoService implements IUserPrivacyInfoService {
+public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     @Resource
     private TbUserPrivacyInfoMapper userPrivacyInfoMapper;
 
     @Override
-    public boolean insertUserPrivacyInfo(TbUserPrivacyInfo privacyInfo) {
+    public boolean insert(TbUserPrivacyInfo privacyInfo) {
         int num = userPrivacyInfoMapper.insertSelective(privacyInfo);
 
         return num > 0;
     }
 
     @Override
-    public boolean deleteUserPrivacyInfoById(int id) {
+    public boolean deleteById(int id) {
         int num = userPrivacyInfoMapper.deleteByPrimaryKey(id);
 
         return num > 0;
     }
 
     @Override
-    public boolean updateUserPrivacyInfo(TbUserPrivacyInfo privacyInfo) {
+    public boolean update(TbUserPrivacyInfo privacyInfo) {
         int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
 
         return num > 0;
     }
 
     @Override
-    public List<TbUserPrivacyInfo> findAllByUID(int UID) {
+    public List<TbUserPrivacyInfo> listByUid(int uid) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
 
-        criteria.andUseridEqualTo(UID);
+        criteria.andUseridEqualTo(uid);
 
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
 
     @Override
-    public List<TbUserPrivacyInfo> findBetweenDate(int UID, Date starDate, Date endDate) {
+    public List<TbUserPrivacyInfo> listBetweenDate(int UID, Date starDate, Date endDate) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
 
@@ -67,11 +67,11 @@ public class UserPrivacyInfoService implements IUserPrivacyInfoService {
     }
 
     @Override
-    public TbUserPrivacyInfo findByUID(int UID) {
+    public TbUserPrivacyInfo getById(int id) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
 
-        criteria.andUseridEqualTo(UID);
+        criteria.andUseridEqualTo(id);
         List<TbUserPrivacyInfo> userPrivacyInfoList = userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
 
         return userPrivacyInfoList.get(0);

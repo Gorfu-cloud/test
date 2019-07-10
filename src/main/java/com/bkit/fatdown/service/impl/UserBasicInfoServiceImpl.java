@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @FileName: UserBasicInfoService
+ * @FileName: UserBasicInfoServiceImpl
  * @Author: YuJian
  * @Description: 用户基础信息功能实现类
  * @Date: Created in 2019/7/9 15:59
@@ -19,36 +19,35 @@ import java.util.List;
  */
 
 @Service
-public class UserBasicInfoService implements IUserBasicInfoService {
+public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
     @Resource
     TbUserBasicInfoMapper userBasicInfoMapper;
 
     @Override
-    public boolean insertUserBasicInfo(TbUserBasicInfo userBasicInfo) {
+    public boolean insert(TbUserBasicInfo userBasicInfo) {
         int num = userBasicInfoMapper.insertSelective(userBasicInfo);
         return num > 0;
     }
 
     @Override
-    public boolean updateUserBasicInfo(TbUserBasicInfo userBasicInfo) {
+    public boolean update(TbUserBasicInfo userBasicInfo) {
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
         return num > 0;
     }
 
     @Override
-    public boolean checkUser(String openid) {
+    public int countByOpenid(String openid) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
         criteria.andOpenidEqualTo(openid);
-        long num = userBasicInfoMapper.countByExample(basicInfoExample);
 
-        return num > 0;
+        return (int)userBasicInfoMapper.countByExample(basicInfoExample);
     }
 
     @Override
-    public TbUserBasicInfo findUserBasicInfoByOpenid(String openid) {
+    public TbUserBasicInfo getByOpenid(String openid) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
@@ -59,7 +58,7 @@ public class UserBasicInfoService implements IUserBasicInfoService {
     }
 
     @Override
-    public TbUserBasicInfo findUserBasicInfoById(int id) {
+    public TbUserBasicInfo getById(int id) {
         return userBasicInfoMapper.selectByPrimaryKey(id);
     }
 
@@ -69,7 +68,7 @@ public class UserBasicInfoService implements IUserBasicInfoService {
     }
 
     @Override
-    public List<TbUserBasicInfo> findAllByType(int type) {
+    public List<TbUserBasicInfo> listByType(int type) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
@@ -79,7 +78,7 @@ public class UserBasicInfoService implements IUserBasicInfoService {
     }
 
     @Override
-    public List<TbUserBasicInfo> findAllByTruename(String trueName) {
+    public List<TbUserBasicInfo> listByTruename(String trueName) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
@@ -89,7 +88,7 @@ public class UserBasicInfoService implements IUserBasicInfoService {
     }
 
     @Override
-    public List<TbUserBasicInfo> findAllByPhone(String phone) {
+    public List<TbUserBasicInfo> listByPhone(String phone) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
@@ -99,7 +98,7 @@ public class UserBasicInfoService implements IUserBasicInfoService {
     }
 
     @Override
-    public List<TbUserBasicInfo> findAllByUserlevel(int userLevel) {
+    public List<TbUserBasicInfo> listByUserlevel(int userLevel) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 

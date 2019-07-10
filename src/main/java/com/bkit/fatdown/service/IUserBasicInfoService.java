@@ -15,25 +15,25 @@ import java.util.List;
 
 public interface IUserBasicInfoService {
 
-    boolean insertUserBasicInfo(TbUserBasicInfo userBasicInfo);
+    boolean insert(TbUserBasicInfo userBasicInfo);
 
-    boolean updateUserBasicInfo(TbUserBasicInfo userBasicInfo);
+    boolean update(TbUserBasicInfo userBasicInfo);
 
-    boolean checkUser(String openid);
+    int countByOpenid(String openid);
 
-    TbUserBasicInfo findUserBasicInfoByOpenid(String openid);
+    TbUserBasicInfo getByOpenid(String openid);
 
-    TbUserBasicInfo findUserBasicInfoById(int id);
+    TbUserBasicInfo getById(int id);
 
     boolean deleteUserById(int id);
 
-    List<TbUserBasicInfo> findAllByType(int type);
+    List<TbUserBasicInfo> listByType(int type);
 
-    List<TbUserBasicInfo> findAllByUserlevel(int userLevel);
+    List<TbUserBasicInfo> listByUserlevel(int userLevel);
 
-    List<TbUserBasicInfo> findAllByTruename(String trueName);
+    List<TbUserBasicInfo> listByTruename(String trueName);
 
-    List<TbUserBasicInfo> findAllByPhone(String phone);
+    List<TbUserBasicInfo> listByPhone(String phone);
 
 //  这里准备实现分页  List<TbUserBasicInfo> findAll();
 
