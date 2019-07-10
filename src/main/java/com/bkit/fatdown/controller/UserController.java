@@ -1,14 +1,10 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.RestResult;
-import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @file: UserController

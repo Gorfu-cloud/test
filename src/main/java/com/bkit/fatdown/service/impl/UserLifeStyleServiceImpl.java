@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @FileName: UserLifeStyleServiceImpl
- * @Author: YuJian
- * @Description: 用户口味倾向功能实现类
- * @Date: Created in 2019/7/9 18:11
- * @Modified:
- * @Version: 1.0
+ * @file: UserLifeStyleServiceImpl
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description:  用户口味倾向功能实现类
+ * @date: Created in 2019/7/10  10:33
+ * @modified:
+ * @version: 1.0
  */
 
 @Service

@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @FileName: UserPrivacyInfoServiceImpl
- * @Author: YuJian
- * @Description: 用户隐私信息功能实现类
- * @Date: Created in 2019/7/9 17:49
- * @Modified:
- * @Version: 1.0
+ * @file: UserPrivacyInfoServiceImpl
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description:  用户隐私信息功能实现类
+ * @date: Created in 2019/7/10  10:31
+ * @modified:
+ * @version: 1.0
  */
 
 @Service
@@ -56,11 +56,11 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     }
 
     @Override
-    public List<TbUserPrivacyInfo> listBetweenDate(int UID, Date starDate, Date endDate) {
+    public List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
 
-        criteria.andUseridEqualTo(UID);
+        criteria.andUseridEqualTo(uid);
         criteria.andCreatedateBetween(starDate, endDate);
 
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);

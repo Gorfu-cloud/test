@@ -10,12 +10,12 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * @FileName: UserBasicInfoServiceImpl
- * @Author: YuJian
- * @Description: 用户基础信息功能实现类
- * @Date: Created in 2019/7/9 15:59
- * @Modified:
- * @Version: 1.0
+ * @file: UserBasicInfoServiceImpl
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description:  用户基础信息功能实现类
+ * @date: Created in 2019/7/10  10:32
+ * @modified:
+ * @version: 1.0
  */
 
 @Service
