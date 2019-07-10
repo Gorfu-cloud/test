@@ -1,10 +1,15 @@
 package com.bkit.fatdown.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bkit.fatdown.common.api.CommonResult;
 import com.bkit.fatdown.dto.RestResult;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.utils.WxappUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @file: UserController
@@ -41,4 +46,21 @@ public class UserController {
         return new RestResult();
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/getOpenid/{code}", method = RequestMethod.GET)
+    public CommonResult getOpenid(@PathVariable String code) {
+        if (code == null || code.length() == 0) {
+            return CommonResult.failed("code错误");
+        }
+
+        JSONObject jsonObject = JSONObject.parseObject(WxappUtil.getSessionKeyOropenid(code));
+        System.out.println(jsonObject.toJSONString());
+
+        String openid = (String) jsonObject.get("openid");
+        String sessionKey = jsonObject.get("session_key").toString();
+        Map map = new HashMap(2);
+        map.put("openid", openid);
+        map.put("sessionKey", sessionKey);
+        return CommonResult.success(map);
+    }
 }

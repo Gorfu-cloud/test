@@ -47,6 +47,12 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     }
 
     @Override
+    public TbUserBasicInfo register(String openid) {
+
+        return null;
+    }
+
+    @Override
     public TbUserBasicInfo getByOpenid(String openid) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
