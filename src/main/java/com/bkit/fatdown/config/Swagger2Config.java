@@ -22,11 +22,11 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class Swagger2Config {
 
     /**
-     * @Description:
-     * @Param: null
-     * @return: springfox.documentation.spring.web.plugins.Docket
-     * @Author: YuJian
-     * @date: 2019/7/4
+     * @description: 配置swagger文档
+     * @params: null
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/11
      */
 
     @Bean
@@ -35,7 +35,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 // 设置扫描基础包
-                .apis(RequestHandlerSelectors.basePackage("com.health.management"))
+                .apis(RequestHandlerSelectors.basePackage("com.bkit.fatdown"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -51,9 +51,9 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("葆康减脂平台API文档")
-                .description("含用户接口使用部分")
+                .description("版本日期:2019年7月11日,修改日期:2019年7月11日")
 //                .termsOfServiceUrl("http://")
-                .version("1.0.1")
+                .version("1.1.1")
                 .build();
     }
 }
