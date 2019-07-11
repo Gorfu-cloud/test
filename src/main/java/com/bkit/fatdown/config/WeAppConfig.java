@@ -1,5 +1,7 @@
 package com.bkit.fatdown.config;
 
+import org.springframework.context.annotation.Configuration;
+
 /**
  * @file: WeAppConfig
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -9,6 +11,7 @@ package com.bkit.fatdown.config;
  * @version: 1.0
  */
 
+@Configuration
 public class WeAppConfig {
 
     private String appid;

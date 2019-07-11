@@ -14,7 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @Author: YuJian
  * @Description: Swagger2文档生成配置
  * @Date: Created in 2019/7/9 17:25
- * @Modified:
+ * @Modified: 2019年7月11日 14点36分 修改版本
  * @Version: 1.0
  */
 
@@ -41,19 +41,16 @@ public class Swagger2Config {
     }
 
     /**
-     * @Description: 配置接口信息
-     * @Param: null
-     * @return: ApiInfo
-     * @Author: YuJian
-     * @date: 2019/7/4
+     * 配置 api 文档信息
+     *
+     * @return
      */
-
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("葆康减脂平台API文档")
                 .description("版本日期:2019年7月11日,修改日期:2019年7月11日")
-//                .termsOfServiceUrl("http://")
-                .version("1.1.1")
+                .termsOfServiceUrl("https://sunnyqcloud.com/fatdown")
+                .version("1.1.2")
                 .build();
     }
 }

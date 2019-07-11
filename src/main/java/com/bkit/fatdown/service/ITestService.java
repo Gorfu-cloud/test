@@ -7,22 +7,62 @@ import com.bkit.fatdown.entity.TbTestScore;
 
 import java.util.List;
 
+/**
+ * @file: ITestService
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 测验功能接口
+ * @date: Created in 2019/7/11  15:37
+ * @modified:
+ * @version: 1.0
+ */
+
 public interface ITestService {
-    /*获取所有试卷*/
-    List<TbPaperBasic> getPaperInfo();
 
-    /*根据试卷ID获取试题*/
-    List<TbQuestionBasic> getQuestionByPaperID(int paperID);
+    /**
+     * 获取所有试卷
+     *
+     * @return
+     */
+    List<TbPaperBasic> listPaperInfo();
 
-    /*根据试题ID获取试题*/
-    List<TbQuestionBasic> getQuestionByQuestionID(List<Integer> values);
+    /**
+     * 根据试卷ID获取试题
+     *
+     * @param paperId
+     * @return
+     */
+    List<TbQuestionBasic> listQuestionByPaperId(int paperId);
 
-    /*添加答题记录*/
-    Boolean insertTestRecord(TbTestRecord ttr);
+    /**
+     * 根据试题ID获取试题
+     *
+     * @param values
+     * @return
+     */
+    List<TbQuestionBasic> listQuestionByQuestionId(List<Integer> values);
 
-    /*添加成绩*/
-    Boolean insertTestScore(TbTestScore tts);
+    /**
+     * 添加答题记录
+     *
+     * @param testRecord
+     * @return
+     */
+    Boolean insertTestRecord(TbTestRecord testRecord);
 
-    /*根据UID和PaperID查询成绩*/
-    List<TbTestScore> getScoreByUIDAndPaperID(int UID, int paperID);
+    /**
+     * 添加成绩
+     *
+     * @param testScore
+     * @return
+     */
+    Boolean insertTestScore(TbTestScore testScore);
+
+    /**
+     * 根据UID和PaperID查询成绩
+     *
+     * @param uid
+     * @param paperId
+     * @return
+     */
+    List<TbTestScore>listScoreByUidAndPaperId(int uid, int paperId);
 }

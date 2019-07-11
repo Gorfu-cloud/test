@@ -35,9 +35,10 @@ public interface ILearnService {
     /**
      * 创建学习知识信息
      *
+     * @param learnInfo
      * @return
      */
-    boolean insert();
+    boolean insert(TbLearnInfo learnInfo);
 
     /**
      * 删除学习知识信息

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @file: UserPrivacyInfoServiceImpl
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
- * @description:  用户隐私信息功能实现类
+ * @description: 用户隐私信息功能实现类
  * @date: Created in 2019/7/10  10:31
  * @modified:
  * @version: 1.0
@@ -48,9 +48,8 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     @Override
     public List<TbUserPrivacyInfo> listByUid(int uid) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
-        TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
-
-        criteria.andUseridEqualTo(uid);
+        userPrivacyInfoExample.createCriteria()
+                .andUseridEqualTo(uid);
 
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
@@ -58,20 +57,19 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     @Override
     public List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
-        TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
-
-        criteria.andUseridEqualTo(uid);
-        criteria.andCreatedateBetween(starDate, endDate);
-
+        userPrivacyInfoExample.createCriteria()
+                .andUseridEqualTo(uid)
+                .andCreatedateBetween(starDate, endDate);
+        // 按创建日期降序
+        userPrivacyInfoExample.setOrderByClause("createDate desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
 
     @Override
     public List<TbUserPrivacyInfo> getByUid(int uid) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
-        TbUserPrivacyInfoExample.Criteria criteria = userPrivacyInfoExample.createCriteria();
-
-        criteria.andUseridEqualTo(uid);
+        userPrivacyInfoExample.createCriteria()
+                .andUseridEqualTo(uid);
 
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }

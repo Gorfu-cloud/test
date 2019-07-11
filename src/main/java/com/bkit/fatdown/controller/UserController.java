@@ -5,6 +5,7 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.sun.istack.internal.NotNull;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ public class UserController {
     @Resource
     IUserPrivacyInfoService privacyInfoService;
 
+    @ApiOperation("小程序用户登录")
     @CrossOrigin
     @RequestMapping(value = "/login/{code}", method = RequestMethod.POST)
     public CommonResultDTO registerUser(@PathVariable @NotNull String code) {
@@ -38,6 +40,7 @@ public class UserController {
         return CommonResultDTO.success(userBasicInfoService.login(code));
     }
 
+    @ApiOperation("通过openid获取基础信息")
     @CrossOrigin
     @RequestMapping(value = "/getBasicInfoByOpenid/{openid}", method = RequestMethod.POST)
     public CommonResultDTO getUserBasicInfo(@PathVariable String openid) {
@@ -52,23 +55,15 @@ public class UserController {
         return CommonResultDTO.success(userBasicInfoService.getByOpenid(openid));
     }
 
-//    @CrossOrigin
-//    @RequestMapping(value = "/getBasicInfoByUid/{uid}", method = RequestMethod.POST)
-//    public CommonResultDTO getUserBasicInfo(@PathVariable String uid) {
-//        if (uid == null || uid.length() == 0) {
-//            return CommonResultDTO.failed("uid错误");
-//        }
-//
-//    }
-
+    @ApiOperation("通过uid获取隐私信息")
     @CrossOrigin
-    @RequestMapping(value = "getPrivacyInfo/{uid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPrivacyInfo/{uid}", method = RequestMethod.POST)
     public CommonResultDTO getUserPrivacyInfo(@PathVariable Integer uid) {
         if (uid == null) {
             return CommonResultDTO.failed("uid非空");
         }
         List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.getByUid(uid);
-        if (privacyInfoList.size()==0){
+        if (privacyInfoList.size() == 0) {
             return CommonResultDTO.validateFailed("用户不存在");
         }
         return CommonResultDTO.success(privacyInfoList.get(0));
