@@ -92,4 +92,18 @@ public class LearnController {
     public CommonResultDTO getLearnInfoById(@PathVariable Integer id) {
         return CommonResultDTO.success(learnService.getById(id));
     }
+
+    @ApiOperation("通过uid,获取学习分数")
+    @CrossOrigin
+    @RequestMapping(value = "/getPoints/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getPointsByUid(@PathVariable Integer uid) {
+        return CommonResultDTO.failed("未完成");
+    }
+
+    @ApiOperation("通过id,获取题目解析")
+    @CrossOrigin
+    @RequestMapping(value = "/getExplanation/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getExplanationById(@PathVariable Integer id) {
+        return CommonResultDTO.success(learnService.getById(id));
+    }
 }
