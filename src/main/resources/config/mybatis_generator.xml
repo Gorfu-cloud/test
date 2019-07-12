@@ -101,7 +101,7 @@
 <!--        enableUpdateByExample="true"/>-->
 <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
 <!--        enableUpdateByExample="true"/>-->
-                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-                enableUpdateByExample="true"/>
+<!--                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+<!--                enableUpdateByExample="true"/>-->
 </context>
 </generatorConfiguration>

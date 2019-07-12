@@ -11,9 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -43,7 +41,7 @@ public class UserBasicInfoServiceImplTest {
     @Test
     public void insert() {
         TbUserBasicInfo basicInfo = new TbUserBasicInfo();
-        basicInfo.setOpenid("test1");
+        basicInfo.setOpenId("test1");
         // 当依赖对象 Mapper 的 insert 方法被测试对象 Service 的 insert 方法调用的时候返回 1
         when(userBasicInfoMapper.insert(any(TbUserBasicInfo.class))).thenReturn(1);
         // 验证被测试对象 Service 的 insert 方法调用后正常执行
@@ -57,7 +55,7 @@ public class UserBasicInfoServiceImplTest {
     public void update() {
         TbUserBasicInfo basicInfo = new TbUserBasicInfo();
         basicInfo.setId(1);
-        basicInfo.setOpenid("test1");
+        basicInfo.setOpenId("test1");
         // 当依赖对象 Mapper 的 insert 方法被测试对象 Service 的 insert 方法调用的时候返回 1
         when(userBasicInfoMapper.updateByPrimaryKeySelective(any(TbUserBasicInfo.class))).thenReturn(1);
         // 验证被测试对象 Service 的 insert 方法调用后正常执行
@@ -67,7 +65,7 @@ public class UserBasicInfoServiceImplTest {
     }
 
     @Test
-    public void countByOpenid() {
+    public void countByOpenId() {
 
     }
 
@@ -76,7 +74,7 @@ public class UserBasicInfoServiceImplTest {
     }
 
     @Test
-    public void getByOpenid() {
+    public void getByOpenId() {
     }
 
     @Test

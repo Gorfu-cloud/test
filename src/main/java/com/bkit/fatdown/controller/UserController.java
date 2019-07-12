@@ -4,11 +4,11 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
-import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,27 +32,30 @@ public class UserController {
 
     @ApiOperation("小程序用户登录")
     @CrossOrigin
-    @RequestMapping(value = "/login/{code}", method = RequestMethod.POST)
-    public CommonResultDTO registerUser(@PathVariable @NotNull String code) {
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResultDTO registerUser(@RequestBody HashMap<String, String> map) {
+        String code = map.get("code");
+
         if (code == null || code.length() == 0) {
             return CommonResultDTO.failed("code错误");
         }
         return CommonResultDTO.success(userBasicInfoService.login(code));
     }
 
-    @ApiOperation("通过openid获取基础信息")
+    @ApiOperation("通过openId获取基础信息")
     @CrossOrigin
-    @RequestMapping(value = "/getBasicInfoByOpenid/{openid}", method = RequestMethod.POST)
-    public CommonResultDTO getUserBasicInfo(@PathVariable String openid) {
-        if (openid == null || openid.length() == 0) {
-            return CommonResultDTO.failed("openid错误");
+    @RequestMapping(value = "/getBasicInfoByOpenId/{openId}", method = RequestMethod.POST)
+    public CommonResultDTO getUserBasicInfo(@PathVariable String openId) {
+        if (openId == null || openId.length() == 0) {
+            return CommonResultDTO.failed("openId错误");
         }
 
-        if (userBasicInfoService.countByOpenid(openid) == 0) {
+        if (userBasicInfoService.countByOpenId(openId) == 0) {
             return CommonResultDTO.failed("用户不存在");
         }
 
-        return CommonResultDTO.success(userBasicInfoService.getByOpenid(openid));
+        return CommonResultDTO.success(userBasicInfoService.getByOpenId(openId));
     }
 
     @ApiOperation("通过uid获取隐私信息")

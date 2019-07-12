@@ -19,11 +19,11 @@ public interface IUserBasicInfoService {
 
     boolean update(TbUserBasicInfo userBasicInfo);
 
-    int countByOpenid(String openid);
+    int countByOpenId(String openId);
 
     TbUserBasicInfo login(String code);
 
-    TbUserBasicInfo getByOpenid(String openid);
+    TbUserBasicInfo getByOpenId(String openId);
 
     TbUserBasicInfo getById(int id);
 
@@ -33,7 +33,7 @@ public interface IUserBasicInfoService {
 
     List<TbUserBasicInfo> listByUserlevel(int userLevel);
 
-    List<TbUserBasicInfo> listByTruename(String trueName);
+    List<TbUserBasicInfo> listByTrueName(String trueName);
 
     List<TbUserBasicInfo> listByPhone(String phone);
 

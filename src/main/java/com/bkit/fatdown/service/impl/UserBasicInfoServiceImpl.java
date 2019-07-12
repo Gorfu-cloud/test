@@ -5,7 +5,7 @@ import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.utils.WxappUtil;
+import com.bkit.fatdown.utils.WeappUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,39 +39,41 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     }
 
     @Override
-    public int countByOpenid(String openid) {
+    public int countByOpenId(String openId) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
-        criteria.andOpenidEqualTo(openid);
+        criteria.andOpenIdEqualTo(openId);
 
         return (int) userBasicInfoMapper.countByExample(basicInfoExample);
     }
 
     @Override
     public TbUserBasicInfo login(String code) {
-        JSONObject jsonObject = JSONObject.parseObject(WxappUtil.getSessionKeyOropenid(code));
+        JSONObject jsonObject = JSONObject.parseObject(WeappUtil.getSessionKeyOrOpenId(code));
         System.out.println(jsonObject.toJSONString());
-        String openid = (String) jsonObject.get("openid");
+        String openId = (String) jsonObject.get("openId");
+        System.out.println(code);
+        System.out.println(jsonObject.toString());
 
-        // 用户不存在时
-        if (countByOpenid(openid) == 0) {
+        // 用户不存在时,创建用户
+        if (countByOpenId(openId) == 0) {
             TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
             // TODO 以后获取解码后信息再进行补充,2019年7月10日, 预计2019年7月15日
-            userBasicInfo.setOpenid(openid);
+            userBasicInfo.setOpenId(openId);
             // 创建新用户
             insert(userBasicInfo);
         }
 
-        return getByOpenid(openid);
+        return getByOpenId(openId);
     }
 
     @Override
-    public TbUserBasicInfo getByOpenid(String openid) {
+    public TbUserBasicInfo getByOpenId(String openId) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
-        criteria.andOpenidEqualTo(openid);
+        criteria.andOpenIdEqualTo(openId);
         List<TbUserBasicInfo> userBasicInfos = userBasicInfoMapper.selectByExample(basicInfoExample);
 
         return userBasicInfos.get(0);
@@ -98,11 +100,11 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     }
 
     @Override
-    public List<TbUserBasicInfo> listByTruename(String trueName) {
+    public List<TbUserBasicInfo> listByTrueName(String trueName) {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
-        criteria.andTruenameEqualTo(trueName);
+        criteria.andTrueNameEqualTo(trueName);
 
         return userBasicInfoMapper.selectByExample(basicInfoExample);
     }
@@ -112,7 +114,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
-        criteria.andPhotoEqualTo(phone);
+        criteria.andPhoneEqualTo(phone);
 
         return userBasicInfoMapper.selectByExample(basicInfoExample);
     }
