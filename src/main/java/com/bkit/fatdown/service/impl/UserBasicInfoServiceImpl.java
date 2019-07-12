@@ -3,6 +3,8 @@ package com.bkit.fatdown.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
+import com.bkit.fatdown.entity.TbUserPrivacyInfo;
+import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.WeappUtil;
@@ -46,6 +48,12 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         criteria.andOpenIdEqualTo(openId);
 
         return (int) userBasicInfoMapper.countByExample(basicInfoExample);
+    }
+
+    @Override
+    public int countById(int id) {
+        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        return (int) userBasicInfoMapper.countByExample(example);
     }
 
     @Override
