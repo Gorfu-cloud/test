@@ -66,7 +66,7 @@ public class LearnController {
 
     @ApiOperation("获取开启的学习内容")
     @CrossOrigin
-    @RequestMapping(value = "/getLearnInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/listLearnInfo", method = RequestMethod.GET)
     public CommonResultDTO listLearnInfo() {
         Date today = new Date();
 

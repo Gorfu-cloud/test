@@ -47,7 +47,7 @@ public class UserController {
 
     @ApiOperation("通过openId获取基础信息")
     @CrossOrigin
-    @RequestMapping(value = "/getBasicInfo/{openId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/getBasicInfo/{openId}", method = RequestMethod.GET)
     public CommonResultDTO getUserBasicInfo(@PathVariable String openId) {
         if (CheckInputUtils.checkNull(openId)) {
             return CommonResultDTO.failed("openId错误");
@@ -62,7 +62,7 @@ public class UserController {
 
     @ApiOperation("通过uid获取所有隐私信息")
     @CrossOrigin
-    @RequestMapping(value = "/listPrivacyInfo/{uid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/listPrivacyInfo/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfo(@PathVariable Integer uid) {
         if (uid == null) {
             return CommonResultDTO.failed("uid非空");
@@ -120,7 +120,7 @@ public class UserController {
 
     @ApiOperation("通过id获取隐私信息")
     @CrossOrigin
-    @RequestMapping(value = "/getPrivacyInfo/{id}")
+    @RequestMapping(value = "/getPrivacyInfo/{id}",method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfo(@PathVariable int id) {
         return CommonResultDTO.success(privacyInfoService.getById(id));
     }
