@@ -4,17 +4,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @file: TaskController
+ * @file: DietController
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
- * @description: 每日任务控制类
- * @date: Created in 2019/7/12 13:59
+ * @description: 饮食模块控制器
+ * @date: Created in 7/12/19  10:50 PM
  * @modified:
  * @version: 1.0
  */
 
 @RestController
-@RequestMapping("/task")
-public class TaskController {
+@RequestMapping("/diet")
+public class DietController {
 
-//    public CommonResultDTO
 }
