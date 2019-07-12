@@ -58,14 +58,14 @@ public class UserController {
         return CommonResultDTO.success(userBasicInfoService.getByOpenId(openId));
     }
 
-    @ApiOperation("通过uid获取隐私信息")
+    @ApiOperation("通过uid获取所有隐私信息")
     @CrossOrigin
-    @RequestMapping(value = "/getPrivacyInfo/{uid}", method = RequestMethod.POST)
+    @RequestMapping(value = "/listPrivacyInfoByUid/{uid}", method = RequestMethod.POST)
     public CommonResultDTO getUserPrivacyInfo(@PathVariable Integer uid) {
         if (uid == null) {
             return CommonResultDTO.failed("uid非空");
         }
-        List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.getByUid(uid);
+        List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.listByUid(uid);
         if (privacyInfoList.size() == 0) {
             return CommonResultDTO.validateFailed("用户不存在");
         }

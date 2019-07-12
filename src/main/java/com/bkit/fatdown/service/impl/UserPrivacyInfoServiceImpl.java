@@ -66,15 +66,6 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     }
 
     @Override
-    public List<TbUserPrivacyInfo> getByUid(int uid) {
-        TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
-        userPrivacyInfoExample.createCriteria()
-                .andUseridEqualTo(uid);
-
-        return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
-    }
-
-    @Override
     public TbUserPrivacyInfo getById(int id) {
         return userPrivacyInfoMapper.selectByPrimaryKey(id);
     }

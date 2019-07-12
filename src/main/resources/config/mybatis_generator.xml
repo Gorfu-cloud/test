@@ -14,94 +14,103 @@
         </commentGenerator>
 
         <!-- 数据库的相关配置 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health" userId="root" password="bk_28135"/>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health" userId="root"
+                        password="bk_28135"/>
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <!-- 实体类生成的位置 -->
-        <javaModelGenerator targetPackage="com.bkit.fatdown.entity" targetProject="E:\IdeaProject\Service\fatdown\src\main\java">
+        <javaModelGenerator targetPackage="com.bkit.fatdown.entity"
+                            targetProject="E:\IdeaProject\Service\fatdown\src\main\java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- *Mapper.xml 文件的位置 -->
-        <sqlMapGenerator targetPackage="com.bkit.fatdown.mappers" targetProject="E:\IdeaProject\Service\fatdown\src\main\resources">
+        <sqlMapGenerator targetPackage="com.bkit.fatdown.mappers"
+                         targetProject="E:\IdeaProject\Service\fatdown\src\main\resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- Mapper 接口文件的位置 -->
-        <javaClientGenerator targetPackage="com.bkit.fatdown.mappers" targetProject="E:\IdeaProject\Service\fatdown\src\main\java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.bkit.fatdown.mappers"
+                             targetProject="E:\IdeaProject\Service\fatdown\src\main\java" type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
         <!--<table tableName="tb_breakfast_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-                                                    <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_lunch_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_dinner_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_extra_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_paper_question_relation" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--                enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_test_score" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_paper_question_relation" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--                enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_test_score" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_share_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_comment_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_user_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_like_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_score_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_score_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_picture_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_fatrate_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_weight_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_food_element_relation" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_element_standard" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_score_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_score_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_report_daily" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--        enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--        enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--        enableUpdateByExample="true"/>-->
-<!--                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-<!--                enableUpdateByExample="true"/>-->
-</context>
+        <!--enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--        enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--        enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--        enableUpdateByExample="true"/>-->
+        <!--                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--                enableUpdateByExample="true"/>-->
+        <table tableName="tb_task_record" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+    </context>
 </generatorConfiguration>
