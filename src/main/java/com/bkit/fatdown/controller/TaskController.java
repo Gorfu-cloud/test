@@ -2,7 +2,9 @@ package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbTaskList;
+import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
+import com.bkit.fatdown.service.ITaskRecordService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,10 +27,15 @@ public class TaskController {
     @Resource
     ITaskListService taskListService;
 
+    @Resource
+    ITaskRecordService recordService;
+
     @ApiOperation("获取今天任务")
     @CrossOrigin
     @RequestMapping(value = "/listTodayTask", method = RequestMethod.GET)
     public CommonResultDTO listTodayTask(@RequestBody Integer uid) {
+        // TODO 设计任务查找算法，预计7-15
+        List<TbTaskRecord> taskRecordList = recordService.listTaskRecordByUid(uid);
         return CommonResultDTO.failed();
     }
 
