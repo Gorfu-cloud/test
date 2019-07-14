@@ -11,6 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +36,7 @@ public class UserBasicInfoServiceImplTest {
     private TbUserBasicInfoMapper userBasicInfoMapper;
 
     @Before
-    public void init(){
+    public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
@@ -48,7 +50,7 @@ public class UserBasicInfoServiceImplTest {
         // TODO 新建表出错 日期7-10, 预计处理7-11
         assertTrue(userBasicInfoService.insert(basicInfo));
         // 验证依赖对象 Mapper 的 insert 方法确实被调用了一次， times(1) 指的就是调用了一次
-        verify(userBasicInfoMapper,times(1)).insert(any(TbUserBasicInfo.class));
+        verify(userBasicInfoMapper, times(1)).insert(any(TbUserBasicInfo.class));
     }
 
     @Test
@@ -61,7 +63,7 @@ public class UserBasicInfoServiceImplTest {
         // 验证被测试对象 Service 的 insert 方法调用后正常执行
         assertTrue(userBasicInfoService.update(basicInfo));
         // 验证依赖对象 Mapper 的 insert 方法确实被调用了一次， times(1) 指的就是调用了一次
-        verify(userBasicInfoMapper,times(1)).updateByPrimaryKeySelective(any(TbUserBasicInfo.class));
+        verify(userBasicInfoMapper, times(1)).updateByPrimaryKeySelective(any(TbUserBasicInfo.class));
     }
 
     @Test
@@ -88,7 +90,7 @@ public class UserBasicInfoServiceImplTest {
         // 验证被测试对象 Service 的 insert 方法调用后正常执行
         assertTrue(userBasicInfoService.deleteUserById(1));
         // 验证依赖对象 Mapper 的 insert 方法确实被调用了一次， times(1) 指的就是调用了一次
-        verify(userBasicInfoMapper,times(1)).deleteByPrimaryKey(anyInt());
+        verify(userBasicInfoMapper, times(1)).deleteByPrimaryKey(anyInt());
     }
 
     @Test
@@ -105,5 +107,19 @@ public class UserBasicInfoServiceImplTest {
 
     @Test
     public void listByUserlevel() {
+    }
+
+    @Test
+    public void listAll() {
+        List<TbUserBasicInfo> basicInfoList = userBasicInfoService.listAll(10, 1);
+        System.out.println(basicInfoList.size());
+        System.out.println(basicInfoList.get(2));
+        verify(userBasicInfoMapper, times(1)).selectByExample(null);
+    }
+
+    @Test
+    public void listByUserLever() {
+//        List<TbUserBasicInfo> basicInfoList = userBasicInfoService.listByUserLever(1, 3, 2);
+//        System.out.println(basicInfoList.size());
     }
 }

@@ -1,11 +1,13 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.CheckInputUtils;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -120,9 +122,28 @@ public class UserController {
 
     @ApiOperation("通过id获取隐私信息")
     @CrossOrigin
-    @RequestMapping(value = "/getPrivacyInfo/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getPrivacyInfo/{id}", method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfo(@PathVariable int id) {
         return CommonResultDTO.success(privacyInfoService.getById(id));
+    }
+
+    @Deprecated
+    @ApiOperation("分页获取用户信息")
+    @CrossOrigin
+    @RequestMapping(value = "/listBasicInfo", method = RequestMethod.GET)
+    public CommonPageDTO listBasicInfo(Integer pageSize, Integer pageNum) {
+
+
+        return CommonPageDTO.restPage(null);
+    }
+
+    @Deprecated
+    @ApiOperation("获取同一分组中的所有对象数据")
+    @CrossOrigin
+    @RequestMapping(value = "/listBasicInfo/{userLever}", method = RequestMethod.GET)
+    public CommonPageDTO listBasicInfoByUserLever(@PathVariable Integer userLever, Integer pageSize, Integer pageNum) {
+
+        return CommonPageDTO.restPage(null);
     }
 
     /**

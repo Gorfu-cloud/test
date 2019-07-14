@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.entity.TbTaskRecordExample;
 import com.bkit.fatdown.mappers.TbTaskRecordMapper;
 import com.bkit.fatdown.service.ITaskRecordService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  * @version: 1.0
  */
 
+@Service
 public class TaskServiceImpl implements ITaskRecordService {
 
     @Resource

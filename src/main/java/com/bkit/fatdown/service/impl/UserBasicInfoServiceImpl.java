@@ -8,6 +8,8 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.WeappUtil;
+import com.github.pagehelper.PageHelper;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,7 +32,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
     @Override
     public boolean insert(TbUserBasicInfo userBasicInfo) {
-        int num = userBasicInfoMapper.insertSelective(userBasicInfo);
+        int num = userBasicInfoMapper.insert(userBasicInfo);
         return num > 0;
     }
 
@@ -48,6 +50,28 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         criteria.andOpenIdEqualTo(openId);
 
         return (int) userBasicInfoMapper.countByExample(basicInfoExample);
+    }
+
+    @Override
+    public List<TbUserBasicInfo> listByUserLever(Integer userLever, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageSize, pageNum);
+        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        example.createCriteria()
+                .andUserlevelEqualTo(userLever);
+        List<TbUserBasicInfo> list = userBasicInfoMapper.selectByExample(example);
+        return list;
+    }
+
+    /**
+     * 分页查找用户
+     *
+     * @return
+     */
+    @Override
+    public List<TbUserBasicInfo> listAll(Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageSize, pageNum);
+        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        return userBasicInfoMapper.selectByExample(example);
     }
 
     @Override
@@ -123,16 +147,6 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
 
         criteria.andPhoneEqualTo(phone);
-
-        return userBasicInfoMapper.selectByExample(basicInfoExample);
-    }
-
-    @Override
-    public List<TbUserBasicInfo> listByUserlevel(int userLevel) {
-        TbUserBasicInfoExample basicInfoExample = new TbUserBasicInfoExample();
-        TbUserBasicInfoExample.Criteria criteria = basicInfoExample.createCriteria();
-
-        criteria.andUserlevelEqualTo(userLevel);
 
         return userBasicInfoMapper.selectByExample(basicInfoExample);
     }
