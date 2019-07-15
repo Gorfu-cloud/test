@@ -14,8 +14,8 @@ public class WeappUtil {
     // TODO 测试appId待修改
 
     private static final String REQUEST_URL = "https://api.weixin.qq.com/sns/jscode2session";
-    private static final String APP_ID = "wx0d7c9fa021d6cb36";
-    private static final String APP_SECRET = "6d0389fc0acd338b6a4a6c5ed69aad2e";
+    private static final String APP_ID = "wx4243a0b576e90fd9";
+    private static final String APP_SECRET = "126bf51300a399ff588ced60caa0ee57";
     private static final String GRANT_TYPE = "authorization_code";
 
     public static String getSessionKeyOrOpenId(String code) {
