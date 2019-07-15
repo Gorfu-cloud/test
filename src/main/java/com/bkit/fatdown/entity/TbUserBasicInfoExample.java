@@ -534,6 +534,66 @@ public class TbUserBasicInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andGenderIsNull() {
+            addCriterion("gender is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIsNotNull() {
+            addCriterion("gender is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderEqualTo(Integer value) {
+            addCriterion("gender =", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotEqualTo(Integer value) {
+            addCriterion("gender <>", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThan(Integer value) {
+            addCriterion("gender >", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("gender >=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThan(Integer value) {
+            addCriterion("gender <", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderLessThanOrEqualTo(Integer value) {
+            addCriterion("gender <=", value, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderIn(List<Integer> values) {
+            addCriterion("gender in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotIn(List<Integer> values) {
+            addCriterion("gender not in", values, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderBetween(Integer value1, Integer value2) {
+            addCriterion("gender between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
+        public Criteria andGenderNotBetween(Integer value1, Integer value2) {
+            addCriterion("gender not between", value1, value2, "gender");
+            return (Criteria) this;
+        }
+
         public Criteria andAgeIsNull() {
             addCriterion("age is null");
             return (Criteria) this;
@@ -591,76 +651,6 @@ public class TbUserBasicInfoExample {
 
         public Criteria andAgeNotBetween(Integer value1, Integer value2) {
             addCriterion("age not between", value1, value2, "age");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIsNull() {
-            addCriterion("gender is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIsNotNull() {
-            addCriterion("gender is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderEqualTo(String value) {
-            addCriterion("gender =", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotEqualTo(String value) {
-            addCriterion("gender <>", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderGreaterThan(String value) {
-            addCriterion("gender >", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderGreaterThanOrEqualTo(String value) {
-            addCriterion("gender >=", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderLessThan(String value) {
-            addCriterion("gender <", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderLessThanOrEqualTo(String value) {
-            addCriterion("gender <=", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderLike(String value) {
-            addCriterion("gender like", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotLike(String value) {
-            addCriterion("gender not like", value, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderIn(List<String> values) {
-            addCriterion("gender in", values, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotIn(List<String> values) {
-            addCriterion("gender not in", values, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderBetween(String value1, String value2) {
-            addCriterion("gender between", value1, value2, "gender");
-            return (Criteria) this;
-        }
-
-        public Criteria andGenderNotBetween(String value1, String value2) {
-            addCriterion("gender not between", value1, value2, "gender");
             return (Criteria) this;
         }
 
@@ -731,6 +721,76 @@ public class TbUserBasicInfoExample {
 
         public Criteria andPhoneNotBetween(String value1, String value2) {
             addCriterion("phone not between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIsNull() {
+            addCriterion("province is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIsNotNull() {
+            addCriterion("province is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceEqualTo(String value) {
+            addCriterion("province =", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotEqualTo(String value) {
+            addCriterion("province <>", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThan(String value) {
+            addCriterion("province >", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThanOrEqualTo(String value) {
+            addCriterion("province >=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThan(String value) {
+            addCriterion("province <", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThanOrEqualTo(String value) {
+            addCriterion("province <=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLike(String value) {
+            addCriterion("province like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotLike(String value) {
+            addCriterion("province not like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIn(List<String> values) {
+            addCriterion("province in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotIn(List<String> values) {
+            addCriterion("province not in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceBetween(String value1, String value2) {
+            addCriterion("province between", value1, value2, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotBetween(String value1, String value2) {
+            addCriterion("province not between", value1, value2, "province");
             return (Criteria) this;
         }
 
@@ -1114,133 +1174,63 @@ public class TbUserBasicInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelIsNull() {
-            addCriterion("userLevel is null");
+        public Criteria andUserLevelIsNull() {
+            addCriterion("user_level is null");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelIsNotNull() {
-            addCriterion("userLevel is not null");
+        public Criteria andUserLevelIsNotNull() {
+            addCriterion("user_level is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelEqualTo(Integer value) {
-            addCriterion("userLevel =", value, "userlevel");
+        public Criteria andUserLevelEqualTo(Integer value) {
+            addCriterion("user_level =", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelNotEqualTo(Integer value) {
-            addCriterion("userLevel <>", value, "userlevel");
+        public Criteria andUserLevelNotEqualTo(Integer value) {
+            addCriterion("user_level <>", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelGreaterThan(Integer value) {
-            addCriterion("userLevel >", value, "userlevel");
+        public Criteria andUserLevelGreaterThan(Integer value) {
+            addCriterion("user_level >", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelGreaterThanOrEqualTo(Integer value) {
-            addCriterion("userLevel >=", value, "userlevel");
+        public Criteria andUserLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_level >=", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelLessThan(Integer value) {
-            addCriterion("userLevel <", value, "userlevel");
+        public Criteria andUserLevelLessThan(Integer value) {
+            addCriterion("user_level <", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelLessThanOrEqualTo(Integer value) {
-            addCriterion("userLevel <=", value, "userlevel");
+        public Criteria andUserLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("user_level <=", value, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelIn(List<Integer> values) {
-            addCriterion("userLevel in", values, "userlevel");
+        public Criteria andUserLevelIn(List<Integer> values) {
+            addCriterion("user_level in", values, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelNotIn(List<Integer> values) {
-            addCriterion("userLevel not in", values, "userlevel");
+        public Criteria andUserLevelNotIn(List<Integer> values) {
+            addCriterion("user_level not in", values, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelBetween(Integer value1, Integer value2) {
-            addCriterion("userLevel between", value1, value2, "userlevel");
+        public Criteria andUserLevelBetween(Integer value1, Integer value2) {
+            addCriterion("user_level between", value1, value2, "userLevel");
             return (Criteria) this;
         }
 
-        public Criteria andUserlevelNotBetween(Integer value1, Integer value2) {
-            addCriterion("userLevel not between", value1, value2, "userlevel");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceIsNull() {
-            addCriterion("province is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceIsNotNull() {
-            addCriterion("province is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceEqualTo(String value) {
-            addCriterion("province =", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceNotEqualTo(String value) {
-            addCriterion("province <>", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceGreaterThan(String value) {
-            addCriterion("province >", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceGreaterThanOrEqualTo(String value) {
-            addCriterion("province >=", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceLessThan(String value) {
-            addCriterion("province <", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceLessThanOrEqualTo(String value) {
-            addCriterion("province <=", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceLike(String value) {
-            addCriterion("province like", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceNotLike(String value) {
-            addCriterion("province not like", value, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceIn(List<String> values) {
-            addCriterion("province in", values, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceNotIn(List<String> values) {
-            addCriterion("province not in", values, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceBetween(String value1, String value2) {
-            addCriterion("province between", value1, value2, "province");
-            return (Criteria) this;
-        }
-
-        public Criteria andProvinceNotBetween(String value1, String value2) {
-            addCriterion("province not between", value1, value2, "province");
+        public Criteria andUserLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_level not between", value1, value2, "userLevel");
             return (Criteria) this;
         }
     }

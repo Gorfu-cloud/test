@@ -54,7 +54,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         PageHelper.startPage(pageSize, pageNum);
         TbUserBasicInfoExample example = new TbUserBasicInfoExample();
         example.createCriteria()
-                .andUserlevelEqualTo(userLever);
+                .andUserLevelEqualTo(userLever);
         List<TbUserBasicInfo> list = userBasicInfoMapper.selectByExample(example);
         return list;
     }

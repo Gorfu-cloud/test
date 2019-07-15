@@ -7,7 +7,6 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.CheckInputUtils;
-import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -179,11 +178,10 @@ public class UserController {
             userBasicInfo.setAge(age);
         }
 
-        // TODO 修改用户性别为int，0,1,2
-//        if (map.containsKey("gender")){
-//            int gender = Integer.parseInt(map.get("gender"));
-//            userBasicInfo.setGender(gender);
-//        }
+        if (map.containsKey("gender")){
+            int gender = Integer.parseInt(map.get("gender"));
+            userBasicInfo.setGender(gender);
+        }
 
         if (map.containsKey("phone")) {
             userBasicInfo.setPhone(map.get("phone"));
@@ -209,7 +207,7 @@ public class UserController {
 
         if (map.containsKey("userLevel")) {
             int userLevel = Integer.parseInt(map.get("userLevel"));
-            userBasicInfo.setUserlevel(userLevel);
+            userBasicInfo.setUserLevel(userLevel);
         }
 
         if (map.containsKey("province")) {
