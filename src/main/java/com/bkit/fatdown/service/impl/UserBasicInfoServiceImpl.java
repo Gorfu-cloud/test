@@ -85,12 +85,9 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         // 用户不存在时,创建用户
         if (countByOpenId(openId)< 1) {
             TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
-            // TODO 以后获取解码后信息再进行补充,2019年7月10日, 预计2019年7月15日
             userBasicInfo.setOpenId(openId);
-            // 创建新用户
             insert(userBasicInfo);
         }
-
         return getByOpenId(openId);
     }
 

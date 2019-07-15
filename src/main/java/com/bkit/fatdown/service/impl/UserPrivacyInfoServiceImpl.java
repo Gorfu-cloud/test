@@ -49,7 +49,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     public List<TbUserPrivacyInfo> listByUid(int uid) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         userPrivacyInfoExample.createCriteria()
-                .andUseridEqualTo(uid);
+                .andUserIdEqualTo(uid);
 
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
@@ -58,8 +58,8 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     public List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate) {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         userPrivacyInfoExample.createCriteria()
-                .andUseridEqualTo(uid)
-                .andCreatedateBetween(starDate, endDate);
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(starDate, endDate);
         // 按创建日期降序
         userPrivacyInfoExample.setOrderByClause("createDate desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);

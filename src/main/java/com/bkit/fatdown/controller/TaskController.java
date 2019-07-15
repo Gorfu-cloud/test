@@ -48,7 +48,6 @@ public class TaskController {
         if (taskList.size() == 0) {
             return CommonResultDTO.validateFailed("任务列表为空");
         }
-
         return CommonResultDTO.success(taskList);
     }
 
@@ -71,7 +70,7 @@ public class TaskController {
         }
 
         if (taskListService.insert(taskList)) {
-            return CommonResultDTO.success("创建任务成功");
+            return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed();
         }
@@ -87,7 +86,7 @@ public class TaskController {
         }
 
         if (taskListService.update(taskList)) {
-            return CommonResultDTO.success("更新任务成功");
+            return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed();
         }
@@ -103,7 +102,7 @@ public class TaskController {
         }
 
         if (taskListService.delete(id)) {
-            return CommonResultDTO.success("删除任务成功");
+            return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed();
         }

@@ -7,10 +7,12 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.CheckInputUtils;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class UserController {
     IUserPrivacyInfoService privacyInfoService;
 
     @ApiOperation("小程序用户登录")
+    @ApiImplicitParam(name = "code", value = "session_code", paramType = "query")
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -51,7 +54,7 @@ public class UserController {
     @RequestMapping(value = "/getBasicInfo/{openId}", method = RequestMethod.GET)
     public CommonResultDTO getUserBasicInfo(@PathVariable String openId) {
         if (CheckInputUtils.checkNull(openId)) {
-            return CommonResultDTO.failed("openId错误");
+            return CommonResultDTO.validateFailed("openId错误");
         }
 
         if (basicInfoService.countByOpenId(openId) == 0) {
@@ -75,25 +78,28 @@ public class UserController {
         return CommonResultDTO.success(privacyInfoList.get(0));
     }
 
-    @ApiOperation("创建用户基础信息")
+    @ApiOperation("更新用户基础信息,")
     @CrossOrigin
-    @RequestMapping(value = "/addUserBasicInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateUserBasicInfo", method = RequestMethod.POST)
     public CommonResultDTO addUserBasicInfo(@RequestBody HashMap<String, String> map) {
         TbUserBasicInfo userBasicInfo = getUserBasicInfoFromMap(map);
-
-        if (CheckInputUtils.checkNull(userBasicInfo.getOpenId())) {
-            return CommonResultDTO.failed("openId为空");
+        if (userBasicInfo.getId() != null) {
+            return CommonResultDTO.validateFailed("openId为空");
         }
 
-        return CommonResultDTO.success(basicInfoService.insert(userBasicInfo));
+        if (basicInfoService.insert(userBasicInfo)) {
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed("更新基础数据失败");
+
     }
 
-    @ApiOperation("更新用基础信息")
+    @ApiOperation("更新用户基础信息,userId必填")
     @CrossOrigin
     @RequestMapping(value = "/updateBasicInfo", method = RequestMethod.POST)
     public CommonResultDTO updateUserBasicInfo(@RequestBody HashMap<String, String> map) {
         TbUserBasicInfo userBasicInfo = getUserBasicInfoFromMap(map);
-        if (CheckInputUtils.checkNull(userBasicInfo.getOpenId()) && userBasicInfo.getId() != null) {
+        if (userBasicInfo.getId() != null) {
             if (basicInfoService.update(userBasicInfo)) {
                 return CommonResultDTO.success("更新成功");
             } else {
@@ -104,16 +110,16 @@ public class UserController {
         }
     }
 
-    @ApiOperation("添加用户隐私信息")
+    @ApiOperation("添加用户隐私信息,userId必填,注意:HashMap<String, Double>")
     @CrossOrigin
     @RequestMapping(value = "/addPrivacyInfo", method = RequestMethod.POST)
     public CommonResultDTO addUserPrivacyInfo(@RequestBody HashMap<String, Double> map) {
         TbUserPrivacyInfo userPrivacyInfo = getPrivacyInfoFromMap(map);
-        if (basicInfoService.countById(userPrivacyInfo.getUserid()) != 0) {
+        if (basicInfoService.countById(userPrivacyInfo.getUserId()) != 0) {
             if (privacyInfoService.insert(userPrivacyInfo)) {
-                return CommonResultDTO.success("创建新记录成功");
+                return CommonResultDTO.success();
             } else {
-                return CommonResultDTO.failed();
+                return CommonResultDTO.failed("创建隐私数据记录失败");
             }
         }
         return CommonResultDTO.validateFailed("用户不存在");
@@ -131,8 +137,6 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/listBasicInfo", method = RequestMethod.GET)
     public CommonPageDTO listBasicInfo(Integer pageSize, Integer pageNum) {
-
-
         return CommonPageDTO.restPage(null);
     }
 
@@ -178,7 +182,7 @@ public class UserController {
             userBasicInfo.setAge(age);
         }
 
-        if (map.containsKey("gender")){
+        if (map.containsKey("gender")) {
             int gender = Integer.parseInt(map.get("gender"));
             userBasicInfo.setGender(gender);
         }
@@ -219,6 +223,7 @@ public class UserController {
             userBasicInfo.setFlag(flag);
         }
 
+        userBasicInfo.setGmtModified(new Date());
         return userBasicInfo;
     }
 
@@ -236,11 +241,11 @@ public class UserController {
         }
 
         if (map.containsKey("userId")) {
-            userPrivacyInfo.setUserid(map.get("userId").intValue());
+            userPrivacyInfo.setUserId(map.get("userId").intValue());
         }
 
         if (map.containsKey("fatRate")) {
-            userPrivacyInfo.setFatrate(map.get("fatRate"));
+            userPrivacyInfo.setFatRate(map.get("fatRate"));
         }
 
         if (map.containsKey("bust")) {
@@ -264,23 +269,23 @@ public class UserController {
         }
 
         if (map.containsKey("forearm")) {
-            userPrivacyInfo.setForearm(map.get("forearm"));
+            userPrivacyInfo.setForeArm(map.get("forearm"));
         }
 
         if (map.containsKey("muscleOxygen")) {
-            userPrivacyInfo.setMuscleoxygen(map.get("muscleOxygen"));
+            userPrivacyInfo.setMuscleOxygen(map.get("muscleOxygen"));
         }
 
         if (map.containsKey("bloodPressure")) {
-            userPrivacyInfo.setBloodoxygen(map.get("bloodPressure"));
+            userPrivacyInfo.setBloodOxygen(map.get("bloodPressure"));
         }
 
         if (map.containsKey("bloodOxygen")) {
-            userPrivacyInfo.setBloodoxygen(map.get("bloodOxygen"));
+            userPrivacyInfo.setBloodOxygen(map.get("bloodOxygen"));
         }
 
         if (map.containsKey("heartOxygen")) {
-            userPrivacyInfo.setHeartoxygen(map.get("heartOxygen").intValue());
+            userPrivacyInfo.setHeartRate(map.get("heartOxygen").intValue());
         }
 
         return userPrivacyInfo;
