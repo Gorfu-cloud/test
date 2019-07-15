@@ -2,6 +2,8 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 
+import java.util.List;
+
 /**
  * @FileName: IUserLifeStyleService
  * @Author: YuJian
@@ -15,9 +17,13 @@ public interface IUserLifeStyleService {
 
     boolean insert(TbUserLifeStyle userLifeStyle);
 
-    TbUserLifeStyle getByUid(int uid);
+    List<TbUserLifeStyle> listByUid(int uid);
 
     TbUserLifeStyle getById(int id);
 
     boolean delete(int id);
+
+    int countByUid(int uid);
+
+    boolean update(TbUserLifeStyle userLifeStyle);
 }

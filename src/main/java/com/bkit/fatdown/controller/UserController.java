@@ -3,8 +3,10 @@ package com.bkit.fatdown.controller;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
+import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.CheckInputUtils;
 import io.swagger.annotations.ApiImplicitParam;
@@ -34,6 +36,9 @@ public class UserController {
 
     @Resource
     IUserPrivacyInfoService privacyInfoService;
+
+    @Resource
+    IUserLifeStyleService userLifeStyleService;
 
     @ApiOperation("小程序用户登录")
     @ApiImplicitParam(name = "code", value = "session_code", paramType = "query")
@@ -145,8 +150,61 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/listBasicInfo/{userLever}", method = RequestMethod.GET)
     public CommonPageDTO listBasicInfoByUserLever(@PathVariable Integer userLever, Integer pageSize, Integer pageNum) {
-
         return CommonPageDTO.restPage(null);
+    }
+
+    @ApiOperation("获取最新生活习惯")
+    @CrossOrigin
+    @RequestMapping(value = "/getLifeStyle/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getLifeStyle(@PathVariable Integer uid) {
+        if (uid == null || userLifeStyleService.countByUid(uid) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+        return CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
+    }
+
+    @ApiOperation("通过UID获取用户所有生活习惯")
+    @CrossOrigin
+    @RequestMapping(value = "/listLifeStyle", method = RequestMethod.GET)
+    public CommonResultDTO listLifeStyleByUid(@RequestBody HashMap<String, Integer> map) {
+        if (map.containsKey("uid")) {
+            int uid = map.get("uid");
+            if (userLifeStyleService.countByUid(uid) > 0) {
+                return CommonResultDTO.success(userLifeStyleService.listByUid(uid));
+            }
+        }
+        return CommonResultDTO.validateFailed();
+    }
+
+
+    @ApiOperation("更新用户生活习惯,必传userId或id,如果不存在则新建记录")
+    @CrossOrigin
+    @RequestMapping(value = "/updateLifeStyle", method = RequestMethod.POST)
+    public CommonResultDTO updateLifeStyle(@RequestBody HashMap<String, Integer> map) {
+        if (map.containsKey("id")) {
+            if (userLifeStyleService.update(getUserLifeStyleFromMap(map))) {
+                return CommonResultDTO.success();
+            } else {
+                return CommonResultDTO.failed();
+            }
+        } else if (map.containsKey("userId")) {
+            if (userLifeStyleService.insert(getUserLifeStyleFromMap(map))) {
+                return CommonResultDTO.success();
+            } else {
+                return CommonResultDTO.failed();
+            }
+        }
+        return CommonResultDTO.validateFailed();
+    }
+
+    @ApiOperation("查看隐私习惯详情")
+    @CrossOrigin
+    @RequestMapping(value = "/getLifeStyleDetail/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getLifeStyleDetail(@PathVariable Integer id) {
+        if (id != null) {
+            CommonResultDTO.success(userLifeStyleService.getById(id));
+        }
+        return CommonResultDTO.validateFailed();
     }
 
     /**
@@ -289,5 +347,54 @@ public class UserController {
         }
 
         return userPrivacyInfo;
+    }
+
+    /**
+     * 获取map中的生活习惯
+     *
+     * @param map
+     * @return
+     */
+    private TbUserLifeStyle getUserLifeStyleFromMap(HashMap<String, Integer> map) {
+        // 劳动强度:0轻度,1中度,2重度
+        int[] LABOUR_INTENSITY_ARRAY = {0, 1, 2};
+        // 饮食习惯:1.6很油腻,1.4较油腻,1.2一般.1.0较清淡,0.9清淡
+        double[] DIETARY_HABIT_ARRAY = {1.6, 1.4, 1.2, 1.0, 0.9};
+        // 饮食口味:0比较淡,1一般,2较咸,3咸
+        int[] FOOD_TASTE_ARRAY = {0, 1, 2, 3};
+        // 吃辣程度:0不辣,1一般辣,2比较辣,3很辣
+        int[] SPICY_DEGREE_ARRAY = {0, 1, 2, 3};
+        // 用户类型:0减脂,1增肌,2塑形
+        int[] USER_TYPE_ARRAY = {0, 1, 2};
+
+        TbUserLifeStyle lifeStyle = new TbUserLifeStyle();
+        if (map.containsKey("id")) {
+            lifeStyle.setId(map.get("id"));
+        }
+        if (map.containsKey("userId")) {
+            lifeStyle.setUserId(map.get("userId"));
+        }
+        if (map.containsKey("labourIntensity")) {
+            int labourIntensity = map.get("labourIntensity");
+            lifeStyle.setLabourIntensity(LABOUR_INTENSITY_ARRAY[labourIntensity]);
+        }
+        if (map.containsKey("dietaryHabit")) {
+            int dietartHabit = map.get("dietaryHabit");
+            lifeStyle.setDietaryHabit(DIETARY_HABIT_ARRAY[dietartHabit]);
+        }
+        if (map.containsKey("foodTaste")) {
+            int foodTaste = map.get("foodTaste");
+            lifeStyle.setFoodTaste(FOOD_TASTE_ARRAY[foodTaste]);
+        }
+        if (map.containsKey("spicyDegree")) {
+            int spicyDegree = map.get("spicyDegree");
+            lifeStyle.setSpicyDegree(SPICY_DEGREE_ARRAY[spicyDegree]);
+        }
+        if (map.containsKey("userType")) {
+            int userType = map.get("userType");
+            lifeStyle.setUserType(USER_TYPE_ARRAY[userType]);
+        }
+        lifeStyle.setGmtModified(new Date());
+        return lifeStyle;
     }
 }
