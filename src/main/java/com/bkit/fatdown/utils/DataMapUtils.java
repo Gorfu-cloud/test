@@ -12,7 +12,7 @@ import java.util.HashMap;
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: 从map中获取传入的参数工具类
  * @date: Created in 2019/7/16 11:09
- * @modified:
+ * @modified: 修改添加当日修改同一个记录
  * @version: 1.0
  */
 
@@ -85,16 +85,6 @@ public class DataMapUtils {
             userBasicInfo.setCity(map.get("city"));
         }
 
-        if (map.containsKey("height")) {
-            double height = Double.parseDouble(map.get("height"));
-            userBasicInfo.setHeight(height);
-        }
-
-        if (map.containsKey("weight")) {
-            double weight = Double.parseDouble(map.get("weight"));
-            userBasicInfo.setWeight(weight);
-        }
-
         if (map.containsKey("job")) {
             userBasicInfo.setJob(map.get("job"));
         }
@@ -130,6 +120,13 @@ public class DataMapUtils {
             userPrivacyInfo.setId(map.get("id").intValue());
         }
 
+        if (map.containsKey("height")) {
+            userPrivacyInfo.setHeight(map.get("height"));
+        }
+
+        if (map.containsKey("weight")) {
+            userPrivacyInfo.setWeight(map.get("height"));
+        }
         if (map.containsKey("userId")) {
             userPrivacyInfo.setUserId(map.get("userId").intValue());
         }
@@ -185,11 +182,13 @@ public class DataMapUtils {
     }
 
     /**
-     * 获取map中的生活习惯
-     *
-     * @param map
-     * @return
+     * @description: 获取map中的生活习惯
+     * @params: map
+     * @return: TbUserLifeStyle
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/16
      */
+
     public static TbUserLifeStyle getUserLifeStyleFromMap(HashMap<String, Integer> map) {
 
         TbUserLifeStyle lifeStyle = new TbUserLifeStyle();

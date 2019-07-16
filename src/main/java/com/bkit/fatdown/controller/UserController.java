@@ -134,7 +134,8 @@ public class UserController {
 //    public CommonPageDTO listBasicInfo(Integer pageSize, Integer pageNum) {
 //        return CommonPageDTO.restPage(null);
 //    }
-//
+
+//    TODO :分页处理失败
 //    @Deprecated
 //    @ApiOperation("获取同一分组中的所有对象数据")
 //    @CrossOrigin

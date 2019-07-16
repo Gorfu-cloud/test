@@ -100,10 +100,12 @@
         <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_report_daily" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
-        <!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--                enableUpdateByExample="true"/>-->
-        <!--                        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--                        enableUpdateByExample="true"/>-->
+        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
 <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true"-->
 <!--               enableSelectByExample="true"-->
 <!--               enableUpdateByExample="true"/>-->
