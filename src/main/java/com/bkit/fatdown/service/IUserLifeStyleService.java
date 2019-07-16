@@ -2,6 +2,7 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,4 +27,13 @@ public interface IUserLifeStyleService {
     int countByUid(int uid);
 
     boolean update(TbUserLifeStyle userLifeStyle);
+
+    /**
+     * 根据日期和uid查找是否存在隐私记录
+     *
+     * @param uid
+     * @param date
+     * @return
+     */
+    int countByUidAndCreateDate(int uid, Date date);
 }

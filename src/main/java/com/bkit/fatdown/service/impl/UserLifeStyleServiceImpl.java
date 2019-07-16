@@ -7,6 +7,7 @@ import com.bkit.fatdown.service.IUserLifeStyleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,7 +54,24 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
 
     @Override
     public boolean update(TbUserLifeStyle userLifeStyle) {
+        // 查找当天记录
+        TbUserLifeStyleExample example = new TbUserLifeStyleExample();
+        example.createCriteria()
+                .andGmtCreateEqualTo(userLifeStyle.getGmtCreate())
+                .andUserIdEqualTo(userLifeStyle.getUserId());
+        // 获取用户ID
+        int id = userLifeStyleMapper.selectByExample(example).get(0).getId();
+        userLifeStyle.setId(id);
         return userLifeStyleMapper.updateByPrimaryKeySelective(userLifeStyle) > 0;
+    }
+
+    @Override
+    public int countByUidAndCreateDate(int uid, Date date) {
+        TbUserLifeStyleExample example = new TbUserLifeStyleExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateEqualTo(date);
+        return (int) userLifeStyleMapper.countByExample(example);
     }
 
     @Override

@@ -27,4 +27,6 @@ public interface IUserPrivacyInfoService {
     List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate);
 
     TbUserPrivacyInfo getById(int id);
+
+    int countByUidAndDate(int uid,Date date);
 }

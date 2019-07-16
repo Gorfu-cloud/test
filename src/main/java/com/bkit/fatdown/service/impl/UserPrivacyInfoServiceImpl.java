@@ -40,8 +40,16 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
 
     @Override
     public boolean update(TbUserPrivacyInfo privacyInfo) {
-        int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
+        // 查找原来的记录id
+        TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
+        example.createCriteria()
+                .andUserIdEqualTo(privacyInfo.getUserId())
+                .andGmtCreateEqualTo(privacyInfo.getGmtCreate());
+        // 获取记录id
+        int id = userPrivacyInfoMapper.selectByExample(example).get(0).getId();
+        privacyInfo.setId(id);
 
+        int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
         return num > 0;
     }
 
@@ -63,6 +71,15 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         // 按创建日期降序
         userPrivacyInfoExample.setOrderByClause("createDate desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
+    }
+
+    @Override
+    public int countByUidAndDate(int uid, Date date) {
+        TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
+        example.createCriteria()
+                .andGmtCreateEqualTo(date)
+                .andUserIdEqualTo(uid);
+        return (int) userPrivacyInfoMapper.countByExample(example);
     }
 
     @Override
