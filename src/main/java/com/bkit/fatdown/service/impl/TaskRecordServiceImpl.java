@@ -7,6 +7,8 @@ import com.bkit.fatdown.service.ITaskRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  */
 
 @Service
-public class TaskServiceImpl implements ITaskRecordService {
+public class TaskRecordServiceImpl implements ITaskRecordService {
 
     @Resource
     private TbTaskRecordMapper taskRecordMapper;
@@ -32,6 +34,8 @@ public class TaskServiceImpl implements ITaskRecordService {
      */
     @Override
     public boolean insert(TbTaskRecord taskRecord) {
+        taskRecord.setGmtCreate(new Date());
+        taskRecord.setGmtModified(new Date());
         return taskRecordMapper.insert(taskRecord) > 0;
     }
 
@@ -58,6 +62,7 @@ public class TaskServiceImpl implements ITaskRecordService {
         TbTaskRecord taskRecord = new TbTaskRecord();
         taskRecord.setId(id);
         taskRecord.setComplete(finishTask);
+        taskRecord.setGmtModified(new Date());
         return taskRecordMapper.updateByPrimaryKey(taskRecord) > 0;
     }
 
@@ -85,6 +90,8 @@ public class TaskServiceImpl implements ITaskRecordService {
 
     /**
      * 获取用户的任务记录
+     * 不存在则新建记录
+     * 24点清空触发器
      *
      * @param uid
      * @return
@@ -110,4 +117,27 @@ public class TaskServiceImpl implements ITaskRecordService {
                 .andUserIdEqualTo(uid);
         return (int) taskRecordMapper.countByExample(example);
     }
+
+    @Override
+    public List<Integer> listRecordId(int uid) {
+        TbTaskRecordExample example = new TbTaskRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid);
+        return nowTaskList(taskRecordMapper.selectByExample(example));
+    }
+
+    /**
+     * 当前任务列表
+     *
+     * @param taskList
+     * @return
+     */
+    private List<Integer> nowTaskList(List<TbTaskRecord> taskList) {
+        List<Integer> nowTaskList = new ArrayList<>();
+        for (TbTaskRecord list : taskList) {
+            nowTaskList.add(list.getId());
+        }
+        return nowTaskList;
+    }
+
 }

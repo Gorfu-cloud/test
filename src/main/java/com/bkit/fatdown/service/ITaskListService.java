@@ -61,4 +61,12 @@ public interface ITaskListService {
      * @return
      */
     int countTaskById(int id);
+
+    /**
+     * 获取新增的任务列表编号
+     *
+     * @return
+     */
+
+    List<Integer> listNewTask(int uid);
 }

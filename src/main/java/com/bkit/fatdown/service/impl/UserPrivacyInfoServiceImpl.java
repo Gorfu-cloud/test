@@ -4,6 +4,8 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserPrivacyInfoMapper;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
+import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.utils.MathUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,13 +44,16 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     public boolean update(TbUserPrivacyInfo privacyInfo) {
         // 查找原来的记录id
         TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
+        Date today = privacyInfo.getGmtCreate();
         example.createCriteria()
                 .andUserIdEqualTo(privacyInfo.getUserId())
-                .andGmtCreateEqualTo(privacyInfo.getGmtCreate());
+                .andGmtCreateBetween(DateUtils.getDateStart(today), DateUtils.getDateEnd(today));
         // 获取记录id
         int id = userPrivacyInfoMapper.selectByExample(example).get(0).getId();
         privacyInfo.setId(id);
-
+        if (privacyInfo.getHeight() != null && privacyInfo.getWeight() != null) {
+            privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(),privacyInfo.getWeight()));
+        }
         int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
         return num > 0;
     }
@@ -77,7 +82,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     public int countByUidAndDate(int uid, Date date) {
         TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
         example.createCriteria()
-                .andGmtCreateEqualTo(date)
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date))
                 .andUserIdEqualTo(uid);
         return (int) userPrivacyInfoMapper.countByExample(example);
     }

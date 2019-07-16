@@ -7,6 +7,7 @@ import com.bkit.fatdown.service.ITaskListService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,9 @@ public class TaskListServiceImpl implements ITaskListService {
 
     @Resource
     private TbTaskListMapper taskListMapper;
+
+    @Resource
+    private TaskRecordServiceImpl taskRecordService;
 
     @Override
     public boolean insert(TbTaskList taskList) {
@@ -62,5 +66,35 @@ public class TaskListServiceImpl implements ITaskListService {
         example.createCriteria()
                 .andIdEqualTo(id);
         return (int) taskListMapper.countByExample(example);
+    }
+
+
+    /**
+     * 获取新增任务编号
+     *
+     * @return
+     */
+    @Override
+    public List<Integer> listNewTask(int uid) {
+        TbTaskListExample example = new TbTaskListExample();
+        example.createCriteria()
+                // 已开启任务
+                .andFlagEqualTo(1)
+                .andIdNotIn(taskRecordService.listRecordId(uid));
+        return newTaskList(taskListMapper.selectByExample(example));
+    }
+
+    /**
+     * 当前任务列表
+     *
+     * @param taskList
+     * @return
+     */
+    private List<Integer> newTaskList(List<TbTaskList> taskList) {
+        List<Integer> nowTaskList = new ArrayList<>();
+        for (TbTaskList list : taskList) {
+            nowTaskList.add(list.getId());
+        }
+        return nowTaskList;
     }
 }

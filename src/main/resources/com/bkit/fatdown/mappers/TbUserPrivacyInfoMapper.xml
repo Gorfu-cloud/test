@@ -8,7 +8,7 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="height" jdbcType="DOUBLE" property="height" />
+    <result column="height" jdbcType="INTEGER" property="height" />
     <result column="weight" jdbcType="DOUBLE" property="weight" />
     <result column="bmi" jdbcType="DOUBLE" property="bmi" />
     <result column="fat_rate" jdbcType="DOUBLE" property="fatRate" />
@@ -155,7 +155,7 @@
       thign, fore_arm, muscle_oxygen, 
       blood_pressure, blood_oxygen, heart_rate, 
       gmt_create)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{height,jdbcType=DOUBLE}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, 
       #{weight,jdbcType=DOUBLE}, #{bmi,jdbcType=DOUBLE}, #{fatRate,jdbcType=DOUBLE}, 
       #{bust,jdbcType=DOUBLE}, #{waist,jdbcType=DOUBLE}, #{hip,jdbcType=DOUBLE}, #{calf,jdbcType=DOUBLE}, 
       #{thign,jdbcType=DOUBLE}, #{foreArm,jdbcType=DOUBLE}, #{muscleOxygen,jdbcType=DOUBLE}, 
@@ -229,7 +229,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="height != null">
-        #{height,jdbcType=DOUBLE},
+        #{height,jdbcType=INTEGER},
       </if>
       <if test="weight != null">
         #{weight,jdbcType=DOUBLE},
@@ -299,7 +299,7 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.height != null">
-        height = #{record.height,jdbcType=DOUBLE},
+        height = #{record.height,jdbcType=INTEGER},
       </if>
       <if test="record.weight != null">
         weight = #{record.weight,jdbcType=DOUBLE},
@@ -356,7 +356,7 @@
     update tb_user_privacy_info
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      height = #{record.height,jdbcType=DOUBLE},
+      height = #{record.height,jdbcType=INTEGER},
       weight = #{record.weight,jdbcType=DOUBLE},
       bmi = #{record.bmi,jdbcType=DOUBLE},
       fat_rate = #{record.fatRate,jdbcType=DOUBLE},
@@ -386,7 +386,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="height != null">
-        height = #{height,jdbcType=DOUBLE},
+        height = #{height,jdbcType=INTEGER},
       </if>
       <if test="weight != null">
         weight = #{weight,jdbcType=DOUBLE},
@@ -440,7 +440,7 @@
     -->
     update tb_user_privacy_info
     set user_id = #{userId,jdbcType=INTEGER},
-      height = #{height,jdbcType=DOUBLE},
+      height = #{height,jdbcType=INTEGER},
       weight = #{weight,jdbcType=DOUBLE},
       bmi = #{bmi,jdbcType=DOUBLE},
       fat_rate = #{fatRate,jdbcType=DOUBLE},

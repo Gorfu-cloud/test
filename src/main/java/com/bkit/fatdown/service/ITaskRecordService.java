@@ -69,4 +69,12 @@ public interface ITaskRecordService {
      * @return
      */
     int countByUid(int uid);
+
+    /**
+     * 获取当前任务id数
+     *
+     * @param uid
+     * @return
+     */
+    List<Integer> listRecordId(int uid);
 }

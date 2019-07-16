@@ -28,7 +28,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    private Double height;
+    private Integer height;
 
     /**
      *
@@ -212,7 +212,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    public Double getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
@@ -224,7 +224,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    public void setHeight(Double height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 

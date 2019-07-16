@@ -121,7 +121,7 @@ public class DataMapUtils {
         }
 
         if (map.containsKey("height")) {
-            userPrivacyInfo.setHeight(map.get("height"));
+            userPrivacyInfo.setHeight(map.get("height").intValue());
         }
 
         if (map.containsKey("weight")) {

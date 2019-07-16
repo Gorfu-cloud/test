@@ -325,52 +325,52 @@ public class TbUserPrivacyInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andHeightEqualTo(Double value) {
+        public Criteria andHeightEqualTo(Integer value) {
             addCriterion("height =", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightNotEqualTo(Double value) {
+        public Criteria andHeightNotEqualTo(Integer value) {
             addCriterion("height <>", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightGreaterThan(Double value) {
+        public Criteria andHeightGreaterThan(Integer value) {
             addCriterion("height >", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightGreaterThanOrEqualTo(Double value) {
+        public Criteria andHeightGreaterThanOrEqualTo(Integer value) {
             addCriterion("height >=", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightLessThan(Double value) {
+        public Criteria andHeightLessThan(Integer value) {
             addCriterion("height <", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightLessThanOrEqualTo(Double value) {
+        public Criteria andHeightLessThanOrEqualTo(Integer value) {
             addCriterion("height <=", value, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightIn(List<Double> values) {
+        public Criteria andHeightIn(List<Integer> values) {
             addCriterion("height in", values, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightNotIn(List<Double> values) {
+        public Criteria andHeightNotIn(List<Integer> values) {
             addCriterion("height not in", values, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightBetween(Double value1, Double value2) {
+        public Criteria andHeightBetween(Integer value1, Integer value2) {
             addCriterion("height between", value1, value2, "height");
             return (Criteria) this;
         }
 
-        public Criteria andHeightNotBetween(Double value1, Double value2) {
+        public Criteria andHeightNotBetween(Integer value1, Integer value2) {
             addCriterion("height not between", value1, value2, "height");
             return (Criteria) this;
         }
