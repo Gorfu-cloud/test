@@ -33,10 +33,9 @@ public class TaskController {
 
     @ApiOperation("通过uid,获取今天任务")
     @CrossOrigin
-    @RequestMapping(value = "/listTodayTask", method = RequestMethod.GET)
+    @RequestMapping(value = "/listTodayTask/{uid}", method = RequestMethod.GET)
     @Transactional
-    public CommonResultDTO listTodayTask(@RequestBody Integer uid) {
-
+    public CommonResultDTO listTodayTask(@PathVariable Integer uid) {
         if (uid == null) {
             CommonResultDTO.validateFailed("uid为空");
         }
@@ -91,7 +90,6 @@ public class TaskController {
         if (taskList == null) {
             return CommonResultDTO.validateFailed("创建对象不能为空");
         }
-
         if (taskListService.insert(taskList)) {
             return CommonResultDTO.success();
         } else {

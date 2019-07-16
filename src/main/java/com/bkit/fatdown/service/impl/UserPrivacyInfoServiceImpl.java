@@ -52,7 +52,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         int id = userPrivacyInfoMapper.selectByExample(example).get(0).getId();
         privacyInfo.setId(id);
         if (privacyInfo.getHeight() != null && privacyInfo.getWeight() != null) {
-            privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(),privacyInfo.getWeight()));
+            privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(), privacyInfo.getWeight()));
         }
         int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
         return num > 0;
@@ -63,7 +63,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         userPrivacyInfoExample.createCriteria()
                 .andUserIdEqualTo(uid);
-
+        userPrivacyInfoExample.setOrderByClause("gmt_create desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
 
@@ -74,7 +74,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
                 .andUserIdEqualTo(uid)
                 .andGmtCreateBetween(starDate, endDate);
         // 按创建日期降序
-        userPrivacyInfoExample.setOrderByClause("createDate desc");
+        userPrivacyInfoExample.setOrderByClause("gmt_create desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
 

@@ -175,6 +175,10 @@ public class DataMapUtils {
             userPrivacyInfo.setHeartRate(map.get("heartOxygen").intValue());
         }
 
+        if (map.containsKey("heartRate")){
+            userPrivacyInfo.setHeartRate(map.get("heartRate").intValue());
+        }
+
         Date today = new Date();
         userPrivacyInfo.setGmtCreate(DateUtils.getDateStart(today));
         userPrivacyInfo.setGmtCreate(today);

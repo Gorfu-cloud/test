@@ -76,7 +76,7 @@ public class UserController {
         if (privacyInfoList.size() == 0) {
             return CommonResultDTO.validateFailed("用户不存在");
         }
-        return CommonResultDTO.success(privacyInfoList.get(0));
+        return CommonResultDTO.success(privacyInfoList);
     }
 
     @ApiOperation("更新用户基础信息,id必填")
@@ -121,6 +121,20 @@ public class UserController {
 
     @ApiOperation("通过id获取隐私信息")
     @CrossOrigin
+    @RequestMapping(value = "/getPrivacyInfoByUid/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getUserPrivacyInfoByUid(@PathVariable int uid) {
+        if (basicInfoService.countById(uid) == 0) {
+            return CommonResultDTO.validateFailed("uid出错");
+        }
+
+        if (privacyInfoService.listByUid(uid).size() > 0) {
+            return CommonResultDTO.success(privacyInfoService.listByUid(uid).get(0));
+        }
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("通过id获取隐私信息")
+    @CrossOrigin
     @RequestMapping(value = "/getPrivacyInfoById/{id}", method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfoById(@PathVariable int id) {
         return CommonResultDTO.success(privacyInfoService.getById(id));
@@ -144,6 +158,7 @@ public class UserController {
 //        return CommonPageDTO.restPage(null);
 //    }
 
+
     @ApiOperation("获取最新生活习惯")
     @CrossOrigin
     @RequestMapping(value = "/getLifeStyle/{uid}", method = RequestMethod.GET)
@@ -153,6 +168,7 @@ public class UserController {
         }
         return CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
     }
+
 
     @ApiOperation("通过UID获取用户所有生活习惯")
     @CrossOrigin
@@ -188,7 +204,7 @@ public class UserController {
                 }
             }
         }
-        return CommonResultDTO.validateFailed();
+        return CommonResultDTO.validateFailed("userId出错");
     }
 
     @ApiOperation("查看最新的生活习惯详情")

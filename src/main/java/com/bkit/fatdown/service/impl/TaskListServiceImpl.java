@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,12 +31,15 @@ public class TaskListServiceImpl implements ITaskListService {
 
     @Override
     public boolean insert(TbTaskList taskList) {
-        return taskListMapper.insert(taskList) > 0;
+        taskList.setGmtModified(new Date());
+        taskList.setGmtModified(new Date());
+        return taskListMapper.insertSelective(taskList) > 0;
     }
 
     @Override
     public boolean update(TbTaskList taskList) {
-        return taskListMapper.updateByPrimaryKey(taskList) > 0;
+        taskList.setGmtModified(new Date());
+        return taskListMapper.updateByPrimaryKeySelective(taskList) > 0;
     }
 
     @Override
@@ -77,10 +81,11 @@ public class TaskListServiceImpl implements ITaskListService {
     @Override
     public List<Integer> listNewTask(int uid) {
         TbTaskListExample example = new TbTaskListExample();
-        example.createCriteria()
-                // 已开启任务
-                .andFlagEqualTo(1)
-                .andIdNotIn(taskRecordService.listRecordId(uid));
+        TbTaskListExample.Criteria criteria = example.createCriteria();
+        // 已开启任务
+        criteria.andFlagEqualTo(1);
+        criteria.andIdNotIn(taskRecordService.listRecordId(uid));
+        System.out.println(taskListMapper.selectByExample(example));
         return newTaskList(taskListMapper.selectByExample(example));
     }
 
