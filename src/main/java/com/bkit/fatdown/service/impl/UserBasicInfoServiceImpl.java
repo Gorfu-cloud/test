@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,6 +90,8 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         if (countByOpenId(openId) < 1) {
             TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
             userBasicInfo.setOpenId(openId);
+            userBasicInfo.setGmtCreate(new Date());
+            userBasicInfo.setGmtModified(new Date());
             insert(userBasicInfo);
         }
         return getByOpenId(openId);
