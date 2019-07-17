@@ -32,15 +32,17 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
     @Override
     public boolean insert(TbUserBasicInfo userBasicInfo) {
-        int num = userBasicInfoMapper.insert(userBasicInfo);
+        userBasicInfo.setGmtCreate(new Date());
+        int num = userBasicInfoMapper.insertSelective(userBasicInfo);
         logger.info("创建用户基础信息:" + userBasicInfo.getOpenId());
         return num > 0;
     }
 
     @Override
     public boolean update(TbUserBasicInfo userBasicInfo) {
+        userBasicInfo.setGmtModified(new Date());
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
-        logger.info("更新用户隐私信息:" + userBasicInfo.getOpenId());
+        logger.info("更新用户基础信息:" + userBasicInfo.getOpenId());
         return num > 0;
     }
 
@@ -70,8 +72,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
      */
     @Override
     public List<TbUserBasicInfo> listAll(Integer pageSize, Integer pageNum) {
-//        PageHelper.startPage(pageSize, pageNum);
-//        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        PageHelper.startPage(pageSize, pageNum);
         return userBasicInfoMapper.selectByExample(new TbUserBasicInfoExample());
     }
 

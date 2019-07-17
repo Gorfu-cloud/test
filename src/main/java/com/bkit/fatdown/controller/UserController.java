@@ -51,9 +51,23 @@ public class UserController {
         return CommonResultDTO.success(basicInfoService.login(code));
     }
 
-    @ApiOperation("通过openId获取基础信息")
+    @ApiOperation("通过用户id,获取基础信息")
     @CrossOrigin
-    @RequestMapping(value = "/getBasicInfo/{openId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getBasicInfoById/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getUserBasicInfoById(@PathVariable Integer id) {
+        if (id == null || basicInfoService.countById(id) == 0) {
+            return CommonResultDTO.validateFailed("id错误");
+        }
+        TbUserBasicInfo basicInfo = basicInfoService.getById(id);
+        if (basicInfo != null) {
+            return CommonResultDTO.success(basicInfo);
+        }
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("通过openid获取基础信息")
+    @CrossOrigin
+    @RequestMapping(value = "/getBasicInfoByOpenId/{openId}", method = RequestMethod.GET)
     public CommonResultDTO getUserBasicInfo(@PathVariable String openId) {
         if (CheckInputUtils.checkNull(openId)) {
             return CommonResultDTO.validateFailed("openId错误");

@@ -47,6 +47,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         Date today = privacyInfo.getGmtCreate();
         example.createCriteria()
                 .andUserIdEqualTo(privacyInfo.getUserId())
+                // 查找今天是否有记录,有就更新
                 .andGmtCreateBetween(DateUtils.getDateStart(today), DateUtils.getDateEnd(today));
         // 获取记录id
         int id = userPrivacyInfoMapper.selectByExample(example).get(0).getId();
@@ -54,6 +55,8 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         if (privacyInfo.getHeight() != null && privacyInfo.getWeight() != null) {
             privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(), privacyInfo.getWeight()));
         }
+        // 社会之更新日期
+        privacyInfo.setGmtModified(new Date());
         int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
         return num > 0;
     }
