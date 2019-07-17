@@ -1,6 +1,7 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
+import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
@@ -239,5 +240,16 @@ public class DataMapUtils {
             pageDTO.setPageNum(map.get("pageNum"));
         }
         return pageDTO;
+    }
+
+    public static TbTaskRecord getTaskRecordFromMap(HashMap<String, Integer> map) {
+        TbTaskRecord taskRecord = new TbTaskRecord();
+        if (map.containsKey("userId")) {
+            taskRecord.setUserId(map.get("userId"));
+        }
+        if (map.containsKey("taskId")) {
+            taskRecord.setTaskId(map.get("taskId"));
+        }
+        return taskRecord;
     }
 }

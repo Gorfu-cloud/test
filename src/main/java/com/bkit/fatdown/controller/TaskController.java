@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,6 +65,13 @@ public class TaskController {
         return CommonResultDTO.success(taskRecordList);
     }
 
+    @ApiOperation("获取所有任务记录,通过uid")
+    @CrossOrigin
+    @RequestMapping(value = "/listTaskRecord/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO listTaskRecordByUid(@PathVariable Integer uid) {
+        return CommonResultDTO.success(taskRecordService.listTaskRecordByUid(uid));
+    }
+
     @ApiOperation("获取所有任务")
     @CrossOrigin
     @RequestMapping(value = "/listTask", method = RequestMethod.GET)
@@ -92,6 +101,8 @@ public class TaskController {
         if (taskList == null) {
             return CommonResultDTO.validateFailed("创建对象不能为空");
         }
+        taskList.setGmtCreate(new Date());
+        taskList.setGmtModified(new Date());
         if (taskListService.insert(taskList)) {
             return CommonResultDTO.success();
         } else {
@@ -107,7 +118,7 @@ public class TaskController {
         if (taskList == null) {
             return CommonResultDTO.validateFailed("创建对象不能为空");
         }
-
+        taskList.setGmtModified(new Date());
         if (taskListService.update(taskList)) {
             return CommonResultDTO.success();
         } else {
@@ -129,5 +140,16 @@ public class TaskController {
         } else {
             return CommonResultDTO.failed();
         }
+    }
+
+    @ApiOperation("添加任务记录,通过uid")
+    @CrossOrigin
+    @RequestMapping(value = "/addTaskRecord", method = RequestMethod.POST)
+    public CommonResultDTO addTaskRecord(@RequestBody HashMap<String, String> map) {
+
+        if (!map.containsKey("uid")) {
+            return CommonResultDTO.validateFailed("uid或taskId缺失");
+        }
+        return CommonResultDTO.success();
     }
 }

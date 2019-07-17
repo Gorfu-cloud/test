@@ -85,7 +85,7 @@ public class TaskListServiceImpl implements ITaskListService {
         // 已开启任务
         criteria.andFlagEqualTo(1);
         criteria.andIdNotIn(taskRecordService.listRecordId(uid));
-        System.out.println(taskListMapper.selectByExample(example));
+        System.out.println(taskListMapper.selectByExample(example).size());
         return newTaskList(taskListMapper.selectByExample(example));
     }
 

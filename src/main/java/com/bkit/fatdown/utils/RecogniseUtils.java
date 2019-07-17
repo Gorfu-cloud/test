@@ -79,7 +79,7 @@ public class RecogniseUtils {
             String endTarget = PREFIX + BOUNDARY + PREFIX + LINE_END;
             os.write(endTarget.getBytes());
             os.flush();
-           // newFile.delete();
+            newFile.delete();
             if (connection.getResponseCode() == 200) {
                 input = connection.getInputStream();
             } else {
