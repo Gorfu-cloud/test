@@ -36,7 +36,7 @@ public class TaskRecordServiceImpl implements ITaskRecordService {
     public boolean insert(TbTaskRecord taskRecord) {
         taskRecord.setGmtCreate(new Date());
         taskRecord.setGmtModified(new Date());
-        return taskRecordMapper.insert(taskRecord) > 0;
+        return taskRecordMapper.insertSelective(taskRecord) > 0;
     }
 
     /**

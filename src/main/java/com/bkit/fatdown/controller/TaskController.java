@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
 import com.bkit.fatdown.service.ITaskRecordService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.utils.DataMapUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -142,14 +143,19 @@ public class TaskController {
         }
     }
 
-    @ApiOperation("添加任务记录,通过uid")
+    @ApiOperation("添加任务记录,通过userId,taskId")
     @CrossOrigin
     @RequestMapping(value = "/addTaskRecord", method = RequestMethod.POST)
-    public CommonResultDTO addTaskRecord(@RequestBody HashMap<String, String> map) {
+    public CommonResultDTO addTaskRecord(@RequestBody HashMap<String, Integer> map) {
 
-        if (!map.containsKey("uid")) {
-            return CommonResultDTO.validateFailed("uid或taskId缺失");
+        if (!map.containsKey("userId") || !map.containsKey("taskId")) {
+            return CommonResultDTO.validateFailed("userId或taskId缺失");
         }
-        return CommonResultDTO.success();
+        TbTaskRecord taskRecord = DataMapUtils.getTaskRecordFromMap(map);
+        if (taskRecordService.insert(taskRecord)) {
+            return CommonResultDTO.success();
+        } else {
+            return CommonResultDTO.failed();
+        }
     }
 }

@@ -230,6 +230,14 @@ public class DataMapUtils {
         return lifeStyle;
     }
 
+    /**
+     * @description: 获取map中的数据
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/17
+     */
+
     public static CommonPageDTO getCommonPageDTOFromMap(HashMap<String, Integer> map) {
         CommonPageDTO pageDTO = new CommonPageDTO();
         if (map.containsKey("pageSize")) {
@@ -241,6 +249,14 @@ public class DataMapUtils {
         }
         return pageDTO;
     }
+
+    /**
+     * @description: 获取map中的参数
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/17
+     */
 
     public static TbTaskRecord getTaskRecordFromMap(HashMap<String, Integer> map) {
         TbTaskRecord taskRecord = new TbTaskRecord();
