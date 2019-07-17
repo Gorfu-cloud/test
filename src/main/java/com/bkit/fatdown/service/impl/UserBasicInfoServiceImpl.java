@@ -80,7 +80,6 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     @Override
     public TbUserBasicInfo login(String code) {
         JSONObject jsonObject = JSONObject.parseObject(WeappUtil.getSessionKeyOrOpenId(code));
-        System.out.println(jsonObject.toJSONString());
         String openId = jsonObject.getString("openid");
         // 用户不存在时,创建用户
         if (countByOpenId(openId)< 1) {

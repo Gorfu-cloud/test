@@ -5,8 +5,8 @@ import com.bkit.fatdown.entity.TbTaskList;
 import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
 import com.bkit.fatdown.service.ITaskRecordService;
+import com.bkit.fatdown.service.IUserBasicInfoService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,13 +31,15 @@ public class TaskController {
     @Resource
     ITaskRecordService taskRecordService;
 
+    @Resource
+    IUserBasicInfoService basicInfoService;
+
     @ApiOperation("通过uid,获取今天任务")
     @CrossOrigin
     @RequestMapping(value = "/listTodayTask/{uid}", method = RequestMethod.GET)
-    @Transactional
     public CommonResultDTO listTodayTask(@PathVariable Integer uid) {
-        if (uid == null) {
-            CommonResultDTO.validateFailed("uid为空");
+        if (uid == null || basicInfoService.countById(uid) == 0) {
+            CommonResultDTO.validateFailed("uid为空或无效");
         }
 
         List<Integer> newTaskList = taskListService.listNewTask(uid);
