@@ -52,7 +52,7 @@ public class FileUtils {
             reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftp.disconnect();
-                return result;
+                return false;
             }
             if (!ftp.changeWorkingDirectory(basePath + filePath)) {
                 String[] dirs = filePath.split("/");
@@ -64,7 +64,7 @@ public class FileUtils {
                     tempPath += "/" + dir;
                     if (!ftp.changeWorkingDirectory(tempPath)) {
                         if (!ftp.makeDirectory(tempPath)) {
-                            return result;
+                            return false;
                         } else {
                             ftp.changeWorkingDirectory(tempPath);
                         }
@@ -73,7 +73,7 @@ public class FileUtils {
             }
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             if (!ftp.storeFile(filename, input)) {
-                return result;
+                return false;
             }
             input.close();
             ftp.logout();
@@ -99,7 +99,8 @@ public class FileUtils {
      * @param os
      * @throws Exception
      */
-    protected static void writeFile(Map<String, File> requestFile, OutputStream os) throws Exception {
+
+    static void writeFile(Map<String, File> requestFile, OutputStream os) throws Exception {
         InputStream is = null;
         try {
             StringBuilder msg = new StringBuilder("请求上传文件部分:\n");
@@ -210,7 +211,7 @@ public class FileUtils {
 
     private File tranferToFile(MultipartFile multipartFile) {
         int n;
-        File f = null;
+        File f;
         // 创建文件
         f = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         try (InputStream in = multipartFile.getInputStream(); OutputStream os = new FileOutputStream(f)) {

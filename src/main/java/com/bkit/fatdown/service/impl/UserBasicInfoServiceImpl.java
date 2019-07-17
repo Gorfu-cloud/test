@@ -33,6 +33,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     @Override
     public boolean insert(TbUserBasicInfo userBasicInfo) {
         userBasicInfo.setGmtCreate(new Date());
+        userBasicInfo.setGmtModified(new Date());
         int num = userBasicInfoMapper.insertSelective(userBasicInfo);
         logger.info("创建用户基础信息:" + userBasicInfo.getOpenId());
         return num > 0;
@@ -41,6 +42,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     @Override
     public boolean update(TbUserBasicInfo userBasicInfo) {
         userBasicInfo.setGmtModified(new Date());
+        System.out.println(userBasicInfo.toString());
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
         logger.info("更新用户基础信息:" + userBasicInfo.getOpenId());
         return num > 0;
@@ -91,8 +93,6 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         if (countByOpenId(openId) < 1) {
             TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
             userBasicInfo.setOpenId(openId);
-            userBasicInfo.setGmtCreate(new Date());
-            userBasicInfo.setGmtModified(new Date());
             insert(userBasicInfo);
         }
         return getByOpenId(openId);

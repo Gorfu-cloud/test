@@ -69,15 +69,17 @@ public class RecogniseUtils {
             connection.setRequestProperty("App-Id", APP_ID);
             // 往服务器端写内容 也就是发起http请求需要带的参数
             os = new DataOutputStream(connection.getOutputStream());
-            Map<String, File> files = new HashMap<>();
-            File newFile = transferToFile(file);
-            files.put("file", newFile);
-            writeFile(files, os);
+            Map<String, File> map = new HashMap<>(1);
+            // 将multipartFile转换为file
+            File newFile = multipartFile2File(file);
+            System.out.println(newFile.getName());
+            map.put("file", newFile);
+            writeFile(map, os);
             // 请求结束标志
             String endTarget = PREFIX + BOUNDARY + PREFIX + LINE_END;
             os.write(endTarget.getBytes());
             os.flush();
-            newFile.delete();
+           // newFile.delete();
             if (connection.getResponseCode() == 200) {
                 input = connection.getInputStream();
             } else {
@@ -121,7 +123,7 @@ public class RecogniseUtils {
      * @date: 7/15/19
      */
 
-    private static File transferToFile(MultipartFile multipartFile) {
+    private static File multipartFile2File(MultipartFile multipartFile) {
         final int MEMORY_SIZE = 4096;
         int n;
         File f;

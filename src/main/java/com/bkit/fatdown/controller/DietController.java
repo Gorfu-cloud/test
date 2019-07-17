@@ -1,8 +1,12 @@
 package com.bkit.fatdown.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @file: DietController
@@ -18,12 +22,12 @@ import org.springframework.web.bind.annotation.*;
 public class DietController {
 // TODO 完善后在识别
 
-    @ApiOperation("上传饮食照片")
-    @CrossOrigin
-    @RequestMapping(value = "/uploadPicture/{uid}", method = RequestMethod.POST)
-    public CommonResultDTO uploadPicture(@PathVariable Integer uid) {
-        return null;
-    }
+//    @ApiOperation("上传饮食照片")
+//    @CrossOrigin
+//    @RequestMapping(value = "/uploadPicture/{uid}", method = RequestMethod.POST)
+//    public CommonResultDTO uploadPicture(@PathVariable Integer uid) {
+//        return null;
+//    }
 //
 //    @ApiOperation("查看所有饮食图片，通过uid")
 //    @CrossOrigin
@@ -67,14 +71,13 @@ public class DietController {
 //        return null;
 //    }
 
-//    @ApiOperation("拍照获取识别食物结果")
-//    @CrossOrigin
-//    @RequestMapping(value = "/recognise", method = RequestMethod.POST)
-//    public CommonResultDTO recognise(@RequestParam MultipartFile file) {
-//        System.out.println(file.getName());
-//        StringBuffer recogniseBuffer = RecogniseUtils.getRecognise(file);
-//        JSONObject object = JSON.parseObject(recogniseBuffer.toString());
-//        return CommonResultDTO.success(object);
-//    }
-
+    @ApiOperation("拍照获取识别食物结果")
+    @CrossOrigin
+    @RequestMapping(value = "/recognise", method = RequestMethod.POST)
+    public CommonResultDTO recognise(@RequestParam MultipartFile file) {
+        // 获取识别后的结果字串.
+        StringBuffer recogniseBuffer = RecogniseUtils.getRecognise(file);
+        JSONObject object = JSON.parseObject(recogniseBuffer.toString());
+        return CommonResultDTO.success(object);
+    }
 }
