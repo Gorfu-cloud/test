@@ -1,5 +1,6 @@
 package com.bkit.fatdown.utils;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
@@ -132,7 +133,7 @@ public class DataMapUtils {
         }
 
         if (map.containsKey("fatRate")) {
-            userPrivacyInfo.setFatRate(map.get("fatRate"));
+            userPrivacyInfo.setFatRate(map.get("fatRate").intValue());
         }
 
         if (map.containsKey("bust")) {
@@ -175,7 +176,7 @@ public class DataMapUtils {
             userPrivacyInfo.setHeartRate(map.get("heartOxygen").intValue());
         }
 
-        if (map.containsKey("heartRate")){
+        if (map.containsKey("heartRate")) {
             userPrivacyInfo.setHeartRate(map.get("heartRate").intValue());
         }
 
@@ -226,5 +227,17 @@ public class DataMapUtils {
         lifeStyle.setGmtCreate(DateUtils.getDateStart(today));
         lifeStyle.setGmtModified(DateUtils.getDateStart(today));
         return lifeStyle;
+    }
+
+    public static CommonPageDTO getCommonPageDTOFromMap(HashMap<String, Integer> map) {
+        CommonPageDTO pageDTO = new CommonPageDTO();
+        if (map.containsKey("pageSize")) {
+            pageDTO.setPageSize(map.get("pageSize"));
+        }
+
+        if (map.containsKey("pageNum")) {
+            pageDTO.setPageNum(map.get("pageNum"));
+        }
+        return pageDTO;
     }
 }

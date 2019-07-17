@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
@@ -30,13 +31,13 @@ import java.util.List;
 public class UserController {
 
     @Resource
-    IUserBasicInfoService basicInfoService;
+    private IUserBasicInfoService basicInfoService;
 
     @Resource
-    IUserPrivacyInfoService privacyInfoService;
+    private IUserPrivacyInfoService privacyInfoService;
 
     @Resource
-    IUserLifeStyleService userLifeStyleService;
+    private IUserLifeStyleService userLifeStyleService;
 
     @ApiOperation("小程序用户登录,注册,传入session_code")
     @CrossOrigin
@@ -45,7 +46,7 @@ public class UserController {
         String code = map.get("code");
 
         if (code == null || code.length() == 0) {
-            return CommonResultDTO.failed("code错误");
+            return CommonResultDTO.validateFailed("code错误");
         }
         return CommonResultDTO.success(basicInfoService.login(code));
     }
@@ -140,14 +141,20 @@ public class UserController {
         return CommonResultDTO.success(privacyInfoService.getById(id));
     }
 
-//    TODo :分页处理失败.
+    //    TODO :分页处理失败.
 //    @Deprecated
-//    @ApiOperation("分页获取用户信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listBasicInfo", method = RequestMethod.GET)
-//    public CommonPageDTO listBasicInfo(Integer pageSize, Integer pageNum) {
-//        return CommonPageDTO.restPage(null);
-//    }
+    @ApiOperation("分页获取用户信息")
+    @CrossOrigin
+    @RequestMapping(value = "/listBasicInfo", method = RequestMethod.GET)
+    public CommonPageDTO listBasicInfo(@RequestBody HashMap<String, Integer> map) {
+        CommonPageDTO pageDTO = DataMapUtils.getCommonPageDTOFromMap(map);
+        if (pageDTO.getPageNum() == null || pageDTO.getPageSize() == null) {
+            return CommonPageDTO.restPage(null);
+        }
+
+        System.out.println(basicInfoService.listAll(pageDTO.getPageSize(), pageDTO.getPageNum()).size());
+        return CommonPageDTO.restPage(basicInfoService.listAll(pageDTO.getPageSize(), pageDTO.getPageNum()));
+    }
 
 //    TODO :分页处理失败
 //    @Deprecated

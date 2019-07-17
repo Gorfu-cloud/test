@@ -7,6 +7,7 @@ import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.WeappUtil;
 import com.github.pagehelper.PageHelper;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,19 +24,22 @@ import java.util.List;
 
 @Service
 public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
-
     @Resource
-    TbUserBasicInfoMapper userBasicInfoMapper;
+    private TbUserBasicInfoMapper userBasicInfoMapper;
+
+    private static Logger logger = Logger.getLogger(UserBasicInfoServiceImpl.class);
 
     @Override
     public boolean insert(TbUserBasicInfo userBasicInfo) {
         int num = userBasicInfoMapper.insert(userBasicInfo);
+        logger.info("创建用户基础信息:" + userBasicInfo.getOpenId());
         return num > 0;
     }
 
     @Override
     public boolean update(TbUserBasicInfo userBasicInfo) {
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
+        logger.info("更新用户隐私信息:" + userBasicInfo.getOpenId());
         return num > 0;
     }
 
@@ -55,8 +59,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         TbUserBasicInfoExample example = new TbUserBasicInfoExample();
         example.createCriteria()
                 .andUserLevelEqualTo(userLever);
-        List<TbUserBasicInfo> list = userBasicInfoMapper.selectByExample(example);
-        return list;
+        return userBasicInfoMapper.selectByExample(example);
     }
 
     /**
@@ -66,9 +69,9 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
      */
     @Override
     public List<TbUserBasicInfo> listAll(Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageSize, pageNum);
-        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
-        return userBasicInfoMapper.selectByExample(example);
+//        PageHelper.startPage(pageSize, pageNum);
+//        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        return userBasicInfoMapper.selectByExample(new TbUserBasicInfoExample());
     }
 
     @Override
@@ -81,8 +84,9 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     public TbUserBasicInfo login(String code) {
         JSONObject jsonObject = JSONObject.parseObject(WeappUtil.getSessionKeyOrOpenId(code));
         String openId = jsonObject.getString("openid");
+
         // 用户不存在时,创建用户
-        if (countByOpenId(openId)< 1) {
+        if (countByOpenId(openId) < 1) {
             TbUserBasicInfo userBasicInfo = new TbUserBasicInfo();
             userBasicInfo.setOpenId(openId);
             insert(userBasicInfo);

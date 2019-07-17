@@ -102,9 +102,9 @@
         <!--enableUpdateByExample="true"/>-->
 
         <!--        用户模块-->
-<!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--                       enableSelectByExample="true"-->
-        <!--                       enableUpdateByExample="true"/>-->
+        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->

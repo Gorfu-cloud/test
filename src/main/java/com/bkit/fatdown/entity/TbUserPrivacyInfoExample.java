@@ -505,52 +505,52 @@ public class TbUserPrivacyInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andFatRateEqualTo(Double value) {
+        public Criteria andFatRateEqualTo(Integer value) {
             addCriterion("fat_rate =", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateNotEqualTo(Double value) {
+        public Criteria andFatRateNotEqualTo(Integer value) {
             addCriterion("fat_rate <>", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateGreaterThan(Double value) {
+        public Criteria andFatRateGreaterThan(Integer value) {
             addCriterion("fat_rate >", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateGreaterThanOrEqualTo(Double value) {
+        public Criteria andFatRateGreaterThanOrEqualTo(Integer value) {
             addCriterion("fat_rate >=", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateLessThan(Double value) {
+        public Criteria andFatRateLessThan(Integer value) {
             addCriterion("fat_rate <", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateLessThanOrEqualTo(Double value) {
+        public Criteria andFatRateLessThanOrEqualTo(Integer value) {
             addCriterion("fat_rate <=", value, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateIn(List<Double> values) {
+        public Criteria andFatRateIn(List<Integer> values) {
             addCriterion("fat_rate in", values, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateNotIn(List<Double> values) {
+        public Criteria andFatRateNotIn(List<Integer> values) {
             addCriterion("fat_rate not in", values, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateBetween(Double value1, Double value2) {
+        public Criteria andFatRateBetween(Integer value1, Integer value2) {
             addCriterion("fat_rate between", value1, value2, "fatRate");
             return (Criteria) this;
         }
 
-        public Criteria andFatRateNotBetween(Double value1, Double value2) {
+        public Criteria andFatRateNotBetween(Integer value1, Integer value2) {
             addCriterion("fat_rate not between", value1, value2, "fatRate");
             return (Criteria) this;
         }

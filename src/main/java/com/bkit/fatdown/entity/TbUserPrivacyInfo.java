@@ -55,7 +55,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    private Double fatRate;
+    private Integer fatRate;
 
     /**
      *
@@ -284,7 +284,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    public Double getFatRate() {
+    public Integer getFatRate() {
         return fatRate;
     }
 
@@ -296,7 +296,7 @@ public class TbUserPrivacyInfo {
      *
      * @mbg.generated
      */
-    public void setFatRate(Double fatRate) {
+    public void setFatRate(Integer fatRate) {
         this.fatRate = fatRate;
     }
 
