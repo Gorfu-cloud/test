@@ -84,8 +84,10 @@ public class TaskListServiceImpl implements ITaskListService {
         TbTaskListExample.Criteria criteria = example.createCriteria();
         // 已开启任务
         criteria.andFlagEqualTo(1);
-        criteria.andIdNotIn(taskRecordService.listRecordId(uid));
-        System.out.println(taskListMapper.selectByExample(example).size());
+        List<Integer> userTaskRecordList = taskRecordService.listRecordId(uid);
+        if (userTaskRecordList.size() > 0) {
+            criteria.andIdNotIn(userTaskRecordList);
+        }
         return newTaskList(taskListMapper.selectByExample(example));
     }
 

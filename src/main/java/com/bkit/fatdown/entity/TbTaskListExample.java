@@ -515,63 +515,63 @@ public class TbTaskListExample {
             return (Criteria) this;
         }
 
-        public Criteria andStartDateIsNull() {
-            addCriterion("start_date is null");
+        public Criteria andCycleIsNull() {
+            addCriterion("cycle is null");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateIsNotNull() {
-            addCriterion("start_date is not null");
+        public Criteria andCycleIsNotNull() {
+            addCriterion("cycle is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateEqualTo(Date value) {
-            addCriterion("start_date =", value, "startDate");
+        public Criteria andCycleEqualTo(Integer value) {
+            addCriterion("cycle =", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateNotEqualTo(Date value) {
-            addCriterion("start_date <>", value, "startDate");
+        public Criteria andCycleNotEqualTo(Integer value) {
+            addCriterion("cycle <>", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateGreaterThan(Date value) {
-            addCriterion("start_date >", value, "startDate");
+        public Criteria andCycleGreaterThan(Integer value) {
+            addCriterion("cycle >", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateGreaterThanOrEqualTo(Date value) {
-            addCriterion("start_date >=", value, "startDate");
+        public Criteria andCycleGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cycle >=", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateLessThan(Date value) {
-            addCriterion("start_date <", value, "startDate");
+        public Criteria andCycleLessThan(Integer value) {
+            addCriterion("cycle <", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateLessThanOrEqualTo(Date value) {
-            addCriterion("start_date <=", value, "startDate");
+        public Criteria andCycleLessThanOrEqualTo(Integer value) {
+            addCriterion("cycle <=", value, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateIn(List<Date> values) {
-            addCriterion("start_date in", values, "startDate");
+        public Criteria andCycleIn(List<Integer> values) {
+            addCriterion("cycle in", values, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateNotIn(List<Date> values) {
-            addCriterion("start_date not in", values, "startDate");
+        public Criteria andCycleNotIn(List<Integer> values) {
+            addCriterion("cycle not in", values, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateBetween(Date value1, Date value2) {
-            addCriterion("start_date between", value1, value2, "startDate");
+        public Criteria andCycleBetween(Integer value1, Integer value2) {
+            addCriterion("cycle between", value1, value2, "cycle");
             return (Criteria) this;
         }
 
-        public Criteria andStartDateNotBetween(Date value1, Date value2) {
-            addCriterion("start_date not between", value1, value2, "startDate");
+        public Criteria andCycleNotBetween(Integer value1, Integer value2) {
+            addCriterion("cycle not between", value1, value2, "cycle");
             return (Criteria) this;
         }
 

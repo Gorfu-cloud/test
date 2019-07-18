@@ -123,21 +123,23 @@ public class TaskRecordServiceImpl implements ITaskRecordService {
         TbTaskRecordExample example = new TbTaskRecordExample();
         example.createCriteria()
                 .andUserIdEqualTo(uid);
+        taskRecordMapper.selectByExample(example);
         return nowTaskList(taskRecordMapper.selectByExample(example));
     }
 
     /**
-     * 当前任务列表
+     * 当前用户拥有的任务列表编号
      *
      * @param taskList
      * @return
      */
     private List<Integer> nowTaskList(List<TbTaskRecord> taskList) {
         List<Integer> nowTaskList = new ArrayList<>();
+
         for (TbTaskRecord list : taskList) {
-            nowTaskList.add(list.getId());
+            // 将任务id添加进去
+            nowTaskList.add(list.getTaskId());
         }
         return nowTaskList;
     }
-
 }

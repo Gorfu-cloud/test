@@ -1,10 +1,7 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
-import com.bkit.fatdown.entity.TbTaskRecord;
-import com.bkit.fatdown.entity.TbUserBasicInfo;
-import com.bkit.fatdown.entity.TbUserLifeStyle;
-import com.bkit.fatdown.entity.TbUserPrivacyInfo;
+import com.bkit.fatdown.entity.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -267,5 +264,30 @@ public class DataMapUtils {
             taskRecord.setTaskId(map.get("taskId"));
         }
         return taskRecord;
+    }
+
+    /**
+     * @description: 获取map中的参数
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/18
+     */
+
+    public static TbTaskList getTaskListFromMap(HashMap<String, String> map) {
+        TbTaskList taskList = new TbTaskList();
+        if (map.containsKey("type")){
+            taskList.setType(map.get("type"));
+        }
+        if (map.containsKey("score")){
+            taskList.setScore(Integer.valueOf(map.get("score")));
+        }
+        if (map.containsKey("flag")){
+            taskList.setFlag(Integer.valueOf(map.get("flag")));
+        }
+        if (map.containsKey("cycle")){
+            taskList.setCycle(Integer.valueOf(map.get("cycle")));
+        }
+        return taskList;
     }
 }
