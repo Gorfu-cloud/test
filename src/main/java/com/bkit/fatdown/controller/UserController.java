@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -114,17 +115,21 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/updatePrivacyInfo", method = RequestMethod.POST)
     public CommonResultDTO updateUserPrivacyInfo(@RequestBody HashMap<String, Double> map) {
-        TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
-        if (basicInfoService.countById(privacyInfo.getUserId()) == 0) {
-            return CommonResultDTO.validateFailed("用户不存在");
+        // userId参数无效时
+        if (!map.containsKey("userId")||basicInfoService.countById(map.get("userId").intValue()) == 0) {
+            return CommonResultDTO.validateFailed("userId无效");
         }
-        // 当天有隐私记录存在,更新原来的记录
-        if (privacyInfoService.countByUidAndDate(privacyInfo.getUserId(), privacyInfo.getGmtCreate()) > 0) {
+        // 获取传入的参数
+        TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
+        // 当天有隐私记录存在,获取原来的id，并更新原来记录
+        if (privacyInfoService.countByUidAndDate(privacyInfo.getUserId(), new Date()) > 0) {
+            // 更新成功
             if (privacyInfoService.update(privacyInfo)) {
                 return CommonResultDTO.success();
             } else {
                 return CommonResultDTO.failed("更新隐私数据记录失败");
             }
+            // 隐私记录不存在的时候，新建隐私记录
         } else {
             if (privacyInfoService.insert(privacyInfo)) {
                 return CommonResultDTO.success();

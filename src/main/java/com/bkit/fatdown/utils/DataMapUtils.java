@@ -154,6 +154,10 @@ public class DataMapUtils {
             userPrivacyInfo.setThign(map.get("thign"));
         }
 
+        if (map.containsKey("bmi")){
+            userPrivacyInfo.setBmi(map.get("bmi"));
+        }
+
         if (map.containsKey("forearm")) {
             userPrivacyInfo.setForeArm(map.get("forearm"));
         }

@@ -28,7 +28,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
 
     @Override
     public boolean insert(TbUserPrivacyInfo privacyInfo) {
-        int num = userPrivacyInfoMapper.insert(privacyInfo);
+        int num = userPrivacyInfoMapper.insertSelective(privacyInfo);
 
         return num > 0;
     }
@@ -44,7 +44,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
     public boolean update(TbUserPrivacyInfo privacyInfo) {
         // 查找原来的记录id
         TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
-        Date today = privacyInfo.getGmtCreate();
+        Date today = new Date();
         example.createCriteria()
                 .andUserIdEqualTo(privacyInfo.getUserId())
                 // 查找今天是否有记录,有就更新
