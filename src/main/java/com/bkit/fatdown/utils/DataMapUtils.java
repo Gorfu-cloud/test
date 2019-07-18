@@ -276,16 +276,19 @@ public class DataMapUtils {
 
     public static TbTaskList getTaskListFromMap(HashMap<String, String> map) {
         TbTaskList taskList = new TbTaskList();
-        if (map.containsKey("type")){
+        if (map.containsKey("type")) {
             taskList.setType(map.get("type"));
         }
-        if (map.containsKey("score")){
+        if (map.containsKey("title")) {
+            taskList.setTitle(map.get("title"));
+        }
+        if (map.containsKey("score")) {
             taskList.setScore(Integer.valueOf(map.get("score")));
         }
-        if (map.containsKey("flag")){
+        if (map.containsKey("flag")) {
             taskList.setFlag(Integer.valueOf(map.get("flag")));
         }
-        if (map.containsKey("cycle")){
+        if (map.containsKey("cycle")) {
             taskList.setCycle(Integer.valueOf(map.get("cycle")));
         }
         return taskList;

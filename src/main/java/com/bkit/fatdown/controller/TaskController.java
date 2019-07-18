@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -95,31 +94,14 @@ public class TaskController {
         return CommonResultDTO.success(taskListService.getTaskById(id));
     }
 
-    @ApiOperation("添加任务")
-    @CrossOrigin
-    @RequestMapping(value = "/addTask", method = RequestMethod.POST)
-    public CommonResultDTO addTask(@RequestBody TbTaskList taskList) {
-        if (taskList == null) {
-            return CommonResultDTO.validateFailed("创建对象不能为空");
-        }
-        taskList.setGmtCreate(new Date());
-        taskList.setGmtModified(new Date());
-        if (taskListService.insert(taskList)) {
-            return CommonResultDTO.success();
-        } else {
-            return CommonResultDTO.failed();
-        }
-
-    }
-
-    @ApiOperation("更新任务")
+    @ApiOperation("通过id,更新任务列表详情")
     @CrossOrigin
     @RequestMapping(value = "/updateTask", method = RequestMethod.POST)
-    public CommonResultDTO updateTask(@RequestBody TbTaskList taskList) {
-        if (taskList == null) {
-            return CommonResultDTO.validateFailed("创建对象不能为空");
+    public CommonResultDTO updateTask(@RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("id")) {
+            return CommonResultDTO.validateFailed("type或title不能为空");
         }
-        taskList.setGmtModified(new Date());
+        TbTaskList taskList = DataMapUtils.getTaskListFromMap(map);
         if (taskListService.update(taskList)) {
             return CommonResultDTO.success();
         } else {
@@ -128,12 +110,33 @@ public class TaskController {
 
     }
 
-    @ApiOperation("删除任务")
+    @ApiOperation("更新用户,任务状态,完成任务")
+    @CrossOrigin
+    @RequestMapping(value = "/updateTaskRecord", method = RequestMethod.POST)
+    public CommonResultDTO updateTaskRecord(@RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("id")) {
+            return CommonResultDTO.validateFailed("id不能为空");
+        }
+        int id = Integer.parseInt(map.get("id"));
+        TbTaskRecord record = taskRecordService.getTaskRecordById(id);
+        if (record == null) {
+            return CommonResultDTO.validateFailed("id无效");
+        }
+        // 修改完成状态为 1
+        record.setComplete(1);
+        if (taskRecordService.update(record)) {
+            return CommonResultDTO.success();
+        } else {
+            return CommonResultDTO.failed();
+        }
+    }
+
+    @ApiOperation("删除任务详情")
     @CrossOrigin
     @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
     public CommonResultDTO deleteTask(@RequestBody Integer id) {
         if (taskListService.countTaskById(id) == 0) {
-            return CommonResultDTO.validateFailed();
+            return CommonResultDTO.validateFailed("任务不存在");
         }
 
         if (taskListService.delete(id)) {
@@ -148,11 +151,26 @@ public class TaskController {
     @RequestMapping(value = "/addTaskRecord", method = RequestMethod.POST)
     public CommonResultDTO addTaskRecord(@RequestBody HashMap<String, Integer> map) {
 
-        if (!map.containsKey("userId") || !map.containsKey("taskId")) {
+        if (!map.containsKey("id") || !map.containsKey("taskId")) {
             return CommonResultDTO.validateFailed("userId或taskId缺失");
         }
         TbTaskRecord taskRecord = DataMapUtils.getTaskRecordFromMap(map);
         if (taskRecordService.insert(taskRecord)) {
+            return CommonResultDTO.success();
+        } else {
+            return CommonResultDTO.failed();
+        }
+    }
+
+    @ApiOperation("创建任务详情,type,title不能为空")
+    @CrossOrigin
+    @RequestMapping(value = "/addTaskList", method = RequestMethod.POST)
+    public CommonResultDTO addTaskList(@RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("type") || !map.containsKey("title")) {
+            return CommonResultDTO.validateFailed("type或title不能为空");
+        }
+        TbTaskList taskList = DataMapUtils.getTaskListFromMap(map);
+        if (taskListService.insert(taskList)) {
             return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed();

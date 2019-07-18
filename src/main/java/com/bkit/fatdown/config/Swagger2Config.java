@@ -48,9 +48,9 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("葆康减脂平台API文档")
-                .description("版本日期:2019年7月11日,修改日期:2019年7月11日")
+                .description("创建日期:2019年7月11日,修改日期:2019年7月18日")
                 .termsOfServiceUrl("https://sunnyqcloud.com/fatdown")
-                .version("1.1.2")
+                .version("2.0.4")
                 .build();
     }
 }
