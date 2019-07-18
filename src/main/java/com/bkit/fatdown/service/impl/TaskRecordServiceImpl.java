@@ -121,6 +121,7 @@ public class TaskRecordServiceImpl implements ITaskRecordService {
     @Override
     public List<Integer> listRecordId(int uid) {
         TbTaskRecordExample example = new TbTaskRecordExample();
+        example.setOrderByClause("complete desc");
         example.createCriteria()
                 .andUserIdEqualTo(uid);
         taskRecordMapper.selectByExample(example);

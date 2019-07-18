@@ -83,9 +83,7 @@ public class TaskListServiceImpl implements ITaskListService {
     public List<Integer> listNewTask(int uid) {
         TbTaskListExample example = new TbTaskListExample();
         List<Integer> userTaskRecordList = taskRecordService.listRecordId(uid);
-
         TbTaskListExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("complete asc");
         // 已开启任务
         criteria.andFlagEqualTo(1);
         // 当用户任务记录不为0时
