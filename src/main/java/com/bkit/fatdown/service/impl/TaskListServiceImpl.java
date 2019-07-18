@@ -50,6 +50,7 @@ public class TaskListServiceImpl implements ITaskListService {
     @Override
     public List<TbTaskList> listTask() {
         TbTaskListExample example = new TbTaskListExample();
+        example.setOrderByClause("gmt_modified desc");
         return taskListMapper.selectByExample(example);
     }
 
@@ -81,13 +82,17 @@ public class TaskListServiceImpl implements ITaskListService {
     @Override
     public List<Integer> listNewTask(int uid) {
         TbTaskListExample example = new TbTaskListExample();
+        List<Integer> userTaskRecordList = taskRecordService.listRecordId(uid);
+
         TbTaskListExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("complete asc");
         // 已开启任务
         criteria.andFlagEqualTo(1);
-        List<Integer> userTaskRecordList = taskRecordService.listRecordId(uid);
+        // 当用户任务记录不为0时
         if (userTaskRecordList.size() > 0) {
             criteria.andIdNotIn(userTaskRecordList);
         }
+        // 返回新的任务记录
         return newTaskList(taskListMapper.selectByExample(example));
     }
 

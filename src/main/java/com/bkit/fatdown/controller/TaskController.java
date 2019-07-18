@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.UserTaskListDTO;
 import com.bkit.fatdown.entity.TbTaskList;
 import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,6 +47,9 @@ public class TaskController {
         }
 
         List<Integer> newTaskList = taskListService.listNewTask(uid);
+        for (int id : newTaskList) {
+            System.out.println(id + " ");
+        }
         // 有新任务时,增加到用户任务记录中
         if (newTaskList.size() > 0) {
             TbTaskRecord taskRecord = new TbTaskRecord();
@@ -62,7 +67,7 @@ public class TaskController {
             return CommonResultDTO.failed();
         }
 
-        return CommonResultDTO.success(taskRecordList);
+        return CommonResultDTO.success(taskRecord2UserTaskListDTO(taskRecordList));
     }
 
     @ApiOperation("获取所有任务记录,通过uid")
@@ -175,5 +180,40 @@ public class TaskController {
         } else {
             return CommonResultDTO.failed();
         }
+    }
+
+    /**
+     * @description: 任务记录封装为用户每天记录
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 2019/7/18
+     */
+
+    private List<UserTaskListDTO> taskRecord2UserTaskListDTO(List<TbTaskRecord> recordList) {
+        List<UserTaskListDTO> taskListDTOS = new ArrayList<>();
+
+        UserTaskListDTO taskListDTO;
+        for (TbTaskRecord taskRecord : recordList) {
+            // taskListDTO 初始化放这里,不能放外面,不然所有的返回,都是相同的对象(地址)
+            taskListDTO = new UserTaskListDTO();
+            // 任务详情赋值
+            TbTaskList taskList = taskListService.getTaskById(taskRecord.getTaskId());
+            if (taskList.getFlag() == 0) {
+                continue;
+            }
+            taskListDTO.setFlag(taskList.getFlag());
+            taskListDTO.setScore(taskList.getScore());
+            taskListDTO.setTitle(taskList.getTitle());
+            taskListDTO.setType(taskList.getType());
+            taskListDTO.setCycle(taskList.getCycle());
+
+            // 任务记录赋值
+            taskListDTO.setComplete(taskRecord.getComplete());
+            taskListDTO.setTaskId(taskRecord.getTaskId());
+
+            taskListDTOS.add(taskListDTO);
+        }
+        return taskListDTOS;
     }
 }
