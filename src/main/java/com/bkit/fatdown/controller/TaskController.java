@@ -99,7 +99,7 @@ public class TaskController {
     @RequestMapping(value = "/updateTask", method = RequestMethod.POST)
     public CommonResultDTO updateTask(@RequestBody HashMap<String, String> map) {
         if (!map.containsKey("id")) {
-            return CommonResultDTO.validateFailed("type或title不能为空");
+            return CommonResultDTO.validateFailed("id不能为空");
         }
         TbTaskList taskList = DataMapUtils.getTaskListFromMap(map);
         if (taskListService.update(taskList)) {
@@ -131,7 +131,7 @@ public class TaskController {
         }
     }
 
-    @ApiOperation("删除任务详情")
+    @ApiOperation("通过id,删除任务详情")
     @CrossOrigin
     @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
     public CommonResultDTO deleteTask(@RequestBody Integer id) {

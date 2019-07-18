@@ -276,6 +276,9 @@ public class DataMapUtils {
 
     public static TbTaskList getTaskListFromMap(HashMap<String, String> map) {
         TbTaskList taskList = new TbTaskList();
+        if (map.containsKey("id")) {
+            taskList.setId(Integer.valueOf(map.get("id")));
+        }
         if (map.containsKey("type")) {
             taskList.setType(map.get("type"));
         }

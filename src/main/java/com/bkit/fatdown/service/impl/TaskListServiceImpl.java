@@ -31,7 +31,7 @@ public class TaskListServiceImpl implements ITaskListService {
 
     @Override
     public boolean insert(TbTaskList taskList) {
-        taskList.setGmtModified(new Date());
+        taskList.setGmtCreate(new Date());
         taskList.setGmtModified(new Date());
         return taskListMapper.insertSelective(taskList) > 0;
     }
