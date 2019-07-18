@@ -5,6 +5,7 @@ import com.bkit.fatdown.entity.TbQuestionBasic;
 import com.bkit.fatdown.entity.TbTestRecord;
 import com.bkit.fatdown.entity.TbTestScore;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public interface ITestService {
      * @param paperId
      * @return
      */
-    List<TbQuestionBasic> listQuestionByPaperId(int paperId);
+    TbQuestionBasic getQuestionByPaperId(int paperId);
 
     /**
      * 根据试题ID获取试题
@@ -64,5 +65,22 @@ public interface ITestService {
      * @param paperId
      * @return
      */
-    List<TbTestScore>listScoreByUidAndPaperId(int uid, int paperId);
+    List<TbTestScore> listScoreByUidAndPaperId(int uid, int paperId);
+
+    /**
+     * 根据UID,date获取考试成绩
+     *
+     * @param uid
+     * @param date
+     * @return
+     */
+    TbTestScore getScoreByUidAndDate(int uid, Date date);
+
+    /**
+     * 根据id查找分数
+     *
+     * @param id
+     * @return
+     */
+    TbTestScore getScoreById(int id);
 }

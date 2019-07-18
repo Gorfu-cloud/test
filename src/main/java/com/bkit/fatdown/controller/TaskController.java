@@ -207,6 +207,7 @@ public class TaskController {
             taskListDTO.setTitle(taskList.getTitle());
             taskListDTO.setType(taskList.getType());
             taskListDTO.setCycle(taskList.getCycle());
+            taskListDTO.setTaskPageUrl(taskList.getTaskPageUrl());
 
             // 任务记录赋值
             taskListDTO.setComplete(taskRecord.getComplete());

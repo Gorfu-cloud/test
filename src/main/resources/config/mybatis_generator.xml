@@ -56,16 +56,19 @@
         <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_paper_question_relation" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
+
+        <!--        测试模块-->
+        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--        <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--                enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_test_score" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
+
         <!--<table tableName="tb_share_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_comment_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
@@ -120,8 +123,8 @@
         <!--        任务模块-->
         <!--        <table tableName="tb_task_record" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <!--        <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
 

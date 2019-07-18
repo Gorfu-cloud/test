@@ -575,6 +575,76 @@ public class TbTaskListExample {
             return (Criteria) this;
         }
 
+        public Criteria andTaskPageUrlIsNull() {
+            addCriterion("task_page_url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlIsNotNull() {
+            addCriterion("task_page_url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlEqualTo(String value) {
+            addCriterion("task_page_url =", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlNotEqualTo(String value) {
+            addCriterion("task_page_url <>", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlGreaterThan(String value) {
+            addCriterion("task_page_url >", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("task_page_url >=", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlLessThan(String value) {
+            addCriterion("task_page_url <", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlLessThanOrEqualTo(String value) {
+            addCriterion("task_page_url <=", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlLike(String value) {
+            addCriterion("task_page_url like", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlNotLike(String value) {
+            addCriterion("task_page_url not like", value, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlIn(List<String> values) {
+            addCriterion("task_page_url in", values, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlNotIn(List<String> values) {
+            addCriterion("task_page_url not in", values, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlBetween(String value1, String value2) {
+            addCriterion("task_page_url between", value1, value2, "taskPageUrl");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskPageUrlNotBetween(String value1, String value2) {
+            addCriterion("task_page_url not between", value1, value2, "taskPageUrl");
+            return (Criteria) this;
+        }
+
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;

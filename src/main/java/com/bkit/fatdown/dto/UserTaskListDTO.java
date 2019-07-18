@@ -40,6 +40,19 @@ public class UserTaskListDTO {
      */
     private Integer cycle;
 
+    /**
+     * 任务跳转路径
+     */
+    private String taskPageUrl;
+
+    public String getTaskPageUrl() {
+        return taskPageUrl;
+    }
+
+    public void setTaskPageUrl(String taskPageUrl) {
+        this.taskPageUrl = taskPageUrl;
+    }
+
     public UserTaskListDTO() {
     }
 

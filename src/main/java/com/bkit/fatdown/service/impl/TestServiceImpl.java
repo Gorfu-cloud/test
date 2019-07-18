@@ -1,12 +1,15 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.*;
-import com.bkit.fatdown.mappers.*;
+import com.bkit.fatdown.mappers.TbPaperBasicMapper;
+import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
+import com.bkit.fatdown.mappers.TbTestRecordMapper;
+import com.bkit.fatdown.mappers.TbTestScoreMapper;
 import com.bkit.fatdown.service.ITestService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,9 +31,6 @@ public class TestServiceImpl implements ITestService {
     TbQuestionBasicMapper questionBasicMapper;
 
     @Resource
-    TbPaperQuestionRelationMapper paperQuestionRelationMapper;
-
-    @Resource
     TbTestRecordMapper testRecordMapper;
 
     @Resource
@@ -45,32 +45,24 @@ public class TestServiceImpl implements ITestService {
     public List<TbPaperBasic> listPaperInfo() {
         TbPaperBasicExample example = new TbPaperBasicExample();
         example.createCriteria()
-                .andDateIsNotNull();
-        // 按日期降序输出
-        example.setOrderByClause("date desc");
+                .andStartTimeIsNotNull();
+        // 按日期(从近到远)降序输出
+        example.setOrderByClause("start_time asc");
         return paperBasicMapper.selectByExample(example);
     }
 
+    /**
+     * 根据试卷ID获取试题
+     *
+     * @param paperId
+     * @return
+     */
     @Override
-    public List<TbQuestionBasic> listQuestionByPaperId(int paperId) {
-
-        TbPaperQuestionRelationExample paperQuestionRelationExample = new TbPaperQuestionRelationExample();
-        paperQuestionRelationExample.createCriteria()
+    public TbQuestionBasic getQuestionByPaperId(int paperId) {
+        TbQuestionBasicExample example = new TbQuestionBasicExample();
+        example.createCriteria()
                 .andPaperIdEqualTo(paperId);
-        // 获取同一套试卷的题目
-        List<TbPaperQuestionRelation> relations = paperQuestionRelationMapper.selectByExample(paperQuestionRelationExample);
-        List<Integer> keys = new ArrayList<>();
-
-        for (TbPaperQuestionRelation p : relations) {
-            keys.add(p.getQuestionId());
-        }
-
-        // 查找题目详情
-        TbQuestionBasicExample questionBasicExample = new TbQuestionBasicExample();
-        questionBasicExample.createCriteria()
-                .andIdIn(keys);
-
-        return questionBasicMapper.selectByExample(questionBasicExample);
+        return questionBasicMapper.selectByExample(example).get(0);
     }
 
     /**
@@ -125,5 +117,28 @@ public class TestServiceImpl implements ITestService {
                 .andUserEqualTo(uid)
                 .andUserEqualTo(paperId);
         return testScoreMapper.selectByExample(testScoreExample);
+    }
+
+    /**
+     * 根据UID,date获取考试成绩
+     *
+     * @param uid
+     * @param date
+     * @return
+     */
+    @Override
+    public TbTestScore getScoreByUidAndDate(int uid, Date date) {
+        return null;
+    }
+
+    /**
+     * 根据id查找分数
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public TbTestScore getScoreById(int id) {
+        return null;
     }
 }

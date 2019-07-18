@@ -288,6 +288,9 @@ public class DataMapUtils {
         if (map.containsKey("score")) {
             taskList.setScore(Integer.valueOf(map.get("score")));
         }
+        if (map.containsKey("taskPageUrl")){
+            taskList.setTaskPageUrl(map.get("taskPageUrl"));
+        }
         if (map.containsKey("flag")) {
             taskList.setFlag(Integer.valueOf(map.get("flag")));
         }
