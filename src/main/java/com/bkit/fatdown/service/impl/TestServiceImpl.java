@@ -89,7 +89,24 @@ public class TestServiceImpl implements ITestService {
      */
     @Override
     public Boolean insertTestRecord(TbTestRecord testRecord) {
+        testRecord.setGmtCreate(new Date());
+        testRecord.setGmtModified(new Date());
         return testRecordMapper.insert(testRecord) > 0;
+    }
+
+    @Override
+    public Double getTestScoreByRecord(TbTestRecord testRecord){
+        String userAnswer = testRecord.getUserAnswer();
+        int questionId = testRecord.getQuestionId();
+        TbQuestionBasic questionBasic = questionBasicMapper.selectByPrimaryKey(questionId);
+        String questionAnswer = questionBasic.getAnswer();
+        Double score = questionBasic.getScore();
+        // 答对了
+        if (questionAnswer.equals(userAnswer)){
+            return score;
+        }
+
+        return 0.0;
     }
 
     /**

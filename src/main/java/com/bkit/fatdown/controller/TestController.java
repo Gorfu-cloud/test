@@ -3,12 +3,15 @@ package com.bkit.fatdown.controller;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbPaperBasic;
 import com.bkit.fatdown.entity.TbQuestionBasic;
+import com.bkit.fatdown.entity.TbTestRecord;
 import com.bkit.fatdown.service.ITestPaperService;
 import com.bkit.fatdown.service.ITestService;
+import com.bkit.fatdown.utils.DataMapUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -71,7 +74,24 @@ public class TestController {
         }
     }
 
-    // 通过提交答案,这里提交后查询排名,由此查看排名进行加分
-    //    public CommonResultDTO submitAnswers(@PathVariable int uid,)
+    @ApiOperation("提交抢答，需要，userId，paperId，questionId，userAnswer")
+    @CrossOrigin
+    @RequestMapping(value = "/submitAnswer", method = RequestMethod.POST)
+    public CommonResultDTO submitAnswer(@RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("userId") || !map.containsKey("paperId")
+                || !map.containsKey("questionId") || !map.containsKey("userAnswer")) {
+            return CommonResultDTO.validateFailed("userId/paperId/questionId/userAnswer/错误");
+        }
+        TbTestRecord record = DataMapUtils.getTestRecordFromMap(map);
+        // 获取用户答题得分
+        Double userScore = testService.getTestScoreByRecord(record);
+        record.setUserScore(userScore);
+
+        if (testService.insertTestRecord(record)) {
+            return CommonResultDTO.success(userScore);
+        }
+
+        return CommonResultDTO.failed();
+    }
 
 }

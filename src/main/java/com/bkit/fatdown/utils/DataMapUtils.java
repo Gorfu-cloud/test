@@ -154,12 +154,12 @@ public class DataMapUtils {
             userPrivacyInfo.setThign(map.get("thign"));
         }
 
-        if (map.containsKey("bmi")){
+        if (map.containsKey("bmi")) {
             userPrivacyInfo.setBmi(map.get("bmi"));
         }
 
-        if (map.containsKey("forearm")) {
-            userPrivacyInfo.setForeArm(map.get("forearm"));
+        if (map.containsKey("foreArm")) {
+            userPrivacyInfo.setForeArm(map.get("foreArm"));
         }
 
         if (map.containsKey("muscleOxygen")) {
@@ -170,7 +170,7 @@ public class DataMapUtils {
             userPrivacyInfo.setSystolicBloodPressure(map.get("sbp").intValue());
         }
 
-        if (map.containsKey("dbp")){
+        if (map.containsKey("dbp")) {
             userPrivacyInfo.setDiastolicBloodPressure(map.get("dbp").intValue());
         }
 
@@ -186,14 +186,17 @@ public class DataMapUtils {
             userPrivacyInfo.setHeartRate(map.get("heartRate").intValue());
         }
 
-        if (map.containsKey("phUrine")){
+        if (map.containsKey("phUrine")) {
             userPrivacyInfo.setPhUrine(map.get("phUrine"));
         }
 
-        if (map.containsKey("ketonuria")){
+        if (map.containsKey("ketonuria")) {
             userPrivacyInfo.setKetonuria(map.get("ketonuria").intValue());
         }
 
+        if (map.containsKey("bodyTemperature")){
+            userPrivacyInfo.setBodyTemperature(map.get("bodyTemperature"));
+        }
         return userPrivacyInfo;
     }
 
@@ -301,7 +304,7 @@ public class DataMapUtils {
         if (map.containsKey("score")) {
             taskList.setScore(Integer.valueOf(map.get("score")));
         }
-        if (map.containsKey("taskPageUrl")){
+        if (map.containsKey("taskPageUrl")) {
             taskList.setTaskPageUrl(map.get("taskPageUrl"));
         }
         if (map.containsKey("flag")) {
@@ -311,5 +314,31 @@ public class DataMapUtils {
             taskList.setCycle(Integer.valueOf(map.get("cycle")));
         }
         return taskList;
+    }
+
+    /**
+     * @description: 从请求中获取taskRecord对象
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 7/19/19
+     */
+
+    public static TbTestRecord getTestRecordFromMap(HashMap<String, String> map) {
+        TbTestRecord record = new TbTestRecord();
+
+        if (map.containsKey("userId")) {
+            record.setUserId(Integer.valueOf(map.get("userId")));
+        }
+        if (map.containsKey("questionId")) {
+            record.setQuestionId(Integer.valueOf(map.get("questionId")));
+        }
+        if (map.containsKey("paperId")) {
+            record.setPaperId(Integer.valueOf(map.get("paperId")));
+        }
+        if (map.containsKey("userAnswer")) {
+            record.setUserAnswer(map.get("userAnswer"));
+        }
+        return record;
     }
 }

@@ -50,6 +50,8 @@ public interface ITestService {
      */
     Boolean insertTestRecord(TbTestRecord testRecord);
 
+    Double getTestScoreByRecord(TbTestRecord testRecord);
+
     /**
      * 添加成绩
      *
@@ -83,4 +85,9 @@ public interface ITestService {
      * @return
      */
     TbTestScore getScoreById(int id);
+
+    /**
+     * 查询答题排名，以及答对情况。
+     *
+     */
 }
