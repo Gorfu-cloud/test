@@ -28,6 +28,8 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
 
     @Override
     public boolean insert(TbUserPrivacyInfo privacyInfo) {
+        privacyInfo.setGmtCreate(new Date());
+        privacyInfo.setGmtModified(new Date());
         int num = userPrivacyInfoMapper.insertSelective(privacyInfo);
 
         return num > 0;

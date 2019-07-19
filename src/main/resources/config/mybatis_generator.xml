@@ -5,7 +5,7 @@
 <generatorConfiguration>
 
     <!-- 本地数据库驱动程序jar包的全路径 -->
-    <classPathEntry location="E:\IdeaProject\Service\mysql-connector-java-5.1.44-bin.jar"/>
+    <classPathEntry location="/home/yujian/Project/FatDownWeapp/src/main/resources/config/mysql-connector-java-8.0.13.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -24,20 +24,20 @@
 
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.bkit.fatdown.entity"
-                            targetProject="E:\IdeaProject\Service\fatdown\src\main\java">
+                            targetProject="/home/yujian/Project/FatDownWeapp/src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.bkit.fatdown.mappers"
-                         targetProject="E:\IdeaProject\Service\fatdown\src\main\resources">
+                         targetProject="/home/yujian/Project/FatDownWeapp/src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- Mapper 接口文件的位置 -->
         <javaClientGenerator targetPackage="com.bkit.fatdown.mappers"
-                             targetProject="E:\IdeaProject\Service\fatdown\src\main\java" type="XMLMAPPER">
+                             targetProject="/home/yujian/Project/FatDownWeapp/src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 

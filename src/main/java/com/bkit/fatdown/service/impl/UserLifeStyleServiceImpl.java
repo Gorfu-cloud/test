@@ -27,6 +27,8 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
 
     @Override
     public boolean insert(TbUserLifeStyle userLifeStyle) {
+        userLifeStyle.setGmtCreate(new Date());
+        userLifeStyle.setGmtModified(new Date());
         int num = userLifeStyleMapper.insert(userLifeStyle);
         return num > 0;
     }
@@ -62,6 +64,7 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
         // 获取用户ID
         int id = userLifeStyleMapper.selectByExample(example).get(0).getId();
         userLifeStyle.setId(id);
+        userLifeStyle.setGmtModified(new Date());
         return userLifeStyleMapper.updateByPrimaryKeySelective(userLifeStyle) > 0;
     }
 

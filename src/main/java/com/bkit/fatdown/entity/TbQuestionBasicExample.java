@@ -1,7 +1,6 @@
 package com.bkit.fatdown.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TbQuestionBasicExample {
@@ -252,66 +251,6 @@ public class TbQuestionBasicExample {
 
         public Criteria andIdNotBetween(Integer value1, Integer value2) {
             addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdIsNull() {
-            addCriterion("paper_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdIsNotNull() {
-            addCriterion("paper_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdEqualTo(Integer value) {
-            addCriterion("paper_id =", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdNotEqualTo(Integer value) {
-            addCriterion("paper_id <>", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdGreaterThan(Integer value) {
-            addCriterion("paper_id >", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("paper_id >=", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdLessThan(Integer value) {
-            addCriterion("paper_id <", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdLessThanOrEqualTo(Integer value) {
-            addCriterion("paper_id <=", value, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdIn(List<Integer> values) {
-            addCriterion("paper_id in", values, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdNotIn(List<Integer> values) {
-            addCriterion("paper_id not in", values, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdBetween(Integer value1, Integer value2) {
-            addCriterion("paper_id between", value1, value2, "paperId");
-            return (Criteria) this;
-        }
-
-        public Criteria andPaperIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("paper_id not between", value1, value2, "paperId");
             return (Criteria) this;
         }
 
@@ -805,63 +744,63 @@ public class TbQuestionBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andScoreIsNull() {
-            addCriterion("score is null");
+        public Criteria andValueIsNull() {
+            addCriterion("value is null");
             return (Criteria) this;
         }
 
-        public Criteria andScoreIsNotNull() {
-            addCriterion("score is not null");
+        public Criteria andValueIsNotNull() {
+            addCriterion("value is not null");
             return (Criteria) this;
         }
 
-        public Criteria andScoreEqualTo(Double value) {
-            addCriterion("score =", value, "score");
+        public Criteria andValueEqualTo(Double value) {
+            addCriterion("value =", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotEqualTo(Double value) {
-            addCriterion("score <>", value, "score");
+        public Criteria andValueNotEqualTo(Double value) {
+            addCriterion("value <>", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreGreaterThan(Double value) {
-            addCriterion("score >", value, "score");
+        public Criteria andValueGreaterThan(Double value) {
+            addCriterion("value >", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreGreaterThanOrEqualTo(Double value) {
-            addCriterion("score >=", value, "score");
+        public Criteria andValueGreaterThanOrEqualTo(Double value) {
+            addCriterion("value >=", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreLessThan(Double value) {
-            addCriterion("score <", value, "score");
+        public Criteria andValueLessThan(Double value) {
+            addCriterion("value <", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreLessThanOrEqualTo(Double value) {
-            addCriterion("score <=", value, "score");
+        public Criteria andValueLessThanOrEqualTo(Double value) {
+            addCriterion("value <=", value, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreIn(List<Double> values) {
-            addCriterion("score in", values, "score");
+        public Criteria andValueIn(List<Double> values) {
+            addCriterion("value in", values, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotIn(List<Double> values) {
-            addCriterion("score not in", values, "score");
+        public Criteria andValueNotIn(List<Double> values) {
+            addCriterion("value not in", values, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreBetween(Double value1, Double value2) {
-            addCriterion("score between", value1, value2, "score");
+        public Criteria andValueBetween(Double value1, Double value2) {
+            addCriterion("value between", value1, value2, "value");
             return (Criteria) this;
         }
 
-        public Criteria andScoreNotBetween(Double value1, Double value2) {
-            addCriterion("score not between", value1, value2, "score");
+        public Criteria andValueNotBetween(Double value1, Double value2) {
+            addCriterion("value not between", value1, value2, "value");
             return (Criteria) this;
         }
 
@@ -932,126 +871,6 @@ public class TbQuestionBasicExample {
 
         public Criteria andTypeNotBetween(String value1, String value2) {
             addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateIsNull() {
-            addCriterion("gmt_create is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateIsNotNull() {
-            addCriterion("gmt_create is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateEqualTo(Date value) {
-            addCriterion("gmt_create =", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotEqualTo(Date value) {
-            addCriterion("gmt_create <>", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateGreaterThan(Date value) {
-            addCriterion("gmt_create >", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateGreaterThanOrEqualTo(Date value) {
-            addCriterion("gmt_create >=", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateLessThan(Date value) {
-            addCriterion("gmt_create <", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateLessThanOrEqualTo(Date value) {
-            addCriterion("gmt_create <=", value, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateIn(List<Date> values) {
-            addCriterion("gmt_create in", values, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotIn(List<Date> values) {
-            addCriterion("gmt_create not in", values, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateBetween(Date value1, Date value2) {
-            addCriterion("gmt_create between", value1, value2, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtCreateNotBetween(Date value1, Date value2) {
-            addCriterion("gmt_create not between", value1, value2, "gmtCreate");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIsNull() {
-            addCriterion("gmt_modified is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIsNotNull() {
-            addCriterion("gmt_modified is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedEqualTo(Date value) {
-            addCriterion("gmt_modified =", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotEqualTo(Date value) {
-            addCriterion("gmt_modified <>", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedGreaterThan(Date value) {
-            addCriterion("gmt_modified >", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedGreaterThanOrEqualTo(Date value) {
-            addCriterion("gmt_modified >=", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedLessThan(Date value) {
-            addCriterion("gmt_modified <", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedLessThanOrEqualTo(Date value) {
-            addCriterion("gmt_modified <=", value, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedIn(List<Date> values) {
-            addCriterion("gmt_modified in", values, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotIn(List<Date> values) {
-            addCriterion("gmt_modified not in", values, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedBetween(Date value1, Date value2) {
-            addCriterion("gmt_modified between", value1, value2, "gmtModified");
-            return (Criteria) this;
-        }
-
-        public Criteria andGmtModifiedNotBetween(Date value1, Date value2) {
-            addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
     }
