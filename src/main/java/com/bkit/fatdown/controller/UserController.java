@@ -116,11 +116,12 @@ public class UserController {
     @RequestMapping(value = "/updatePrivacyInfo", method = RequestMethod.POST)
     public CommonResultDTO updateUserPrivacyInfo(@RequestBody HashMap<String, Double> map) {
         // userId参数无效时
-        if (!map.containsKey("userId")||basicInfoService.countById(map.get("userId").intValue()) == 0) {
+        if (!map.containsKey("userId") || basicInfoService.countById(map.get("userId").intValue()) == 0) {
             return CommonResultDTO.validateFailed("userId无效");
         }
         // 获取传入的参数
         TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
+
         // 当天有隐私记录存在,获取原来的id，并更新原来记录
         if (privacyInfoService.countByUidAndDate(privacyInfo.getUserId(), new Date()) > 0) {
             // 更新成功
@@ -139,7 +140,7 @@ public class UserController {
         }
     }
 
-    @ApiOperation("通过id获取隐私信息")
+    @ApiOperation("通过uid,获取隐私信息")
     @CrossOrigin
     @RequestMapping(value = "/getPrivacyInfoByUid/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfoByUid(@PathVariable int uid) {
@@ -148,12 +149,16 @@ public class UserController {
         }
 
         if (privacyInfoService.listByUid(uid).size() > 0) {
-            return CommonResultDTO.success(privacyInfoService.listByUid(uid).get(0));
+            TbUserPrivacyInfo privacyInfo = privacyInfoService.listByUid(uid).get(0);
+            // 判断结果是否为空
+            if (privacyInfo != null) {
+                return CommonResultDTO.success(privacyInfo);
+            }
         }
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("通过id获取隐私信息")
+    @ApiOperation("通过id,获取隐私信息")
     @CrossOrigin
     @RequestMapping(value = "/getPrivacyInfoById/{id}", method = RequestMethod.GET)
     public CommonResultDTO getUserPrivacyInfoById(@PathVariable int id) {
@@ -214,23 +219,26 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/updateLifeStyle", method = RequestMethod.POST)
     public CommonResultDTO updateLifeStyle(@RequestBody HashMap<String, Integer> map) {
-        if (map.containsKey("userId")) {
-            TbUserLifeStyle lifeStyle = DataMapUtils.getUserLifeStyleFromMap(map);
-            if (userLifeStyleService.countByUidAndCreateDate(lifeStyle.getUserId(), lifeStyle.getGmtCreate()) > 0) {
-                if (userLifeStyleService.update(lifeStyle)) {
-                    return CommonResultDTO.success();
-                } else {
-                    return CommonResultDTO.failed();
-                }
+        // 用户id不存在时
+        if (!map.containsKey("userId") || basicInfoService.countById(map.get("userId"))==0) {
+            return CommonResultDTO.validateFailed("userId出错");
+        }
+        // 读取用户中的信息
+        TbUserLifeStyle lifeStyle = DataMapUtils.getUserLifeStyleFromMap(map);
+        // 查看今天是否有记录
+        if (userLifeStyleService.countByUidAndCreateDate(lifeStyle.getUserId(), new Date()) > 0) {
+            if (userLifeStyleService.update(lifeStyle)) {
+                return CommonResultDTO.success();
             } else {
-                if (userLifeStyleService.insert(lifeStyle)) {
-                    return CommonResultDTO.success();
-                } else {
-                    return CommonResultDTO.failed();
-                }
+                return CommonResultDTO.failed();
+            }
+        } else {
+            if (userLifeStyleService.insert(lifeStyle)) {
+                return CommonResultDTO.success();
+            } else {
+                return CommonResultDTO.failed();
             }
         }
-        return CommonResultDTO.validateFailed("userId出错");
     }
 
     @ApiOperation("查看最新的生活习惯详情")

@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserLifeStyleExample;
 import com.bkit.fatdown.mappers.TbUserLifeStyleMapper;
 import com.bkit.fatdown.service.IUserLifeStyleService;
+import com.bkit.fatdown.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,13 +55,20 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
         return userLifeStyleMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 这里是更新今天的记录
+     *
+     * @param userLifeStyle
+     * @return
+     */
     @Override
     public boolean update(TbUserLifeStyle userLifeStyle) {
         // 查找当天记录
         TbUserLifeStyleExample example = new TbUserLifeStyleExample();
         example.createCriteria()
-                .andGmtCreateEqualTo(userLifeStyle.getGmtCreate())
                 .andUserIdEqualTo(userLifeStyle.getUserId());
+        // 从近到远输出
+        example.setOrderByClause("gmt_create desc");
         // 获取用户ID
         int id = userLifeStyleMapper.selectByExample(example).get(0).getId();
         userLifeStyle.setId(id);
@@ -73,7 +81,8 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
         TbUserLifeStyleExample example = new TbUserLifeStyleExample();
         example.createCriteria()
                 .andUserIdEqualTo(uid)
-                .andGmtCreateEqualTo(date);
+                // 查看今天是否有新的记录。
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
         return (int) userLifeStyleMapper.countByExample(example);
     }
 

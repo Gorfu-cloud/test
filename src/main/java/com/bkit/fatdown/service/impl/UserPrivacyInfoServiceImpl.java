@@ -42,6 +42,12 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         return num > 0;
     }
 
+    /**
+     * 这里的更新是指更新今天原来的第一条记录
+     * @param privacyInfo
+     * @return
+     */
+
     @Override
     public boolean update(TbUserPrivacyInfo privacyInfo) {
         // 查找原来的记录id
@@ -51,16 +57,20 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
                 .andUserIdEqualTo(privacyInfo.getUserId())
                 // 查找今天是否有记录,有就更新
                 .andGmtCreateBetween(DateUtils.getDateStart(today), DateUtils.getDateEnd(today));
-        // 获取记录id
+
+        // 获取今天的，第一条记录记录id
         int id = userPrivacyInfoMapper.selectByExample(example).get(0).getId();
         privacyInfo.setId(id);
+
+        // 计算BMI值
         if (privacyInfo.getHeight() != null && privacyInfo.getWeight() != null) {
             privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(), privacyInfo.getWeight()));
         }
-        // 社会之更新日期
-        privacyInfo.setGmtModified(new Date());
-        int num = userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo);
-        return num > 0;
+
+        // 设置更新日期
+        privacyInfo.setGmtModified(today);
+
+        return userPrivacyInfoMapper.updateByPrimaryKeySelective(privacyInfo) > 0;
     }
 
     @Override
@@ -68,6 +78,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         userPrivacyInfoExample.createCriteria()
                 .andUserIdEqualTo(uid);
+        // 按创建日期降序（从近到远）
         userPrivacyInfoExample.setOrderByClause("gmt_create desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
@@ -77,18 +88,26 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         TbUserPrivacyInfoExample userPrivacyInfoExample = new TbUserPrivacyInfoExample();
         userPrivacyInfoExample.createCriteria()
                 .andUserIdEqualTo(uid)
-                .andGmtCreateBetween(starDate, endDate);
-        // 按创建日期降序
+                .andGmtCreateBetween(DateUtils.getDateStart(starDate), DateUtils.getDateEnd(endDate));
+        // 按创建日期降序（从近到远）
         userPrivacyInfoExample.setOrderByClause("gmt_create desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
     }
 
+    /**
+     * 查看当天是否有隐私记录。
+     * @param uid
+     * @param date
+     * @return
+     */
     @Override
     public int countByUidAndDate(int uid, Date date) {
         TbUserPrivacyInfoExample example = new TbUserPrivacyInfoExample();
         example.createCriteria()
-                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date))
-                .andUserIdEqualTo(uid);
+                // 用户uid
+                .andUserIdEqualTo(uid)
+                // 获取今天0-24点之间的记录
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
         return (int) userPrivacyInfoMapper.countByExample(example);
     }
 
