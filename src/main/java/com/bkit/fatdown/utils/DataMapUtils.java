@@ -124,26 +124,26 @@ public class DataMapUtils {
         }
 
         if (map.containsKey("weight")) {
-            userPrivacyInfo.setWeight(map.get("weight"));
+            userPrivacyInfo.setWeight(map.get("weight").intValue());
         }
         if (map.containsKey("userId")) {
             userPrivacyInfo.setUserId(map.get("userId").intValue());
         }
 
         if (map.containsKey("fatRate")) {
-            userPrivacyInfo.setFatRate(map.get("fatRate").intValue());
+            userPrivacyInfo.setFatRate(map.get("fatRate"));
         }
 
         if (map.containsKey("bust")) {
-            userPrivacyInfo.setBust(map.get("bust"));
+            userPrivacyInfo.setBust(map.get("bust").intValue());
         }
 
         if (map.containsKey("waist")) {
-            userPrivacyInfo.setWaist(map.get("waist"));
+            userPrivacyInfo.setWaist(map.get("waist").intValue());
         }
 
         if (map.containsKey("hip")) {
-            userPrivacyInfo.setHip(map.get("hip"));
+            userPrivacyInfo.setHip(map.get("hip").intValue());
         }
 
         if (map.containsKey("calf")) {
@@ -163,15 +163,19 @@ public class DataMapUtils {
         }
 
         if (map.containsKey("muscleOxygen")) {
-            userPrivacyInfo.setMuscleOxygen(map.get("muscleOxygen"));
+            userPrivacyInfo.setMuscleOxygen(map.get("muscleOxygen").intValue());
         }
 
-        if (map.containsKey("bloodPressure")) {
-            userPrivacyInfo.setBloodOxygen(map.get("bloodPressure"));
+        if (map.containsKey("sbp")) {
+            userPrivacyInfo.setSystolicBloodPressure(map.get("sbp").intValue());
+        }
+
+        if (map.containsKey("dbp")){
+            userPrivacyInfo.setDiastolicBloodPressure(map.get("dbp").intValue());
         }
 
         if (map.containsKey("bloodOxygen")) {
-            userPrivacyInfo.setBloodOxygen(map.get("bloodOxygen"));
+            userPrivacyInfo.setBloodOxygen(map.get("bloodOxygen").intValue());
         }
 
         if (map.containsKey("heartOxygen")) {
@@ -182,9 +186,14 @@ public class DataMapUtils {
             userPrivacyInfo.setHeartRate(map.get("heartRate").intValue());
         }
 
-        Date today = new Date();
-        userPrivacyInfo.setGmtCreate(DateUtils.getDateStart(today));
-        userPrivacyInfo.setGmtCreate(today);
+        if (map.containsKey("phUrine")){
+            userPrivacyInfo.setPhUrine(map.get("phUrine"));
+        }
+
+        if (map.containsKey("ketonuria")){
+            userPrivacyInfo.setKetonuria(map.get("ketonuria").intValue());
+        }
+
         return userPrivacyInfo;
     }
 
