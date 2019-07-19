@@ -46,6 +46,8 @@ public class LearnServiceImpl implements ILearnService {
 
     @Override
     public boolean insert(TbLearnInfo learnInfo) {
+        learnInfo.setGmtCreate(new Date());
+        learnInfo.setGmtModified(new Date());
         return learnInfoMapper.insert(learnInfo) > 0;
     }
 
@@ -56,6 +58,7 @@ public class LearnServiceImpl implements ILearnService {
 
     @Override
     public boolean update(TbLearnInfo learnInfo) {
+        learnInfo.setGmtModified(new Date());
         return learnInfoMapper.updateByPrimaryKey(learnInfo) > 0;
     }
 

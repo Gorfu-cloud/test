@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbLearnRecord;
 import com.bkit.fatdown.entity.TbLearnRecordExample;
 import com.bkit.fatdown.mappers.TbLearnRecordMapper;
 import com.bkit.fatdown.service.ILearnRecordService;
+import com.bkit.fatdown.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +27,8 @@ public class LearnRecordServiceImpl implements ILearnRecordService {
 
     @Override
     public boolean insert(TbLearnRecord learnRecord) {
+        learnRecord.setGmtCreate(new Date());
+        learnRecord.setGmtModified(new Date());
         return learnRecordMapper.insert(learnRecord) > 0;
     }
 
@@ -33,9 +36,8 @@ public class LearnRecordServiceImpl implements ILearnRecordService {
     public long countByUidBetweenDate(int uid, Date startDate, Date endDate) {
         TbLearnRecordExample example = new TbLearnRecordExample();
         example.createCriteria()
-                .andGmtCreateBetween(startDate, endDate)
+                .andGmtCreateBetween(DateUtils.getDateStart(startDate), DateUtils.getDateEnd(endDate))
                 .andUserIdEqualTo(uid);
-
         return learnRecordMapper.countByExample(example);
     }
 

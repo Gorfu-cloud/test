@@ -47,6 +47,7 @@ public class TaskRecordServiceImpl implements ITaskRecordService {
      */
     @Override
     public boolean update(TbTaskRecord taskRecord) {
+        taskRecord.setGmtModified(new Date());
         return taskRecordMapper.updateByPrimaryKey(taskRecord) > 0;
     }
 

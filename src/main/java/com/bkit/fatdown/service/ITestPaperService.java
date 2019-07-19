@@ -32,14 +32,6 @@ public interface ITestPaperService {
     TbQuestionBasic getQuestionBasicById(int id);
 
     /**
-     * 查找日期之间的记录
-     *
-     * @param date
-     * @return
-     */
-    List<TbPaperBasic> listPaperBasicByDate(Date date);
-
-    /**
      * 获取id记录数
      *
      * @param id

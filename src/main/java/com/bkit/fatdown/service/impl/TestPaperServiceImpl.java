@@ -37,6 +37,7 @@ public class TestPaperServiceImpl implements ITestPaperService {
     @Resource
     private TbQuestionBasicMapper questionBasicMapper;
 
+
     /**
      * 获取抢答基础信息
      *
@@ -66,6 +67,8 @@ public class TestPaperServiceImpl implements ITestPaperService {
      */
     @Override
     public boolean insertPaperInfo(TbPaperBasic paperBasic) {
+        paperBasic.setGmtCreate(new Date());
+        paperBasic.setGmtModified(new Date());
         return paperBasicMapper.insertSelective(paperBasic) > 0;
     }
 
@@ -104,19 +107,8 @@ public class TestPaperServiceImpl implements ITestPaperService {
      */
     @Override
     public boolean updatePaperInfo(TbPaperBasic paperBasic) {
+        paperBasic.setGmtModified(new Date());
         return paperBasicMapper.updateByPrimaryKeySelective(paperBasic) > 0;
-    }
-
-    /**
-     * 查找日期之间的记录
-     *
-     * @param date
-     * @return
-     */
-    //TODO 待完成
-    @Override
-    public List<TbPaperBasic> listPaperBasicByDate(Date date) {
-        return null;
     }
 
     /**

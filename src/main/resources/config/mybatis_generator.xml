@@ -59,14 +59,14 @@
         <!--enableUpdateByExample="true"/>-->
 
         <!--        测试模块-->
-<!--                <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--                       enableSelectByExample="true"-->
-<!--                       enableUpdateByExample="true"/>-->
-<!--                <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--                       enableSelectByExample="true"-->
-<!--                       enableUpdateByExample="true"/>-->
-                <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-                        enableUpdateByExample="true"/>
+        <!--                <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--                       enableSelectByExample="true"-->
+        <!--                       enableUpdateByExample="true"/>-->
+        <!--                <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--                       enableSelectByExample="true"-->
+        <!--                       enableUpdateByExample="true"/>-->
+        <!--                <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--                        enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_test_score" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
 
@@ -82,8 +82,6 @@
         <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_picture_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_fatrate_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_weight_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
@@ -106,8 +104,8 @@
         <!--enableUpdateByExample="true"/>-->
 
         <!--        用户模块-->
-        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <!--        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
@@ -117,8 +115,11 @@
         <!--        <table tableName="tb_user_group" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
 
+        <!--学习模块-->
         <!--                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--                enableUpdateByExample="true"/>-->
+                <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+                       enableUpdateByExample="true"/>
 
         <!--        任务模块-->
         <!--        <table tableName="tb_task_record" enableCountByExample="true" enableDeleteByExample="true"-->
