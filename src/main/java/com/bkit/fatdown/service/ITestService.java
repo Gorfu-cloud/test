@@ -3,7 +3,6 @@ package com.bkit.fatdown.service;
 import com.bkit.fatdown.entity.TbPaperBasic;
 import com.bkit.fatdown.entity.TbQuestionBasic;
 import com.bkit.fatdown.entity.TbTestRecord;
-import com.bkit.fatdown.entity.TbTestScore;
 
 import java.util.Date;
 import java.util.List;
@@ -53,21 +52,13 @@ public interface ITestService {
     Double getTestScoreByRecord(TbTestRecord testRecord);
 
     /**
-     * 添加成绩
-     *
-     * @param testScore
-     * @return
-     */
-    Boolean insertTestScore(TbTestScore testScore);
-
-    /**
      * 根据UID和PaperID查询成绩
      *
      * @param uid
      * @param paperId
      * @return
      */
-    List<TbTestScore> listScoreByUidAndPaperId(int uid, int paperId);
+    Integer listScoreByUidAndPaperId(int uid, int paperId);
 
     /**
      * 根据UID,date获取考试成绩
@@ -76,7 +67,7 @@ public interface ITestService {
      * @param date
      * @return
      */
-    TbTestScore getScoreByUidAndDate(int uid, Date date);
+    Integer getScoreByUidAndDate(int uid, Date date);
 
     /**
      * 根据id查找分数
@@ -84,10 +75,5 @@ public interface ITestService {
      * @param id
      * @return
      */
-    TbTestScore getScoreById(int id);
-
-    /**
-     * 查询答题排名，以及答对情况。
-     *
-     */
+    Integer getScoreById(int id);
 }

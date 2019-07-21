@@ -42,42 +42,6 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <!-- 相关表的配置 -->
-        <!--<table tableName="tb_breakfast_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_lunch_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_dinner_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_extra_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-
-        <!--        测试模块-->
-        <!--                <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--                       enableSelectByExample="true"-->
-        <!--                       enableUpdateByExample="true"/>-->
-        <!--                <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--                       enableSelectByExample="true"-->
-        <!--                       enableUpdateByExample="true"/>-->
-        <!--                <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--                        enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_test_score" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
-
-        <!--<table tableName="tb_share_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_comment_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_user_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
-        <!--<table tableName="tb_like_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
-        <!--enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_score_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
         <!--<table tableName="tb_picture_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
@@ -103,7 +67,46 @@
         <!--<table tableName="tb_report_daily" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--enableUpdateByExample="true"/>-->
 
-        <!--        用户模块-->
+
+        <!--饮食模块 开始-->
+        <!--<table tableName="tb_breakfast_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_lunch_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_dinner_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_extra_picture" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--饮食模块 结束-->
+
+        <!--测试模块 开始-->
+<!--        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_question_basic" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_test_record" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true"-->
+<!--               enableUpdateByExample="true"/>-->
+        <!--测试模块 结束-->
+
+        <!--分享模块 开始-->
+        <!--<table tableName="tb_share_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_comment_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--<table tableName="tb_like_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--enableUpdateByExample="true"/>-->
+        <!--分享模块 结束-->
+
+        <!--用户模块 开始-->
         <!--        <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"-->
@@ -114,20 +117,22 @@
         <!--               enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_user_group" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--用户模块 结束-->
 
-        <!--学习模块-->
+        <!--学习模块 开始-->
         <!--                <table tableName="tb_learn_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--                enableUpdateByExample="true"/>-->
-                <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
-                       enableUpdateByExample="true"/>
+        <!--                <table tableName="tb_learn_info" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
+        <!--                       enableUpdateByExample="true"/>-->
+        <!--学习模块 结束-->
 
-        <!--        任务模块-->
-        <!--        <table tableName="tb_task_record" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-
+        <!--任务模块 开始-->
+                <table tableName="tb_task_record" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true" enableUpdateByExample="true"/>
+                <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true" enableUpdateByExample="true"/>
+        <!--任务模块 结束-->
     </context>
 </generatorConfiguration>

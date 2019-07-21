@@ -4,7 +4,6 @@ import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbPaperBasicMapper;
 import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
 import com.bkit.fatdown.mappers.TbTestRecordMapper;
-import com.bkit.fatdown.mappers.TbTestScoreMapper;
 import com.bkit.fatdown.service.ITestService;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +31,6 @@ public class TestServiceImpl implements ITestService {
 
     @Resource
     TbTestRecordMapper testRecordMapper;
-
-    @Resource
-    TbTestScoreMapper testScoreMapper;
 
     /**
      * 获取考试信息
@@ -110,30 +106,15 @@ public class TestServiceImpl implements ITestService {
     }
 
     /**
-     * 插入测试分数
-     *
-     * @param testScore
-     * @return
-     */
-    @Override
-    public Boolean insertTestScore(TbTestScore testScore) {
-        return testScoreMapper.insert(testScore) > 0;
-    }
-
-    /**
-     * 查询得分
+     * 根据UID和PaperID查询成绩
      *
      * @param uid
      * @param paperId
      * @return
      */
     @Override
-    public List<TbTestScore> listScoreByUidAndPaperId(int uid, int paperId) {
-        TbTestScoreExample testScoreExample = new TbTestScoreExample();
-        testScoreExample.createCriteria()
-                .andUserEqualTo(uid)
-                .andUserEqualTo(paperId);
-        return testScoreMapper.selectByExample(testScoreExample);
+    public Integer listScoreByUidAndPaperId(int uid, int paperId) {
+        return null;
     }
 
     /**
@@ -144,7 +125,7 @@ public class TestServiceImpl implements ITestService {
      * @return
      */
     @Override
-    public TbTestScore getScoreByUidAndDate(int uid, Date date) {
+    public Integer getScoreByUidAndDate(int uid, Date date) {
         return null;
     }
 
@@ -155,7 +136,7 @@ public class TestServiceImpl implements ITestService {
      * @return
      */
     @Override
-    public TbTestScore getScoreById(int id) {
+    public Integer getScoreById(int id) {
         return null;
     }
 }

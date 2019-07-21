@@ -20,7 +20,7 @@ public class CommonResultDTO<T> {
     protected CommonResultDTO() {
     }
 
-    protected CommonResultDTO(long code, String message, T data) {
+    private CommonResultDTO(long code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -59,7 +59,7 @@ public class CommonResultDTO<T> {
      *
      * @param errorCode 错误码
      */
-    public static <T> CommonResultDTO<T> failed(IErrorCode errorCode) {
+    private static <T> CommonResultDTO<T> failed(IErrorCode errorCode) {
         return new CommonResultDTO<T>(errorCode.getCode(), errorCode.getMessage(), null);
     }
 

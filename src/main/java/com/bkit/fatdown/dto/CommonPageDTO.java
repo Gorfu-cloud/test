@@ -1,6 +1,7 @@
 package com.bkit.fatdown.dto;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiModel;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @version: 1.0
  */
 
+@ApiModel
 public class CommonPageDTO<T> {
     /**
      * 页号
@@ -79,6 +81,16 @@ public class CommonPageDTO<T> {
 
     public void setTotal(Long total) {
         this.total = total;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 
     public List<T> getList() {
