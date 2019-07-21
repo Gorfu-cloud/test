@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -25,6 +27,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config extends WebMvcConfigurationSupport {
 
     /**
+     * 配置扫描的api控制包路径
+     */
+    private static final String BASE_PACKAGE = "com.bkit.fatdown.controller";
+    /**
+     * 服务器路径
+     */
+    private static final String SERVICE_URL = "https://sunnyqcloud.com/fatdown";
+
+    /**
      * @description: 配置swagger文档
      * @params: null
      * @return:
@@ -38,9 +49,14 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 .apiInfo(apiInfo())
                 .select()
                 // 设置扫描基础包
-                .apis(RequestHandlerSelectors.basePackage("com.bkit.fatdown"))
+                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
                 .paths(PathSelectors.any())
                 .build();
+    }
+
+    @Bean
+    public RequestMappingInfoHandlerMapping requestMapping() {
+        return new RequestMappingHandlerMapping();
     }
 
     /**
@@ -50,13 +66,21 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
+                // 页面标题
                 .title("葆康减脂平台API文档")
+                // API描述
                 .description("创建日期:2019年7月11日,修改日期:2019年7月18日")
-                .termsOfServiceUrl("https://sunnyqcloud.com/fatdown")
+                // 创建路径
+                .termsOfServiceUrl(SERVICE_URL)
                 .version("2.0.5")
                 .build();
     }
 
+    /**
+     * 解决swagger显示问题
+     *
+     * @param registry
+     */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 解决静态资源无法访问
