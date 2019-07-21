@@ -2,12 +2,15 @@ package com.bkit.fatdown.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @FileName: Swagger2Config
@@ -19,7 +22,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  */
 
 @Configuration
-public class Swagger2Config {
+public class Swagger2Config extends WebMvcConfigurationSupport {
 
     /**
      * @description: 配置swagger文档
@@ -50,7 +53,20 @@ public class Swagger2Config {
                 .title("葆康减脂平台API文档")
                 .description("创建日期:2019年7月11日,修改日期:2019年7月18日")
                 .termsOfServiceUrl("https://sunnyqcloud.com/fatdown")
-                .version("2.0.4")
+                .version("2.0.5")
                 .build();
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 解决静态资源无法访问
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
+        // 解决swagger无法访问
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        // 解决swagger的js文件无法访问
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }

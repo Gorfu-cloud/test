@@ -81,20 +81,6 @@ public class UserController {
         return CommonResultDTO.success(basicInfoService.getByOpenId(openId));
     }
 
-    @ApiOperation("通过uid获取所有隐私信息")
-    @CrossOrigin
-    @RequestMapping(value = "/listPrivacyInfo/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO getUserPrivacyInfoByUid(@PathVariable Integer uid) {
-        if (uid == null) {
-            return CommonResultDTO.failed("uid非空");
-        }
-        List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.listByUid(uid);
-        if (privacyInfoList.size() == 0) {
-            return CommonResultDTO.validateFailed("用户不存在");
-        }
-        return CommonResultDTO.success(privacyInfoList);
-    }
-
     @ApiOperation("更新用户基础信息,id必填")
     @CrossOrigin
     @RequestMapping(value = "/updateBasicInfo", method = RequestMethod.POST)
@@ -156,6 +142,20 @@ public class UserController {
             }
         }
         return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("通过uid获取所有隐私信息")
+    @CrossOrigin
+    @RequestMapping(value = "/listPrivacyInfo/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO listUserPrivacyInfoByUid(@PathVariable Integer uid) {
+        if (uid == null) {
+            return CommonResultDTO.failed("uid非空");
+        }
+        List<TbUserPrivacyInfo> privacyInfoList = privacyInfoService.listByUid(uid);
+        if (privacyInfoList.size() == 0) {
+            return CommonResultDTO.validateFailed("用户不存在");
+        }
+        return CommonResultDTO.success(privacyInfoList);
     }
 
     @ApiOperation("通过id,获取隐私信息")
