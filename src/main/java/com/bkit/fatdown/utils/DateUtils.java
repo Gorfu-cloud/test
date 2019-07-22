@@ -7,26 +7,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * @FileName: 日期工具类，日期转化
- * @Author: YuJian
- * @Description: //TODO
- * @Date: Created in 7/5/19  10:20 PM
- * @Modified:
- * @Version: 1.0
+ * @file: DateUtils
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 日期工具类，日期转化
+ * @date: Created in 7/22/19  2:25 PM
+ * @modified:
+ * @version: 1.0
  */
 
 public class DateUtils {
-
     /**
-     * @Description: 获取七周前的日期
-     * @Param: Date
-     * @return: Date
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 获取七周前的日期
+     *
+     * @param now
+     * @return
      */
-
     public static Date getSevenWeekAgo(Date now) {
         Calendar no = Calendar.getInstance();
         no.setTime(now);
@@ -39,18 +35,16 @@ public class DateUtils {
     }
 
     /**
-     * @Description: 获取本周一开始日期。
-     * @Param: Date
-     * @return: Date
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 获取本周, 开始日期
+     *
+     * @param now
+     * @return
      */
-
     public static Date getCurrentWeekStart(Date now) {
         Calendar no = Calendar.getInstance();
         no.setTime(now);
-        no.setFirstDayOfWeek(Calendar.MONDAY);
-        no.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        no.setFirstDayOfWeek(Calendar.SUNDAY);
+        no.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         no.set(Calendar.HOUR_OF_DAY, 0);
         no.set(Calendar.MINUTE, 0);
         no.set(Calendar.SECOND, 0);
@@ -58,14 +52,28 @@ public class DateUtils {
     }
 
     /**
-     * @Description: 获取明天日期时间
-     * @Param: null
-     * @return: Map<String, Date>
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 获取本周, 结束日期
+     *
+     * @param now
+     * @return
      */
+    public static Date getCurrentWeekEnd(Date now) {
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        no.setFirstDayOfWeek(Calendar.SUNDAY);
+        no.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        no.set(Calendar.HOUR_OF_DAY, 23);
+        no.set(Calendar.MINUTE, 59);
+        no.set(Calendar.SECOND, 59);
+        return no.getTime();
+    }
 
-    //TODO 待完善
+    /**
+     * 获取明天日期时间
+     *
+     * @return
+     */
+    @Deprecated
     public static Map<String, Date> getNextDate() {
         Date date = new Date();
         Date standard = null;
@@ -99,13 +107,11 @@ public class DateUtils {
     }
 
     /**
-     * @Description: 返回昨天的日期
-     * @Param: Date
-     * @return: Date
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 返回昨天的日期
+     *
+     * @param date
+     * @return
      */
-
     public static Date getYesterday(Date date) {
         Calendar cld = Calendar.getInstance();
         cld.setTime(date);
@@ -114,13 +120,11 @@ public class DateUtils {
     }
 
     /**
-     * @Description: 获取明天的日期
-     * @Param: Date
-     * @return: Date
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 获取明天的日期
+     *
+     * @param date
+     * @return
      */
-
     public static Date getTomorrow(Date date) {
         Calendar cld = Calendar.getInstance();
         cld.setTime(date);
@@ -129,13 +133,11 @@ public class DateUtils {
     }
 
     /**
-     * @Description: 获取七天后的日期
-     * @Param: Date
-     * @return: Date
-     * @Author: YuJian
-     * @date: 7/5/19
+     * 获取七天后的日期
+     *
+     * @param date
+     * @return
      */
-
     public static Date getNextSevenDate(Date date) {
         Date next = null;
         Calendar cld = Calendar.getInstance();
@@ -145,6 +147,12 @@ public class DateUtils {
         return next;
     }
 
+    /**
+     * 获取今天开始时间
+     *
+     * @param nowDate
+     * @return
+     */
     public static Date getDateStart(Date nowDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nowDate);
@@ -154,6 +162,12 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    /**
+     * 获取今天结束时间
+     *
+     * @param nowDate
+     * @return
+     */
     public static Date getDateEnd(Date nowDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nowDate);

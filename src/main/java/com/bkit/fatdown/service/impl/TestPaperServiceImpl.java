@@ -7,6 +7,7 @@ import com.bkit.fatdown.entity.TbQuestionBasicExample;
 import com.bkit.fatdown.mappers.TbPaperBasicMapper;
 import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
 import com.bkit.fatdown.service.ITestPaperService;
+import com.bkit.fatdown.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -132,5 +133,33 @@ public class TestPaperServiceImpl implements ITestPaperService {
     @Override
     public TbQuestionBasic getQuestionBasicById(int id) {
         return questionBasicMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 获取当周考试信息
+     *
+     * @param date
+     * @return
+     */
+    @Override
+    public List<TbPaperBasic> listPaperCurrentWeek(Date date) {
+        TbPaperBasicExample example = new TbPaperBasicExample();
+        example.createCriteria()
+                .andStartTimeBetween(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date));
+        return paperBasicMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取本周之前考试信息
+     *
+     * @param date
+     * @return
+     */
+    @Override
+    public List<TbPaperBasic> listPaperBeforeWeek(Date date) {
+        TbPaperBasicExample example = new TbPaperBasicExample();
+        example.createCriteria()
+                .andStartTimeLessThan(DateUtils.getDateStart(date));
+        return paperBasicMapper.selectByExample(example);
     }
 }

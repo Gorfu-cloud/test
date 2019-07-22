@@ -8,12 +8,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @FileName: FatdownApplication
- * @Author: YuJian
- * @Description:  启动程序并打包成war文件
- * @Date: Created in 2019/7/9  14:01
- * @Modified:
- * @Version: 1.0
+ * @file: FatdownApplication
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 启动程序并打包成war文件
+ * @date: Created in 7/22/19  1:59 PM
+ * @modified:
+ * @version: 2.0.6
  */
 
 @EnableSwagger2
@@ -25,13 +25,12 @@ public class FatdownApplication extends SpringBootServletInitializer {
         SpringApplication.run(FatdownApplication.class, args);
     }
 
-
     /**
-     * @Description: 继承SpringBootServletInitializer 实现configure 方便打war 外部服务器部署。
-     * @Param: SpringApplicationBuilder
-     * @return: SpringApplicationBuilder
-     * @Author: YuJian
-     * @date: 2019/7/9
+     * @description: 继承SpringBootServletInitializer 实现configure 方便打war 外部服务器部署。
+     * @params:
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 7/22/19
      */
 
     @Override

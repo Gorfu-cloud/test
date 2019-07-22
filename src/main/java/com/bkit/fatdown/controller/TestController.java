@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -131,5 +132,21 @@ public class TestController {
             map.put("testStatus", 1);
         }
         return CommonResultDTO.success(map);
+    }
+
+    @ApiOperation("获取本周，测试信息")
+    @CrossOrigin
+    @RequestMapping(value = "/listPaperCurrentWeek", method = RequestMethod.GET)
+    public CommonResultDTO listPaperCurrentWeek() {
+        List<TbPaperBasic> paperList = paperService.listPaperCurrentWeek(new Date());
+        return CommonResultDTO.success(paperList);
+    }
+
+    @ApiOperation("获取本周以前，测试信息")
+    @CrossOrigin
+    @RequestMapping(value = "/listPaperBeforeWeek", method = RequestMethod.GET)
+    public CommonResultDTO listPaperBeforeWeek() {
+        List<TbPaperBasic> paperList = paperService.listPaperBeforeWeek(new Date());
+        return CommonResultDTO.success(paperList);
     }
 }

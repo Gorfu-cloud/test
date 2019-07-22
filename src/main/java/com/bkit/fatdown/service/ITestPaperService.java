@@ -78,4 +78,20 @@ public interface ITestPaperService {
      * @return
      */
     int countQuestionByPaperId(int paperId);
+
+    /**
+     * 获取当周考试信息
+     *
+     * @param date
+     * @return
+     */
+    List<TbPaperBasic> listPaperCurrentWeek(Date date);
+
+    /**
+     * 获取本周之前考试信息
+     *
+     * @param date
+     * @return
+     */
+    List<TbPaperBasic> listPaperBeforeWeek(Date date);
 }
