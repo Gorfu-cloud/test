@@ -93,8 +93,8 @@ public class DietController {
     public CommonResultDTO recognise(@RequestParam MultipartFile file) {
         // 解析返回结果数组
         JSONObject jsonObject = RecogniseUtils.recognise(file);
-        if (jsonObject.getString("data") == null) {
-            return CommonResultDTO.failed();
+        if (jsonObject.getJSONArray("data").size() == 0) {
+            return CommonResultDTO.validateFailed("无法识别或识别结果为空");
         } else {
             return CommonResultDTO.success(jsonObject.getJSONArray("data"));
         }
