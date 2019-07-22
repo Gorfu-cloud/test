@@ -5,6 +5,7 @@ import com.bkit.fatdown.mappers.TbPaperBasicMapper;
 import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
 import com.bkit.fatdown.mappers.TbTestRecordMapper;
 import com.bkit.fatdown.service.ITestService;
+import com.bkit.fatdown.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -78,6 +79,56 @@ public class TestServiceImpl implements ITestService {
     }
 
     /**
+     * 通过record中的uid，paperId，questionId获取答题记录
+     *
+     * @param record
+     * @return
+     */
+    @Override
+    public TbTestRecord getTestRecordByRecord(TbTestRecord record) {
+        int userId = record.getUserId();
+        int paperId = record.getPaperId();
+        int questionId = record.getQuestionId();
+
+        TbTestRecordExample example = new TbTestRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andPaperIdEqualTo(paperId)
+                .andQuestionIdEqualTo(questionId);
+
+        return testRecordMapper.selectByExample(example).get(0);
+    }
+
+    /**
+     * 更新得分记录
+     *
+     * @param record
+     * @return
+     */
+    @Override
+    public Boolean update(TbTestRecord record) {
+        return testRecordMapper.updateByPrimaryKeySelective(record) > 0;
+    }
+
+    /**
+     * 查找记录条数，通过userId，paperId，questionId
+     *
+     * @param userId
+     * @param paperId
+     * @param questionId
+     */
+    @Override
+    public Integer countTestRecordByUserIdAndPaperIdAndQuestionId(int userId, int paperId, int questionId) {
+        TbTestRecordExample example = new TbTestRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andPaperIdEqualTo(paperId)
+                .andQuestionIdEqualTo(questionId);
+
+        return (int) testRecordMapper.countByExample(example);
+    }
+
+    /**
      * 创建测试记录
      *
      * @param testRecord
@@ -91,42 +142,19 @@ public class TestServiceImpl implements ITestService {
     }
 
     @Override
-    public Double getTestScoreByRecord(TbTestRecord testRecord){
+    public Double getTestScoreByRecord(TbTestRecord testRecord) {
         String userAnswer = testRecord.getUserAnswer();
         int questionId = testRecord.getQuestionId();
+        // 获取试卷信息
         TbQuestionBasic questionBasic = questionBasicMapper.selectByPrimaryKey(questionId);
         String questionAnswer = questionBasic.getAnswer();
         Double score = questionBasic.getScore();
         // 答对了
-        if (questionAnswer.equals(userAnswer)){
+        if (questionAnswer.equals(userAnswer)) {
             return score;
         }
 
         return 0.0;
-    }
-
-    /**
-     * 根据UID和PaperID查询成绩
-     *
-     * @param uid
-     * @param paperId
-     * @return
-     */
-    @Override
-    public Integer listScoreByUidAndPaperId(int uid, int paperId) {
-        return null;
-    }
-
-    /**
-     * 根据UID,date获取考试成绩
-     *
-     * @param uid
-     * @param date
-     * @return
-     */
-    @Override
-    public Integer getScoreByUidAndDate(int uid, Date date) {
-        return null;
     }
 
     /**
@@ -136,7 +164,33 @@ public class TestServiceImpl implements ITestService {
      * @return
      */
     @Override
-    public Integer getScoreById(int id) {
-        return null;
+    public Double getScoreById(int id) {
+
+        return testRecordMapper.selectByPrimaryKey(id).getUserScore();
+    }
+
+    /**
+     * 获取答题排名
+     *
+     * @param record
+     * @return
+     */
+    @Override
+    public Integer getRankByRecord(TbTestRecord record) {
+        // 交卷时间，试卷号，试题号
+        Date submitTestTime = record.getGmtCreate();
+        Integer paperId = record.getPaperId();
+        Integer questionId = record.getQuestionId();
+
+        TbTestRecordExample example = new TbTestRecordExample();
+        example.createCriteria()
+                // 交卷时间大于或小等于自己
+                .andGmtCreateLessThanOrEqualTo(submitTestTime)
+                // 试卷号
+                .andPaperIdEqualTo(paperId)
+                // 试题号
+                .andQuestionIdEqualTo(questionId);
+
+        return Math.toIntExact(testRecordMapper.countByExample(example));
     }
 }

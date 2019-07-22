@@ -7,6 +7,7 @@ import com.bkit.fatdown.entity.TbTestRecord;
 import com.bkit.fatdown.service.ITestPaperService;
 import com.bkit.fatdown.service.ITestService;
 import com.bkit.fatdown.utils.DataMapUtils;
+import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -78,20 +79,57 @@ public class TestController {
     @CrossOrigin
     @RequestMapping(value = "/submitAnswer", method = RequestMethod.POST)
     public CommonResultDTO submitAnswer(@RequestBody HashMap<String, String> map) {
+        // 缺乏需要条件，返回400
         if (!map.containsKey("userId") || !map.containsKey("paperId")
                 || !map.containsKey("questionId") || !map.containsKey("userAnswer")) {
             return CommonResultDTO.validateFailed("userId/paperId/questionId/userAnswer/错误");
         }
+
         TbTestRecord record = DataMapUtils.getTestRecordFromMap(map);
         // 获取用户答题得分
         Double userScore = testService.getTestScoreByRecord(record);
+
         record.setUserScore(userScore);
 
         if (testService.insertTestRecord(record)) {
+
+            if (userScore > 0) {
+                // 排名加分
+                double addRankScore = 0.0;
+                // 加分分值
+                double[] addScoreArray = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+
+                TbTestRecord testRecord = testService.getTestRecordByRecord(record);
+                // 排名名次
+                int rank = testService.getRankByRecord(testRecord);
+                System.out.println(rank);
+                // 排名前十加分
+                if (rank <= addScoreArray.length + 1) {
+                    addRankScore = addScoreArray[rank];
+                    double score = testRecord.getUserScore();
+                    testRecord.setUserScore(score + addRankScore);
+                    testService.update(testRecord);
+                    return CommonResultDTO.success(score + addRankScore);
+                }
+            }
+
             return CommonResultDTO.success(userScore);
         }
+
 
         return CommonResultDTO.failed();
     }
 
+    @ApiOperation("检查是否已经答题过,通过userID，paperId，questionId")
+    @CrossOrigin
+    @RequestMapping(value = "/checkTestStatus", method = RequestMethod.GET)
+    public CommonResultDTO checkTestStatus(Integer userId, Integer paperId, Integer questionId) {
+        HashMap<String, Integer> map = new HashMap<>(2);
+        if (testService.countTestRecordByUserIdAndPaperIdAndQuestionId(userId, paperId, questionId) == 0) {
+            map.put("testStatus", 0);
+        } else {
+            map.put("testStatus", 1);
+        }
+        return CommonResultDTO.success(map);
+    }
 }

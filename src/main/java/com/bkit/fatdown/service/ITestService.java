@@ -49,25 +49,13 @@ public interface ITestService {
      */
     Boolean insertTestRecord(TbTestRecord testRecord);
 
+    /**
+     * 获取考试成绩
+     *
+     * @param testRecord
+     * @return
+     */
     Double getTestScoreByRecord(TbTestRecord testRecord);
-
-    /**
-     * 根据UID和PaperID查询成绩
-     *
-     * @param uid
-     * @param paperId
-     * @return
-     */
-    Integer listScoreByUidAndPaperId(int uid, int paperId);
-
-    /**
-     * 根据UID,date获取考试成绩
-     *
-     * @param uid
-     * @param date
-     * @return
-     */
-    Integer getScoreByUidAndDate(int uid, Date date);
 
     /**
      * 根据id查找分数
@@ -75,5 +63,34 @@ public interface ITestService {
      * @param id
      * @return
      */
-    Integer getScoreById(int id);
+    Double getScoreById(int id);
+
+    /**
+     * 更新得分记录
+     *
+     * @param record
+     * @return
+     */
+    Boolean update(TbTestRecord record);
+
+    /**
+     * 获取答题排名
+     *
+     * @param record
+     * @return
+     */
+    Integer getRankByRecord(TbTestRecord record);
+
+    /**
+     * 通过record中的uid，paperId，questionId获取答题记录
+     *
+     * @param record
+     * @return
+     */
+    TbTestRecord getTestRecordByRecord(TbTestRecord record);
+
+    /**
+     * 查找记录条数，通过userId，paperId，questionId
+     */
+    Integer countTestRecordByUserIdAndPaperIdAndQuestionId(int userId, int paperId, int questionId);
 }
