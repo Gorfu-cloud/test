@@ -1,5 +1,10 @@
 package com.bkit.fatdown.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Date;
+import java.util.Map;
+
 /**
  * @file: IPictureService
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -10,5 +15,13 @@ package com.bkit.fatdown.service;
  */
 
 public interface IPictureService {
-    boolean upload();
+    /**
+     * 上传图片
+     *
+     * @param uploadFile
+     * @param uid
+     * @param date
+     * @return
+     */
+    Map<String, Object> upload(MultipartFile uploadFile, int uid, Date date);
 }

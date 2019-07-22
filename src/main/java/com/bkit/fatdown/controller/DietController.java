@@ -1,12 +1,15 @@
 package com.bkit.fatdown.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * @file: DietController
@@ -20,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/diet")
 public class DietController {
+    @Resource
+    private IPictureService pictureService;
+
 // TODO 完善后在识别
 
 //    @ApiOperation("上传饮食照片")
@@ -71,15 +77,27 @@ public class DietController {
 //        return null;
 //    }
 
+    @Deprecated
+    @ApiOperation("上传饮食图片")
+    @CrossOrigin
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public CommonResultDTO upload(@RequestParam MultipartFile picture, Integer uid, String foodName, Integer gram) {
+        Map result = pictureService.upload(picture, uid, new Date());
+        System.out.println(result.toString());
+        return CommonResultDTO.success(result);
+    }
+
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
     @RequestMapping(value = "/recognise", method = RequestMethod.POST)
     public CommonResultDTO recognise(@RequestParam MultipartFile file) {
-        // 获取识别后的结果字串.
-        StringBuffer recogniseBuffer = RecogniseUtils.getRecognise(file);
-        JSONObject object = JSON.parseObject(recogniseBuffer.toString());
-//        return CommonResultDTO.success(object);
-        return CommonResultDTO.failed(object.getInteger("code").toString());
+        // 解析返回结果数组
+        JSONObject jsonObject = RecogniseUtils.recognise(file);
+        if (jsonObject.getString("data") == null) {
+            return CommonResultDTO.failed();
+        } else {
+            return CommonResultDTO.success(jsonObject.getJSONArray("data"));
+        }
     }
 
 }

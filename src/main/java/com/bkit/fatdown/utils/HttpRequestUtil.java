@@ -38,7 +38,7 @@ public class HttpRequestUtil {
      * @date: 2019/7/12
      */
 
-    public static String sendGet(String url, String param) {
+    static String sendGet(String url, String param) {
         String result = "";
         BufferedReader in = null;
         try {
