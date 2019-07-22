@@ -5,7 +5,6 @@ import com.bkit.fatdown.mappers.TbPaperBasicMapper;
 import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
 import com.bkit.fatdown.mappers.TbTestRecordMapper;
 import com.bkit.fatdown.service.ITestService;
-import com.bkit.fatdown.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -95,6 +94,8 @@ public class TestServiceImpl implements ITestService {
                 .andUserIdEqualTo(userId)
                 .andPaperIdEqualTo(paperId)
                 .andQuestionIdEqualTo(questionId);
+        // 按近到远
+        example.setOrderByClause("gmt_create desc");
 
         return testRecordMapper.selectByExample(example).get(0);
     }
@@ -141,6 +142,12 @@ public class TestServiceImpl implements ITestService {
         return testRecordMapper.insert(testRecord) > 0;
     }
 
+    /**
+     * 获取答题分数
+     *
+     * @param testRecord
+     * @return
+     */
     @Override
     public Double getTestScoreByRecord(TbTestRecord testRecord) {
         String userAnswer = testRecord.getUserAnswer();

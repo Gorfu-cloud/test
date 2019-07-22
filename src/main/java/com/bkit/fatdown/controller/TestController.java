@@ -104,7 +104,7 @@ public class TestController {
                 int rank = testService.getRankByRecord(testRecord);
                 System.out.println(rank);
                 // 排名前十加分
-                if (rank <= addScoreArray.length + 1) {
+                if (rank < addScoreArray.length + 1) {
                     addRankScore = addScoreArray[rank];
                     double score = testRecord.getUserScore();
                     testRecord.setUserScore(score + addRankScore);
