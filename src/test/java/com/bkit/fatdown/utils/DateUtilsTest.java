@@ -55,4 +55,9 @@ public class DateUtilsTest {
     public void getDinnerEndTime() {
         System.out.println("6" + DateUtils.getDinnerEndTime(new Date()));
     }
+
+    @Test
+    public void string2Date() {
+        System.out.println(DateUtils.string2Date("2019-07-23 14:55:53.917"));
+    }
 }

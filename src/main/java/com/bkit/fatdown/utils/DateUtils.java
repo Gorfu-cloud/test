@@ -1,6 +1,7 @@
 package com.bkit.fatdown.utils;
 
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -258,5 +259,16 @@ public class DateUtils {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         return calendar.getTime();
+    }
+
+    /**
+     * 字符串转日期类型
+     *
+     * @param strDate
+     * @return
+     */
+    public static Date string2Date(String strDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.parse(strDate, new ParsePosition(0));
     }
 }
