@@ -268,7 +268,7 @@ public class DateUtils {
      * @return
      */
     public static Date string2Date(String strDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(strDate, new ParsePosition(0));
     }
 }

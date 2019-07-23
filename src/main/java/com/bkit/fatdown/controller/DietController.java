@@ -107,8 +107,8 @@ public class DietController {
 
     @ApiOperation("获取当天早餐图库")
     @CrossOrigin
-    @RequestMapping(value = "/listBreakfast", method = RequestMethod.GET)
-    public CommonResultDTO listBreakfast(@RequestParam Integer uid, @RequestParam String date) {
+    @RequestMapping(value = "/listBreakfast/{uid}/{date}", method = RequestMethod.GET)
+    public CommonResultDTO listBreakfast(@PathVariable Integer uid, @PathVariable String date) {
         List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getBreakfastStartTime(DateUtils.string2Date(date)),
                 DateUtils.getBreakfastEndTime(DateUtils.string2Date(date)));
         if (pictureList.size() == 0) {
@@ -119,8 +119,9 @@ public class DietController {
 
     @ApiOperation("获取当天午餐图库")
     @CrossOrigin
-    @RequestMapping(value = "/listLunch", method = RequestMethod.GET)
-    public CommonResultDTO listLunch(@RequestParam Integer uid, @RequestParam String date) {
+    @RequestMapping(value = "/listLunch/{uid}/{date}", method = RequestMethod.GET)
+    public CommonResultDTO listLunch(@PathVariable Integer uid, @PathVariable String date) {
+
         List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getLunchStartTime(DateUtils.string2Date(date)),
                 DateUtils.getLunchEndTime(DateUtils.string2Date(date)));
         if (pictureList.size() == 0) {
@@ -131,8 +132,8 @@ public class DietController {
 
     @ApiOperation("获取当天晚餐图库")
     @CrossOrigin
-    @RequestMapping(value = "/listDinner", method = RequestMethod.GET)
-    public CommonResultDTO listDinner(@RequestParam Integer uid, @RequestParam String date) {
+    @RequestMapping(value = "/listDinner/{uid}/{date}", method = RequestMethod.GET)
+    public CommonResultDTO listDinner(@PathVariable Integer uid, @PathVariable String date) {
         List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getDinnerStartTime(DateUtils.string2Date(date)),
                 DateUtils.getDinnerEndTime(DateUtils.string2Date(date)));
         if (pictureList.size() == 0) {
@@ -143,12 +144,13 @@ public class DietController {
 
     @ApiOperation("获取当天三餐图库")
     @CrossOrigin
-    @RequestMapping(value = "/listDietPicture", method = RequestMethod.GET)
-    public CommonResultDTO listDietPicture(@RequestParam Integer uid, @RequestParam String date) {
-        HashMap<String, Object> map = pictureService.listByDate(uid, DateUtils.string2Date(date));
-        if (map.size() == 0) {
+    @RequestMapping(value = "/listDietPicture/{uid}/{date}", method = RequestMethod.GET)
+    public CommonResultDTO listDietPicture(@PathVariable Integer uid, @PathVariable String date) {
+
+        HashMap<String, Object> listMap = pictureService.listByDate(uid, DateUtils.string2Date(date));
+        if (listMap.size() == 0) {
             return CommonResultDTO.failed("该日期下没有记录");
         }
-        return CommonResultDTO.success(map);
+        return CommonResultDTO.success(listMap);
     }
 }
