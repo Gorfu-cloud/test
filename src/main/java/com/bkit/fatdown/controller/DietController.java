@@ -3,6 +3,10 @@ package com.bkit.fatdown.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietPicture;
+import com.bkit.fatdown.entity.TbFoodBasic;
+import com.bkit.fatdown.entity.TbFoodRecord;
+import com.bkit.fatdown.service.IDietFoodService;
+import com.bkit.fatdown.service.IFoodBasicService;
 import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
@@ -27,6 +31,12 @@ import java.util.*;
 public class DietController {
     @Resource
     private IPictureService pictureService;
+
+    @Resource
+    private IFoodBasicService foodBasicService;
+
+    @Resource
+    private IDietFoodService foodService;
 
 //
 //    @ApiOperation("查看所有饮食图片，通过uid")
@@ -76,18 +86,58 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public CommonResultDTO upload(@RequestParam MultipartFile picture, @RequestParam Integer uid,
-                                  @RequestParam String foodName, @RequestParam Integer gram) {
+                                  @RequestParam String foodName, @RequestParam Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
         // 判断上传是否成功，url：图片路径，flag=0上传失败
         if (result.containsKey("url") && result.containsKey("flag")) {
-            String imgUrl = result.get("url").toString();
+            int id;
+            TbFoodRecord foodRecord;
             int flag = Integer.parseInt(result.get("flag").toString());
 
+            // 上传图片失败
+            if (flag == 0) {
+                return CommonResultDTO.failed("上传图片失败");
+            }
+
             // 查找食物基础信息是否存在？
+            List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);
+            // 菜式不在数据库中,插入新菜式记录,flag=0->已有菜式，flag=1->新菜式
+            if (foodList.size() == 0) {
+                TbFoodBasic newFoodBasic = new TbFoodBasic();
+                newFoodBasic.setName(foodName);
+                newFoodBasic.setQuantity(gram);
+                newFoodBasic.setType("未知");
+                newFoodBasic.setFlag(1);
 
-            // 插入饮食记录，type：
+                // 创建记录并返回创建id，id = -1 -> 插入失败
+                id = foodBasicService.insertReturnId(newFoodBasic);
+                if (id == -1) {
+                    return CommonResultDTO.failed("创建菜式记录失败");
+                }
 
-            return CommonResultDTO.success();
+                // 插入饮食记录
+                foodRecord = new TbFoodRecord();
+                foodRecord.setFoodId(id);
+                foodRecord.setUserId(uid);
+                foodRecord.setFoodQuantity(gram);
+
+                if (foodService.insert(foodRecord)) {
+                    return CommonResultDTO.success();
+                }
+                return CommonResultDTO.failed("创建饮食记录失败");
+            }
+
+            // 插入饮食记录
+            TbFoodBasic foodBasicBasic = foodList.get(0);
+            foodRecord = new TbFoodRecord();
+            foodRecord.setFoodId(foodBasicBasic.getId());
+            foodRecord.setUserId(uid);
+            foodRecord.setFoodQuantity(gram);
+
+            if (foodService.insert(foodRecord)) {
+                return CommonResultDTO.success();
+            }
+            return CommonResultDTO.failed("创建饮食记录失败");
         }
         return CommonResultDTO.validateFailed();
     }
