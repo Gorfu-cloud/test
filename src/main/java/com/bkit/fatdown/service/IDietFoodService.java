@@ -1,5 +1,10 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.entity.TbFoodRecord;
+
+import java.util.Date;
+import java.util.List;
+
 /**
  * @file: IDietFoodService
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -10,20 +15,22 @@ package com.bkit.fatdown.service;
  */
 
 public interface IDietFoodService {
-    /**
-     * 创建饮食记录
-     *
-     * @return
-     */
-    boolean insert();
 
     /**
-     * 删除饮食记录
+     * 保存饮食记录
      *
-     * @param id
+     * @param record
      * @return
      */
-    boolean delete(int id);
-    /**更新饮食记录*/
-    boolean update();
+    boolean insert(TbFoodRecord record);
+
+    /**
+     * 获取用户某天饮食记录
+     *
+     * @param uid
+     * @param date
+     * @return
+     */
+    List<TbFoodRecord> listFoodRecordByDate(int uid, Date date);
+
 }

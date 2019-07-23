@@ -16,13 +16,43 @@ import static org.junit.Assert.*;
  */
 public class DateUtilsTest {
 
+//    @Test
+//    public void getCurrentWeekStart() {
+//        System.out.println(DateUtils.getCurrentWeekStart(new Date()));
+//    }
+//
+//    @Test
+//    public void getCurrentWeekEnd() {
+//        System.out.println(DateUtils.getCurrentWeekEnd(new Date()));
+//    }
+
     @Test
-    public void getCurrentWeekStart() {
-        System.out.println(DateUtils.getCurrentWeekStart(new Date()));
+    public void getBreakfastStartTime() {
+        System.out.println("1" + DateUtils.getBreakfastStartTime(new Date()));
     }
 
     @Test
-    public void getCurrentWeekEnd() {
-        System.out.println(DateUtils.getCurrentWeekEnd(new Date()));
+    public void getBreakfastEndTime() {
+        System.out.println("2" + DateUtils.getBreakfastEndTime(new Date()));
+    }
+
+    @Test
+    public void getLunchStartTime() {
+        System.out.println("3" + DateUtils.getLunchStartTime(new Date()));
+    }
+
+    @Test
+    public void getLunchEndTime() {
+        System.out.println("4" + DateUtils.getLunchEndTime(new Date()));
+    }
+
+    @Test
+    public void getDinnerStartTime() {
+        System.out.println("5" + DateUtils.getDinnerStartTime(new Date()));
+    }
+
+    @Test
+    public void getDinnerEndTime() {
+        System.out.println("6" + DateUtils.getDinnerEndTime(new Date()));
     }
 }

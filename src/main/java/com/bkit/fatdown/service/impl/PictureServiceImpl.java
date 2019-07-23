@@ -1,8 +1,13 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.TbDietPicture;
+import com.bkit.fatdown.entity.TbDietPictureExample;
+import com.bkit.fatdown.entity.TbFoodRecord;
+import com.bkit.fatdown.entity.TbFoodRecordExample;
 import com.bkit.fatdown.mappers.TbDietPictureMapper;
+import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.IPictureService;
+import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.FtpUtils;
 import com.bkit.fatdown.utils.IDUtils;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,6 +79,7 @@ public class PictureServiceImpl implements IPictureService {
                 picture.setUserId(uid);
                 picture.setGmtCreate(new Date());
                 picture.setGmtModified(new Date());
+                // 上传图片到图库
                 pictureMapper.insertSelective(picture);
             } else {
                 resultMap.put("flag", 1);
@@ -81,5 +88,30 @@ public class PictureServiceImpl implements IPictureService {
             e.printStackTrace();
         }
         return resultMap;
+    }
+
+    @Override
+    public List<TbDietPicture> listBetweenTime(int uid, Date start, Date end) {
+        TbDietPictureExample example = new TbDietPictureExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(start, end);
+        return pictureMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取某日三餐记录
+     *
+     * @param uid
+     * @param date
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> listByDate(int uid, Date date) {
+        HashMap<String, Object> map = new HashMap<>(3);
+        map.put("breakfast", listBetweenTime(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date)));
+        map.put("lunch", listBetweenTime(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date)));
+        map.put("dinner", listBetweenTime(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date)));
+        return map;
     }
 }
