@@ -5,6 +5,7 @@ import com.bkit.fatdown.entity.TbFoodRecordExample;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.utils.DateUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.List;
  * @version: 1.0
  */
 
+@Service
 public class DietFoodServiceImpl implements IDietFoodService {
 
     @Resource

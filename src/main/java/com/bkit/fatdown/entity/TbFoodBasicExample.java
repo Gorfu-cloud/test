@@ -255,73 +255,73 @@ public class TbFoodBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andFoodNameIsNull() {
+            addCriterion("food_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andFoodNameIsNotNull() {
+            addCriterion("food_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andFoodNameEqualTo(String value) {
+            addCriterion("food_name =", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andFoodNameNotEqualTo(String value) {
+            addCriterion("food_name <>", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andFoodNameGreaterThan(String value) {
+            addCriterion("food_name >", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andFoodNameGreaterThanOrEqualTo(String value) {
+            addCriterion("food_name >=", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andFoodNameLessThan(String value) {
+            addCriterion("food_name <", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andFoodNameLessThanOrEqualTo(String value) {
+            addCriterion("food_name <=", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andFoodNameLike(String value) {
+            addCriterion("food_name like", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andFoodNameNotLike(String value) {
+            addCriterion("food_name not like", value, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andFoodNameIn(List<String> values) {
+            addCriterion("food_name in", values, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andFoodNameNotIn(List<String> values) {
+            addCriterion("food_name not in", values, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andFoodNameBetween(String value1, String value2) {
+            addCriterion("food_name between", value1, value2, "foodName");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andFoodNameNotBetween(String value1, String value2) {
+            addCriterion("food_name not between", value1, value2, "foodName");
             return (Criteria) this;
         }
 

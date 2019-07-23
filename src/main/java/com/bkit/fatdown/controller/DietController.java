@@ -11,6 +11,7 @@ import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,10 +82,10 @@ public class DietController {
 //        return null;
 //    }
 
-    @Deprecated
-    @ApiOperation("上传饮食图片，foodName，uid，gram（重量）")
+    @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @Transactional
     public CommonResultDTO upload(@RequestParam MultipartFile picture, @RequestParam Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
@@ -104,7 +105,7 @@ public class DietController {
             // 菜式不在数据库中,插入新菜式记录,flag=0->已有菜式，flag=1->新菜式
             if (foodList.size() == 0) {
                 TbFoodBasic newFoodBasic = new TbFoodBasic();
-                newFoodBasic.setName(foodName);
+                newFoodBasic.setFoodName(foodName);
                 newFoodBasic.setQuantity(gram);
                 newFoodBasic.setType("未知");
                 newFoodBasic.setFlag(1);

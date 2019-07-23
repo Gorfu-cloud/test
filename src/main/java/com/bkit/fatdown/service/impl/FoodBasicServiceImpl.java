@@ -88,7 +88,7 @@ public class FoodBasicServiceImpl implements IFoodBasicService {
         // 查找插入记录的id
         TbFoodBasicExample example = new TbFoodBasicExample();
         example.createCriteria()
-                .andNameEqualTo(foodBasic.getName())
+                .andFoodNameEqualTo(foodBasic.getFoodName())
                 .andFlagEqualTo(foodBasic.getFlag())
                 .andTypeEqualTo(foodBasic.getType())
                 .andQuantityEqualTo(foodBasic.getQuantity());
@@ -105,7 +105,7 @@ public class FoodBasicServiceImpl implements IFoodBasicService {
     public List<TbFoodBasic> listByName(String foodName) {
         TbFoodBasicExample example = new TbFoodBasicExample();
         example.createCriteria()
-                .andNameEqualTo(foodName);
+                .andFoodNameEqualTo(foodName);
         return foodBasicMapper.selectByExample(example);
     }
 }

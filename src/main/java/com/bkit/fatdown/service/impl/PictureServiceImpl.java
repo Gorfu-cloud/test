@@ -72,7 +72,7 @@ public class PictureServiceImpl implements IPictureService {
             //返回结果
             if (result) {
                 TbDietPicture picture = new TbDietPicture();
-                resultMap.put("flag", 0);
+                resultMap.put("flag", 1);
                 resultMap.put("url", IMAGE_BASE_URL_HTTP + imagePath + "/" + newPictureName);
                 picture.setGmtCreate(date);
                 picture.setUrl((String) resultMap.get("url"));
@@ -82,7 +82,8 @@ public class PictureServiceImpl implements IPictureService {
                 // 上传图片到图库
                 pictureMapper.insertSelective(picture);
             } else {
-                resultMap.put("flag", 1);
+                // 上传图片失败
+                resultMap.put("flag", 0);
             }
         } catch (Exception e) {
             e.printStackTrace();
