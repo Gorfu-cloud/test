@@ -111,6 +111,15 @@ public class TestServiceImpl implements ITestService {
         return testRecordMapper.updateByPrimaryKeySelective(record) > 0;
     }
 
+    @Override
+    public Integer countTestRecordByUserIdAndPaperId(int userId, int paperId) {
+        TbTestRecordExample example = new TbTestRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andPaperIdEqualTo(paperId);
+        return (int) testRecordMapper.countByExample(example);
+    }
+
     /**
      * 查找记录条数，通过userId，paperId，questionId
      *

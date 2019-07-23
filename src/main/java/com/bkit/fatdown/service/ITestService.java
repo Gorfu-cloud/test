@@ -93,4 +93,6 @@ public interface ITestService {
      * 查找记录条数，通过userId，paperId，questionId
      */
     Integer countTestRecordByUserIdAndPaperIdAndQuestionId(int userId, int paperId, int questionId);
+
+    Integer countTestRecordByUserIdAndPaperId(int userId, int paperId);
 }

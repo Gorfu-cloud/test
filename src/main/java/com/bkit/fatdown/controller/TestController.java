@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.UserTestListDTO;
 import com.bkit.fatdown.entity.TbPaperBasic;
 import com.bkit.fatdown.entity.TbQuestionBasic;
 import com.bkit.fatdown.entity.TbTestRecord;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -137,16 +139,51 @@ public class TestController {
     @ApiOperation("获取本周，测试信息")
     @CrossOrigin
     @RequestMapping(value = "/listPaperCurrentWeek", method = RequestMethod.GET)
-    public CommonResultDTO listPaperCurrentWeek() {
+    public CommonResultDTO listPaperCurrentWeek(@RequestParam Integer uid) {
+        if (uid == null) {
+            CommonResultDTO.validateFailed("uid无效");
+        }
+
         List<TbPaperBasic> paperList = paperService.listPaperCurrentWeek(new Date());
-        return CommonResultDTO.success(paperList);
+        if (paperList.size() == 0) {
+            return CommonResultDTO.failed("本周无测试");
+        }
+        return CommonResultDTO.success(transferUserTestListDTO(uid, paperList));
     }
 
     @ApiOperation("获取本周以前，测试信息")
     @CrossOrigin
     @RequestMapping(value = "/listPaperBeforeWeek", method = RequestMethod.GET)
-    public CommonResultDTO listPaperBeforeWeek() {
+    public CommonResultDTO listPaperBeforeWeek(@RequestParam Integer uid) {
+        if (uid == null) {
+            CommonResultDTO.validateFailed("uid无效");
+        }
         List<TbPaperBasic> paperList = paperService.listPaperBeforeWeek(new Date());
-        return CommonResultDTO.success(paperList);
+        if (paperList.size() == 0) {
+            return CommonResultDTO.failed("以往测试为空");
+        }
+
+        return CommonResultDTO.success(transferUserTestListDTO(uid, paperList));
+    }
+
+    /**
+     * 封装完成状态
+     *
+     * @param uid
+     * @param paperList
+     * @return
+     */
+    private List<UserTestListDTO> transferUserTestListDTO(Integer uid, List<TbPaperBasic> paperList) {
+        List<UserTestListDTO> userTestList = new ArrayList<>();
+        UserTestListDTO testListDTO;
+        for (TbPaperBasic paperBasic : paperList) {
+            int paperId = paperBasic.getId();
+            testListDTO = new UserTestListDTO(paperBasic);
+            if (testService.countTestRecordByUserIdAndPaperId(uid, paperId) > 0) {
+                testListDTO.setIsDone(1);
+            }
+            userTestList.add(testListDTO);
+        }
+        return userTestList;
     }
 }
