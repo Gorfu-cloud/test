@@ -144,7 +144,7 @@ public class DietController {
             }
             return CommonResultDTO.failed("创建饮食记录失败");
         }
-        return CommonResultDTO.validateFailed();
+        return CommonResultDTO.validateFailed("图片上传失败");
     }
 
     @ApiOperation("拍照获取识别食物结果")
