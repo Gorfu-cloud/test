@@ -104,6 +104,7 @@ public class FtpUtils {
                 }
             }
         }
+        logger.info("ftp,传送文件结束");
         return result;
     }
 

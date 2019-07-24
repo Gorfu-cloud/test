@@ -11,6 +11,7 @@ import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,6 +86,7 @@ public class DietController {
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @Transactional
     public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid, @RequestParam String foodName, Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
 

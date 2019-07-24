@@ -67,9 +67,10 @@ public class PictureServiceImpl implements IPictureService {
 
         } else {
             // 上传图片失败
+            logger.error("上传图片失败");
             resultMap.put("flag", 0);
         }
-
+        logger.info("上传图片结束");
         return resultMap;
     }
 
