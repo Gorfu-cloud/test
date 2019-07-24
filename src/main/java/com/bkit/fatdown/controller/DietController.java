@@ -84,16 +84,18 @@ public class DietController {
 
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{uid}/{foodName}/{gram}", method = RequestMethod.POST)
     @Transactional
-    public CommonResultDTO upload(@RequestParam MultipartFile picture, @RequestParam Integer uid,
-                                  @RequestParam String foodName, @RequestParam Double gram) {
+    public CommonResultDTO upload(@RequestParam MultipartFile picture, @PathVariable Integer uid,
+                                  @PathVariable String foodName, @PathVariable Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
+
         // 判断上传是否成功，url：图片路径，flag=0上传失败
         if (result.containsKey("url") && result.containsKey("flag")) {
             int id;
             TbFoodRecord foodRecord;
             int flag = Integer.parseInt(result.get("flag").toString());
+            String imgUrl = result.get("url").toString();
 
             // 上传图片失败
             if (flag == 0) {
@@ -121,6 +123,7 @@ public class DietController {
                 foodRecord.setFoodId(id);
                 foodRecord.setUserId(uid);
                 foodRecord.setFoodQuantity(gram);
+                foodRecord.setImgUrl(imgUrl);
 
                 if (foodService.insert(foodRecord)) {
                     return CommonResultDTO.success();
@@ -134,7 +137,8 @@ public class DietController {
             foodRecord.setFoodId(foodBasicBasic.getId());
             foodRecord.setUserId(uid);
             foodRecord.setFoodQuantity(gram);
-
+            foodRecord.setImgUrl(imgUrl);
+            
             if (foodService.insert(foodRecord)) {
                 return CommonResultDTO.success();
             }
