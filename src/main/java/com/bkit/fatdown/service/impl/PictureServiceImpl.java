@@ -6,6 +6,7 @@ import com.bkit.fatdown.mappers.TbDietPictureMapper;
 import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.FtpUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,8 @@ import java.util.Map;
 @Service
 public class PictureServiceImpl implements IPictureService {
 
+    private static Logger logger = Logger.getLogger(PictureServiceImpl.class);
+
     @Resource
     private TbDietPictureMapper pictureMapper;
 
@@ -37,7 +40,15 @@ public class PictureServiceImpl implements IPictureService {
      */
     @Override
     public Map<String, Object> upload(MultipartFile uploadFile, int uid, Date date) {
+        logger.info("开始上传图片：" + uid + " " + uploadFile.getOriginalFilename() + " " + uploadFile.getSize());
         Map<String, Object> resultMap = new HashMap<>(3);
+        if (uploadFile.isEmpty()) {
+            logger.error("上传文件为空");
+
+            resultMap.put("flag", 0);
+            resultMap.put("msg", "上传文件为空！");
+            return resultMap;
+        }
 
         Map<String, String> uploadPictureResult = FtpUtils.uploadPicture(uploadFile, uid, date);
 
@@ -51,7 +62,7 @@ public class PictureServiceImpl implements IPictureService {
 
             picture.setGmtCreate(date);
             picture.setGmtModified(new Date());
-            // 上传图片到图库
+            // 添加记录
             pictureMapper.insertSelective(picture);
 
         } else {

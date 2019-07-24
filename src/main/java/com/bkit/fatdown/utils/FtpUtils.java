@@ -4,6 +4,7 @@ package com.bkit.fatdown.utils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.bouncycastle.asn1.x500.style.RFC4519Style.l;
 import static org.bouncycastle.asn1.x500.style.RFC4519Style.uid;
 
 /**
@@ -35,6 +37,8 @@ public class FtpUtils {
     private static final String IMAGE_BASE_URL_HTTP = "http://image.sunnyqcloud.com";
     private static final DateFormat DF = new SimpleDateFormat("/yyyy/MM/dd");
 
+    private static Logger logger = Logger.getLogger(FtpUtils.class);
+
     /**
      * @description: 连接服务器，传送文件
      * @params:
@@ -44,6 +48,7 @@ public class FtpUtils {
      */
     private static boolean uploadFile(String host, int port, String username, String password, String basePath, String filePath,
                                       String filename, InputStream input) {
+        logger.info("ftp传送文件开始");
         boolean result = false;
         FTPClient ftp = new FTPClient();
         try {
@@ -53,6 +58,7 @@ public class FtpUtils {
             ftp.enterLocalActiveMode();
             reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
+                logger.error("ftp连接失败：" + ftp.getReplyCode());
                 ftp.disconnect();
                 return false;
             }
@@ -66,6 +72,7 @@ public class FtpUtils {
                     tempPath += "/" + dir;
                     if (!ftp.changeWorkingDirectory(tempPath)) {
                         if (!ftp.makeDirectory(tempPath)) {
+                            logger.error("ftp，创建上传临时文件夹失败：" + tempPath);
                             return false;
                         } else {
                             ftp.changeWorkingDirectory(tempPath);
@@ -73,20 +80,26 @@ public class FtpUtils {
                     }
                 }
             }
+            // 每次开启不同的端口来传输数据，防止出现阻塞。
+            ftp.enterLocalPassiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.setControlEncoding("UTF-8");
             if (!ftp.storeFile(filename, input)) {
+                logger.error("ftp，存储文件失败");
                 return false;
             }
             input.close();
             ftp.logout();
             result = true;
         } catch (Exception e) {
+            logger.error("ftp，传送文件失败：" + e);
             e.printStackTrace();
         } finally {
             if (ftp.isConnected()) {
                 try {
                     ftp.disconnect();
                 } catch (IOException e) {
+                    logger.error("ftp，传送文件，连接关闭失败：" + e);
                     e.printStackTrace();
                 }
             }
@@ -103,6 +116,7 @@ public class FtpUtils {
      * @return
      */
     public static Map<String, String> uploadPicture(MultipartFile uploadFile, int uid, Date date) {
+        logger.info("上传图片开始");
         Map<String, String> map = new HashMap<>(3);
         //取原始文件名
         String oldPictureName = uploadFile.getOriginalFilename();
@@ -127,6 +141,7 @@ public class FtpUtils {
             map.put("imgUrl", imgUrl);
         } catch (IOException e) {
             e.printStackTrace();
+            logger.error("上传图片到云数据库失败" + e);
         }
         map.put("flag", Boolean.toString(result));
         return map;

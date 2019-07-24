@@ -81,16 +81,15 @@ public class DietController {
 //        return null;
 //    }
 
+
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
-    @RequestMapping(value = "/upload/{uid}/{foodName}/{gram}", method = RequestMethod.POST)
-//    @Transactional
-    public CommonResultDTO upload(@RequestParam MultipartFile picture, @PathVariable Integer uid,
-                                  @PathVariable String foodName, @PathVariable Double gram) {
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid, @RequestParam String foodName, Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
 
-        if (result.size() == 1) {
-            return CommonResultDTO.failed("图片上传失败");
+        if (result.containsKey("msg")) {
+            return CommonResultDTO.validateFailed("上传文件为空");
         }
 
         // 判断上传是否成功，url：图片路径，flag=0上传失败

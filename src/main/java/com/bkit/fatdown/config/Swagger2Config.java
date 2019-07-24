@@ -1,5 +1,6 @@
 package com.bkit.fatdown.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -34,6 +35,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
      * 服务器路径
      */
     private static final String SERVICE_URL = "https://sunnyqcloud.com/fatdown";
+
 
     /**
      * @description: 配置swagger文档
