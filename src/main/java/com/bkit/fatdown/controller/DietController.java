@@ -11,7 +11,6 @@ import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -85,10 +84,14 @@ public class DietController {
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
     @RequestMapping(value = "/upload/{uid}/{foodName}/{gram}", method = RequestMethod.POST)
-    @Transactional
+//    @Transactional
     public CommonResultDTO upload(@RequestParam MultipartFile picture, @PathVariable Integer uid,
                                   @PathVariable String foodName, @PathVariable Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
+
+        if (result.size() == 1) {
+            return CommonResultDTO.failed("图片上传失败");
+        }
 
         // 判断上传是否成功，url：图片路径，flag=0上传失败
         if (result.containsKey("url") && result.containsKey("flag")) {
@@ -138,14 +141,15 @@ public class DietController {
             foodRecord.setUserId(uid);
             foodRecord.setFoodQuantity(gram);
             foodRecord.setImgUrl(imgUrl);
-            
+
             if (foodService.insert(foodRecord)) {
                 return CommonResultDTO.success();
             }
             return CommonResultDTO.failed("创建饮食记录失败");
         }
-        return CommonResultDTO.validateFailed("图片上传失败");
+        return CommonResultDTO.validateFailed("参数错误");
     }
+
 
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
