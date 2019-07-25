@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;
 
 import java.util.Date;
@@ -33,4 +34,35 @@ public interface IDietFoodService {
      */
     List<TbFoodRecord> listFoodRecordByDate(int uid, Date date);
 
+    /**
+     * 创建饮食标准
+     *
+     * @param standard
+     * @return
+     */
+    boolean insertDietStandard(TbDietUserStandard standard);
+
+    /**
+     * 更新饮食标准
+     *
+     * @param standard
+     * @return
+     */
+    boolean updateDietStandard(TbDietUserStandard standard);
+
+    /**
+     * 通过用户信息更新饮食标准
+     *
+     * @param uid
+     * @return
+     */
+    boolean updateDietStandardByUid(int uid);
+
+    /**
+     * 通过用户编号获取饮食标准
+     *
+     * @param uid
+     * @return
+     */
+    TbDietUserStandard getDietStandard(int uid);
 }

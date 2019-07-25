@@ -70,89 +70,6 @@ public class DateUtils {
     }
 
     /**
-     * 获取早餐开始时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getBreakfastStartTime(Date now) {
-        return getDateStart(now);
-    }
-
-    /**
-     * 获取早餐 结束时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getBreakfastEndTime(Date now) {
-        Calendar no = Calendar.getInstance();
-        no.setTime(now);
-        no.set(Calendar.HOUR_OF_DAY, 9);
-        no.set(Calendar.MINUTE, 59);
-        no.set(Calendar.SECOND, 59);
-        return no.getTime();
-    }
-
-    /**
-     * 获取午餐 开始时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getLunchStartTime(Date now) {
-        Calendar no = Calendar.getInstance();
-        no.setTime(now);
-        // 10点开始算午餐
-        no.set(Calendar.HOUR_OF_DAY, 10);
-        no.set(Calendar.MINUTE, 0);
-        no.set(Calendar.SECOND, 0);
-        return no.getTime();
-    }
-
-    /**
-     * 获取午餐 结束时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getLunchEndTime(Date now) {
-        Calendar no = Calendar.getInstance();
-        no.setTime(now);
-        // 14:59:59点结束
-        no.set(Calendar.HOUR_OF_DAY, 14);
-        no.set(Calendar.MINUTE, 59);
-        no.set(Calendar.SECOND, 59);
-        return no.getTime();
-    }
-
-    /**
-     * 获取晚餐 开始时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getDinnerStartTime(Date now) {
-        Calendar no = Calendar.getInstance();
-        no.setTime(now);
-        // 15点开始算午餐
-        no.set(Calendar.HOUR_OF_DAY, 15);
-        no.set(Calendar.MINUTE, 0);
-        no.set(Calendar.SECOND, 0);
-        return no.getTime();
-    }
-
-    /**
-     * 获取晚餐 结束时间
-     *
-     * @param now
-     * @return
-     */
-    public static Date getDinnerEndTime(Date now) {
-        return getDateEnd(now);
-    }
-
-    /**
      * 获取明天日期时间
      *
      * @return
@@ -271,4 +188,99 @@ public class DateUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.parse(strDate, new ParsePosition(0));
     }
+
+    /**
+     * 获取早餐开始时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getBreakfastStartTime(Date now) {
+        return getDateStart(now);
+    }
+
+    /**
+     * 获取早餐 结束时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getBreakfastEndTime(Date now) {
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        no.set(Calendar.HOUR_OF_DAY, 9);
+        no.set(Calendar.MINUTE, 59);
+        no.set(Calendar.SECOND, 59);
+        return no.getTime();
+    }
+
+    /**
+     * 获取午餐 开始时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getLunchStartTime(Date now) {
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        // 10点开始算午餐
+        no.set(Calendar.HOUR_OF_DAY, 10);
+        no.set(Calendar.MINUTE, 0);
+        no.set(Calendar.SECOND, 0);
+        return no.getTime();
+    }
+
+    /**
+     * 获取午餐 结束时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getLunchEndTime(Date now) {
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        // 14:59:59点结束
+        no.set(Calendar.HOUR_OF_DAY, 14);
+        no.set(Calendar.MINUTE, 59);
+        no.set(Calendar.SECOND, 59);
+        return no.getTime();
+    }
+
+    /**
+     * 获取晚餐 开始时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getDinnerStartTime(Date now) {
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        // 15点开始算午餐
+        no.set(Calendar.HOUR_OF_DAY, 15);
+        no.set(Calendar.MINUTE, 0);
+        no.set(Calendar.SECOND, 0);
+        return no.getTime();
+    }
+
+    /**
+     * 获取晚餐 结束时间
+     *
+     * @param now
+     * @return
+     */
+    public static Date getDinnerEndTime(Date now) {
+        return getDateEnd(now);
+    }
+
+    /**
+     * 对比俩个日期，如果大于等于比较日期时间，返回true
+     *
+     * @param object
+     * @param target
+     * @return
+     */
+    public static Boolean isLargerTime(Date object, Date target) {
+        return object.getTime() >= target.getTime();
+    }
+
 }

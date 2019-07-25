@@ -86,8 +86,18 @@ public class UserController {
     @RequestMapping(value = "/updateBasicInfo", method = RequestMethod.POST)
     public CommonResultDTO updateUserBasicInfo(@RequestBody HashMap<String, String> map) {
         TbUserBasicInfo userBasicInfo = DataMapUtils.getUserBasicInfoFromMap(map);
-        if (userBasicInfo.getId() == null) {
+        if (userBasicInfo.getId() == null || map.get("id").isEmpty() || map.get("id").length() == 0) {
             return CommonResultDTO.failed("id为空");
+        }
+
+        if (map.containsKey("height") && map.containsKey("weight") && map.containsKey("id")) {
+            TbUserPrivacyInfo privacyInfo = new TbUserPrivacyInfo();
+            int id = Integer.parseInt(map.get("id"));
+            System.out.println(id);
+            privacyInfo.setUserId(Integer.valueOf(map.get("id")));
+            privacyInfo.setHeight(Integer.valueOf(map.get("height")));
+            privacyInfo.setHeight(Integer.valueOf(map.get("weight")));
+            updatePrivacyInfo(privacyInfo);
         }
 
         if (basicInfoService.update(userBasicInfo)) {
@@ -108,21 +118,10 @@ public class UserController {
         // 获取传入的参数
         TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
 
-        // 当天有隐私记录存在,获取原来的id，并更新原来记录
-        if (privacyInfoService.countByUidAndDate(privacyInfo.getUserId(), new Date()) > 0) {
-            // 更新成功
-            if (privacyInfoService.update(privacyInfo)) {
-                return CommonResultDTO.success();
-            } else {
-                return CommonResultDTO.failed("更新隐私数据记录失败");
-            }
-            // 隐私记录不存在的时候，新建隐私记录
+        if (updatePrivacyInfo(privacyInfo)) {
+            return CommonResultDTO.success();
         } else {
-            if (privacyInfoService.insert(privacyInfo)) {
-                return CommonResultDTO.success();
-            } else {
-                return CommonResultDTO.failed("更新隐私数据记录失败");
-            }
+            return CommonResultDTO.failed("更新失败");
         }
     }
 
@@ -220,7 +219,7 @@ public class UserController {
     @RequestMapping(value = "/updateLifeStyle", method = RequestMethod.POST)
     public CommonResultDTO updateLifeStyle(@RequestBody HashMap<String, Integer> map) {
         // 用户id不存在时
-        if (!map.containsKey("userId") || basicInfoService.countById(map.get("userId"))==0) {
+        if (!map.containsKey("userId") || basicInfoService.countById(map.get("userId")) == 0) {
             return CommonResultDTO.validateFailed("userId出错");
         }
         // 读取用户中的信息
@@ -249,5 +248,22 @@ public class UserController {
             CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
         }
         return CommonResultDTO.validateFailed();
+    }
+
+    /**
+     * 更新隐私数据
+     *
+     * @param privacyInfo
+     * @return
+     */
+    private boolean updatePrivacyInfo(TbUserPrivacyInfo privacyInfo) {
+        // 当天有隐私记录存在,获取原来的id，并更新原来记录
+        if (privacyInfoService.countByUidAndDate(privacyInfo.getUserId(), new Date()) > 0) {
+            // 更新成功
+            return privacyInfoService.update(privacyInfo);
+        } else {
+            // 隐私记录不存在的时候，新建隐私记录
+            return privacyInfoService.insert(privacyInfo);
+        }
     }
 }

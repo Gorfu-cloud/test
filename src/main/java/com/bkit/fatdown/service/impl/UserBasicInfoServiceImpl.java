@@ -41,9 +41,10 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
     @Override
     public boolean update(TbUserBasicInfo userBasicInfo) {
+        logger.info(userBasicInfo.getId() + "开始登陆");
         userBasicInfo.setGmtModified(new Date());
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
-        logger.info("更新用户基础信息:" + userBasicInfo.getOpenId());
+        logger.info("更新用户基础信息Openid:" + userBasicInfo.getOpenId());
         return num > 0;
     }
 

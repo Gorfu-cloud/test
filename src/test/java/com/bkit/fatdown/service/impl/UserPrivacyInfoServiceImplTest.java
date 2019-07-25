@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +32,16 @@ public class UserPrivacyInfoServiceImplTest {
     public void countByUidAndDate() {
         int uid = 44;
         Date today = new Date();
-        System.out.println(service.countByUidAndDate(uid,today));
+        System.out.println(service.countByUidAndDate(uid, today));
+    }
+
+    @Test
+    public void insert() {
+        int uid = 55;
+        TbUserPrivacyInfo userPrivacyInfo = new TbUserPrivacyInfo();
+        userPrivacyInfo.setUserId(55);
+        userPrivacyInfo.setHeight(100);
+        userPrivacyInfo.setWeight(100);
+        assertTrue(service.insert(userPrivacyInfo));
     }
 }

@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.TbDietPicture;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.IDietFoodService;
+import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodBasicService;
 import com.bkit.fatdown.service.IPictureService;
 import com.bkit.fatdown.utils.DateUtils;
@@ -39,20 +40,36 @@ public class DietController {
     @Resource
     private IDietFoodService foodService;
 
-//
-//    @ApiOperation("查看所有饮食图片，通过uid")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listPicture/{uid}", method = RequestMethod.GET)
-//    public CommonResultDTO listPictureByUid(@PathVariable Integer uid) {
-//        return null;
-//    }
-//
-//    @ApiOperation("查看每日饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listDailyReport", method = RequestMethod.GET)
-//    public CommonResultDTO listDailyReportByUid(@RequestBody Integer uid, Date date) {
-//        return null;
-//    }
+    @Resource
+    private IDietReportService reportService;
+
+    @ApiOperation("查看早餐饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/getBreakfastReport", method = RequestMethod.GET)
+    public CommonResultDTO getBreakfastReport(@RequestParam Integer uid, @RequestParam Date date) {
+        return null;
+    }
+
+    @ApiOperation("查看午餐饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/getLunchReport", method = RequestMethod.GET)
+    public CommonResultDTO getLunchReport(@RequestParam Integer uid, @RequestParam Date date) {
+        return null;
+    }
+
+    @ApiOperation("查看晚餐饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/getDinnerReport", method = RequestMethod.GET)
+    public CommonResultDTO getDinnerReport(@RequestParam Integer uid, @RequestParam Date date) {
+        return null;
+    }
+
+    @ApiOperation("查看三餐饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/getDailyReport", method = RequestMethod.GET)
+    public CommonResultDTO getDailyReportByUid(@RequestParam Integer uid, @RequestParam Date date) {
+        return null;
+    }
 //
 //    @ApiOperation("查看每周饮食报告,通过uid，date")
 //    @CrossOrigin
