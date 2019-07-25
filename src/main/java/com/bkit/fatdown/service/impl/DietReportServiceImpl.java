@@ -1,7 +1,9 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.TbDietReport;
 import com.bkit.fatdown.entity.TbDietReportExample;
+import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.mappers.TbDietReportMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DateUtils;
@@ -25,6 +27,9 @@ public class DietReportServiceImpl implements IDietReportService {
 
     @Resource
     private TbDietReportMapper reportMapper;
+
+    @Resource
+    private DietFoodServiceImpl foodService;
 
     /**
      * 创建饮食报告
@@ -82,7 +87,6 @@ public class DietReportServiceImpl implements IDietReportService {
     public TbDietReport generateDietReport(Date date, Integer uid, Integer type) {
 
 
-
         return null;
     }
 
@@ -103,6 +107,24 @@ public class DietReportServiceImpl implements IDietReportService {
                 .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
 
         return reportMapper.selectByExample(example);
+    }
+
+    /**
+     * 生成早餐饮食报告
+     *
+     * @param date
+     * @param uid
+     * @return
+     */
+    private UserReportDTO generateBreakfastReport(Date date, Integer uid) {
+        // 获取菜式记录,拆解获取能量
+
+        // foodService.
+
+        // 获取用户标准
+        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+
+        return null;
     }
 
 }

@@ -167,6 +167,12 @@ public class DietFoodServiceImpl implements IDietFoodService {
         return foodRecordMapper.selectByExample(example);
     }
 
+    /**
+     * 将用户饮食记录封装为菜式信息类
+     *
+     * @param recordList
+     * @return
+     */
     private List<FoodInfoDTO> listFoodInfoDTO(List<TbFoodRecord> recordList) {
         List<FoodInfoDTO> foodInfoDTOList = new ArrayList<>(8);
         FoodInfoDTO foodInfoDTO;
