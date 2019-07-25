@@ -1,17 +1,16 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
-import com.bkit.fatdown.service.IDietFoodService;
-import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.service.IUserLifeStyleService;
-import com.bkit.fatdown.service.IUserPrivacyInfoService;
+import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +40,9 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     @Resource
     private IUserPrivacyInfoService privacyInfoService;
+
+    @Resource
+    private IFoodBasicService foodBasicService;
 
     /**
      * 保存饮食记录
@@ -121,5 +123,62 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Override
     public TbDietUserStandard getDietStandard(int uid) {
         return dietStandardMapper.selectByPrimaryKey(uid);
+    }
+
+    /**
+     * 获取菜式名称和重量
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @return
+     */
+    @Override
+    public List<FoodInfoDTO> listFoodRecord(int uid, Date date, Integer type) {
+        List<TbFoodRecord> recordList;
+        // 早餐
+        if (type == 0) {
+            recordList = listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date));
+        } else if (type == 1) {
+            // 午餐
+            recordList = listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date));
+        } else {
+            // 晚餐
+            recordList = listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date));
+        }
+
+        return listFoodInfoDTO(recordList);
+    }
+
+    /**
+     * 返回日期时间内饮食记录
+     *
+     * @param uid
+     * @param start
+     * @param end
+     * @return
+     */
+    private List<TbFoodRecord> listFoodRecord(int uid, Date start, Date end) {
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(start, end);
+
+        return foodRecordMapper.selectByExample(example);
+    }
+
+    private List<FoodInfoDTO> listFoodInfoDTO(List<TbFoodRecord> recordList) {
+        List<FoodInfoDTO> foodInfoDTOList = new ArrayList<>(8);
+        FoodInfoDTO foodInfoDTO;
+        for (TbFoodRecord record : recordList) {
+            foodInfoDTO = new FoodInfoDTO();
+            TbFoodBasic basic = foodBasicService.getFoodBasic(record.getFoodId());
+
+            foodInfoDTO.setFoodName(basic.getFoodName());
+            foodInfoDTO.setFoodGram(basic.getQuantity());
+            foodInfoDTOList.add(foodInfoDTO);
+        }
+
+        return foodInfoDTOList;
     }
 }

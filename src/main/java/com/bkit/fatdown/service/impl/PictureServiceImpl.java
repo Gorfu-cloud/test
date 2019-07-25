@@ -84,6 +84,23 @@ public class PictureServiceImpl implements IPictureService {
     }
 
     /**
+     * 获取用餐记录
+     *
+     * @param start
+     * @param end
+     * @param uid
+     * @return
+     */
+    @Override
+    public Integer countRecord(Date start, Date end, Integer uid) {
+        TbDietPictureExample example = new TbDietPictureExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(start, end);
+        return (int) pictureMapper.countByExample(example);
+    }
+
+    /**
      * 获取某日三餐记录
      *
      * @param uid

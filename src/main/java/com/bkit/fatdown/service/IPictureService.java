@@ -46,4 +46,14 @@ public interface IPictureService {
      * @return
      */
     HashMap<String, Object> listByDate(int uid, Date date);
+
+    /**
+     * 获取用餐记录
+     *
+     * @param start
+     * @param end
+     * @param uid
+     * @return
+     */
+    Integer countRecord(Date start, Date end, Integer uid);
 }

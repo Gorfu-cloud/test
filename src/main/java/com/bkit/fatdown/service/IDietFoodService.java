@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;
 
@@ -65,4 +66,14 @@ public interface IDietFoodService {
      * @return
      */
     TbDietUserStandard getDietStandard(int uid);
+
+    /**
+     * 获取菜式名称和重量
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @return
+     */
+    List<FoodInfoDTO> listFoodRecord(int uid, Date date, Integer type);
 }

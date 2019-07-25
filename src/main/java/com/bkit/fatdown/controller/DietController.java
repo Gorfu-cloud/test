@@ -2,13 +2,12 @@ package com.bkit.fatdown.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.entity.TbDietPicture;
+import com.bkit.fatdown.entity.TbDietReport;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
-import com.bkit.fatdown.service.IDietFoodService;
-import com.bkit.fatdown.service.IDietReportService;
-import com.bkit.fatdown.service.IFoodBasicService;
-import com.bkit.fatdown.service.IPictureService;
+import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
@@ -41,13 +40,42 @@ public class DietController {
     private IDietFoodService foodService;
 
     @Resource
+    private IUserBasicInfoService basicInfoService;
+
+    @Resource
     private IDietReportService reportService;
 
     @ApiOperation("查看早餐饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getBreakfastReport", method = RequestMethod.GET)
     public CommonResultDTO getBreakfastReport(@RequestParam Integer uid, @RequestParam Date date) {
+        // 判断传入参数是否出错？
+        if (basicInfoService.countById(uid) == 0 || date == null) {
+            return CommonResultDTO.validateFailed("uid/date出错");
+        }
+
+        // 记录存在，记录与实际数目一致
+        if (checkDietReport(uid, date, 0)) {
+            return CommonResultDTO.success("获取成功");
+        }
+
+        // 记录不存在,生成记录
+
+
+        // 一致，直接返回报告记录
         return null;
+    }
+
+    @ApiOperation("获取用餐信息，菜式名，重量（type：0早餐，1午餐，2晚餐）")
+    @CrossOrigin
+    @RequestMapping(value = "/listFoodInfo", method = RequestMethod.GET)
+    public CommonResultDTO listFoodInfo(@RequestParam Integer uid, @RequestParam Date date,
+                                        @RequestParam Integer type) {
+        List<FoodInfoDTO> recordList = foodService.listFoodRecord(uid, date, type);
+        if (recordList.size() == 0) {
+            return CommonResultDTO.failed("记录不存在");
+        }
+        return CommonResultDTO.success(recordList);
     }
 
     @ApiOperation("查看午餐饮食报告,通过uid，date")
@@ -104,7 +132,8 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @Transactional
-    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid, @RequestParam String foodName, Double gram) {
+    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
+                                  @RequestParam String foodName, Double gram) {
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
 
         if (result.containsKey("msg")) {
@@ -168,7 +197,6 @@ public class DietController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
-
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
     @RequestMapping(value = "/recognise", method = RequestMethod.POST)
@@ -229,5 +257,30 @@ public class DietController {
             return CommonResultDTO.failed("该日期下没有记录");
         }
         return CommonResultDTO.success(listMap);
+    }
+
+    /*** 检查报告是否准确
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @return
+     */
+    private boolean checkDietReport(Integer uid, Date date, Integer type) {
+        boolean result = false;
+
+        // 记录存在
+        if (reportService.countReport(date, uid, type) > 0) {
+            TbDietReport report = reportService.getDietReport(date, uid, type);
+            // 报告中记录数
+            int reportCount = report.getRecordTotal();
+            // 实际记录数
+            int pictureCount = pictureService.countRecord(DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date), uid);
+            // 统计次数等于实际次数
+            if (reportCount == pictureCount) {
+                result = true;
+            }
+        }
+        return result;
     }
 }

@@ -53,4 +53,14 @@ public interface IDietReportService {
      */
     List<TbDietReport> listDietReport(Date date, Integer uid, Integer type);
 
+    /**
+     * 生成饮食报告
+     *
+     * @param date
+     * @param uid
+     * @param type
+     * @return
+     */
+    TbDietReport generateDietReport(Date date, Integer uid, Integer type);
+
 }

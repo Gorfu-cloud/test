@@ -71,6 +71,22 @@ public class DietReportServiceImpl implements IDietReportService {
     }
 
     /**
+     * 生成饮食报告
+     *
+     * @param date
+     * @param uid
+     * @param type
+     * @return
+     */
+    @Override
+    public TbDietReport generateDietReport(Date date, Integer uid, Integer type) {
+
+
+
+        return null;
+    }
+
+    /**
      * 获取列表
      *
      * @param date
