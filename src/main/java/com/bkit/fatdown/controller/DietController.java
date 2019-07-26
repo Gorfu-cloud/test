@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.dto.UserReportDTO;
-import com.bkit.fatdown.entity.TbDietPicture;
-import com.bkit.fatdown.entity.TbDietReport;
-import com.bkit.fatdown.entity.TbFoodBasic;
-import com.bkit.fatdown.entity.TbFoodRecord;
+import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
@@ -46,15 +43,10 @@ public class DietController {
     @Resource
     private IDietReportService reportService;
 
+    @Resource
+    private IFoodRecommendService recommendService;
+
 //    @ApiOperation("查看早餐饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/getBreakfastReport", method = RequestMethod.GET)
-//    public CommonResultDTO getBreakfastReport(@RequestParam Integer uid, @RequestParam Date date) {
-//        // 判断传入参数是否出错？
-//        if (basicInfoService.countById(uid) == 0 || date == null) {
-//            return CommonResultDTO.validateFailed("uid/date出错");
-//        }
-//
 //        // 记录存在，记录与实际数目一致
 //        if (checkDietReport(uid, date, 0)) {
 //            return CommonResultDTO.success("获取成功");
@@ -84,8 +76,8 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/getBreakfastReport", method = RequestMethod.GET)
     public CommonResultDTO getBreakfastReport(@RequestParam Integer uid, @RequestParam String date) {
-        if (basicInfoService.countById(uid) == 0) {
-            return CommonResultDTO.validateFailed("uid无效");
+        if (basicInfoService.countById(uid) == 0 || date == null) {
+            return CommonResultDTO.validateFailed("uid/date无效");
         }
 
         return CommonResultDTO.success(reportService.generateDietReport(DateUtils.string2Date(date), uid, 0));
@@ -114,42 +106,46 @@ public class DietController {
     }
 
     @Deprecated
-    @ApiOperation("查看三餐饮食报告,通过uid，date")
+    @ApiOperation("查看每天饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getDailyReport", method = RequestMethod.GET)
-    public CommonResultDTO getDailyReportByUid(@RequestParam Integer uid, @RequestParam Date date) {
+    public CommonResultDTO getDailyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
         return null;
     }
 
-//
-//    @ApiOperation("查看每周饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
-//    public CommonResultDTO listWeeklyReportByUid(@RequestBody Integer uid, Date date) {
-//        return null;
-//    }
-//
-//    @ApiOperation("查看每月饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
-//    public CommonResultDTO listMonthlyReportByUid(@RequestBody Integer uid, Date date) {
-//        return null;
-//    }
-//
-//    @ApiOperation("获取食物列表")
-//    @CrossOrigin
-//    @RequestMapping(value = "/getFood", method = RequestMethod.GET)
-//    public CommonResultDTO listFoodName() {
-//        return null;
-//    }
-//
-//    @ApiOperation("获取零食列表")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listSnack", method = RequestMethod.POST)
-//    public CommonResultDTO listSnack() {
-//        return null;
-//    }
 
+    @ApiOperation("查看三餐饮食报告，通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/listDailyReport", method = RequestMethod.GET)
+    public CommonResultDTO listDailyReport(@RequestParam Integer uid, @RequestParam String date) {
+        if (basicInfoService.countById(uid) == 0 || date == null) {
+            return CommonResultDTO.validateFailed("uid无效");
+        }
+
+        List<UserReportDTO> reportDTOList = new ArrayList<>(3);
+
+        reportDTOList.add(reportService.generateDietReport(DateUtils.string2Date(date), uid, 0));
+        reportDTOList.add(reportService.generateDietReport(DateUtils.string2Date(date), uid, 1));
+        reportDTOList.add(reportService.generateDietReport(DateUtils.string2Date(date), uid, 2));
+
+        return CommonResultDTO.success(reportDTOList);
+    }
+
+    @Deprecated
+    @ApiOperation("查看每周饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
+    public CommonResultDTO listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        return null;
+    }
+
+    @Deprecated
+    @ApiOperation("查看每月饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
+    public CommonResultDTO listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        return null;
+    }
 
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
@@ -307,4 +303,20 @@ public class DietController {
         return result;
     }
 
+    @ApiOperation("获取推荐菜式")
+    @CrossOrigin
+    @RequestMapping(value = "/listFoodRecommend", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecommend(@RequestParam Integer foodType) {
+        if (foodType == null || foodType > 4 || foodType <= 0) {
+            return CommonResultDTO.validateFailed("foodType参数错误");
+        }
+
+        List<TbFoodRecommend> recommendList = recommendService.listFoodRecommend(foodType);
+
+        if (recommendList.size() == 0) {
+            return CommonResultDTO.failed("查找失败");
+        }
+
+        return CommonResultDTO.success(recommendList);
+    }
 }

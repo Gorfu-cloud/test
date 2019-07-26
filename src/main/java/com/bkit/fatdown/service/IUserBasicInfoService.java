@@ -5,12 +5,12 @@ import com.bkit.fatdown.entity.TbUserBasicInfo;
 import java.util.List;
 
 /**
- * @FileName: IUserBasicInfoService
- * @Author: YuJian
- * @Description: 用户基础信息功能接口
- * @Date: Created in 2019/7/9 14:24
- * @Modified:
- * @Version: 1.0
+ * @file: IUserBasicInfoService
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 用户基础信息功能接口
+ * @date: Created in 7/26/19  7:25 PM
+ * @modified:
+ * @version: 1.0
  */
 
 public interface IUserBasicInfoService {

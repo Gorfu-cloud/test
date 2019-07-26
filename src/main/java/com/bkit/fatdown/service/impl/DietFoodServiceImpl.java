@@ -164,7 +164,6 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 for (Map.Entry<Integer, Double> entry : map.entrySet()) {
                     int basicId = entry.getKey();
                     double gram = entry.getValue();
-
                     // 计算每一百克对应的元素含量
                     TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
                     energy += (gram / 100) * elementBasic.getEnergy();
@@ -173,6 +172,12 @@ public class DietFoodServiceImpl implements IDietFoodService {
                     fiber += (gram / 100) * elementBasic.getFiber();
                     // 添加结构类型1,蛋白质，2主食，3,蔬菜水果，4,坚果，5豆类
                     structType.add(elementBasic.getType());
+                    System.out.println("g" + gram);
+                    System.out.println("e" + energy);
+                    System.out.println("p" + protein);
+                    System.out.println("c" + cho);
+                    System.out.println("f" + fiber);
+                    System.out.println("e" + elementBasic.getType());
                 }
             }
         }

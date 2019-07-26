@@ -45,7 +45,6 @@ public class UserReportDTO {
      */
     private Set<Integer> structureLack;
 
-
     public UserReportDTO() {
     }
 

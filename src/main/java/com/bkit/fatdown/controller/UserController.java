@@ -5,12 +5,14 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
+import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.CheckInputUtils;
 import com.bkit.fatdown.utils.DataMapUtils;
 import io.swagger.annotations.ApiOperation;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -39,6 +41,11 @@ public class UserController {
 
     @Resource
     private IUserLifeStyleService userLifeStyleService;
+
+    @Resource
+    private IDietFoodService dietFoodService;
+
+    private static Logger logger = Logger.getLogger(UserController.class);
 
     @ApiOperation("小程序用户登录,注册,传入session_code")
     @CrossOrigin
@@ -90,17 +97,10 @@ public class UserController {
             return CommonResultDTO.failed("id为空");
         }
 
-        if (map.containsKey("height") && map.containsKey("weight") && map.containsKey("id")) {
-            TbUserPrivacyInfo privacyInfo = new TbUserPrivacyInfo();
-            int id = Integer.parseInt(map.get("id"));
-            System.out.println(id);
-            privacyInfo.setUserId(Integer.valueOf(map.get("id")));
-            privacyInfo.setHeight(Integer.valueOf(map.get("height")));
-            privacyInfo.setHeight(Integer.valueOf(map.get("weight")));
-            updatePrivacyInfo(privacyInfo);
-        }
-
         if (basicInfoService.update(userBasicInfo)) {
+            if (userBasicInfo.getGender() != null) {
+                updateDietStandard(userBasicInfo.getId());
+            }
             return CommonResultDTO.success("更新成功");
         } else {
             return CommonResultDTO.validateFailed("更新失败");
@@ -119,6 +119,9 @@ public class UserController {
         TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
 
         if (updatePrivacyInfo(privacyInfo)) {
+            if (privacyInfo.getHeight() != null || privacyInfo.getWeight() != null) {
+                updateDietStandard(privacyInfo.getUserId());
+            }
             return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed("更新失败");
@@ -164,31 +167,6 @@ public class UserController {
         return CommonResultDTO.success(privacyInfoService.getById(id));
     }
 
-    //    TODO :分页处理失败.
-//    @Deprecated
-    @ApiOperation("分页获取用户信息")
-    @CrossOrigin
-    @RequestMapping(value = "/listBasicInfo", method = RequestMethod.GET)
-    public CommonPageDTO listBasicInfo(@RequestBody HashMap<String, Integer> map) {
-        CommonPageDTO pageDTO = DataMapUtils.getCommonPageDTOFromMap(map);
-        if (pageDTO.getPageNum() == null || pageDTO.getPageSize() == null) {
-            return CommonPageDTO.restPage(null);
-        }
-
-        System.out.println(basicInfoService.listAll(pageDTO.getPageSize(), pageDTO.getPageNum()).size());
-        return CommonPageDTO.restPage(basicInfoService.listAll(pageDTO.getPageSize(), pageDTO.getPageNum()));
-    }
-
-//    TODO :分页处理失败
-//    @Deprecated
-//    @ApiOperation("获取同一分组中的所有对象数据")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listBasicInfo/{userLever}", method = RequestMethod.GET)
-//    public CommonPageDTO listBasicInfoByUserLever(@PathVariable Integer userLever, Integer pageSize, Integer pageNum) {
-//        return CommonPageDTO.restPage(null);
-//    }
-
-
     @ApiOperation("获取最新生活习惯")
     @CrossOrigin
     @RequestMapping(value = "/getLifeStyle/{uid}", method = RequestMethod.GET)
@@ -227,12 +205,14 @@ public class UserController {
         // 查看今天是否有记录
         if (userLifeStyleService.countByUidAndCreateDate(lifeStyle.getUserId(), new Date()) > 0) {
             if (userLifeStyleService.update(lifeStyle)) {
+                updateDietStandard(lifeStyle.getUserId());
                 return CommonResultDTO.success();
             } else {
                 return CommonResultDTO.failed();
             }
         } else {
             if (userLifeStyleService.insert(lifeStyle)) {
+                updateDietStandard(lifeStyle.getUserId());
                 return CommonResultDTO.success();
             } else {
                 return CommonResultDTO.failed();
@@ -265,5 +245,10 @@ public class UserController {
             // 隐私记录不存在的时候，新建隐私记录
             return privacyInfoService.insert(privacyInfo);
         }
+    }
+
+    private void updateDietStandard(int uid) {
+        boolean result = dietFoodService.updateDietStandardByUid(uid);
+        logger.info("更新用户饮食标准：" + uid + " > " + result);
     }
 }

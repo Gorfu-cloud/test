@@ -3,7 +3,6 @@ package com.bkit.fatdown.utils;
 import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -20,10 +19,13 @@ import java.util.TreeSet;
 
 public class MathUtils {
 
+    /**
+     * 每日能量理论系数
+     */
     private static final int WOMEN = 2;
     private static final Integer ENERGY_REDUCTION_MAN = 100;
     private static final Integer ENERGY_REDUCTION_WOMEN = 105;
-    private static final Double ENERGY_MULTIPLIER = 20.0;
+    private static final Double MAX_WEIGHT_RATIO = 0.2;
 
     /**
      * 能量相关系数
@@ -50,7 +52,6 @@ public class MathUtils {
      */
     private static final Double FE_MAN = 15.0;
     private static final Double FE_WOMEN = 20.0;
-
 
     /**
      * 能量范围
@@ -93,7 +94,7 @@ public class MathUtils {
     }
 
     /**
-     * 获取用户饮食标准
+     * 计算用户饮食标准
      *
      * @param basicInfo
      * @param privacyInfo
@@ -104,7 +105,8 @@ public class MathUtils {
                                                          TbUserLifeStyle lifeStyle) {
         TbDietUserStandard userStandard = new TbDietUserStandard();
         userStandard.setId(basicInfo.getId());
-        userStandard.setEnergy(getBasicEnergy(basicInfo.getGender(), privacyInfo.getHeight()));
+        userStandard.setEnergy(getBasicEnergy(basicInfo.getGender(), privacyInfo.getHeight(), privacyInfo.getWeight()));
+        // 饮食口味导致的标准
         userStandard.setOilEnergy(getOilEnergy(privacyInfo.getWeight(), lifeStyle.getDietaryHabit()));
         userStandard.setSaltyEnergy(getSaltyEnergy(privacyInfo.getWeight(), lifeStyle.getFoodTaste()));
         userStandard.setSpicyEnergy(getSpicyEnergy(privacyInfo.getWeight(), lifeStyle.getSpicyDegree()));
@@ -123,6 +125,14 @@ public class MathUtils {
         return userStandard;
     }
 
+    /**
+     * 获取饮食评价
+     *
+     * @param userStandard
+     * @param reportDTO
+     * @param type
+     * @return
+     */
     public static UserReportDTO getDietReport(TbDietUserStandard userStandard, UserReportDTO reportDTO, Integer type) {
         // 一天总能量标准
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
@@ -208,13 +218,34 @@ public class MathUtils {
      * @param height
      * @return
      */
-    private static Double getBasicEnergy(Integer gender, Integer height) {
-        // 女性
+    private static Double getBasicEnergy(Integer gender, Integer height, Integer weight) {
         if (gender == WOMEN) {
-            return (height - ENERGY_REDUCTION_WOMEN) * ENERGY_MULTIPLIER;
+            return getDailyEnergy(ENERGY_REDUCTION_WOMEN, height, weight);
         } else {
-            return (height - ENERGY_REDUCTION_MAN) * ENERGY_MULTIPLIER;
+            return getDailyEnergy(ENERGY_REDUCTION_MAN, height, weight);
         }
+    }
+
+    /**
+     * 每日理论计算公式
+     *
+     * @param sexReduction
+     * @param height
+     * @param weight
+     * @return
+     */
+    private static Double getDailyEnergy(int sexReduction, Integer height, Integer weight) {
+        double result;
+        int standardWeight = height - sexReduction;
+        int x1 = Math.abs(weight - height);
+        // 体重率x2，控制在+-20%内
+        double weightRatio = x1 / standardWeight;
+        if (weightRatio > MAX_WEIGHT_RATIO) {
+            weightRatio = MAX_WEIGHT_RATIO;
+        }
+
+        // 25kcal=千卡
+        return result = (1 - weightRatio) * 25;
     }
 
     private static Double getOilEnergy(Integer weight, Double dietaryHabit) {
