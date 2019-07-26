@@ -1,6 +1,8 @@
 package com.bkit.fatdown.dto;
 
-import java.util.List;
+import io.swagger.annotations.ApiModel;
+
+import java.util.Set;
 
 /**
  * @file: UserReportDTO
@@ -11,20 +13,48 @@ import java.util.List;
  * @version: 1.0
  */
 
+@ApiModel
 public class UserReportDTO {
+
     private Double realEnergy;
     private Double upperEnergy;
     private Double lowerEnergy;
+
+    private Integer energyEvaluation;
+
+    /**
+     * 蛋白质
+     */
+    private Double protein;
+    /**
+     * 碳水化合物
+     */
+    private Double cho;
+    /**
+     * 膳食纤维
+     */
+    private Double fiber;
+
     /**
      * 结构评价：0,合理，1较合理，2不合理
      */
     private Integer structureEvaluation;
+
     /**
      * 结构缺乏种类：1,蛋白类，2,主食，3，蔬菜水果，4，坚果，5,豆类
      */
-    private List<Integer> structureLack;
+    private Set<Integer> structureLack;
+
 
     public UserReportDTO() {
+    }
+
+    public Integer getEnergyEvaluation() {
+        return energyEvaluation;
+    }
+
+    public void setEnergyEvaluation(Integer energyEvaluation) {
+        this.energyEvaluation = energyEvaluation;
     }
 
     public Double getRealEnergy() {
@@ -59,11 +89,35 @@ public class UserReportDTO {
         this.structureEvaluation = structureEvaluation;
     }
 
-    public List<Integer> getStructureLack() {
+    public Set<Integer> getStructureLack() {
         return structureLack;
     }
 
-    public void setStructureLack(List<Integer> structureLack) {
+    public void setStructureLack(Set<Integer> structureLack) {
         this.structureLack = structureLack;
+    }
+
+    public Double getProtein() {
+        return protein;
+    }
+
+    public void setProtein(Double protein) {
+        this.protein = protein;
+    }
+
+    public Double getCho() {
+        return cho;
+    }
+
+    public void setCho(Double cho) {
+        this.cho = cho;
+    }
+
+    public Double getFiber() {
+        return fiber;
+    }
+
+    public void setFiber(Double fiber) {
+        this.fiber = fiber;
     }
 }

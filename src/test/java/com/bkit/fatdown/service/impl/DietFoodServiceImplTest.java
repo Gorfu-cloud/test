@@ -1,11 +1,13 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.FoodInfoDTO;
+import com.bkit.fatdown.entity.TbFoodBasic;
+import com.bkit.fatdown.entity.TbFoodRecord;
+import com.bkit.fatdown.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 
@@ -44,9 +46,17 @@ public class DietFoodServiceImplTest {
 
     @Test
     public void listFoodRecord() {
-        List<FoodInfoDTO> foodInfoDTOList = foodService.listFoodRecord(uid, new Date(), 1);
+        List<FoodInfoDTO> foodInfoDTOList = foodService.listFoodInfoDTO(uid, new Date(), 1);
         for (FoodInfoDTO foodInfoDTO : foodInfoDTOList) {
             System.out.println(foodInfoDTO.getFoodName() + " " + foodInfoDTO.getFoodGram());
+        }
+    }
+
+    @Test
+    public void listFoodBasic() {
+        List<TbFoodRecord> list = foodService.listFoodBasic(uid, DateUtils.string2Date("2019-07-25"), 1);
+        for (TbFoodRecord record : list) {
+            System.out.println(record.getFoodId());
         }
     }
 }

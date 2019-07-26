@@ -1,6 +1,7 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.FoodInfoDTO;
+import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
@@ -10,9 +11,7 @@ import com.bkit.fatdown.utils.MathUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @file: DietFoodServiceImpl
@@ -43,6 +42,12 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     @Resource
     private IFoodBasicService foodBasicService;
+
+    @Resource
+    private IElementBasicService elementBasicService;
+
+    @Resource
+    private IFoodElementService foodElementService;
 
     /**
      * 保存饮食记录
@@ -126,6 +131,86 @@ public class DietFoodServiceImpl implements IDietFoodService {
     }
 
     /**
+     * 拆解菜式
+     *
+     * @param recordList
+     * @return
+     */
+    @Override
+    public UserReportDTO foodBasic2DietReport(List<TbFoodRecord> recordList) {
+        // 能量
+        double energy = 0.0;
+        // 蛋白质
+        double protein = 0.0;
+        // 碳水化合物
+        double cho = 0.0;
+        // 膳食纤维
+        double fiber = 0.0;
+        // 饮食结构
+        Set<Integer> structType = new TreeSet<>();
+
+        // 计算用餐成分
+        for (TbFoodRecord foodRecord : recordList) {
+            int id = foodRecord.getFoodId();
+            // 菜式信息
+            TbFoodBasic foodBasic = foodBasicService.getFoodBasic(id);
+
+            // 存该菜式记录时
+            if (foodBasic.getFlag() == 0) {
+                // 获取食物元素组成(蛋白质等）
+                Map<Integer, Double> map = foodElementService.listElementById(id);
+
+                // 计算组成总量
+                for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+                    int basicId = entry.getKey();
+                    double gram = entry.getValue();
+
+                    // 计算每一百克对应的元素含量
+                    TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
+                    energy += (gram / 100) * elementBasic.getEnergy();
+                    protein += (gram / 100) * elementBasic.getProtein();
+                    cho += (gram / 100) * elementBasic.getCho();
+                    fiber += (gram / 100) * elementBasic.getFiber();
+                    // 添加结构类型1,蛋白质，2主食，3,蔬菜水果，4,坚果，5豆类
+                    structType.add(elementBasic.getType());
+                }
+            }
+        }
+
+        UserReportDTO reportDTO = new UserReportDTO();
+
+        reportDTO.setRealEnergy(energy);
+        reportDTO.setProtein(protein);
+        reportDTO.setCho(cho);
+        reportDTO.setFiber(fiber);
+        reportDTO.setStructureLack(structType);
+
+        return reportDTO;
+    }
+
+    /**
+     * 返回菜式列表
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @return
+     */
+    @Override
+    public List<TbFoodRecord> listFoodBasic(int uid, Date date, Integer type) {
+        // 早餐
+        if (type == 0) {
+            return listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date));
+        } else if (type == 1) {
+            // 午餐
+            return listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date));
+        } else {
+            // 晚餐
+            return listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date));
+        }
+    }
+
+    /**
      * 获取菜式名称和重量
      *
      * @param uid
@@ -134,7 +219,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public List<FoodInfoDTO> listFoodRecord(int uid, Date date, Integer type) {
+    public List<FoodInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type) {
         List<TbFoodRecord> recordList;
         // 早餐
         if (type == 0) {
@@ -187,4 +272,6 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         return foodInfoDTOList;
     }
+
+
 }

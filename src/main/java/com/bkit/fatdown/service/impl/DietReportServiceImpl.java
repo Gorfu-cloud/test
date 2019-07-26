@@ -1,12 +1,11 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.UserReportDTO;
-import com.bkit.fatdown.entity.TbDietReport;
-import com.bkit.fatdown.entity.TbDietReportExample;
-import com.bkit.fatdown.entity.TbDietUserStandard;
+import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietReportMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.utils.MathUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -76,6 +75,30 @@ public class DietReportServiceImpl implements IDietReportService {
     }
 
     /**
+     * 拆解食物生成记录
+     *
+     * @param date
+     * @param uid
+     * @param type
+     * @return
+     */
+    @Override
+    @Deprecated
+    public TbDietReport updateReport(Date date, Integer uid, Integer type) {
+        TbDietReport report;
+        if (countReport(date, uid, type) > 0) {
+            report = getDietReport(date, uid, type);
+        } else {
+            report = new TbDietReport();
+        }
+
+        // 拆解食物记录
+        List<TbFoodRecord> recordList = foodService.listFoodBasic(uid, date, type);
+
+        return null;
+    }
+
+    /**
      * 生成饮食报告
      *
      * @param date
@@ -84,10 +107,12 @@ public class DietReportServiceImpl implements IDietReportService {
      * @return
      */
     @Override
-    public TbDietReport generateDietReport(Date date, Integer uid, Integer type) {
+    public UserReportDTO generateDietReport(Date date, Integer uid, Integer type) {
+        // 获取生成的记录
+        UserReportDTO reportDTO = foodService.foodBasic2DietReport(foodService.listFoodBasic(uid, date, type));
+        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
-
-        return null;
+        return MathUtils.getDietReport(userStandard, reportDTO, type);
     }
 
     /**
@@ -108,23 +133,4 @@ public class DietReportServiceImpl implements IDietReportService {
 
         return reportMapper.selectByExample(example);
     }
-
-    /**
-     * 生成早餐饮食报告
-     *
-     * @param date
-     * @param uid
-     * @return
-     */
-    private UserReportDTO generateBreakfastReport(Date date, Integer uid) {
-        // 获取菜式记录,拆解获取能量
-
-        // foodService.
-
-        // 获取用户标准
-        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
-
-        return null;
-    }
-
 }

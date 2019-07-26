@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.TbDietReport;
 
 import java.util.Date;
@@ -61,6 +62,16 @@ public interface IDietReportService {
      * @param type
      * @return
      */
-    TbDietReport generateDietReport(Date date, Integer uid, Integer type);
+    UserReportDTO generateDietReport(Date date, Integer uid, Integer type);
+
+    /**
+     * 拆解食物生成记录
+     *
+     * @param date
+     * @param uid
+     * @param type
+     * @return
+     */
+    TbDietReport updateReport(Date date, Integer uid, Integer type);
 
 }
