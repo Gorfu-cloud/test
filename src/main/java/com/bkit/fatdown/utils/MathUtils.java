@@ -235,17 +235,17 @@ public class MathUtils {
      * @return
      */
     private static Double getDailyEnergy(int sexReduction, Integer height, Integer weight) {
-        double result;
+        double weightRatio;
         int standardWeight = height - sexReduction;
-        int x1 = Math.abs(weight - height);
+        int x1 = Math.abs(weight - standardWeight);
         // 体重率x2，控制在+-20%内
-        double weightRatio = x1 / standardWeight;
+        weightRatio = x1 / standardWeight;
         if (weightRatio > MAX_WEIGHT_RATIO) {
             weightRatio = MAX_WEIGHT_RATIO;
         }
 
         // 25kcal=千卡
-        return result = (1 - weightRatio) * 25;
+        return standardWeight * (1 - weightRatio) * 25;
     }
 
     private static Double getOilEnergy(Integer weight, Double dietaryHabit) {
