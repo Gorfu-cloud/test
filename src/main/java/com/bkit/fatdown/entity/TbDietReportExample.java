@@ -435,303 +435,543 @@ public class TbDietReportExample {
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusIsNull() {
-            addCriterion("end_status is null");
+        public Criteria andColIsNull() {
+            addCriterion("col is null");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusIsNotNull() {
-            addCriterion("end_status is not null");
+        public Criteria andColIsNotNull() {
+            addCriterion("col is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusEqualTo(Integer value) {
-            addCriterion("end_status =", value, "endStatus");
+        public Criteria andColEqualTo(Double value) {
+            addCriterion("col =", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusNotEqualTo(Integer value) {
-            addCriterion("end_status <>", value, "endStatus");
+        public Criteria andColNotEqualTo(Double value) {
+            addCriterion("col <>", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusGreaterThan(Integer value) {
-            addCriterion("end_status >", value, "endStatus");
+        public Criteria andColGreaterThan(Double value) {
+            addCriterion("col >", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("end_status >=", value, "endStatus");
+        public Criteria andColGreaterThanOrEqualTo(Double value) {
+            addCriterion("col >=", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusLessThan(Integer value) {
-            addCriterion("end_status <", value, "endStatus");
+        public Criteria andColLessThan(Double value) {
+            addCriterion("col <", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("end_status <=", value, "endStatus");
+        public Criteria andColLessThanOrEqualTo(Double value) {
+            addCriterion("col <=", value, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusIn(List<Integer> values) {
-            addCriterion("end_status in", values, "endStatus");
+        public Criteria andColIn(List<Double> values) {
+            addCriterion("col in", values, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusNotIn(List<Integer> values) {
-            addCriterion("end_status not in", values, "endStatus");
+        public Criteria andColNotIn(List<Double> values) {
+            addCriterion("col not in", values, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusBetween(Integer value1, Integer value2) {
-            addCriterion("end_status between", value1, value2, "endStatus");
+        public Criteria andColBetween(Double value1, Double value2) {
+            addCriterion("col between", value1, value2, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEndStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("end_status not between", value1, value2, "endStatus");
+        public Criteria andColNotBetween(Double value1, Double value2) {
+            addCriterion("col not between", value1, value2, "col");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardIsNull() {
-            addCriterion("energy_standard is null");
+        public Criteria andProteinIsNull() {
+            addCriterion("protein is null");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardIsNotNull() {
-            addCriterion("energy_standard is not null");
+        public Criteria andProteinIsNotNull() {
+            addCriterion("protein is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardEqualTo(Double value) {
-            addCriterion("energy_standard =", value, "energyStandard");
+        public Criteria andProteinEqualTo(Double value) {
+            addCriterion("protein =", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardNotEqualTo(Double value) {
-            addCriterion("energy_standard <>", value, "energyStandard");
+        public Criteria andProteinNotEqualTo(Double value) {
+            addCriterion("protein <>", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardGreaterThan(Double value) {
-            addCriterion("energy_standard >", value, "energyStandard");
+        public Criteria andProteinGreaterThan(Double value) {
+            addCriterion("protein >", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardGreaterThanOrEqualTo(Double value) {
-            addCriterion("energy_standard >=", value, "energyStandard");
+        public Criteria andProteinGreaterThanOrEqualTo(Double value) {
+            addCriterion("protein >=", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardLessThan(Double value) {
-            addCriterion("energy_standard <", value, "energyStandard");
+        public Criteria andProteinLessThan(Double value) {
+            addCriterion("protein <", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardLessThanOrEqualTo(Double value) {
-            addCriterion("energy_standard <=", value, "energyStandard");
+        public Criteria andProteinLessThanOrEqualTo(Double value) {
+            addCriterion("protein <=", value, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardIn(List<Double> values) {
-            addCriterion("energy_standard in", values, "energyStandard");
+        public Criteria andProteinIn(List<Double> values) {
+            addCriterion("protein in", values, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardNotIn(List<Double> values) {
-            addCriterion("energy_standard not in", values, "energyStandard");
+        public Criteria andProteinNotIn(List<Double> values) {
+            addCriterion("protein not in", values, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardBetween(Double value1, Double value2) {
-            addCriterion("energy_standard between", value1, value2, "energyStandard");
+        public Criteria andProteinBetween(Double value1, Double value2) {
+            addCriterion("protein between", value1, value2, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andEnergyStandardNotBetween(Double value1, Double value2) {
-            addCriterion("energy_standard not between", value1, value2, "energyStandard");
+        public Criteria andProteinNotBetween(Double value1, Double value2) {
+            addCriterion("protein not between", value1, value2, "protein");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumIsNull() {
-            addCriterion("structure_num is null");
+        public Criteria andFatIsNull() {
+            addCriterion("fat is null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumIsNotNull() {
-            addCriterion("structure_num is not null");
+        public Criteria andFatIsNotNull() {
+            addCriterion("fat is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumEqualTo(Integer value) {
-            addCriterion("structure_num =", value, "structureNum");
+        public Criteria andFatEqualTo(Double value) {
+            addCriterion("fat =", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumNotEqualTo(Integer value) {
-            addCriterion("structure_num <>", value, "structureNum");
+        public Criteria andFatNotEqualTo(Double value) {
+            addCriterion("fat <>", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumGreaterThan(Integer value) {
-            addCriterion("structure_num >", value, "structureNum");
+        public Criteria andFatGreaterThan(Double value) {
+            addCriterion("fat >", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("structure_num >=", value, "structureNum");
+        public Criteria andFatGreaterThanOrEqualTo(Double value) {
+            addCriterion("fat >=", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumLessThan(Integer value) {
-            addCriterion("structure_num <", value, "structureNum");
+        public Criteria andFatLessThan(Double value) {
+            addCriterion("fat <", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumLessThanOrEqualTo(Integer value) {
-            addCriterion("structure_num <=", value, "structureNum");
+        public Criteria andFatLessThanOrEqualTo(Double value) {
+            addCriterion("fat <=", value, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumIn(List<Integer> values) {
-            addCriterion("structure_num in", values, "structureNum");
+        public Criteria andFatIn(List<Double> values) {
+            addCriterion("fat in", values, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumNotIn(List<Integer> values) {
-            addCriterion("structure_num not in", values, "structureNum");
+        public Criteria andFatNotIn(List<Double> values) {
+            addCriterion("fat not in", values, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumBetween(Integer value1, Integer value2) {
-            addCriterion("structure_num between", value1, value2, "structureNum");
+        public Criteria andFatBetween(Double value1, Double value2) {
+            addCriterion("fat between", value1, value2, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("structure_num not between", value1, value2, "structureNum");
+        public Criteria andFatNotBetween(Double value1, Double value2) {
+            addCriterion("fat not between", value1, value2, "fat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackIsNull() {
-            addCriterion("structure_lack is null");
+        public Criteria andFibrinIsNull() {
+            addCriterion("fibrin is null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackIsNotNull() {
-            addCriterion("structure_lack is not null");
+        public Criteria andFibrinIsNotNull() {
+            addCriterion("fibrin is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackEqualTo(Integer value) {
-            addCriterion("structure_lack =", value, "structureLack");
+        public Criteria andFibrinEqualTo(Double value) {
+            addCriterion("fibrin =", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackNotEqualTo(Integer value) {
-            addCriterion("structure_lack <>", value, "structureLack");
+        public Criteria andFibrinNotEqualTo(Double value) {
+            addCriterion("fibrin <>", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackGreaterThan(Integer value) {
-            addCriterion("structure_lack >", value, "structureLack");
+        public Criteria andFibrinGreaterThan(Double value) {
+            addCriterion("fibrin >", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackGreaterThanOrEqualTo(Integer value) {
-            addCriterion("structure_lack >=", value, "structureLack");
+        public Criteria andFibrinGreaterThanOrEqualTo(Double value) {
+            addCriterion("fibrin >=", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackLessThan(Integer value) {
-            addCriterion("structure_lack <", value, "structureLack");
+        public Criteria andFibrinLessThan(Double value) {
+            addCriterion("fibrin <", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackLessThanOrEqualTo(Integer value) {
-            addCriterion("structure_lack <=", value, "structureLack");
+        public Criteria andFibrinLessThanOrEqualTo(Double value) {
+            addCriterion("fibrin <=", value, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackIn(List<Integer> values) {
-            addCriterion("structure_lack in", values, "structureLack");
+        public Criteria andFibrinIn(List<Double> values) {
+            addCriterion("fibrin in", values, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackNotIn(List<Integer> values) {
-            addCriterion("structure_lack not in", values, "structureLack");
+        public Criteria andFibrinNotIn(List<Double> values) {
+            addCriterion("fibrin not in", values, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackBetween(Integer value1, Integer value2) {
-            addCriterion("structure_lack between", value1, value2, "structureLack");
+        public Criteria andFibrinBetween(Double value1, Double value2) {
+            addCriterion("fibrin between", value1, value2, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andStructureLackNotBetween(Integer value1, Integer value2) {
-            addCriterion("structure_lack not between", value1, value2, "structureLack");
+        public Criteria andFibrinNotBetween(Double value1, Double value2) {
+            addCriterion("fibrin not between", value1, value2, "fibrin");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalIsNull() {
-            addCriterion("record_total is null");
+        public Criteria andProteinTotalIsNull() {
+            addCriterion("protein_total is null");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalIsNotNull() {
-            addCriterion("record_total is not null");
+        public Criteria andProteinTotalIsNotNull() {
+            addCriterion("protein_total is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalEqualTo(Integer value) {
-            addCriterion("record_total =", value, "recordTotal");
+        public Criteria andProteinTotalEqualTo(Integer value) {
+            addCriterion("protein_total =", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalNotEqualTo(Integer value) {
-            addCriterion("record_total <>", value, "recordTotal");
+        public Criteria andProteinTotalNotEqualTo(Integer value) {
+            addCriterion("protein_total <>", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalGreaterThan(Integer value) {
-            addCriterion("record_total >", value, "recordTotal");
+        public Criteria andProteinTotalGreaterThan(Integer value) {
+            addCriterion("protein_total >", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalGreaterThanOrEqualTo(Integer value) {
-            addCriterion("record_total >=", value, "recordTotal");
+        public Criteria andProteinTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("protein_total >=", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalLessThan(Integer value) {
-            addCriterion("record_total <", value, "recordTotal");
+        public Criteria andProteinTotalLessThan(Integer value) {
+            addCriterion("protein_total <", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalLessThanOrEqualTo(Integer value) {
-            addCriterion("record_total <=", value, "recordTotal");
+        public Criteria andProteinTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("protein_total <=", value, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalIn(List<Integer> values) {
-            addCriterion("record_total in", values, "recordTotal");
+        public Criteria andProteinTotalIn(List<Integer> values) {
+            addCriterion("protein_total in", values, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalNotIn(List<Integer> values) {
-            addCriterion("record_total not in", values, "recordTotal");
+        public Criteria andProteinTotalNotIn(List<Integer> values) {
+            addCriterion("protein_total not in", values, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalBetween(Integer value1, Integer value2) {
-            addCriterion("record_total between", value1, value2, "recordTotal");
+        public Criteria andProteinTotalBetween(Integer value1, Integer value2) {
+            addCriterion("protein_total between", value1, value2, "proteinTotal");
             return (Criteria) this;
         }
 
-        public Criteria andRecordTotalNotBetween(Integer value1, Integer value2) {
-            addCriterion("record_total not between", value1, value2, "recordTotal");
+        public Criteria andProteinTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("protein_total not between", value1, value2, "proteinTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalIsNull() {
+            addCriterion("staple_food_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalIsNotNull() {
+            addCriterion("staple_food_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalEqualTo(Integer value) {
+            addCriterion("staple_food_total =", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalNotEqualTo(Integer value) {
+            addCriterion("staple_food_total <>", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalGreaterThan(Integer value) {
+            addCriterion("staple_food_total >", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("staple_food_total >=", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalLessThan(Integer value) {
+            addCriterion("staple_food_total <", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("staple_food_total <=", value, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalIn(List<Integer> values) {
+            addCriterion("staple_food_total in", values, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalNotIn(List<Integer> values) {
+            addCriterion("staple_food_total not in", values, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalBetween(Integer value1, Integer value2) {
+            addCriterion("staple_food_total between", value1, value2, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andStapleFoodTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("staple_food_total not between", value1, value2, "stapleFoodTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalIsNull() {
+            addCriterion("fruit_vegetable_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalIsNotNull() {
+            addCriterion("fruit_vegetable_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalEqualTo(Integer value) {
+            addCriterion("fruit_vegetable_total =", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalNotEqualTo(Integer value) {
+            addCriterion("fruit_vegetable_total <>", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalGreaterThan(Integer value) {
+            addCriterion("fruit_vegetable_total >", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("fruit_vegetable_total >=", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalLessThan(Integer value) {
+            addCriterion("fruit_vegetable_total <", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("fruit_vegetable_total <=", value, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalIn(List<Integer> values) {
+            addCriterion("fruit_vegetable_total in", values, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalNotIn(List<Integer> values) {
+            addCriterion("fruit_vegetable_total not in", values, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalBetween(Integer value1, Integer value2) {
+            addCriterion("fruit_vegetable_total between", value1, value2, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andFruitVegetableTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("fruit_vegetable_total not between", value1, value2, "fruitVegetableTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalIsNull() {
+            addCriterion("nut_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalIsNotNull() {
+            addCriterion("nut_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalEqualTo(Integer value) {
+            addCriterion("nut_total =", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalNotEqualTo(Integer value) {
+            addCriterion("nut_total <>", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalGreaterThan(Integer value) {
+            addCriterion("nut_total >", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("nut_total >=", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalLessThan(Integer value) {
+            addCriterion("nut_total <", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("nut_total <=", value, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalIn(List<Integer> values) {
+            addCriterion("nut_total in", values, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalNotIn(List<Integer> values) {
+            addCriterion("nut_total not in", values, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalBetween(Integer value1, Integer value2) {
+            addCriterion("nut_total between", value1, value2, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("nut_total not between", value1, value2, "nutTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalIsNull() {
+            addCriterion("beans_total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalIsNotNull() {
+            addCriterion("beans_total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalEqualTo(Integer value) {
+            addCriterion("beans_total =", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalNotEqualTo(Integer value) {
+            addCriterion("beans_total <>", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalGreaterThan(Integer value) {
+            addCriterion("beans_total >", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("beans_total >=", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalLessThan(Integer value) {
+            addCriterion("beans_total <", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("beans_total <=", value, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalIn(List<Integer> values) {
+            addCriterion("beans_total in", values, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalNotIn(List<Integer> values) {
+            addCriterion("beans_total not in", values, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalBetween(Integer value1, Integer value2) {
+            addCriterion("beans_total between", value1, value2, "beansTotal");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeansTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("beans_total not between", value1, value2, "beansTotal");
             return (Criteria) this;
         }
 

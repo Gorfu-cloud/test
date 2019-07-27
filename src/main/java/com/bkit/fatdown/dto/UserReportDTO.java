@@ -36,6 +36,11 @@ public class UserReportDTO {
     private Double fiber;
 
     /**
+     * 脂肪
+     */
+    private Double fat;
+
+    /**
      * 结构评价：0,合理，1较合理，2不合理
      */
     private Integer structureEvaluation;
@@ -44,6 +49,31 @@ public class UserReportDTO {
      * 结构缺乏种类：1,蛋白类，2,主食，3，蔬菜水果，4，坚果，5,豆类
      */
     private Set<Integer> structureLack;
+
+    /**
+     * 营养素评价
+     */
+    private Double colPer;
+    private Double fatPer;
+    private Double fibrinPer;
+    private Double proteinPer;
+
+    /**
+     * 营养素百分比
+     */
+
+    private Integer colEvaluation;
+    private Integer fatEvaluation;
+    private Integer fibrinEvaluation;
+    private Integer proteinEvaluation;
+
+    /**
+     * 缺乏或多
+     */
+    private Double colLack;
+    private Double fatLack;
+    private Double fibrinLack;
+    private Double proteinLack;
 
     public UserReportDTO() {
     }
@@ -118,5 +148,109 @@ public class UserReportDTO {
 
     public void setFiber(Double fiber) {
         this.fiber = fiber;
+    }
+
+    public Double getFat() {
+        return fat;
+    }
+
+    public void setFat(Double fat) {
+        this.fat = fat;
+    }
+
+    public Integer getColEvaluation() {
+        return colEvaluation;
+    }
+
+    public void setColEvaluation(Integer colEvaluation) {
+        this.colEvaluation = colEvaluation;
+    }
+
+    public Integer getFatEvaluation() {
+        return fatEvaluation;
+    }
+
+    public void setFatEvaluation(Integer fatEvaluation) {
+        this.fatEvaluation = fatEvaluation;
+    }
+
+    public Integer getFibrinEvaluation() {
+        return fibrinEvaluation;
+    }
+
+    public void setFibrinEvaluation(Integer fibrinEvaluation) {
+        this.fibrinEvaluation = fibrinEvaluation;
+    }
+
+    public Integer getProteinEvaluation() {
+        return proteinEvaluation;
+    }
+
+    public void setProteinEvaluation(Integer proteinEvaluation) {
+        this.proteinEvaluation = proteinEvaluation;
+    }
+
+    public Double getColLack() {
+        return colLack;
+    }
+
+    public void setColLack(Double colLack) {
+        this.colLack = colLack;
+    }
+
+    public Double getFatLack() {
+        return fatLack;
+    }
+
+    public void setFatLack(Double fatLack) {
+        this.fatLack = fatLack;
+    }
+
+    public Double getFibrinLack() {
+        return fibrinLack;
+    }
+
+    public void setFibrinLack(Double fibrinLack) {
+        this.fibrinLack = fibrinLack;
+    }
+
+    public Double getProteinLack() {
+        return proteinLack;
+    }
+
+    public void setProteinLack(Double proteinLack) {
+        this.proteinLack = proteinLack;
+    }
+
+    public Double getColPer() {
+        return colPer;
+    }
+
+    public void setColPer(Double colPer) {
+        this.colPer = colPer;
+    }
+
+    public Double getFatPer() {
+        return fatPer;
+    }
+
+    public void setFatPer(Double fatPer) {
+        this.fatPer = fatPer;
+    }
+
+    public Double getFibrinPer() {
+        return fibrinPer;
+    }
+
+    public void setFibrinPer(Double fibrinPer) {
+        this.fibrinPer = fibrinPer;
+    }
+
+    public Double getProteinPer() {
+        return proteinPer;
+    }
+
+    public void setProteinPer(Double proteinPer) {
+        this.proteinPer = proteinPer;
     }
 }

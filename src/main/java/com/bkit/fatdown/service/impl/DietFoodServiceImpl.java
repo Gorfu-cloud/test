@@ -8,6 +8,7 @@ import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,6 +49,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     @Resource
     private IFoodElementService foodElementService;
+
+    private static Logger logger = Logger.getLogger(DietFoodServiceImpl.class);
 
     /**
      * 保存饮食记录
@@ -140,6 +143,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
     public UserReportDTO foodBasic2DietReport(List<TbFoodRecord> recordList) {
         // 能量
         double energy = 0.0;
+        // 脂肪
+        double fat = 0.0;
         // 蛋白质
         double protein = 0.0;
         // 碳水化合物
@@ -163,6 +168,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 // 计算组成总量
                 for (Map.Entry<Integer, Double> entry : map.entrySet()) {
                     int basicId = entry.getKey();
+                    // 对应元素含量
                     double gram = entry.getValue();
                     // 计算每一百克对应的元素含量
                     TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
@@ -170,14 +176,9 @@ public class DietFoodServiceImpl implements IDietFoodService {
                     protein += (gram / 100) * elementBasic.getProtein();
                     cho += (gram / 100) * elementBasic.getCho();
                     fiber += (gram / 100) * elementBasic.getFiber();
+                    fat += (gram / 100) * elementBasic.getFat();
                     // 添加结构类型1,蛋白质，2主食，3,蔬菜水果，4,坚果，5豆类
                     structType.add(elementBasic.getType());
-                    System.out.println("g" + gram);
-                    System.out.println("e" + energy);
-                    System.out.println("p" + protein);
-                    System.out.println("c" + cho);
-                    System.out.println("f" + fiber);
-                    System.out.println("e" + elementBasic.getType());
                 }
             }
         }
@@ -187,6 +188,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
         reportDTO.setRealEnergy(energy);
         reportDTO.setProtein(protein);
         reportDTO.setCho(cho);
+        reportDTO.setFat(fat);
         reportDTO.setFiber(fiber);
         reportDTO.setStructureLack(structType);
 
@@ -209,9 +211,15 @@ public class DietFoodServiceImpl implements IDietFoodService {
         } else if (type == 1) {
             // 午餐
             return listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date));
-        } else {
+        } else if (type == 2) {
             // 晚餐
             return listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date));
+        } else if (type == 4) {
+            // 一天
+            return listFoodRecord(uid, DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
+        } else {
+            logger.error(uid + "菜式列表错误");
+            return null;
         }
     }
 
@@ -277,6 +285,5 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         return foodInfoDTOList;
     }
-
 
 }

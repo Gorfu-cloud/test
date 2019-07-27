@@ -25,6 +25,14 @@ public interface IDietReportService {
     Boolean insert(TbDietReport report);
 
     /**
+     * 更新饮食报告
+     *
+     * @param report
+     * @return
+     */
+    Boolean update(TbDietReport report);
+
+    /**
      * 查看报告是否存在
      *
      * @param date
@@ -65,13 +73,22 @@ public interface IDietReportService {
     UserReportDTO generateDietReport(Date date, Integer uid, Integer type);
 
     /**
-     * 拆解食物生成记录
+     * 查找特定报告数
+     *
+     * @param startDate
+     * @param endDate
+     * @param uid
+     * @param typeList
+     * @return
+     */
+    Integer countReportByTypeList(Date startDate, Date endDate, Integer uid, List<Integer> typeList);
+
+    /**
+     * 查找特定记录
      *
      * @param date
      * @param uid
-     * @param type
      * @return
      */
-    TbDietReport updateReport(Date date, Integer uid, Integer type);
-
+    Integer countReportByDay(Date date, Integer uid);
 }

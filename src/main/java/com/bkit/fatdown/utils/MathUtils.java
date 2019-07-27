@@ -71,6 +71,11 @@ public class MathUtils {
     private static final Double ENERGY_DINNER_BAD_RATIONAL_UPPER = 0.40;
     private static final Double ENERGY_DINNER_BAD_RATIONAL_LOWER = 0.20;
 
+    private static final Double ENERGY_DAILY_RATIONAL_UPPER = 1.05;
+    private static final Double ENERGY_DAILY_RATIONAL_LOWER = 0.95;
+    private static final Double ENERGY_DAILY_BAD_RATIONAL_UPPER = 1.10;
+    private static final Double ENERGY_DAILY_BAD_RATIONAL_LOWER = 0.90;
+
     private static final Integer EXCELLENT = 0;
     private static final Integer GOOD = 1;
     private static final Integer BAD = 2;
@@ -81,6 +86,28 @@ public class MathUtils {
     private static final ArrayList<Integer> STRUCTURE_BREAKFAST = new ArrayList<>(Arrays.asList(1, 2, 3));
     private static final ArrayList<Integer> STRUCTURE_LUNCH = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
     private static final ArrayList<Integer> STRUCTURE_DINNER = new ArrayList<>(Arrays.asList(1, 2, 3, 4));
+    private static final ArrayList<Integer> STRUCTURE_DAILY = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+    /**
+     * 营养素评价
+     */
+    private static final Double DAILY_PROTEIN_MORE = 0.35;
+    private static final Double DAILY_PROTEIN_LITTLE = 0.25;
+
+    private static final Double DAILY_FAT_MORE = 0.35;
+    private static final Double DAILY_FAT_LITTLE = 0.25;
+
+    private static final Double DAILY_COL_MORE = 0.40;
+    private static final Double DAILY_COL_LITTLE = 0.20;
+
+    private static final Double DAILY_FIBRIN_MORE = 60.0;
+    private static final Double DAILY_FIBRIN_LITTLE = 40.0;
+
+    private static final Integer PROTEIN_ENERGY_OF_1G = 9;
+    private static final Integer FAT_ENERGY_OF_1G = 9;
+    private static final Integer COL_ENERGY_OF_1G = 9;
+
+    private static final Integer PER_BASE = 100;
 
     /**
      * BMI=体重（千克）/（身高（米）*身高（米））
@@ -152,12 +179,20 @@ public class MathUtils {
                     ENERGY_LUNCH_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_LOWER);
             // 结构评价
             setStructureBreakEvaluation(reportDTO, STRUCTURE_LUNCH);
-        } else {
+        } else if (type == 2) {
             // 能量评价
             setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DINNER_RATIONAL_LOWER,
                     ENERGY_DINNER_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_LOWER);
             // 结构评价
             setStructureBreakEvaluation(reportDTO, STRUCTURE_DINNER);
+        } else if (type == 4) {
+            // 能量评价
+            setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DAILY_RATIONAL_LOWER,
+                    ENERGY_DAILY_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_LOWER);
+            // 结构评价
+            setStructureBreakEvaluation(reportDTO, STRUCTURE_DAILY);
+
+            setNutrientEvaluation(reportDTO, energyStandard);
         }
 
         return reportDTO;
@@ -199,6 +234,7 @@ public class MathUtils {
      * @param structure
      */
     private static void setStructureBreakEvaluation(UserReportDTO reportDTO, ArrayList<Integer> structure) {
+        // 实际摄入种类，减去必须摄入种类
         structure.removeAll(reportDTO.getStructureLack());
         if (structure.size() == 0) {
             reportDTO.setStructureEvaluation(EXCELLENT);
@@ -209,6 +245,91 @@ public class MathUtils {
         }
         Set<Integer> set = new TreeSet<>(structure);
         reportDTO.setStructureLack(set);
+    }
+
+    /**
+     * 设置营养素评价
+     *
+     * @param reportDTO
+     * @param standard
+     */
+    private static void setNutrientEvaluation(UserReportDTO reportDTO, Double standard) {
+
+        setProteinEvaluation(reportDTO, standard);
+        setFatEvaluation(reportDTO, standard);
+        setColEvaluation(reportDTO, standard);
+        setFibrinEvaluation(reportDTO);
+    }
+
+    private static void setProteinEvaluation(UserReportDTO reportDTO, Double energyStandard) {
+        double proteinPer = (PROTEIN_ENERGY_OF_1G * reportDTO.getProtein()) / energyStandard;
+        double proteinStandard = (DAILY_PROTEIN_MORE * energyStandard / PROTEIN_ENERGY_OF_1G);
+        if (proteinPer > DAILY_PROTEIN_MORE) {
+            // 多
+            reportDTO.setProteinEvaluation(GOOD);
+            reportDTO.setProteinLack(reportDTO.getProtein() - proteinStandard);
+        } else if (proteinPer < DAILY_PROTEIN_LITTLE) {
+            // 少
+            reportDTO.setProteinEvaluation(BAD);
+            reportDTO.setProteinLack(proteinStandard - reportDTO.getProtein());
+        } else {
+            // 合适
+            reportDTO.setProteinEvaluation(EXCELLENT);
+        }
+        reportDTO.setProteinPer(proteinPer * PER_BASE);
+    }
+
+    private static void setFatEvaluation(UserReportDTO reportDTO, Double energyStandard) {
+        double fatPer = (FAT_ENERGY_OF_1G * reportDTO.getFat()) / energyStandard;
+        double fatStandard = (DAILY_FAT_MORE * energyStandard / FAT_ENERGY_OF_1G);
+
+        if (fatPer > DAILY_FAT_MORE) {
+            // 多
+            reportDTO.setFatEvaluation(GOOD);
+            reportDTO.setFatLack(reportDTO.getFat() - fatStandard);
+
+        } else if (fatPer < DAILY_FAT_LITTLE) {
+            // 少
+            reportDTO.setFatEvaluation(BAD);
+            reportDTO.setFatLack(fatStandard - reportDTO.getFat());
+        } else {
+            // 合适
+            reportDTO.setFatEvaluation(EXCELLENT);
+        }
+        reportDTO.setFatPer(fatPer);
+    }
+
+    private static void setColEvaluation(UserReportDTO reportDTO, Double energyStandard) {
+        double colPer = (COL_ENERGY_OF_1G * reportDTO.getCho()) / energyStandard;
+        double colStandard = (DAILY_COL_MORE * energyStandard) / COL_ENERGY_OF_1G;
+
+        if (colPer > DAILY_COL_MORE) {
+            // 多
+            reportDTO.setColEvaluation(GOOD);
+            reportDTO.setColLack(reportDTO.getCho() - colStandard);
+        } else if (colPer < DAILY_COL_LITTLE) {
+            // 少
+            reportDTO.setColEvaluation(BAD);
+            reportDTO.setColLack(colStandard - reportDTO.getCho());
+        } else {
+            // 合适
+            reportDTO.setColEvaluation(EXCELLENT);
+        }
+
+        reportDTO.setColPer(colPer);
+    }
+
+    private static void setFibrinEvaluation(UserReportDTO reportDTO) {
+        double fiber = reportDTO.getFiber();
+
+        if (fiber > DAILY_FIBRIN_MORE) {
+            reportDTO.setFibrinEvaluation(GOOD);
+        } else if (fiber < DAILY_FIBRIN_LITTLE) {
+            reportDTO.setFibrinEvaluation(BAD);
+        } else {
+            reportDTO.setFibrinEvaluation(EXCELLENT);
+        }
+        reportDTO.setFibrinPer(fiber);
     }
 
     /**
