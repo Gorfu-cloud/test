@@ -61,4 +61,12 @@ public interface IFoodBasicService {
      * @return
      */
     Integer insertReturnId(TbFoodBasic foodBasic);
+
+    /**
+     * 查找菜式存在数
+     *
+     * @param foodId
+     * @return
+     */
+    int countFoodBasic(int foodId);
 }

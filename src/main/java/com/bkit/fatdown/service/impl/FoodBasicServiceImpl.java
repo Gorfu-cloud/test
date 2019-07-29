@@ -73,6 +73,20 @@ public class FoodBasicServiceImpl implements IFoodBasicService {
     }
 
     /**
+     * 查找菜式存在数
+     *
+     * @param foodId
+     * @return
+     */
+    @Override
+    public int countFoodBasic(int foodId) {
+        TbFoodBasicExample example = new TbFoodBasicExample();
+        example.createCriteria()
+                .andIdEqualTo(foodId);
+        return (int) foodBasicMapper.countByExample(example);
+    }
+
+    /**
      * 创建新记录并返回id, -1 插入失败
      *
      * @param foodBasic
