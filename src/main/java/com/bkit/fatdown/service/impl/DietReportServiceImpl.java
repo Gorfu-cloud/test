@@ -199,11 +199,24 @@ public class DietReportServiceImpl implements IDietReportService {
         return report;
     }
 
+    /**
+     * 获取同一类型记录列表
+     *
+     * @param uid
+     * @param type
+     * @param date
+     * @return
+     */
     private Integer getIdByUidType(int uid, int type, Date date) {
         return listDietReport(date, uid, type).get(0).getId();
     }
 
-    // 获取菜式id
+    /**
+     * 获取菜式id
+     *
+     * @param foodRecordList
+     * @return
+     */
     private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
         List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);
 

@@ -153,21 +153,33 @@ public class DietController {
         return CommonResultDTO.success(reportDTOList);
     }
 
-//    @Deprecated
-//    @ApiOperation("查看每周饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
-//    public CommonResultDTO listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
-//        return null;
-//    }
 
-//    @Deprecated
-//    @ApiOperation("查看每月饮食报告,通过uid，date")
-//    @CrossOrigin
-//    @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
-//    public CommonResultDTO listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
-//        return null;
-//    }
+    @Deprecated
+    @ApiOperation("查看每周饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
+    public CommonResultDTO listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        return null;
+    }
+
+    @Deprecated
+    @ApiOperation("查看每月饮食报告,通过uid，date")
+    @CrossOrigin
+    @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
+    public CommonResultDTO listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        return null;
+    }
+
+    @Deprecated
+    @ApiOperation("通过菜式Id，计算所含元素总量")
+    @CrossOrigin
+    @RequestMapping(value = "/getFoodElementTotal", method = RequestMethod.GET)
+    public CommonResultDTO getFoodElementTotalById(@RequestParam Integer foodId) {
+        if (foodId == null) {
+            CommonResultDTO.failed("id错误");
+        }
+        return CommonResultDTO.success(foodService.getElementTotalById(foodId));
+    }
 
     @ApiOperation("上传饮食图片,保存饮食记录，uid，foodName(识别不出时，必填），gram（重量，识别不出时，必填）")
     @CrossOrigin
