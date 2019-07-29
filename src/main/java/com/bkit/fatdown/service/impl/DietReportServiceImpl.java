@@ -6,7 +6,8 @@ import com.bkit.fatdown.mappers.TbDietReportMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,40 +33,44 @@ public class DietReportServiceImpl implements IDietReportService {
     @Resource
     private DietFoodServiceImpl foodService;
 
-    private static Logger logger = Logger.getLogger(DietReportServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DietReportServiceImpl.class);
 
     /**
      * 创建饮食报告
      *
-     * @param report
-     * @return
+     * @param report 饮食报告
+     * @return 返回结果
      */
     @Override
     public Boolean insert(TbDietReport report) {
-        report.setGmtCreate(new Date());
-        report.setGmtModified(new Date());
+        if (report.getGmtCreate() == null) {
+            report.setGmtCreate(new Date());
+            report.setGmtModified(new Date());
+        }
         return reportMapper.insertSelective(report) > 0;
     }
 
     /**
      * 更新饮食报告
      *
-     * @param report
-     * @return
+     * @param report 饮食报告
+     * @return 返回结果
      */
     @Override
     public Boolean update(TbDietReport report) {
-        report.setGmtModified(new Date());
+        if (report.getGmtModified() == null) {
+            report.setGmtModified(new Date());
+        }
         return reportMapper.updateByPrimaryKeySelective(report) > 0;
     }
 
     /**
      * 查看报告是否存在
      *
-     * @param date
-     * @param uid
-     * @param type
-     * @return
+     * @param date 报告日期
+     * @param uid  用户id
+     * @param type 报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @return 返回报告数目
      */
     @Override
     public Integer countReport(Date date, Integer uid, Integer type) {
@@ -80,10 +85,10 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 获取报告
      *
-     * @param date
-     * @param uid
-     * @param type
-     * @return
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @param type 报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @return 返回：报告内容
      */
     @Override
     public TbDietReport getDietReport(Date date, Integer uid, Integer type) {
@@ -93,11 +98,11 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 查找特定报告数
      *
-     * @param startDate
-     * @param endDate
-     * @param uid
-     * @param typeList
-     * @return
+     * @param startDate 开始日期 0：00
+     * @param endDate   结束日期 23：59
+     * @param uid       用户编号
+     * @param typeList  报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @return 返回 报告数目
      */
     @Override
     public Integer countReportByTypeList(Date startDate, Date endDate, Integer uid, List<Integer> typeList) {
@@ -112,9 +117,9 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 查找特定记录
      *
-     * @param date
-     * @param uid
-     * @return
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @return 返回某天报告数
      */
     @Override
     public Integer countReportByDay(Date date, Integer uid) {
@@ -128,10 +133,10 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 生成饮食报告
      *
-     * @param date
-     * @param uid
-     * @param type
-     * @return
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @param type 报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @return 返回 饮食报告
      */
     @Override
     public UserReportDTO generateDietReport(Date date, Integer uid, Integer type) {
@@ -144,15 +149,19 @@ public class DietReportServiceImpl implements IDietReportService {
         report.setUserId(uid);
         report.setType(type);
         report.setGmtModified(date);
+
         // 储存实际情况记录
         boolean result;
         if (countReport(date, uid, type) == 0) {
+            logger.info("创建饮食报告！ uid：" + uid);
             report.setGmtCreate(date);
+            report.setGmtModified(date);
             result = insert(report);
         } else {
             int id = getIdByUidType(uid, type, date);
             report.setId(id);
             result = update(report);
+            logger.info("更新饮食报告！ uid：" + uid + " id：" + id);
         }
 
         if (!result) {
@@ -165,10 +174,10 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 获取列表
      *
-     * @param date
-     * @param uid
-     * @param type
-     * @return
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @param type 报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @return 返回 饮食报告列表
      */
     @Override
     public List<TbDietReport> listDietReport(Date date, Integer uid, Integer type) {
@@ -184,9 +193,10 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 将实际情况转为饮食报告
      *
-     * @param reportDTO
-     * @return
+     * @param reportDTO 报告传输对象
+     * @return 返回饮食报告
      */
+
     private TbDietReport reportDTO2DietReport(UserReportDTO reportDTO) {
         TbDietReport report = new TbDietReport();
 
@@ -202,10 +212,10 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 获取同一类型记录列表
      *
-     * @param uid
-     * @param type
-     * @param date
-     * @return
+     * @param uid  用户编号
+     * @param type 报告类型：0早餐,1午餐,2晚餐,3加餐,4每日,5每周,6每月
+     * @param date 报告日期
+     * @return 返回 报告编号
      */
     private Integer getIdByUidType(int uid, int type, Date date) {
         return listDietReport(date, uid, type).get(0).getId();
@@ -214,8 +224,8 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * 获取菜式id
      *
-     * @param foodRecordList
-     * @return
+     * @param foodRecordList 饮食记录
+     * @return 返回 菜式列表id
      */
     private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
         List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);

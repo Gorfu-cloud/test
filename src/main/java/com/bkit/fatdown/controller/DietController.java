@@ -147,11 +147,11 @@ public class DietController {
         }
         Date dateInput = DateUtils.string2Date(date);
 
-        UserReportDTO reportDTO = reportService.generateDietReport(dateInput, uid, DAILY_TYPE);
+        if (reportService.countReportByDay(dateInput, uid) < DAILY_REPORT_TOTAL) {
+            return CommonResultDTO.failed("数据不足");
+        }
 
-//        if (reportService.countReportByDay(dateInput, uid) < 3) {
-//            return CommonResultDTO.failed("数据不足");
-//        }
+        UserReportDTO reportDTO = reportService.generateDietReport(dateInput, uid, DAILY_TYPE);
 
         if (reportDTO == null) {
             return CommonResultDTO.failed("数据为空");

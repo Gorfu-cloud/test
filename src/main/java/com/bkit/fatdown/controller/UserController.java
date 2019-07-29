@@ -77,7 +77,7 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/getBasicInfoByOpenId/{openId}", method = RequestMethod.GET)
     public CommonResultDTO getUserBasicInfo(@PathVariable String openId) {
-        if (CheckInputUtils.checkNull(openId)) {
+        if (openId.isEmpty()) {
             return CommonResultDTO.validateFailed("openId错误");
         }
 
