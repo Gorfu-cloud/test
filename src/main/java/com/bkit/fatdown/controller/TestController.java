@@ -7,8 +7,7 @@ import com.bkit.fatdown.entity.TbQuestionBasic;
 import com.bkit.fatdown.entity.TbTestRecord;
 import com.bkit.fatdown.service.ITestPaperService;
 import com.bkit.fatdown.service.ITestService;
-import com.bkit.fatdown.utils.DataMapUtils;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,7 +87,7 @@ public class TestController {
             return CommonResultDTO.validateFailed("userId/paperId/questionId/userAnswer/错误");
         }
 
-        TbTestRecord record = DataMapUtils.getTestRecordFromMap(map);
+        TbTestRecord record = DataTransferUtils.getTestRecordFromMap(map);
         // 获取用户答题得分
         Double userScore = testService.getTestScoreByRecord(record);
 

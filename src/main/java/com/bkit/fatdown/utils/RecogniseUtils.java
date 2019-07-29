@@ -1,7 +1,8 @@
 package com.bkit.fatdown.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-
 /**
  * @file: RecogniseUtils
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -25,8 +25,8 @@ import java.util.*;
  * @modified:
  * @version: 1.0
  */
-
 public class RecogniseUtils {
+
     private final static HostnameVerifier DO_NOT_VERIFY = (hostname, session) -> true;
     private final static String BOUNDARY = UUID.randomUUID().toString().toLowerCase().replaceAll("-", "");
     private final static String PREFIX = "--";
@@ -36,6 +36,8 @@ public class RecogniseUtils {
     private final static String ADDRESS = "https://open.jishiqi.net/api/v1/detect/img/detect";
     private final static Integer SUCCESS_CODE = 200;
 
+    private static final Logger logger = LoggerFactory.getLogger(RecogniseUtils.class);
+
     /**
      * @description: 返回食物识别结果
      * @params:
@@ -43,7 +45,6 @@ public class RecogniseUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/23/19
      */
-
     public static JSONObject recognise(@RequestParam MultipartFile file) {
         URL url;
         InputStream input;
@@ -72,7 +73,7 @@ public class RecogniseUtils {
             // 往服务器端写内容 也就是发起http请求需要带的参数
             os = new DataOutputStream(connection.getOutputStream());
             Map<String, File> files = new HashMap<>(2);
-            File newFile = multipartFile2File(file);
+            File newFile = DataTransferUtils.multipartFile2File(file);
             files.put("file", newFile);
             writeFile(files, os);
             // 请求结束标志
@@ -105,7 +106,6 @@ public class RecogniseUtils {
         return JSONObject.parseObject(buffer.toString());
     }
 
-
     /**
      * @description: 输出图片文件数据
      * @params:
@@ -113,7 +113,6 @@ public class RecogniseUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/22/19
      */
-
     private static void writeFile(Map<String, File> requestFile, OutputStream os) throws Exception {
         InputStream is = null;
         try {
@@ -149,6 +148,7 @@ public class RecogniseUtils {
                     os.write(LINE_END.getBytes());
                     os.flush();
                     msg.append(requestParams.toString());
+                    logger.info(String.valueOf(msg));
                 }
             }
         } catch (Exception e) {
@@ -167,7 +167,6 @@ public class RecogniseUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/22/19
      */
-
     private static String getContentType(File file) throws Exception {
         String streamContentType = "application/octet-stream";
         try (ImageInputStream image = ImageIO.createImageInputStream(file)) {
@@ -184,24 +183,5 @@ public class RecogniseUtils {
             throw new Exception(e);
         }
         return streamContentType;
-    }
-
-    /**
-     * @description: 转换为图片
-     * @params: multipartFile
-     * @return:
-     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
-     * @date: 7/15/19
-     */
-
-    private static File multipartFile2File(MultipartFile multipartFile) {
-        File file = null;
-        try {
-            file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
     }
 }

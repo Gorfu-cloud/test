@@ -7,7 +7,7 @@ import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
 import com.bkit.fatdown.service.ITaskRecordService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.utils.DataMapUtils;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,7 +106,7 @@ public class TaskController {
         if (!map.containsKey("id")) {
             return CommonResultDTO.validateFailed("id不能为空");
         }
-        TbTaskList taskList = DataMapUtils.getTaskListFromMap(map);
+        TbTaskList taskList = DataTransferUtils.getTaskListFromMap(map);
         if (taskListService.update(taskList)) {
             return CommonResultDTO.success();
         } else {
@@ -159,7 +159,7 @@ public class TaskController {
         if (!map.containsKey("id") || !map.containsKey("taskId")) {
             return CommonResultDTO.validateFailed("userId或taskId缺失");
         }
-        TbTaskRecord taskRecord = DataMapUtils.getTaskRecordFromMap(map);
+        TbTaskRecord taskRecord = DataTransferUtils.getTaskRecordFromMap(map);
         if (taskRecordService.insert(taskRecord)) {
             return CommonResultDTO.success();
         } else {
@@ -174,7 +174,7 @@ public class TaskController {
         if (!map.containsKey("type") || !map.containsKey("title")) {
             return CommonResultDTO.validateFailed("type或title不能为空");
         }
-        TbTaskList taskList = DataMapUtils.getTaskListFromMap(map);
+        TbTaskList taskList = DataTransferUtils.getTaskListFromMap(map);
         if (taskListService.insert(taskList)) {
             return CommonResultDTO.success();
         } else {

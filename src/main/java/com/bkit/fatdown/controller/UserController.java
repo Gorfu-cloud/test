@@ -1,6 +1,5 @@
 package com.bkit.fatdown.controller;
 
-import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
@@ -9,8 +8,7 @@ import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
-import com.bkit.fatdown.utils.CheckInputUtils;
-import com.bkit.fatdown.utils.DataMapUtils;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -92,7 +90,7 @@ public class UserController {
     @CrossOrigin
     @RequestMapping(value = "/updateBasicInfo", method = RequestMethod.POST)
     public CommonResultDTO updateUserBasicInfo(@RequestBody HashMap<String, String> map) {
-        TbUserBasicInfo userBasicInfo = DataMapUtils.getUserBasicInfoFromMap(map);
+        TbUserBasicInfo userBasicInfo = DataTransferUtils.getUserBasicInfoFromMap(map);
         if (userBasicInfo.getId() == null || map.get("id").isEmpty() || map.get("id").length() == 0) {
             return CommonResultDTO.failed("id为空");
         }
@@ -116,7 +114,7 @@ public class UserController {
             return CommonResultDTO.validateFailed("userId无效");
         }
         // 获取传入的参数
-        TbUserPrivacyInfo privacyInfo = DataMapUtils.getPrivacyInfoFromMap(map);
+        TbUserPrivacyInfo privacyInfo = DataTransferUtils.getPrivacyInfoFromMap(map);
 
         if (updatePrivacyInfo(privacyInfo)) {
             if (privacyInfo.getHeight() != null || privacyInfo.getWeight() != null) {
@@ -201,7 +199,7 @@ public class UserController {
             return CommonResultDTO.validateFailed("userId出错");
         }
         // 读取用户中的信息
-        TbUserLifeStyle lifeStyle = DataMapUtils.getUserLifeStyleFromMap(map);
+        TbUserLifeStyle lifeStyle = DataTransferUtils.getUserLifeStyleFromMap(map);
         // 查看今天是否有记录
         if (userLifeStyleService.countByUidAndCreateDate(lifeStyle.getUserId(), new Date()) > 0) {
             if (userLifeStyleService.update(lifeStyle)) {

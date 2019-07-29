@@ -2,20 +2,24 @@ package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.entity.*;
+import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
- * @file: DataMapUtils
+ * @file: DataTransferUtils
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: 从map中获取传入的参数工具类
  * @date: Created in 2019/7/16 11:09
  * @modified: 修改添加当日修改同一个记录
  * @version: 1.0
  */
-
-public class DataMapUtils {
+public class DataTransferUtils {
 
     /**
      * 劳动强度:0轻度,1中度,2重度
@@ -51,15 +55,12 @@ public class DataMapUtils {
             int id = Integer.parseInt(map.get("id"));
             userBasicInfo.setId(id);
         }
-
         if (map.containsKey("openId")) {
             userBasicInfo.setOpenId(map.get("openId"));
         }
-
         if (map.containsKey("avatarUrl")) {
             userBasicInfo.setAvatarUrl(map.get("avatarUrl"));
         }
-
         if (map.containsKey("nickName")) {
             userBasicInfo.setNickName(map.get("nickName"));
         }
@@ -70,38 +71,30 @@ public class DataMapUtils {
             int age = Integer.parseInt(map.get("age"));
             userBasicInfo.setAge(age);
         }
-
         if (map.containsKey("gender")) {
             int gender = Integer.parseInt(map.get("gender"));
             userBasicInfo.setGender(gender);
         }
-
         if (map.containsKey("phone")) {
             userBasicInfo.setPhone(map.get("phone"));
         }
-
         if (map.containsKey("city")) {
             userBasicInfo.setCity(map.get("city"));
         }
-
         if (map.containsKey("job")) {
             userBasicInfo.setJob(map.get("job"));
         }
-
         if (map.containsKey("userLevel")) {
             int userLevel = Integer.parseInt(map.get("userLevel"));
             userBasicInfo.setUserLevel(userLevel);
         }
-
         if (map.containsKey("province")) {
             userBasicInfo.setProvince(map.get("province"));
         }
-
         if (map.containsKey("flag")) {
             int flag = Integer.parseInt(map.get("flag"));
             userBasicInfo.setFlag(flag);
         }
-
         userBasicInfo.setGmtModified(new Date());
         return userBasicInfo;
     }
@@ -118,83 +111,64 @@ public class DataMapUtils {
         if (map.containsKey("id")) {
             userPrivacyInfo.setId(map.get("id").intValue());
         }
-
         if (map.containsKey("height")) {
             userPrivacyInfo.setHeight(map.get("height").intValue());
         }
-
         if (map.containsKey("weight")) {
             userPrivacyInfo.setWeight(map.get("weight").intValue());
         }
         if (map.containsKey("userId")) {
             userPrivacyInfo.setUserId(map.get("userId").intValue());
         }
-
         if (map.containsKey("fatRate")) {
             userPrivacyInfo.setFatRate(map.get("fatRate"));
         }
-
         if (map.containsKey("bust")) {
             userPrivacyInfo.setBust(map.get("bust").intValue());
         }
-
         if (map.containsKey("waist")) {
             userPrivacyInfo.setWaist(map.get("waist").intValue());
         }
-
         if (map.containsKey("hip")) {
             userPrivacyInfo.setHip(map.get("hip").intValue());
         }
-
         if (map.containsKey("calf")) {
             userPrivacyInfo.setCalf(map.get("calf"));
         }
-
         if (map.containsKey("thign")) {
             userPrivacyInfo.setThign(map.get("thign"));
         }
-
         if (map.containsKey("bmi")) {
             userPrivacyInfo.setBmi(map.get("bmi"));
         }
-
         if (map.containsKey("foreArm")) {
             userPrivacyInfo.setForeArm(map.get("foreArm"));
         }
-
         if (map.containsKey("muscleOxygen")) {
             userPrivacyInfo.setMuscleOxygen(map.get("muscleOxygen").intValue());
         }
-
         if (map.containsKey("sbp")) {
             userPrivacyInfo.setSystolicBloodPressure(map.get("sbp").intValue());
         }
-
         if (map.containsKey("dbp")) {
             userPrivacyInfo.setDiastolicBloodPressure(map.get("dbp").intValue());
         }
-
         if (map.containsKey("bloodOxygen")) {
             userPrivacyInfo.setBloodOxygen(map.get("bloodOxygen").intValue());
         }
-
         if (map.containsKey("heartOxygen")) {
             userPrivacyInfo.setHeartRate(map.get("heartOxygen").intValue());
         }
-
         if (map.containsKey("heartRate")) {
             userPrivacyInfo.setHeartRate(map.get("heartRate").intValue());
         }
-
         if (map.containsKey("phUrine")) {
             userPrivacyInfo.setPhUrine(map.get("phUrine"));
         }
-
         if (map.containsKey("ketonuria")) {
             userPrivacyInfo.setKetonuria(map.get("ketonuria").intValue());
         }
-
-        if (map.containsKey("bodyTemperature")){
+        if (map.containsKey("bodyTemperature")) {
             userPrivacyInfo.setBodyTemperature(map.get("bodyTemperature"));
         }
         return userPrivacyInfo;
@@ -251,7 +225,7 @@ public class DataMapUtils {
      * @date: 2019/7/17
      */
 
-    public static CommonPageDTO getCommonPageDTOFromMap(HashMap<String, Integer> map) {
+    public static CommonPageDTO getCommonPageFromMap(HashMap<String, Integer> map) {
         CommonPageDTO pageDTO = new CommonPageDTO();
         if (map.containsKey("pageSize")) {
             pageDTO.setPageSize(map.get("pageSize"));
@@ -340,5 +314,23 @@ public class DataMapUtils {
             record.setUserAnswer(map.get("userAnswer"));
         }
         return record;
+    }
+
+    /**
+     * @description: 转换为图片
+     * @params: multipartFile
+     * @return:
+     * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+     * @date: 7/15/19
+     */
+    public static File multipartFile2File(MultipartFile multipartFile) {
+        File file = null;
+        try {
+            file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
     }
 }
