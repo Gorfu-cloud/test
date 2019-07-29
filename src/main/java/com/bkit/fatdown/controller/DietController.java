@@ -196,13 +196,12 @@ public class DietController {
         return null;
     }
 
-    @Deprecated
     @ApiOperation("通过菜式Id，计算所含元素总量")
     @CrossOrigin
     @RequestMapping(value = "/getFoodElementTotal", method = RequestMethod.GET)
     public CommonResultDTO getFoodElementTotalById(@RequestParam Integer foodId) {
         if (foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST) {
-            CommonResultDTO.failed("id错误");
+            return CommonResultDTO.validateFailed("id错误");
         }
         return CommonResultDTO.success(foodService.getElementTotalById(foodId));
     }

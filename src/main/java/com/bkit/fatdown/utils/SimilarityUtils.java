@@ -2,31 +2,29 @@ package com.bkit.fatdown.utils;
 
 
 /**
- * @FileName: SimilarityUtils
- * @Author: YuJian
- * @Description: 相似度对比工具
- * @Date: Created in 7/6/19  10:35 AM
- * @Modified:
- * @Version: 1.0.0
+ * @file: SimilarityUtils
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 相似度计算，编辑操作包括将一个字符替换成另一个字符，插入一个字符，删除一个字符。
+ * @date: Created in 7/29/19  9:06 PM
+ * @modified:
+ * @version: 1.0
  */
 
 public class SimilarityUtils {
 
     public static void main(String[] args) {
-        double p = Levenshtein("", "");
+        double p = levenshtein("", "");
         System.out.println(p);
     }
 
-
     /**
-     * @Description: 计算俩个字符串相似度
-     * @Param: str1, str2
-     * @return: float
-     * @Author: YuJian
-     * @date: 7/6/19
+     * Levenshtein 距离，又称编辑距离，指的是两个字符串之间，由一个转换成另一个所需的最少编辑操作次数。
+     *
+     * @param str1
+     * @param str2
+     * @return
      */
-
-    public static float Levenshtein(String str1, String str2) {
+    private static float levenshtein(String str1, String str2) {
         char[] char1 = str1.toCharArray();
         char[] char2 = str2.toCharArray();
         // 计算两个字符串的长度。
@@ -41,6 +39,7 @@ public class SimilarityUtils {
         for (int a = 0; a <= len2; a++) {
             dif[0][a] = a;
         }
+
         // 计算两个字符是否一样，计算左上的值
         int temp;
         for (int i = 1; i <= len1; i++) {
@@ -51,7 +50,7 @@ public class SimilarityUtils {
                     temp = 1;
                 }
                 //取三个值中最小的
-                dif[i][j] = Min(dif[i - 1][j - 1] + temp, dif[i][j - 1] + 1, dif[i - 1][j] + 1);
+                dif[i][j] = min(dif[i - 1][j - 1] + temp, dif[i][j - 1] + 1, dif[i - 1][j] + 1);
             }
         }
 
@@ -59,11 +58,6 @@ public class SimilarityUtils {
         return 1 - (float) dif[len1][len2] / Math.max(len1, len2);
     }
 
-    /// <summary>
-    /// 求最小值
-    /// </summary>
-    /// <param name="nums"></param>
-    /// <returns></returns>
     //TODO
 
     /**
@@ -74,7 +68,7 @@ public class SimilarityUtils {
      * @date: 7/6/19
      */
 
-    private static int Min(int... nums) {
+    private static int min(int... nums) {
         int min = Integer.MAX_VALUE;
         for (int item : nums) {
             if (min > item) {
