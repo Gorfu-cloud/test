@@ -13,7 +13,6 @@ import java.net.URLConnection;
  * @modified:
  * @version: 1.0
  */
-
 public class HttpRequestUtil {
 
     /**
@@ -23,7 +22,6 @@ public class HttpRequestUtil {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/10
      */
-
     @Deprecated
     public static String sendPost(String url, String param) {
         return sendGet(url, param);
@@ -37,7 +35,6 @@ public class HttpRequestUtil {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/12
      */
-
     static String sendGet(String url, String param) {
         String result = "";
         BufferedReader in = null;
@@ -76,5 +73,4 @@ public class HttpRequestUtil {
         }
         return result;
     }
-
 }
