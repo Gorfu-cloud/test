@@ -75,13 +75,13 @@ public class FoodElementServiceImpl implements IFoodElementService {
     }
 
     /**
-     * 获取食物组成id
+     * 获取食物组成元素名称和种类
      *
      * @param foodId
      * @return
      */
     @Override
-    public HashMap<Integer, Double> listElementById(int foodId) {
+    public HashMap<Integer, Double> getElementNameAndGram(int foodId) {
         TbFoodElementRelationExample example = new TbFoodElementRelationExample();
         example.createCriteria()
                 .andFoodEqualTo(foodId);

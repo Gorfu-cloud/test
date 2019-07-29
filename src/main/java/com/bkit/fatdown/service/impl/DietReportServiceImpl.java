@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -135,7 +136,8 @@ public class DietReportServiceImpl implements IDietReportService {
     @Override
     public UserReportDTO generateDietReport(Date date, Integer uid, Integer type) {
         // 获取生成的记录
-        UserReportDTO reportDTO = foodService.foodBasic2DietReport(foodService.listFoodBasic(uid, date, type));
+        UserReportDTO reportDTO = foodService.getDietElementTotal(listFoodId(foodService.listFoodBasic(uid, date, type)));
+
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
         TbDietReport report = reportDTO2DietReport(reportDTO);
@@ -199,5 +201,15 @@ public class DietReportServiceImpl implements IDietReportService {
 
     private Integer getIdByUidType(int uid, int type, Date date) {
         return listDietReport(date, uid, type).get(0).getId();
+    }
+
+    // 获取菜式id
+    private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
+        List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);
+
+        for (TbFoodRecord record : foodRecordList) {
+            foodIdList.add(record.getFoodId());
+        }
+        return foodIdList;
     }
 }

@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.ElementTotalDTO;
 import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
@@ -51,6 +52,12 @@ public class DietFoodServiceImpl implements IDietFoodService {
     private IFoodElementService foodElementService;
 
     private static Logger logger = Logger.getLogger(DietFoodServiceImpl.class);
+
+    // 存在该菜式拆解
+    private static final int EXIST_FOOD = 0;
+    // 菜式含量组成单位，100g
+    private static final int FOOD_GRAM_BASE = 100;
+
 
     /**
      * 保存饮食记录
@@ -136,63 +143,51 @@ public class DietFoodServiceImpl implements IDietFoodService {
     /**
      * 拆解菜式
      *
-     * @param recordList
+     * @param recordIdList
      * @return
      */
     @Override
-    public UserReportDTO foodBasic2DietReport(List<TbFoodRecord> recordList) {
-        // 能量
-        double energy = 0.0;
-        // 脂肪
-        double fat = 0.0;
-        // 蛋白质
-        double protein = 0.0;
-        // 碳水化合物
-        double cho = 0.0;
-        // 膳食纤维
-        double fiber = 0.0;
-        // 饮食结构
-        Set<Integer> structType = new TreeSet<>();
+    public UserReportDTO getDietElementTotal(List<Integer> recordIdList) {
 
-        // 计算用餐成分
-        for (TbFoodRecord foodRecord : recordList) {
-            int id = foodRecord.getFoodId();
-            // 菜式信息
-            TbFoodBasic foodBasic = foodBasicService.getFoodBasic(id);
-
-            // 存该菜式记录时
-            if (foodBasic.getFlag() == 0) {
-                // 获取食物元素组成(蛋白质等）
-                Map<Integer, Double> map = foodElementService.listElementById(id);
-
-                // 计算组成总量
-                for (Map.Entry<Integer, Double> entry : map.entrySet()) {
-                    int basicId = entry.getKey();
-                    // 对应元素含量
-                    double gram = entry.getValue();
-                    // 计算每一百克对应的元素含量
-                    TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
-                    energy += (gram / 100) * elementBasic.getEnergy();
-                    protein += (gram / 100) * elementBasic.getProtein();
-                    cho += (gram / 100) * elementBasic.getCho();
-                    fiber += (gram / 100) * elementBasic.getFiber();
-                    fat += (gram / 100) * elementBasic.getFat();
-                    // 添加结构类型1,蛋白质，2主食，3,蔬菜水果，4,坚果，5豆类
-                    structType.add(elementBasic.getType());
-                }
-            }
-        }
-
+        ElementTotalDTO totalDTO = getElementTotal(recordIdList);
         UserReportDTO reportDTO = new UserReportDTO();
 
-        reportDTO.setRealEnergy(energy);
-        reportDTO.setProtein(protein);
-        reportDTO.setCho(cho);
-        reportDTO.setFat(fat);
-        reportDTO.setFiber(fiber);
-        reportDTO.setStructureLack(structType);
+        reportDTO.setRealEnergy(totalDTO.getEnergy());
+        reportDTO.setProtein(totalDTO.getProtein());
+        reportDTO.setCho(totalDTO.getCho());
+        reportDTO.setFat(totalDTO.getFat());
+        reportDTO.setFiber(totalDTO.getFiber());
+        reportDTO.setStructureLack(totalDTO.getStructType());
 
         return reportDTO;
+    }
+
+    /**
+     * 返回指定菜式搭配总量
+     *
+     * @param foodIdList
+     * @return
+     */
+    @Override
+    public ElementTotalDTO getElementTotal(List<Integer> foodIdList) {
+
+        ElementTotalDTO target = new ElementTotalDTO();
+
+        // 为空时，直接返回初始化结果
+        if (foodIdList.isEmpty()) {
+            return target;
+        }
+
+        if (foodIdList.size() == 1) {
+            return getElementTotalById(foodIdList.get(0));
+        }
+
+        for (int id : foodIdList) {
+            ElementTotalDTO temp = getElementTotalById(id);
+            target = mergeElementTotalDTO(target, temp);
+        }
+
+        return target;
     }
 
     /**
@@ -249,6 +244,49 @@ public class DietFoodServiceImpl implements IDietFoodService {
     }
 
     /**
+     * 通过foodId 获取指定菜式组成成分，各元素总数
+     *
+     * @param foodId
+     * @return
+     */
+    @Override
+    public ElementTotalDTO getElementTotalById(int foodId) {
+        // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
+        double energy = 0, fat = 0, protein = 0, cho = 0, fiber = 0;
+        // 菜式拥有的营养种类
+        Set<Integer> structType = new TreeSet<>();
+        // 菜式信息
+        TbFoodBasic foodBasic = foodBasicService.getFoodBasic(foodId);
+        int flag = foodBasic.getFlag();
+
+        // 存该菜式记录时,计算菜式组成成分，元素总量
+        if (flag == EXIST_FOOD) {
+            // 获取食物元素组成(蛋白质等）
+            Map<Integer, Double> map = foodElementService.getElementNameAndGram(foodId);
+            // 计算组成总量
+            for (Map.Entry<Integer, Double> entry : map.entrySet()) {
+                // 组成成分id
+                int basicId = entry.getKey();
+                // 组成成分重量
+                double gram = entry.getValue();
+                // 计算根据每一百克，计算对应的元素含量
+                TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
+
+                energy += (gram / 100) * elementBasic.getEnergy();
+                protein += (gram / 100) * elementBasic.getProtein();
+                cho += (gram / 100) * elementBasic.getCho();
+                fiber += (gram / 100) * elementBasic.getFiber();
+                fat += (gram / 100) * elementBasic.getFat();
+
+                // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
+                structType.add(elementBasic.getType());
+            }
+        }
+
+        return new ElementTotalDTO(flag, energy, fat, protein, cho, fiber, structType);
+    }
+
+    /**
      * 返回日期时间内饮食记录
      *
      * @param uid
@@ -286,4 +324,27 @@ public class DietFoodServiceImpl implements IDietFoodService {
         return foodInfoDTOList;
     }
 
+    /**
+     * 合并计算总量
+     *
+     * @param target
+     * @param temp
+     * @return
+     */
+    private ElementTotalDTO mergeElementTotalDTO(ElementTotalDTO target, ElementTotalDTO temp) {
+        // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
+        double energy = target.getEnergy(), fat = target.getFat(),
+                protein = target.getProtein(), cho = target.getCho(), fiber = target.getFiber();
+        // 菜式拥有的营养种类
+        Set<Integer> structType = target.getStructType();
+
+        energy += temp.getEnergy();
+        fat += temp.getFat();
+        protein += temp.getProtein();
+        cho += temp.getCho();
+        fiber += temp.getFiber();
+        structType.addAll(temp.getStructType());
+
+        return new ElementTotalDTO(energy, fat, protein, cho, fiber, structType);
+    }
 }

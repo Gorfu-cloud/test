@@ -61,5 +61,5 @@ public interface IFoodElementService {
      * @param foodId
      * @return
      */
-    HashMap<Integer, Double> listElementById(int foodId);
+    HashMap<Integer, Double> getElementNameAndGram(int foodId);
 }
