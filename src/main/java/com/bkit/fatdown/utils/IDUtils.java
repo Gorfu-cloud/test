@@ -11,7 +11,9 @@ import java.util.Random;
  * @version: 1.0
  */
 
-public class IDUtils {
+class IDUtils {
+
+    private static final String STRING_FORMAT = "%03d";
 
     /**
      * @description: 生成图片名ID
@@ -21,16 +23,15 @@ public class IDUtils {
      * @date: 7/22/19
      */
 
-    public static String getImageName() {
+    static String getImageName() {
 
         // 取当前时间的长整型值包含毫秒
         long millis = System.currentTimeMillis();
 
         // 加上三位随机数
-        Random random = new Random();
-        int end3 = random.nextInt(999);
+        int suffix = new Random().nextInt(999);
 
         // 如果不足三位随机数前面补0
-        return millis + String.format("%03d", end3);
+        return millis + String.format(STRING_FORMAT, suffix);
     }
 }
