@@ -2,7 +2,6 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.ElementTotalDTO;
 import com.bkit.fatdown.dto.FoodInfoDTO;
-import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
@@ -53,9 +52,15 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     private static Logger logger = Logger.getLogger(DietFoodServiceImpl.class);
 
-    // 存在该菜式拆解
+    /**
+     * 存在该菜式拆解: 0
+     * 不存在该菜式拆解：1
+     */
     private static final int EXIST_FOOD = 0;
-    // 菜式含量组成单位，100g
+    private static final int NOT_EXIST_FOOD = 1;
+    /**
+     * 菜式组成元素含量组成单位，100g
+     */
     private static final int FOOD_GRAM_BASE = 100;
 
 
@@ -147,19 +152,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public UserReportDTO getDietElementTotal(List<Integer> recordIdList) {
-
-        ElementTotalDTO totalDTO = getElementTotal(recordIdList);
-        UserReportDTO reportDTO = new UserReportDTO();
-
-        reportDTO.setRealEnergy(totalDTO.getEnergy());
-        reportDTO.setProtein(totalDTO.getProtein());
-        reportDTO.setCho(totalDTO.getCho());
-        reportDTO.setFat(totalDTO.getFat());
-        reportDTO.setFiber(totalDTO.getFiber());
-        reportDTO.setStructureLack(totalDTO.getStructType());
-
-        return reportDTO;
+    public ElementTotalDTO getDietElementTotal(List<Integer> recordIdList) {
+        return getElementTotal(recordIdList);
     }
 
     /**
@@ -178,6 +172,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
             return target;
         }
 
+        // 记录为1时，直接返回
         if (foodIdList.size() == 1) {
             return getElementTotalById(foodIdList.get(0));
         }
@@ -272,11 +267,11 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 // 计算根据每一百克，计算对应的元素含量
                 TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
 
-                energy += (gram / 100) * elementBasic.getEnergy();
-                protein += (gram / 100) * elementBasic.getProtein();
-                cho += (gram / 100) * elementBasic.getCho();
-                fiber += (gram / 100) * elementBasic.getFiber();
-                fat += (gram / 100) * elementBasic.getFat();
+                energy += (gram / FOOD_GRAM_BASE) * elementBasic.getEnergy();
+                protein += (gram / FOOD_GRAM_BASE) * elementBasic.getProtein();
+                cho += (gram / FOOD_GRAM_BASE) * elementBasic.getCho();
+                fiber += (gram / FOOD_GRAM_BASE) * elementBasic.getFiber();
+                fat += (gram / FOOD_GRAM_BASE) * elementBasic.getFat();
 
                 // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
                 structType.add(elementBasic.getType());

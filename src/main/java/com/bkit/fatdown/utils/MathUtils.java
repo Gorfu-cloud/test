@@ -18,6 +18,15 @@ import java.util.TreeSet;
  */
 
 public class MathUtils {
+    /**
+     * 评价类型：0早餐，1午餐，2晚餐，3加餐，4每天，5每周，6每月
+     */
+    private static final int BREAKFAST = 0;
+    private static final int LUNCH = 1;
+    private static final int DINNER = 2;
+    private static final int DAILY = 4;
+    private static final int WEEKLY = 5;
+    private static final int MOUTH = 6;
 
     /**
      * 每日能量理论系数
@@ -112,9 +121,9 @@ public class MathUtils {
     /**
      * BMI=体重（千克）/（身高（米）*身高（米））
      *
-     * @param height
-     * @param weight
-     * @return
+     * @param height 身高
+     * @param weight 体重
+     * @return 返回BMI
      */
     public static double getBMI(int height, double weight) {
         return weight / Math.pow((height / 100.0), 2);
@@ -123,10 +132,10 @@ public class MathUtils {
     /**
      * 计算用户饮食标准
      *
-     * @param basicInfo
-     * @param privacyInfo
-     * @param lifeStyle
-     * @return
+     * @param basicInfo   用户基础信息，性别
+     * @param privacyInfo 用户隐私信息
+     * @param lifeStyle   用户生活习惯
+     * @return 饮食标准
      */
     public static TbDietUserStandard getDietUserStandard(TbUserBasicInfo basicInfo, TbUserPrivacyInfo privacyInfo,
                                                          TbUserLifeStyle lifeStyle) {
@@ -155,10 +164,10 @@ public class MathUtils {
     /**
      * 获取饮食评价
      *
-     * @param userStandard
-     * @param reportDTO
-     * @param type
-     * @return
+     * @param userStandard 饮食标准
+     * @param reportDTO    饮食总量
+     * @param type         饮食类型
+     * @return 饮食报告传输对象
      */
     public static UserReportDTO getDietReport(TbDietUserStandard userStandard, UserReportDTO reportDTO, Integer type) {
         // 一天总能量标准
@@ -167,25 +176,25 @@ public class MathUtils {
         // 真实摄入
         double realEnergy = reportDTO.getRealEnergy();
 
-        if (type == 0) {
+        if (type == BREAKFAST) {
             // 能量评价
             setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_BREAKFAST_RATIONAL_LOWER,
                     ENERGY_BREAKFAST_RATIONAL_UPPER, ENERGY_BREAKFAST_BAD_RATIONAL_UPPER, ENERGY_BREAKFAST_BAD_RATIONAL_LOWER);
             // 结构评价
             setStructureBreakEvaluation(reportDTO, STRUCTURE_BREAKFAST);
-        } else if (type == 1) {
+        } else if (type == LUNCH) {
             // 能量评价
             setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_LUNCH_RATIONAL_LOWER,
                     ENERGY_LUNCH_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_LOWER);
             // 结构评价
             setStructureBreakEvaluation(reportDTO, STRUCTURE_LUNCH);
-        } else if (type == 2) {
+        } else if (type == DINNER) {
             // 能量评价
             setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DINNER_RATIONAL_LOWER,
                     ENERGY_DINNER_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_LOWER);
             // 结构评价
             setStructureBreakEvaluation(reportDTO, STRUCTURE_DINNER);
-        } else if (type == 4) {
+        } else if (type == DAILY) {
             // 能量评价
             setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DAILY_RATIONAL_LOWER,
                     ENERGY_DAILY_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_LOWER);
@@ -201,13 +210,13 @@ public class MathUtils {
     /**
      * 设置饮食评价
      *
-     * @param reportDTO
-     * @param energyStandard
-     * @param realEnergy
-     * @param energyDinnerRationalLower
-     * @param energyDinnerRationalUpper
-     * @param energyDinnerBadRationalUpper
-     * @param energyDinnerBadRationalLower
+     * @param reportDTO                    饮食报告传输对象
+     * @param energyStandard               能量标准
+     * @param realEnergy                   真实摄入量
+     * @param energyDinnerRationalLower    合适标准下限
+     * @param energyDinnerRationalUpper    合适标准上限
+     * @param energyDinnerBadRationalUpper 超标上限
+     * @param energyDinnerBadRationalLower 超标下限
      */
     private static void setEnergyEvaluation(UserReportDTO reportDTO, double energyStandard, double realEnergy,
                                             Double energyDinnerRationalLower, Double energyDinnerRationalUpper,
@@ -230,8 +239,8 @@ public class MathUtils {
     /**
      * 进行结构评价
      *
-     * @param reportDTO
-     * @param structure
+     * @param reportDTO 饮食报告
+     * @param structure 结构标准
      */
     private static void setStructureBreakEvaluation(UserReportDTO reportDTO, ArrayList<Integer> structure) {
         // 实际摄入种类，减去必须摄入种类
@@ -250,8 +259,8 @@ public class MathUtils {
     /**
      * 设置营养素评价
      *
-     * @param reportDTO
-     * @param standard
+     * @param reportDTO 饮食报告传输对象
+     * @param standard  饮食标准
      */
     private static void setNutrientEvaluation(UserReportDTO reportDTO, Double standard) {
 
@@ -261,6 +270,12 @@ public class MathUtils {
         setFibrinEvaluation(reportDTO);
     }
 
+    /**
+     * 设置蛋白质评价
+     *
+     * @param reportDTO      摄入总和
+     * @param energyStandard 能量标准
+     */
     private static void setProteinEvaluation(UserReportDTO reportDTO, Double energyStandard) {
         double proteinPer = (PROTEIN_ENERGY_OF_1G * reportDTO.getProtein()) / energyStandard;
         double proteinStandard = (DAILY_PROTEIN_MORE * energyStandard / PROTEIN_ENERGY_OF_1G);
@@ -279,6 +294,12 @@ public class MathUtils {
         reportDTO.setProteinPer(proteinPer * PER_BASE);
     }
 
+    /**
+     * 脂肪评价
+     *
+     * @param reportDTO      摄入总和
+     * @param energyStandard 能量标准
+     */
     private static void setFatEvaluation(UserReportDTO reportDTO, Double energyStandard) {
         double fatPer = (FAT_ENERGY_OF_1G * reportDTO.getFat()) / energyStandard;
         double fatStandard = (DAILY_FAT_MORE * energyStandard / FAT_ENERGY_OF_1G);
@@ -287,7 +308,6 @@ public class MathUtils {
             // 多
             reportDTO.setFatEvaluation(GOOD);
             reportDTO.setFatLack(reportDTO.getFat() - fatStandard);
-
         } else if (fatPer < DAILY_FAT_LITTLE) {
             // 少
             reportDTO.setFatEvaluation(BAD);
@@ -296,9 +316,15 @@ public class MathUtils {
             // 合适
             reportDTO.setFatEvaluation(EXCELLENT);
         }
-        reportDTO.setFatPer(fatPer);
+        reportDTO.setFatPer(fatPer * PER_BASE);
     }
 
+    /**
+     * 碳水化合物评价
+     *
+     * @param reportDTO      摄入总和
+     * @param energyStandard 能量标准
+     */
     private static void setColEvaluation(UserReportDTO reportDTO, Double energyStandard) {
         double colPer = (COL_ENERGY_OF_1G * reportDTO.getCho()) / energyStandard;
         double colStandard = (DAILY_COL_MORE * energyStandard) / COL_ENERGY_OF_1G;
@@ -316,9 +342,14 @@ public class MathUtils {
             reportDTO.setColEvaluation(EXCELLENT);
         }
 
-        reportDTO.setColPer(colPer);
+        reportDTO.setColPer(colPer * PER_BASE);
     }
 
+    /**
+     * 纤维素评价
+     *
+     * @param reportDTO 摄入总和
+     */
     private static void setFibrinEvaluation(UserReportDTO reportDTO) {
         double fiber = reportDTO.getFiber();
 
@@ -335,9 +366,9 @@ public class MathUtils {
     /**
      * 获取身高计算出的基础能量
      *
-     * @param gender
-     * @param height
-     * @return
+     * @param gender 性别：0未知，1男，2女
+     * @param height 身高
+     * @return 基础能量标准
      */
     private static Double getBasicEnergy(Integer gender, Integer height, Integer weight) {
         if (gender == WOMEN) {
@@ -350,10 +381,10 @@ public class MathUtils {
     /**
      * 每日理论计算公式
      *
-     * @param sexReduction
-     * @param height
-     * @param weight
-     * @return
+     * @param sexReduction 性别对应减数
+     * @param height       身高
+     * @param weight       体重
+     * @return 返回每日理论能量
      */
     private static Double getDailyEnergy(int sexReduction, Integer height, Integer weight) {
         double weightRatio;

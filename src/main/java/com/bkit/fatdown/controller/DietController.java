@@ -164,7 +164,7 @@ public class DietController {
     @ApiOperation("查看三餐饮食报告，通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/listDailyReport", method = RequestMethod.GET)
-    public CommonResultDTO listDailyReport(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<List<UserReportDTO>> listDailyReport(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid无效");
         }
