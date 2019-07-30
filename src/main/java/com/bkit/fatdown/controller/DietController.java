@@ -235,7 +235,7 @@ public class DietController {
 
             // 查找食物基础信息是否存在？
             List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);
-            // 菜式不在数据库中,插入新菜式记录,flag=0->已有菜式，flag=1->新菜式
+            // 菜式不在数据库中,插入新菜式记录,flag= 0 -> 已有菜式，flag= 1 -> 新菜式
             if (foodList.size() == DATA_NOT_EXIST) {
                 TbFoodBasic newFoodBasic = new TbFoodBasic();
                 newFoodBasic.setFoodName(foodName);
