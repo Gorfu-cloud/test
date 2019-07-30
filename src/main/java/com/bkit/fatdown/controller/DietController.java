@@ -46,6 +46,9 @@ public class DietController {
     @Resource
     private IFoodRecommendService recommendService;
 
+    @Resource
+    private IFoodRecommendRecordService foodRecommendRecordService;
+
     private static final int DATA_NOT_EXIST = 0;
 
     /**
@@ -69,8 +72,8 @@ public class DietController {
     @ApiOperation("获取用餐信息，菜式名，重量（type：0早餐，1午餐，2晚餐）")
     @CrossOrigin
     @RequestMapping(value = "/listFoodInfo", method = RequestMethod.GET)
-    public CommonResultDTO listFoodInfo(@RequestParam Integer uid, @RequestParam String date,
-                                        @RequestParam Integer type) {
+    public CommonResultDTO<List<FoodInfoDTO>> listFoodInfo(@RequestParam Integer uid, @RequestParam String date,
+                                                           @RequestParam Integer type) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid无效");
         }
@@ -87,15 +90,15 @@ public class DietController {
     @ApiOperation("查看早餐饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getBreakfastReport", method = RequestMethod.GET)
-    public CommonResultDTO getBreakfastReport(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<UserReportDTO> getBreakfastReport(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date无效");
         }
 
         Date inputDate = DateUtils.string2Date(date);
 
-        if (pictureService.countRecord(DateUtils.getBreakfastStartTime(inputDate), DateUtils.getBreakfastEndTime(inputDate), uid)
-                == DATA_NOT_EXIST) {
+        if (pictureService.countRecord(DateUtils.getBreakfastStartTime(inputDate),
+                DateUtils.getBreakfastEndTime(inputDate), uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("暂无数据");
         }
 
@@ -105,7 +108,7 @@ public class DietController {
     @ApiOperation("查看午餐饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getLunchReport", method = RequestMethod.GET)
-    public CommonResultDTO getLunchReport(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<UserReportDTO> getLunchReport(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid无效");
         }
@@ -122,7 +125,7 @@ public class DietController {
     @ApiOperation("查看晚餐饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getDinnerReport", method = RequestMethod.GET)
-    public CommonResultDTO getDinnerReport(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<UserReportDTO> getDinnerReport(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid无效");
         }
@@ -140,7 +143,7 @@ public class DietController {
     @ApiOperation("查看每天饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/getDailyReport", method = RequestMethod.GET)
-    public CommonResultDTO getDailyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<UserReportDTO> getDailyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
 
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date.isEmpty()) {
             return CommonResultDTO.validateFailed("uid无效");
@@ -352,5 +355,50 @@ public class DietController {
         }
 
         return CommonResultDTO.success(recommendList);
+    }
+
+    @ApiOperation("创建推荐菜式选择记录")
+    @CrossOrigin
+    @RequestMapping(value = "/addFoodRecommendRecord", method = RequestMethod.POST)
+    public CommonResultDTO addFoodRecommendRecord(@RequestParam Integer uid, @RequestParam Integer foodId,
+                                                  @RequestParam String date, @RequestParam Integer foodType) {
+        if (date == null || foodType == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
+                || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("uid/recommendId 错误");
+        }
+
+        Date inputDate = DateUtils.string2Date(date);
+
+        TbFoodRecommendRecord recommendRecord = new TbFoodRecommendRecord();
+        recommendRecord.setFoodRecommendId(foodId);
+        recommendRecord.setUserId(uid);
+        recommendRecord.setFoodType(foodType);
+        recommendRecord.setGmtCreate(inputDate);
+
+        // 更新记录，不存在时，创建新记录
+        if (foodRecommendRecordService.updateOnlyRecord(recommendRecord)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("获取推荐菜式选择记录")
+    @CrossOrigin
+    @RequestMapping(value = "/listFoodRecommendRecord", method = RequestMethod.GET)
+    public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
+            return CommonResultDTO.validateFailed("uid/date参数错误");
+        }
+
+        Date inputDate = DateUtils.string2Date(date);
+
+        List<TbFoodRecommendRecord> recordList = foodRecommendRecordService.listFoodRecommendRecord(uid, inputDate);
+
+        if (recordList.size() == DATA_NOT_EXIST) {
+            return CommonResultDTO.failed("记录不存在");
+        }
+
+        return CommonResultDTO.success(recordList);
     }
 }

@@ -203,7 +203,6 @@ public class DietReportServiceImpl implements IDietReportService {
         int id = getIdByUidType(uid, type, date);
         report.setId(id);
         return update(report);
-
     }
 
     /**
@@ -216,9 +215,9 @@ public class DietReportServiceImpl implements IDietReportService {
         TbDietReport report = new TbDietReport();
 
         report.setProtein(reportDTO.getProtein());
-        report.setFibrin(reportDTO.getFiber());
+        report.setFiber(reportDTO.getFiber());
         report.setEnergy(reportDTO.getRealEnergy());
-        report.setCol(reportDTO.getCho());
+        report.setCho(reportDTO.getCho());
         report.setFat(reportDTO.getFat());
 
         return report;

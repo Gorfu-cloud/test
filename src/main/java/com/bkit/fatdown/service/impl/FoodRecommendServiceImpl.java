@@ -77,10 +77,24 @@ public class FoodRecommendServiceImpl implements IFoodRecommendService {
     }
 
     /**
+     * 统计推荐菜式
+     *
+     * @param id 菜式id
+     * @return 返回结果
+     */
+    @Override
+    public int countFoodRecommend(int id) {
+        TbFoodRecommendExample example = new TbFoodRecommendExample();
+        example.createCriteria()
+                .andIdEqualTo(id);
+        return (int) recommendMapper.countByExample(example);
+    }
+
+    /**
      * 通过id查找推荐菜式
      *
-     * @param id
-     * @return
+     * @param id 推荐菜式id
+     * @return 推荐菜式
      */
     @Override
     public TbFoodRecommend getFoodRecommend(int id) {

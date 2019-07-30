@@ -18,40 +18,48 @@ public interface IFoodRecommendService {
     /**
      * 创建推荐菜式
      *
-     * @param recommend
-     * @return
+     * @param recommend 推荐菜式
+     * @return 返回结果
      */
     boolean insert(TbFoodRecommend recommend);
 
     /**
      * 更新推荐菜式
      *
-     * @param recommend
-     * @return
+     * @param recommend 推荐菜式
+     * @return 返回结果
      */
     boolean update(TbFoodRecommend recommend);
 
     /**
      * 删除推荐菜式
      *
-     * @param id
-     * @return
+     * @param id 推荐菜式id
+     * @return 返回结果
      */
     boolean delete(int id);
 
     /**
      * 通过类型，查找推荐菜式
      *
-     * @param foodType
-     * @return
+     * @param foodType 菜式类型
+     * @return 返回菜式列表
      */
     List<TbFoodRecommend> listFoodRecommend(int foodType);
 
     /**
      * 通过id查找推荐菜式
      *
-     * @param id
-     * @return
+     * @param id 推荐菜式id
+     * @return 返回推荐菜式
      */
     TbFoodRecommend getFoodRecommend(int id);
+
+    /**
+     * 统计推荐菜式
+     *
+     * @param id 菜式id
+     * @return 返回结果
+     */
+    int countFoodRecommend(int id);
 }

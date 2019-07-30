@@ -25,8 +25,8 @@ public class MathUtils {
     private static final int LUNCH = 1;
     private static final int DINNER = 2;
     private static final int DAILY = 4;
-    private static final int WEEKLY = 5;
-    private static final int MOUTH = 6;
+//    private static final int WEEKLY = 5;
+//    private static final int MOUTH = 6;
 
     /**
      * 每日能量理论系数
@@ -355,8 +355,12 @@ public class MathUtils {
 
         if (fiber > DAILY_FIBRIN_MORE) {
             reportDTO.setFibrinEvaluation(GOOD);
+            reportDTO.setFibrinLack(fiber - DAILY_FIBRIN_MORE);
+
         } else if (fiber < DAILY_FIBRIN_LITTLE) {
             reportDTO.setFibrinEvaluation(BAD);
+            reportDTO.setFibrinLack(DAILY_FIBRIN_LITTLE - fiber);
+
         } else {
             reportDTO.setFibrinEvaluation(EXCELLENT);
         }
