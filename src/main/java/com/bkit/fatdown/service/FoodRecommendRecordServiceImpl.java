@@ -104,6 +104,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         // 记录存在，更新记录
         if (countFoodRecommendRecord(record.getUserId(), record.getGmtCreate(), record.getFoodType()) > 0) {
             int id = getFoodRecommendRecordId(record.getUserId(), record.getGmtCreate(), record.getFoodType());
+            record.setId(id);
             record.setGmtModified(new Date());
             return update(record);
         }

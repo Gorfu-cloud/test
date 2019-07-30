@@ -359,10 +359,10 @@ public class DietController {
 
     @ApiOperation("创建推荐菜式选择记录")
     @CrossOrigin
-    @RequestMapping(value = "/addFoodRecommendRecord", method = RequestMethod.POST)
-    public CommonResultDTO addFoodRecommendRecord(@RequestParam Integer uid, @RequestParam Integer foodId,
-                                                  @RequestParam String date, @RequestParam Integer foodType) {
-        if (date == null || foodType == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
+    @RequestMapping(value = "/addFoodRecommendRecord", method = RequestMethod.GET)
+    public CommonResultDTO addFoodRecommendRecord(@RequestParam int uid, @RequestParam int foodId,
+                                                  @RequestParam String date, @RequestParam int foodType) {
+        if (date == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
                 || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid/recommendId 错误");
         }
