@@ -3,6 +3,7 @@ package com.bkit.fatdown.service.impl;
 import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.*;
+import com.bkit.fatdown.mappers.TbDietDailyReportMapper;
 import com.bkit.fatdown.mappers.TbDietMealReportMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DataTransferUtils;
@@ -34,6 +35,9 @@ public class DietReportServiceImpl implements IDietReportService {
 
     @Resource
     private TbDietMealReportMapper mealReportMapper;
+
+    @Resource
+    private TbDietDailyReportMapper dailyReportMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(DietReportServiceImpl.class);
 
@@ -224,6 +228,113 @@ public class DietReportServiceImpl implements IDietReportService {
         example.createCriteria()
                 .andIdEqualTo(id);
         return (int) mealReportMapper.countByExample(example);
+    }
+
+    /**
+     * 保存每日评价
+     *
+     * @param report 饮食评价
+     * @return 结果
+     */
+    @Override
+    public boolean insertDailyReport(TbDietDailyReport report) {
+        if (report.getGmtCreate() == null) {
+            report.setGmtCreate(new Date());
+            report.setGmtModified(new Date());
+        }
+        return dailyReportMapper.insertSelective(report) > 0;
+    }
+
+    /**
+     * 更新饮食评价
+     *
+     * @param report 饮食评价
+     * @return 结果
+     */
+    @Override
+    public boolean updateDailyReport(TbDietDailyReport report) {
+        if (report.getGmtModified() == null) {
+            report.setGmtModified(new Date());
+        }
+
+        return dailyReportMapper.updateByPrimaryKeySelective(report) > 0;
+    }
+
+    /**
+     * 删除饮食评价
+     *
+     * @param id 评价id
+     * @return 结果
+     */
+    @Override
+    public boolean deleteDailyReport(int id) {
+        return dailyReportMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    /**
+     * 通过评价id，获取每日饮食评价
+     *
+     * @param id 评价id
+     * @return 饮食评价
+     */
+    @Override
+    public TbDietDailyReport getDietDailyReport(int id) {
+        return dailyReportMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 通过日期，用户id，获取每日饮食评价
+     *
+     * @param date 日期
+     * @param uid  用户id
+     * @return 饮食评价
+     */
+    @Override
+    public TbDietDailyReport getDietDailyReport(Date date, int uid) {
+        return listDietDailyReport(date, date, uid).get(0);
+    }
+
+    /**
+     * 通过开始日期，结束日期，用户id，获取每日饮食评价
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 饮食评价
+     */
+    @Override
+    public List<TbDietDailyReport> listDietDailyReport(Date startDate, Date endDate, int uid) {
+        TbDietDailyReportExample example = new TbDietDailyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(DateUtils.getDateStart(startDate), DateUtils.getDateEnd(endDate));
+
+        return dailyReportMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取每日饮食评价记录数
+     *
+     * @param date 记录日期
+     * @param uid  用户id
+     * @return 评价记录数
+     */
+    @Override
+    public int countDietDailyReport(Date date, int uid) {
+        return listDietDailyReport(date, date, uid).size();
+    }
+
+    /**
+     * 获取日期之间的评价记录数
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 评价记录数
+     */
+    @Override
+    public int countDietDailyReport(Date startDate, Date endDate, int uid) {
+        return listDietDailyReport(startDate, endDate, uid).size();
     }
 
     /**
