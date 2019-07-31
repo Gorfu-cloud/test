@@ -735,413 +735,413 @@ public class TbDietRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatIsNull() {
-            addCriterion("good_fat is null");
+        public Criteria andAnimalFatIsNull() {
+            addCriterion("animal_fat is null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatIsNotNull() {
-            addCriterion("good_fat is not null");
+        public Criteria andAnimalFatIsNotNull() {
+            addCriterion("animal_fat is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatEqualTo(Double value) {
-            addCriterion("good_fat =", value, "goodFat");
+        public Criteria andAnimalFatEqualTo(Double value) {
+            addCriterion("animal_fat =", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatNotEqualTo(Double value) {
-            addCriterion("good_fat <>", value, "goodFat");
+        public Criteria andAnimalFatNotEqualTo(Double value) {
+            addCriterion("animal_fat <>", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatGreaterThan(Double value) {
-            addCriterion("good_fat >", value, "goodFat");
+        public Criteria andAnimalFatGreaterThan(Double value) {
+            addCriterion("animal_fat >", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatGreaterThanOrEqualTo(Double value) {
-            addCriterion("good_fat >=", value, "goodFat");
+        public Criteria andAnimalFatGreaterThanOrEqualTo(Double value) {
+            addCriterion("animal_fat >=", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatLessThan(Double value) {
-            addCriterion("good_fat <", value, "goodFat");
+        public Criteria andAnimalFatLessThan(Double value) {
+            addCriterion("animal_fat <", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatLessThanOrEqualTo(Double value) {
-            addCriterion("good_fat <=", value, "goodFat");
+        public Criteria andAnimalFatLessThanOrEqualTo(Double value) {
+            addCriterion("animal_fat <=", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatIn(List<Double> values) {
-            addCriterion("good_fat in", values, "goodFat");
+        public Criteria andAnimalFatIn(List<Double> values) {
+            addCriterion("animal_fat in", values, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatNotIn(List<Double> values) {
-            addCriterion("good_fat not in", values, "goodFat");
+        public Criteria andAnimalFatNotIn(List<Double> values) {
+            addCriterion("animal_fat not in", values, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatBetween(Double value1, Double value2) {
-            addCriterion("good_fat between", value1, value2, "goodFat");
+        public Criteria andAnimalFatBetween(Double value1, Double value2) {
+            addCriterion("animal_fat between", value1, value2, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andGoodFatNotBetween(Double value1, Double value2) {
-            addCriterion("good_fat not between", value1, value2, "goodFat");
+        public Criteria andAnimalFatNotBetween(Double value1, Double value2) {
+            addCriterion("animal_fat not between", value1, value2, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetIsNull() {
-            addCriterion("structure_type_set is null");
+        public Criteria andStructureSetIsNull() {
+            addCriterion("structure_set is null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetIsNotNull() {
-            addCriterion("structure_type_set is not null");
+        public Criteria andStructureSetIsNotNull() {
+            addCriterion("structure_set is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetEqualTo(String value) {
-            addCriterion("structure_type_set =", value, "structureTypeSet");
+        public Criteria andStructureSetEqualTo(String value) {
+            addCriterion("structure_set =", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetNotEqualTo(String value) {
-            addCriterion("structure_type_set <>", value, "structureTypeSet");
+        public Criteria andStructureSetNotEqualTo(String value) {
+            addCriterion("structure_set <>", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetGreaterThan(String value) {
-            addCriterion("structure_type_set >", value, "structureTypeSet");
+        public Criteria andStructureSetGreaterThan(String value) {
+            addCriterion("structure_set >", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetGreaterThanOrEqualTo(String value) {
-            addCriterion("structure_type_set >=", value, "structureTypeSet");
+        public Criteria andStructureSetGreaterThanOrEqualTo(String value) {
+            addCriterion("structure_set >=", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetLessThan(String value) {
-            addCriterion("structure_type_set <", value, "structureTypeSet");
+        public Criteria andStructureSetLessThan(String value) {
+            addCriterion("structure_set <", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetLessThanOrEqualTo(String value) {
-            addCriterion("structure_type_set <=", value, "structureTypeSet");
+        public Criteria andStructureSetLessThanOrEqualTo(String value) {
+            addCriterion("structure_set <=", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetLike(String value) {
-            addCriterion("structure_type_set like", value, "structureTypeSet");
+        public Criteria andStructureSetLike(String value) {
+            addCriterion("structure_set like", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetNotLike(String value) {
-            addCriterion("structure_type_set not like", value, "structureTypeSet");
+        public Criteria andStructureSetNotLike(String value) {
+            addCriterion("structure_set not like", value, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetIn(List<String> values) {
-            addCriterion("structure_type_set in", values, "structureTypeSet");
+        public Criteria andStructureSetIn(List<String> values) {
+            addCriterion("structure_set in", values, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetNotIn(List<String> values) {
-            addCriterion("structure_type_set not in", values, "structureTypeSet");
+        public Criteria andStructureSetNotIn(List<String> values) {
+            addCriterion("structure_set not in", values, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetBetween(String value1, String value2) {
-            addCriterion("structure_type_set between", value1, value2, "structureTypeSet");
+        public Criteria andStructureSetBetween(String value1, String value2) {
+            addCriterion("structure_set between", value1, value2, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andStructureTypeSetNotBetween(String value1, String value2) {
-            addCriterion("structure_type_set not between", value1, value2, "structureTypeSet");
+        public Criteria andStructureSetNotBetween(String value1, String value2) {
+            addCriterion("structure_set not between", value1, value2, "structureSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetIsNull() {
-            addCriterion("protein_type_set is null");
+        public Criteria andProteinSetIsNull() {
+            addCriterion("protein_set is null");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetIsNotNull() {
-            addCriterion("protein_type_set is not null");
+        public Criteria andProteinSetIsNotNull() {
+            addCriterion("protein_set is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetEqualTo(String value) {
-            addCriterion("protein_type_set =", value, "proteinTypeSet");
+        public Criteria andProteinSetEqualTo(String value) {
+            addCriterion("protein_set =", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetNotEqualTo(String value) {
-            addCriterion("protein_type_set <>", value, "proteinTypeSet");
+        public Criteria andProteinSetNotEqualTo(String value) {
+            addCriterion("protein_set <>", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetGreaterThan(String value) {
-            addCriterion("protein_type_set >", value, "proteinTypeSet");
+        public Criteria andProteinSetGreaterThan(String value) {
+            addCriterion("protein_set >", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetGreaterThanOrEqualTo(String value) {
-            addCriterion("protein_type_set >=", value, "proteinTypeSet");
+        public Criteria andProteinSetGreaterThanOrEqualTo(String value) {
+            addCriterion("protein_set >=", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetLessThan(String value) {
-            addCriterion("protein_type_set <", value, "proteinTypeSet");
+        public Criteria andProteinSetLessThan(String value) {
+            addCriterion("protein_set <", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetLessThanOrEqualTo(String value) {
-            addCriterion("protein_type_set <=", value, "proteinTypeSet");
+        public Criteria andProteinSetLessThanOrEqualTo(String value) {
+            addCriterion("protein_set <=", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetLike(String value) {
-            addCriterion("protein_type_set like", value, "proteinTypeSet");
+        public Criteria andProteinSetLike(String value) {
+            addCriterion("protein_set like", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetNotLike(String value) {
-            addCriterion("protein_type_set not like", value, "proteinTypeSet");
+        public Criteria andProteinSetNotLike(String value) {
+            addCriterion("protein_set not like", value, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetIn(List<String> values) {
-            addCriterion("protein_type_set in", values, "proteinTypeSet");
+        public Criteria andProteinSetIn(List<String> values) {
+            addCriterion("protein_set in", values, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetNotIn(List<String> values) {
-            addCriterion("protein_type_set not in", values, "proteinTypeSet");
+        public Criteria andProteinSetNotIn(List<String> values) {
+            addCriterion("protein_set not in", values, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetBetween(String value1, String value2) {
-            addCriterion("protein_type_set between", value1, value2, "proteinTypeSet");
+        public Criteria andProteinSetBetween(String value1, String value2) {
+            addCriterion("protein_set between", value1, value2, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andProteinTypeSetNotBetween(String value1, String value2) {
-            addCriterion("protein_type_set not between", value1, value2, "proteinTypeSet");
+        public Criteria andProteinSetNotBetween(String value1, String value2) {
+            addCriterion("protein_set not between", value1, value2, "proteinSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetIsNull() {
-            addCriterion("staple_food_type_set is null");
+        public Criteria andStapleFoodSetIsNull() {
+            addCriterion("staple_food_set is null");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetIsNotNull() {
-            addCriterion("staple_food_type_set is not null");
+        public Criteria andStapleFoodSetIsNotNull() {
+            addCriterion("staple_food_set is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetEqualTo(String value) {
-            addCriterion("staple_food_type_set =", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetEqualTo(String value) {
+            addCriterion("staple_food_set =", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetNotEqualTo(String value) {
-            addCriterion("staple_food_type_set <>", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetNotEqualTo(String value) {
+            addCriterion("staple_food_set <>", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetGreaterThan(String value) {
-            addCriterion("staple_food_type_set >", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetGreaterThan(String value) {
+            addCriterion("staple_food_set >", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetGreaterThanOrEqualTo(String value) {
-            addCriterion("staple_food_type_set >=", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetGreaterThanOrEqualTo(String value) {
+            addCriterion("staple_food_set >=", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetLessThan(String value) {
-            addCriterion("staple_food_type_set <", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetLessThan(String value) {
+            addCriterion("staple_food_set <", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetLessThanOrEqualTo(String value) {
-            addCriterion("staple_food_type_set <=", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetLessThanOrEqualTo(String value) {
+            addCriterion("staple_food_set <=", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetLike(String value) {
-            addCriterion("staple_food_type_set like", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetLike(String value) {
+            addCriterion("staple_food_set like", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetNotLike(String value) {
-            addCriterion("staple_food_type_set not like", value, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetNotLike(String value) {
+            addCriterion("staple_food_set not like", value, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetIn(List<String> values) {
-            addCriterion("staple_food_type_set in", values, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetIn(List<String> values) {
+            addCriterion("staple_food_set in", values, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetNotIn(List<String> values) {
-            addCriterion("staple_food_type_set not in", values, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetNotIn(List<String> values) {
+            addCriterion("staple_food_set not in", values, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetBetween(String value1, String value2) {
-            addCriterion("staple_food_type_set between", value1, value2, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetBetween(String value1, String value2) {
+            addCriterion("staple_food_set between", value1, value2, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andStapleFoodTypeSetNotBetween(String value1, String value2) {
-            addCriterion("staple_food_type_set not between", value1, value2, "stapleFoodTypeSet");
+        public Criteria andStapleFoodSetNotBetween(String value1, String value2) {
+            addCriterion("staple_food_set not between", value1, value2, "stapleFoodSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetIsNull() {
-            addCriterion("fruit_vegetable_type_set is null");
+        public Criteria andFruitVegetableSetIsNull() {
+            addCriterion("fruit_vegetable_set is null");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetIsNotNull() {
-            addCriterion("fruit_vegetable_type_set is not null");
+        public Criteria andFruitVegetableSetIsNotNull() {
+            addCriterion("fruit_vegetable_set is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetEqualTo(String value) {
-            addCriterion("fruit_vegetable_type_set =", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetEqualTo(String value) {
+            addCriterion("fruit_vegetable_set =", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetNotEqualTo(String value) {
-            addCriterion("fruit_vegetable_type_set <>", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetNotEqualTo(String value) {
+            addCriterion("fruit_vegetable_set <>", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetGreaterThan(String value) {
-            addCriterion("fruit_vegetable_type_set >", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetGreaterThan(String value) {
+            addCriterion("fruit_vegetable_set >", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetGreaterThanOrEqualTo(String value) {
-            addCriterion("fruit_vegetable_type_set >=", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetGreaterThanOrEqualTo(String value) {
+            addCriterion("fruit_vegetable_set >=", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetLessThan(String value) {
-            addCriterion("fruit_vegetable_type_set <", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetLessThan(String value) {
+            addCriterion("fruit_vegetable_set <", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetLessThanOrEqualTo(String value) {
-            addCriterion("fruit_vegetable_type_set <=", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetLessThanOrEqualTo(String value) {
+            addCriterion("fruit_vegetable_set <=", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetLike(String value) {
-            addCriterion("fruit_vegetable_type_set like", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetLike(String value) {
+            addCriterion("fruit_vegetable_set like", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetNotLike(String value) {
-            addCriterion("fruit_vegetable_type_set not like", value, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetNotLike(String value) {
+            addCriterion("fruit_vegetable_set not like", value, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetIn(List<String> values) {
-            addCriterion("fruit_vegetable_type_set in", values, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetIn(List<String> values) {
+            addCriterion("fruit_vegetable_set in", values, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetNotIn(List<String> values) {
-            addCriterion("fruit_vegetable_type_set not in", values, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetNotIn(List<String> values) {
+            addCriterion("fruit_vegetable_set not in", values, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetBetween(String value1, String value2) {
-            addCriterion("fruit_vegetable_type_set between", value1, value2, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetBetween(String value1, String value2) {
+            addCriterion("fruit_vegetable_set between", value1, value2, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andFruitVegetableTypeSetNotBetween(String value1, String value2) {
-            addCriterion("fruit_vegetable_type_set not between", value1, value2, "fruitVegetableTypeSet");
+        public Criteria andFruitVegetableSetNotBetween(String value1, String value2) {
+            addCriterion("fruit_vegetable_set not between", value1, value2, "fruitVegetableSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetIsNull() {
-            addCriterion("beans_type_set is null");
+        public Criteria andBeansSetIsNull() {
+            addCriterion("beans_set is null");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetIsNotNull() {
-            addCriterion("beans_type_set is not null");
+        public Criteria andBeansSetIsNotNull() {
+            addCriterion("beans_set is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetEqualTo(String value) {
-            addCriterion("beans_type_set =", value, "beansTypeSet");
+        public Criteria andBeansSetEqualTo(String value) {
+            addCriterion("beans_set =", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetNotEqualTo(String value) {
-            addCriterion("beans_type_set <>", value, "beansTypeSet");
+        public Criteria andBeansSetNotEqualTo(String value) {
+            addCriterion("beans_set <>", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetGreaterThan(String value) {
-            addCriterion("beans_type_set >", value, "beansTypeSet");
+        public Criteria andBeansSetGreaterThan(String value) {
+            addCriterion("beans_set >", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetGreaterThanOrEqualTo(String value) {
-            addCriterion("beans_type_set >=", value, "beansTypeSet");
+        public Criteria andBeansSetGreaterThanOrEqualTo(String value) {
+            addCriterion("beans_set >=", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetLessThan(String value) {
-            addCriterion("beans_type_set <", value, "beansTypeSet");
+        public Criteria andBeansSetLessThan(String value) {
+            addCriterion("beans_set <", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetLessThanOrEqualTo(String value) {
-            addCriterion("beans_type_set <=", value, "beansTypeSet");
+        public Criteria andBeansSetLessThanOrEqualTo(String value) {
+            addCriterion("beans_set <=", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetLike(String value) {
-            addCriterion("beans_type_set like", value, "beansTypeSet");
+        public Criteria andBeansSetLike(String value) {
+            addCriterion("beans_set like", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetNotLike(String value) {
-            addCriterion("beans_type_set not like", value, "beansTypeSet");
+        public Criteria andBeansSetNotLike(String value) {
+            addCriterion("beans_set not like", value, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetIn(List<String> values) {
-            addCriterion("beans_type_set in", values, "beansTypeSet");
+        public Criteria andBeansSetIn(List<String> values) {
+            addCriterion("beans_set in", values, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetNotIn(List<String> values) {
-            addCriterion("beans_type_set not in", values, "beansTypeSet");
+        public Criteria andBeansSetNotIn(List<String> values) {
+            addCriterion("beans_set not in", values, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetBetween(String value1, String value2) {
-            addCriterion("beans_type_set between", value1, value2, "beansTypeSet");
+        public Criteria andBeansSetBetween(String value1, String value2) {
+            addCriterion("beans_set between", value1, value2, "beansSet");
             return (Criteria) this;
         }
 
-        public Criteria andBeansTypeSetNotBetween(String value1, String value2) {
-            addCriterion("beans_type_set not between", value1, value2, "beansTypeSet");
+        public Criteria andBeansSetNotBetween(String value1, String value2) {
+            addCriterion("beans_set not between", value1, value2, "beansSet");
             return (Criteria) this;
         }
 

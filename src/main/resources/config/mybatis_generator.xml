@@ -48,9 +48,9 @@
         <!--               enableUpdateByExample="true"/>-->
         <!--积分模块 结束-->
         <!--饮食模块 开始-->
-        <!--        <table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
+                <table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true"
+                       enableUpdateByExample="true"/>
         <!--        <table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->

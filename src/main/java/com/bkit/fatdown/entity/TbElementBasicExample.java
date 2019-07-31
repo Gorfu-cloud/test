@@ -385,123 +385,123 @@ public class TbElementBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinIsNull() {
-            addCriterion("goodProtein is null");
+        public Criteria andGoodProteinIsNull() {
+            addCriterion("good_protein is null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinIsNotNull() {
-            addCriterion("goodProtein is not null");
+        public Criteria andGoodProteinIsNotNull() {
+            addCriterion("good_protein is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinEqualTo(Integer value) {
-            addCriterion("goodProtein =", value, "goodprotein");
+        public Criteria andGoodProteinEqualTo(Integer value) {
+            addCriterion("good_protein =", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinNotEqualTo(Integer value) {
-            addCriterion("goodProtein <>", value, "goodprotein");
+        public Criteria andGoodProteinNotEqualTo(Integer value) {
+            addCriterion("good_protein <>", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinGreaterThan(Integer value) {
-            addCriterion("goodProtein >", value, "goodprotein");
+        public Criteria andGoodProteinGreaterThan(Integer value) {
+            addCriterion("good_protein >", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinGreaterThanOrEqualTo(Integer value) {
-            addCriterion("goodProtein >=", value, "goodprotein");
+        public Criteria andGoodProteinGreaterThanOrEqualTo(Integer value) {
+            addCriterion("good_protein >=", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinLessThan(Integer value) {
-            addCriterion("goodProtein <", value, "goodprotein");
+        public Criteria andGoodProteinLessThan(Integer value) {
+            addCriterion("good_protein <", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinLessThanOrEqualTo(Integer value) {
-            addCriterion("goodProtein <=", value, "goodprotein");
+        public Criteria andGoodProteinLessThanOrEqualTo(Integer value) {
+            addCriterion("good_protein <=", value, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinIn(List<Integer> values) {
-            addCriterion("goodProtein in", values, "goodprotein");
+        public Criteria andGoodProteinIn(List<Integer> values) {
+            addCriterion("good_protein in", values, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinNotIn(List<Integer> values) {
-            addCriterion("goodProtein not in", values, "goodprotein");
+        public Criteria andGoodProteinNotIn(List<Integer> values) {
+            addCriterion("good_protein not in", values, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinBetween(Integer value1, Integer value2) {
-            addCriterion("goodProtein between", value1, value2, "goodprotein");
+        public Criteria andGoodProteinBetween(Integer value1, Integer value2) {
+            addCriterion("good_protein between", value1, value2, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andGoodproteinNotBetween(Integer value1, Integer value2) {
-            addCriterion("goodProtein not between", value1, value2, "goodprotein");
+        public Criteria andGoodProteinNotBetween(Integer value1, Integer value2) {
+            addCriterion("good_protein not between", value1, value2, "goodProtein");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatIsNull() {
-            addCriterion("animalFat is null");
+        public Criteria andAnimalFatIsNull() {
+            addCriterion("animal_fat is null");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatIsNotNull() {
-            addCriterion("animalFat is not null");
+        public Criteria andAnimalFatIsNotNull() {
+            addCriterion("animal_fat is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatEqualTo(Integer value) {
-            addCriterion("animalFat =", value, "animalfat");
+        public Criteria andAnimalFatEqualTo(Integer value) {
+            addCriterion("animal_fat =", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatNotEqualTo(Integer value) {
-            addCriterion("animalFat <>", value, "animalfat");
+        public Criteria andAnimalFatNotEqualTo(Integer value) {
+            addCriterion("animal_fat <>", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatGreaterThan(Integer value) {
-            addCriterion("animalFat >", value, "animalfat");
+        public Criteria andAnimalFatGreaterThan(Integer value) {
+            addCriterion("animal_fat >", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatGreaterThanOrEqualTo(Integer value) {
-            addCriterion("animalFat >=", value, "animalfat");
+        public Criteria andAnimalFatGreaterThanOrEqualTo(Integer value) {
+            addCriterion("animal_fat >=", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatLessThan(Integer value) {
-            addCriterion("animalFat <", value, "animalfat");
+        public Criteria andAnimalFatLessThan(Integer value) {
+            addCriterion("animal_fat <", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatLessThanOrEqualTo(Integer value) {
-            addCriterion("animalFat <=", value, "animalfat");
+        public Criteria andAnimalFatLessThanOrEqualTo(Integer value) {
+            addCriterion("animal_fat <=", value, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatIn(List<Integer> values) {
-            addCriterion("animalFat in", values, "animalfat");
+        public Criteria andAnimalFatIn(List<Integer> values) {
+            addCriterion("animal_fat in", values, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatNotIn(List<Integer> values) {
-            addCriterion("animalFat not in", values, "animalfat");
+        public Criteria andAnimalFatNotIn(List<Integer> values) {
+            addCriterion("animal_fat not in", values, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatBetween(Integer value1, Integer value2) {
-            addCriterion("animalFat between", value1, value2, "animalfat");
+        public Criteria andAnimalFatBetween(Integer value1, Integer value2) {
+            addCriterion("animal_fat between", value1, value2, "animalFat");
             return (Criteria) this;
         }
 
-        public Criteria andAnimalfatNotBetween(Integer value1, Integer value2) {
-            addCriterion("animalFat not between", value1, value2, "animalfat");
+        public Criteria andAnimalFatNotBetween(Integer value1, Integer value2) {
+            addCriterion("animal_fat not between", value1, value2, "animalFat");
             return (Criteria) this;
         }
 
