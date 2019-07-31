@@ -5,6 +5,7 @@ import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietDailyReportMapper;
 import com.bkit.fatdown.mappers.TbDietMealReportMapper;
+import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
@@ -39,6 +40,9 @@ public class DietReportServiceImpl implements IDietReportService {
     @Resource
     private TbDietDailyReportMapper dailyReportMapper;
 
+    @Resource
+    private IDietRecordService dietRecordService;
+
     private static final Logger logger = LoggerFactory.getLogger(DietReportServiceImpl.class);
 
     private static final int BREAKFAST = 0;
@@ -60,6 +64,11 @@ public class DietReportServiceImpl implements IDietReportService {
         TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+
+        // 记录饮食成分记录失败
+        if (dietRecordService.failInsertDietRecord(record, date, type, uid)) {
+            logger.error("tb_diet_record insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
+        }
 
         DietDailyReport report = MathUtils.getDietDailyReport(userStandard, record);
 
@@ -368,6 +377,12 @@ public class DietReportServiceImpl implements IDietReportService {
         List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, type));
         // 计算菜式组成成分总量
         TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+
+        // 记录饮食成分记录失败
+        if (dietRecordService.failInsertDietRecord(record, date, type, uid)) {
+            logger.error("tb_diet_record insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
+        }
+
         // 获取用户标准
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 

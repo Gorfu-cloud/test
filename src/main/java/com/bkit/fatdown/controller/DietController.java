@@ -211,12 +211,9 @@ public class DietController {
             return CommonResultDTO.validateFailed("uid无效");
         }
 
+        DietMealReport breakfast, lunch, dinner;
         Date inputDate = DateUtils.string2Date(date);
         List<DietMealReport> reportList = new ArrayList<>(DAILY_REPORT_TOTAL);
-
-        DietMealReport breakfast;
-        DietMealReport lunch;
-        DietMealReport dinner;
 
         // 存在饮食报告
         if (reportService.countDietMealReport(inputDate, BREAKFAST_TYPE, uid) >= DATA_EXIST) {

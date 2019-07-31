@@ -1,21 +1,15 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietRecordExample;
-import com.bkit.fatdown.entity.TbDietUserStandard;
-import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.mappers.TbDietRecordMapper;
-import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.utils.DateUtils;
-import com.bkit.fatdown.utils.MathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +26,6 @@ public class DietRecordServiceImpl implements IDietRecordService {
 
     @Resource
     private TbDietRecordMapper dietRecordMapper;
-
-    @Resource
-    private IDietFoodService foodService;
 
     private static final Logger logger = LoggerFactory.getLogger(DietFoodServiceImpl.class);
 
@@ -205,62 +196,31 @@ public class DietRecordServiceImpl implements IDietRecordService {
     }
 
     /**
-     * 创建饮食成分记录
+     * 保存饮食成份记录
      *
-     * @param date 记录日期
-     * @param uid  用户编号
-     * @param type 饮食类型：0 早餐， 1 午餐， 2 晚餐， 3 加餐， 4 每日， 5 每周， 6每月
-     * @return 饮食成分记录
+     * @param record 饮食记录
+     * @param date   饮食日期
+     * @param type   饮食类型
+     * @param uid    用户id
+     * @return 添加结果
      */
     @Override
-    public DietMealReport generateDietReport(Date date, Integer uid, Integer type) {
-        // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, type));
-        // 计算菜式组成成分总量
-        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+    public boolean failInsertDietRecord(TbDietRecord record, Date date, Integer type, Integer uid) {
+        record.setUserId(uid);
+        record.setGmtModified(date);
+        record.setType(type);
 
-        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+        logger.info("tb_diet_record insert or update start, date:{} and type: {} and uid: {}", date, type, uid);
 
-//        if (!saveReport(reportDTO, uid, type, date)) {
-//            logger.error("tb_diet_report insert or update false，uid：{} and type：{} at date：{}", uid, type, date);
-//        }
-
-        return MathUtils.getDietMealReport(userStandard, record, type);
-
-    }
-
-    /**
-     * 获取菜式id
-     *
-     * @param foodRecordList 饮食记录
-     * @return 返回 菜式列表id
-     */
-    private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
-        List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);
-
-        for (TbFoodRecord record : foodRecordList) {
-            foodIdList.add(record.getFoodId());
+        // 新建记录
+        if (countDietRecord(date, uid, type) == 0) {
+            record.setGmtCreate(date);
+            return !insert(record);
         }
-        return foodIdList;
-    }
 
-//    private boolean saveReport() {
-////        logger.info("tb_diet_report insert or update start,uid：{} and type：{} at date：{}", uid, type, date);
-//
-////        TbDietReport report = reportDTO2DietReport(reportDTO);
-////        report.setUserId(uid);
-////        report.setType(type);
-////        report.setGmtModified(date);
-////
-////        // 新建记录
-////        if (countReport(date, uid, type) == 0) {
-////            report.setGmtCreate(date);
-////            return insert(report);
-////        }
-////
-////        // 获取饮食记录id，并更新
-////        int id = getIdByUidType(uid, type, date);
-////        report.setId(id);
-////        return update(report);
-//    }
+        // 获取饮食记录id，并更新
+        int id = getDietRecordId(date, uid, type);
+        record.setId(id);
+        return !update(record);
+    }
 }

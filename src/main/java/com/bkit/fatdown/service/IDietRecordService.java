@@ -112,12 +112,13 @@ public interface IDietRecordService {
     List<TbDietRecord> listDietRecord(Date date, int uid, List<Integer> typeList);
 
     /**
-     * 创建饮食成分记录
+     * 保存饮食成份记录
      *
-     * @param date 记录日期
-     * @param uid  用户编号
-     * @param type 饮食类型：0 早餐， 1 午餐， 2 晚餐， 3 加餐， 4 每日， 5 每周， 6每月
-     * @return 饮食成分记录
+     * @param record 饮食记录
+     * @param date   饮食日期
+     * @param type   饮食类型
+     * @param uid    用户id
+     * @return 添加结果
      */
-    DietMealReport generateDietReport(Date date, Integer uid, Integer type);
+    boolean failInsertDietRecord(TbDietRecord record, Date date, Integer type, Integer uid);
 }
