@@ -2,6 +2,7 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
+import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
 
 import java.util.Date;
@@ -144,4 +145,74 @@ public interface IDietReportService {
      * @return 报告记录数
      */
     int countDietMealReport(int id);
+
+    /**
+     * 保存每日评价
+     *
+     * @param report 饮食评价
+     * @return 结果
+     */
+    boolean insertDailyReport(TbDietDailyReport report);
+
+    /**
+     * 更新饮食评价
+     *
+     * @param report 饮食评价
+     * @return 结果
+     */
+    boolean updateDailyReport(TbDietDailyReport report);
+
+    /**
+     * 删除饮食评价
+     *
+     * @param id 评价id
+     * @return 结果
+     */
+    boolean deleteDailyReport(int id);
+
+    /**
+     * 通过评价id，获取每日饮食评价
+     *
+     * @param id 评价id
+     * @return 饮食评价
+     */
+    TbDietDailyReport getDietDailyReport(int id);
+
+    /**
+     * 通过日期，用户id，获取每日饮食评价
+     *
+     * @param date 日期
+     * @param uid  用户id
+     * @return 饮食评价
+     */
+    TbDietDailyReport getDietDailyReport(Date date, int uid);
+
+    /**
+     * 通过开始日期，结束日期，用户id，获取每日饮食评价
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 饮食评价
+     */
+    List<TbDietDailyReport> listDietDailyReport(Date startDate, Date endDate, int uid);
+
+    /**
+     * 获取每日饮食评价记录数
+     *
+     * @param date 记录日期
+     * @param uid  用户id
+     * @return 评价记录数
+     */
+    int countDietDailyReport(Date date, int uid);
+
+    /**
+     * 获取日期之间的评价记录数
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 评价记录数
+     */
+    int countDietDailyReport(Date startDate, Date endDate, int uid);
 }
