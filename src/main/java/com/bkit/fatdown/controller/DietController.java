@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.*;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +49,7 @@ public class DietController {
     private IFoodRecommendRecordService foodRecommendRecordService;
 
     private static final int DATA_NOT_EXIST = 0;
+    private static final int DATA_EXIST = 1;
 
     /**
      * 三餐记录数3
@@ -95,6 +97,16 @@ public class DietController {
 
         Date inputDate = DateUtils.string2Date(date);
 
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, BREAKFAST_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, BREAKFAST_TYPE, uid);
+            if (report == null) {
+                return CommonResultDTO.failed("记录为空");
+            }
+            return CommonResultDTO.success(DataTransferUtils.transferDietMealReport(report));
+        }
+
+        // 数据不存在时
         if (pictureService.countRecord(DateUtils.getBreakfastStartTime(inputDate),
                 DateUtils.getBreakfastEndTime(inputDate), uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("暂无数据");
@@ -112,6 +124,16 @@ public class DietController {
         }
         Date inputDate = DateUtils.string2Date(date);
 
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, LUNCH_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, LUNCH_TYPE, uid);
+            if (report == null) {
+                return CommonResultDTO.failed("记录为空");
+            }
+            return CommonResultDTO.success(DataTransferUtils.transferDietMealReport(report));
+        }
+
+        // 数据不存在时
         if (pictureService.countRecord(DateUtils.getLunchStartTime(inputDate), DateUtils.getLunchEndTime(inputDate), uid)
                 == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("暂无数据");
@@ -130,6 +152,16 @@ public class DietController {
 
         Date inputDate = DateUtils.string2Date(date);
 
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, DINNER_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, DINNER_TYPE, uid);
+            if (report == null) {
+                return CommonResultDTO.failed("记录为空");
+            }
+            return CommonResultDTO.success(DataTransferUtils.transferDietMealReport(report));
+        }
+
+        // 数据不存在时
         if (pictureService.countRecord(DateUtils.getDinnerStartTime(inputDate), DateUtils.getDinnerEndTime(inputDate), uid)
                 == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("暂无数据");
@@ -152,6 +184,7 @@ public class DietController {
 //            return CommonResultDTO.failed("数据不足");
 //        }
 
+        // 生成每日饮食报告
         DietDailyReport dailyReport = reportService.generateDailyReport(dateInput, uid, DAILY_TYPE);
 
         if (dailyReport == null) {
@@ -173,9 +206,37 @@ public class DietController {
         Date inputDate = DateUtils.string2Date(date);
         List<DietMealReport> reportList = new ArrayList<>(DAILY_REPORT_TOTAL);
 
-        reportList.add(reportService.generateMealReport(inputDate, uid, BREAKFAST_TYPE));
-        reportList.add(reportService.generateMealReport(inputDate, uid, LUNCH_TYPE));
-        reportList.add(reportService.generateMealReport(inputDate, uid, DINNER_TYPE));
+        DietMealReport breakfast = new DietMealReport();
+        DietMealReport lunch = new DietMealReport();
+        DietMealReport dinner = new DietMealReport();
+
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, BREAKFAST_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, BREAKFAST_TYPE, uid);
+            breakfast = DataTransferUtils.transferDietMealReport(report);
+        } else {
+            breakfast = reportService.generateMealReport(inputDate, uid, BREAKFAST_TYPE);
+        }
+
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, LUNCH_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, LUNCH_TYPE, uid);
+            lunch = DataTransferUtils.transferDietMealReport(report);
+        } else {
+            lunch = reportService.generateMealReport(inputDate, uid, LUNCH_TYPE);
+        }
+
+        // 存在饮食报告
+        if (reportService.countDietMealReport(inputDate, DINNER_TYPE, uid) >= DATA_EXIST) {
+            TbDietMealReport report = reportService.getDietMealReport(inputDate, DINNER_TYPE, uid);
+            dinner = DataTransferUtils.transferDietMealReport(report);
+        } else {
+            dinner = reportService.generateMealReport(inputDate, uid, DINNER_TYPE);
+        }
+
+        reportList.add(breakfast);
+        reportList.add(lunch);
+        reportList.add(dinner);
 
         return CommonResultDTO.success(reportList);
     }

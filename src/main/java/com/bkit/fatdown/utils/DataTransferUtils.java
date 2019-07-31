@@ -1,7 +1,9 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
+import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.*;
+import io.swagger.models.auth.In;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -355,5 +357,53 @@ public class DataTransferUtils {
             set.add(Integer.parseInt(s));
         }
         return set;
+    }
+
+    /**
+     * 转换为数据库储存对象
+     *
+     * @param report 饮食报告
+     * @return 结果
+     */
+    public static TbDietMealReport transferDietMealReport(DietMealReport report, int uid, int type) {
+        TbDietMealReport mealReport = new TbDietMealReport();
+        // 设置用户id
+        mealReport.setUserId(uid);
+        mealReport.setType(type);
+
+        // 能量评价
+        mealReport.setEnergyEvaluation(report.getEnergyEvaluation());
+        mealReport.setLowerEnergy(report.getLowerEnergy());
+        mealReport.setRealEnergy(report.getRealEnergy());
+        mealReport.setUpperEnergy(report.getUpperEnergy());
+
+        // 结构评价
+        mealReport.setStructureEvaluation(report.getStructureEvaluation());
+        mealReport.setStructureLack(report.getStructureLack().toString());
+
+        return mealReport;
+    }
+
+    /**
+     * 转化为每餐数据封装类
+     *
+     * @param report 饮食报告
+     * @return 饮食报告封装
+     */
+    public static DietMealReport transferDietMealReport(TbDietMealReport report) {
+        DietMealReport mealReport = new DietMealReport();
+
+        // 能量评价
+        mealReport.setEnergyEvaluation(report.getEnergyEvaluation());
+        mealReport.setLowerEnergy(report.getLowerEnergy());
+        mealReport.setRealEnergy(report.getRealEnergy());
+        mealReport.setUpperEnergy(report.getUpperEnergy());
+
+        // 结构评价
+        mealReport.setStructureEvaluation(report.getStructureEvaluation());
+        Set<Integer> structureLack = str2Set(report.getStructureLack());
+        mealReport.setStructureLack(structureLack);
+
+        return mealReport;
     }
 }

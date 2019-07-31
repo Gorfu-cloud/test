@@ -30,8 +30,8 @@ public class WeappUtil {
     /**
      * 获取openid和Session
      *
-     * @param code
-     * @return
+     * @param code 会话码
+     * @return 结果
      */
     public static String getSessionKeyOrOpenId(String code) {
         String params = "appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code

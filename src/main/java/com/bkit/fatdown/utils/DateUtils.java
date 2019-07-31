@@ -280,7 +280,7 @@ public class DateUtils {
      * @return
      */
     public static Boolean isLargerTime(Date object, Date target) {
-        return object.getTime() >= target.getTime();
+        return object.getTime() > target.getTime();
     }
 
 }

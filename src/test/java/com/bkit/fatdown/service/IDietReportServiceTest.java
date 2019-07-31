@@ -30,14 +30,5 @@ public class IDietReportServiceTest {
 
     private Date date = DateUtils.string2Date("2019-07-29");
 
-    @Test
-    public void countReport() {
-        Date date = DateUtils.string2Date("2019-07-29");
-//        System.out.println(reportService.countReport(date, 1, 1));
-    }
 
-//    @Test
-//    public void countReportByDay() {
-//        System.out.println(reportService.countReportByDay(date, 1));
-//    }
 }
