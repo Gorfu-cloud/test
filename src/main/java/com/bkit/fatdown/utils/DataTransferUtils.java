@@ -1,6 +1,7 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
+import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.*;
 import io.swagger.models.auth.In;
@@ -181,7 +182,6 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/16
      */
-
     public static TbUserLifeStyle getUserLifeStyleFromMap(HashMap<String, Integer> map) {
 
         TbUserLifeStyle lifeStyle = new TbUserLifeStyle();
@@ -224,7 +224,6 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/17
      */
-
     public static CommonPageDTO getCommonPageFromMap(HashMap<String, Integer> map) {
         CommonPageDTO pageDTO = new CommonPageDTO();
         if (map.containsKey("pageSize")) {
@@ -244,7 +243,6 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/17
      */
-
     public static TbTaskRecord getTaskRecordFromMap(HashMap<String, Integer> map) {
         TbTaskRecord taskRecord = new TbTaskRecord();
         if (map.containsKey("userId")) {
@@ -263,7 +261,6 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/18
      */
-
     public static TbTaskList getTaskListFromMap(HashMap<String, String> map) {
         TbTaskList taskList = new TbTaskList();
         if (map.containsKey("id")) {
@@ -297,7 +294,6 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/19/19
      */
-
     public static TbTestRecord getTestRecordFromMap(HashMap<String, String> map) {
         TbTestRecord record = new TbTestRecord();
 
@@ -323,7 +319,7 @@ public class DataTransferUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/15/19
      */
-    public static File multipartFile2File(MultipartFile multipartFile) {
+    static File multipartFile2File(MultipartFile multipartFile) {
         File file = null;
         try {
             file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
@@ -405,5 +401,93 @@ public class DataTransferUtils {
         mealReport.setStructureLack(structureLack);
 
         return mealReport;
+    }
+
+    /**
+     * 转化为数据库储存对象
+     *
+     * @param report 每日饮食报告
+     * @param uid    用户id
+     * @return 每日饮食报告
+     */
+    public static TbDietDailyReport transferDailyReport(DietDailyReport report, int uid) {
+        TbDietDailyReport dailyReport = new TbDietDailyReport();
+        dailyReport.setUserId(uid);
+
+        // 能量评价
+        dailyReport.setEnergyEvaluation(report.getEnergyEvaluation());
+        dailyReport.setLowerEnergy(report.getLowerEnergy());
+        dailyReport.setUpperEnergy(report.getUpperEnergy());
+        dailyReport.setRealEnergy(report.getRealEnergy());
+
+        // 结构评价
+        dailyReport.setStructureEvaluation(report.getStructureEvaluation());
+        dailyReport.setStructureLack(report.getStructureLack().toString());
+
+        // 蛋白质评价
+        dailyReport.setProteinEvaluation(report.getProteinEvaluation());
+        dailyReport.setProteinPer(report.getProteinPer());
+        dailyReport.setProteinLack(report.getProteinLack());
+
+        // 脂肪评价
+        dailyReport.setFatEvaluation(report.getFatEvaluation());
+        dailyReport.setFatPer(report.getFatPer());
+        dailyReport.setFatLack(report.getFatLack());
+
+        // 碳水化合物评价
+        dailyReport.setColEvaluation(report.getColEvaluation());
+        dailyReport.setColPer(report.getColPer());
+        dailyReport.setColLack(report.getColLack());
+
+        // 纤维评价
+        dailyReport.setFibrinEvaluation(report.getFibrinEvaluation());
+        dailyReport.setFibrinPer(report.getFibrinPer());
+        dailyReport.setFibrinLack(report.getFibrinLack());
+
+        return dailyReport;
+    }
+
+    /**
+     * 转换为每天饮食报告封装类
+     *
+     * @param report 饮食报告
+     * @return 饮食报告
+     */
+    public static DietDailyReport transferDailyReport(TbDietDailyReport report) {
+
+        DietDailyReport dailyReport = new DietDailyReport();
+
+        // 能量评价
+        dailyReport.setEnergyEvaluation(report.getEnergyEvaluation());
+        dailyReport.setLowerEnergy(report.getLowerEnergy());
+        dailyReport.setUpperEnergy(report.getUpperEnergy());
+        dailyReport.setRealEnergy(report.getRealEnergy());
+
+        // 结构评价
+        dailyReport.setStructureEvaluation(report.getStructureEvaluation());
+        Set<Integer> structureLack = str2Set(report.getStructureLack());
+        dailyReport.setStructureLack(structureLack);
+
+        // 蛋白质评价
+        dailyReport.setProteinEvaluation(report.getProteinEvaluation());
+        dailyReport.setProteinPer(report.getProteinPer());
+        dailyReport.setProteinLack(report.getProteinLack());
+
+        // 脂肪评价
+        dailyReport.setFatEvaluation(report.getFatEvaluation());
+        dailyReport.setFatPer(report.getFatPer());
+        dailyReport.setFatLack(report.getFatLack());
+
+        // 碳水化合物评价
+        dailyReport.setColEvaluation(report.getColEvaluation());
+        dailyReport.setColPer(report.getColPer());
+        dailyReport.setColLack(report.getColLack());
+
+        // 纤维评价
+        dailyReport.setFibrinEvaluation(report.getFibrinEvaluation());
+        dailyReport.setFibrinPer(report.getFibrinPer());
+        dailyReport.setFibrinLack(report.getFibrinLack());
+
+        return dailyReport;
     }
 }

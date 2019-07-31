@@ -44,6 +44,7 @@ public class DietReportServiceImpl implements IDietReportService {
     private static final int BREAKFAST = 0;
     private static final int LUNCH = 1;
     private static final int DINNER = 2;
+    private static final int DAILY = 4;
 
     /**
      * @param date 报告日期
@@ -60,7 +61,22 @@ public class DietReportServiceImpl implements IDietReportService {
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
-        return MathUtils.getDietDailyReport(userStandard, record);
+        DietDailyReport report = MathUtils.getDietDailyReport(userStandard, record);
+
+        // 已经过了用餐时间，储存饮食记录
+        if (isFinishMeal(date, DAILY)) {
+            TbDietDailyReport dailyReport = DataTransferUtils.transferDailyReport(report, uid);
+            dailyReport.setGmtCreate(date);
+            dailyReport.setGmtModified(date);
+            boolean result = insertDailyReport(dailyReport);
+            if (result) {
+                logger.info("tb_diet_daily_report insert success, date:{} and uid:{} and type:{}", date, uid, type);
+            } else {
+                logger.error("tb_diet_daily_report insert fail, date:{} and uid:{} and type:{}", date, uid, type);
+            }
+        }
+
+        return report;
     }
 
     /**
@@ -398,6 +414,8 @@ public class DietReportServiceImpl implements IDietReportService {
             return DateUtils.isLargerTime(now, DateUtils.getLunchEndTime(date));
         } else if (type == DINNER) {
             return DateUtils.isLargerTime(now, DateUtils.getDinnerEndTime(date));
+        } else if (type == DAILY) {
+            return DateUtils.isLargerTime(now, DateUtils.getDateEnd(date));
         } else {
             logger.error("isFinishMeal type out of index, date: {}  type: {}", date, type);
             return false;
