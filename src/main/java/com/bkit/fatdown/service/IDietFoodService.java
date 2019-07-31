@@ -2,6 +2,7 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.ElementTotalDTO;
 import com.bkit.fatdown.dto.FoodInfoDTO;
+import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;
 
@@ -94,7 +95,7 @@ public interface IDietFoodService {
      * @param foodIdList
      * @return
      */
-    ElementTotalDTO getDietElementTotal(List<Integer> foodIdList);
+    TbDietRecord getDietRecordTotalByRecordList(List<Integer> foodIdList);
 
     /**
      * 通过foodId 获取菜式组成成分，元素总量
@@ -102,7 +103,7 @@ public interface IDietFoodService {
      * @param foodId
      * @return
      */
-    ElementTotalDTO getElementTotalById(int foodId);
+    TbDietRecord getDietRecord(int foodId);
 
     /**
      * 返回指定菜式搭配总量
@@ -110,5 +111,5 @@ public interface IDietFoodService {
      * @param foodIdList
      * @return
      */
-    ElementTotalDTO getElementTotal(List<Integer> foodIdList);
+    TbDietRecord getDietRecordTotalByFoodList(List<Integer> foodIdList);
 }

@@ -7,9 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @file: DataTransferUtils
@@ -332,5 +330,30 @@ public class DataTransferUtils {
             e.printStackTrace();
         }
         return file;
+    }
+
+    /**
+     * 将数据库中字符串的set转为 str对象
+     *
+     * @param strSet 字符串集合
+     * @return set
+     */
+    public static Set<Integer> str2Set(String strSet) {
+        Set<Integer> set = new TreeSet<>();
+        int minSetSize = 3;
+        if (strSet.length() < minSetSize) {
+            return set;
+        }
+
+        int startIndex = 1;
+        int endIndex = strSet.length() - 1;
+        // 注意：逗号之后有一个空格
+        String splitStr = ", ";
+        // 去除首尾[]
+        String newStr = strSet.substring(startIndex, endIndex);
+        for (String s : newStr.split(splitStr)) {
+            set.add(Integer.parseInt(s));
+        }
+        return set;
     }
 }

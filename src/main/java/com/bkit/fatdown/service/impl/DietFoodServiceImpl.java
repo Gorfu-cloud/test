@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.*;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
 import org.apache.log4j.Logger;
@@ -57,7 +58,6 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * 不存在该菜式拆解：1
      */
     private static final int EXIST_FOOD = 0;
-    private static final int NOT_EXIST_FOOD = 1;
     /**
      * 菜式组成元素含量组成单位，100g
      */
@@ -67,8 +67,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
     /**
      * 保存饮食记录
      *
-     * @param record
-     * @return
+     * @param record 饮食记录
+     * @return 保存结果
      */
     @Override
     public boolean insert(TbFoodRecord record) {
@@ -152,8 +152,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public ElementTotalDTO getDietElementTotal(List<Integer> recordIdList) {
-        return getElementTotal(recordIdList);
+    public TbDietRecord getDietRecordTotalByRecordList(List<Integer> recordIdList) {
+        return getDietRecordTotalByFoodList(recordIdList);
     }
 
     /**
@@ -163,9 +163,10 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public ElementTotalDTO getElementTotal(List<Integer> foodIdList) {
+    public TbDietRecord getDietRecordTotalByFoodList(List<Integer> foodIdList) {
 
-        ElementTotalDTO target = new ElementTotalDTO();
+        TbDietRecord target = new TbDietRecord();
+        initDietRecord(target);
 
         // 为空时，直接返回初始化结果
         if (foodIdList.isEmpty()) {
@@ -174,12 +175,12 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         // 记录为1时，直接返回
         if (foodIdList.size() == 1) {
-            return getElementTotalById(foodIdList.get(0));
+            return getDietRecord(foodIdList.get(0));
         }
 
         for (int id : foodIdList) {
-            ElementTotalDTO temp = getElementTotalById(id);
-            target = mergeElementTotalDTO(target, temp);
+            TbDietRecord temp = getDietRecord(id);
+            target = mergeDietRecord(target, temp);
         }
 
         return target;
@@ -245,7 +246,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public ElementTotalDTO getElementTotalById(int foodId) {
+    public TbDietRecord getDietRecord(int foodId) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
         double energy = 0, fat = 0, protein = 0, cho = 0, fiber = 0;
         // 菜式拥有的营养种类
@@ -278,7 +279,19 @@ public class DietFoodServiceImpl implements IDietFoodService {
             }
         }
 
-        return new ElementTotalDTO(flag, energy, fat, protein, cho, fiber, structType);
+        return setDietRecord(energy, fat, protein, cho, fiber, structType);
+    }
+
+    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber, Set<Integer> structType) {
+        TbDietRecord record = new TbDietRecord();
+        record.setEnergy(energy);
+        record.setFat(fat);
+        record.setCho(cho);
+        record.setProtein(protein);
+        record.setFiber(fiber);
+        record.setStructureTypeSet(structType.toString());
+
+        return record;
     }
 
     /**
@@ -322,24 +335,39 @@ public class DietFoodServiceImpl implements IDietFoodService {
     /**
      * 合并计算总量
      *
-     * @param target
-     * @param temp
-     * @return
+     * @param target 原饮食记录
+     * @param temp   新增饮食记录
+     * @return 饮食记录
      */
-    private ElementTotalDTO mergeElementTotalDTO(ElementTotalDTO target, ElementTotalDTO temp) {
+    private TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
         double energy = target.getEnergy(), fat = target.getFat(),
                 protein = target.getProtein(), cho = target.getCho(), fiber = target.getFiber();
         // 菜式拥有的营养种类
-        Set<Integer> structType = target.getStructType();
+        Set<Integer> structType = DataTransferUtils.str2Set(target.getStructureTypeSet());
 
         energy += temp.getEnergy();
         fat += temp.getFat();
         protein += temp.getProtein();
         cho += temp.getCho();
         fiber += temp.getFiber();
-        structType.addAll(temp.getStructType());
+        structType.addAll(DataTransferUtils.str2Set(temp.getStructureTypeSet()));
 
-        return new ElementTotalDTO(energy, fat, protein, cho, fiber, structType);
+        return setDietRecord(energy, fat, protein, cho, fiber, structType);
+    }
+
+    /**
+     * 初始化
+     *
+     * @param record 饮食记录
+     */
+    private void initDietRecord(TbDietRecord record) {
+        record.setFat(0.0);
+        record.setEnergy(0.0);
+        record.setFat(0.0);
+        record.setCho(0.0);
+        record.setProtein(0.0);
+        record.setFiber(0.0);
+        record.setStructureTypeSet("");
     }
 }

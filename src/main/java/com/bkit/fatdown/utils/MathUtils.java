@@ -1,5 +1,7 @@
 package com.bkit.fatdown.utils;
 
+import com.bkit.fatdown.dto.DietDailyReport;
+import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
 
@@ -139,6 +141,7 @@ public class MathUtils {
      */
     public static TbDietUserStandard getDietUserStandard(TbUserBasicInfo basicInfo, TbUserPrivacyInfo privacyInfo,
                                                          TbUserLifeStyle lifeStyle) {
+
         TbDietUserStandard userStandard = new TbDietUserStandard();
         userStandard.setId(basicInfo.getId());
         userStandard.setEnergy(getBasicEnergy(basicInfo.getGender(), privacyInfo.getHeight(), privacyInfo.getWeight()));
@@ -162,55 +165,76 @@ public class MathUtils {
     }
 
     /**
-     * 获取饮食评价
+     * 获取每餐饮食评价
      *
      * @param userStandard 饮食标准
-     * @param reportDTO    饮食总量
-     * @param type         饮食类型
-     * @return 饮食报告传输对象
+     * @param dietRecord   饮食总量
+     * @param type         饮食类型：0早餐，1午餐，2晚餐
+     * @return 每餐饮食评价
      */
-    public static UserReportDTO getDietReport(TbDietUserStandard userStandard, UserReportDTO reportDTO, Integer type) {
+    public static DietMealReport getDietMealReport(TbDietUserStandard userStandard, TbDietRecord dietRecord, Integer type) {
         // 一天总能量标准
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
                 + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
         // 真实摄入
-        double realEnergy = reportDTO.getRealEnergy();
+        double realEnergy = dietRecord.getEnergy();
 
+        DietMealReport mealReport = new DietMealReport();
+        mealReport.setRealEnergy(realEnergy);
         if (type == BREAKFAST) {
             // 能量评价
-            setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_BREAKFAST_RATIONAL_LOWER,
+            setEnergyEvaluation(mealReport, energyStandard, realEnergy, ENERGY_BREAKFAST_RATIONAL_LOWER,
                     ENERGY_BREAKFAST_RATIONAL_UPPER, ENERGY_BREAKFAST_BAD_RATIONAL_UPPER, ENERGY_BREAKFAST_BAD_RATIONAL_LOWER);
             // 结构评价
-            setStructureBreakEvaluation(reportDTO, STRUCTURE_BREAKFAST);
+            setStructureBreakEvaluation(mealReport, dietRecord, STRUCTURE_BREAKFAST);
         } else if (type == LUNCH) {
             // 能量评价
-            setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_LUNCH_RATIONAL_LOWER,
+            setEnergyEvaluation(mealReport, energyStandard, realEnergy, ENERGY_LUNCH_RATIONAL_LOWER,
                     ENERGY_LUNCH_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_UPPER, ENERGY_LUNCH_BAD_RATIONAL_LOWER);
             // 结构评价
-            setStructureBreakEvaluation(reportDTO, STRUCTURE_LUNCH);
+            setStructureBreakEvaluation(mealReport, dietRecord, STRUCTURE_LUNCH);
         } else if (type == DINNER) {
             // 能量评价
-            setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DINNER_RATIONAL_LOWER,
+            setEnergyEvaluation(mealReport, energyStandard, realEnergy, ENERGY_DINNER_RATIONAL_LOWER,
                     ENERGY_DINNER_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_UPPER, ENERGY_DINNER_BAD_RATIONAL_LOWER);
             // 结构评价
-            setStructureBreakEvaluation(reportDTO, STRUCTURE_DINNER);
-        } else if (type == DAILY) {
-            // 能量评价
-            setEnergyEvaluation(reportDTO, energyStandard, realEnergy, ENERGY_DAILY_RATIONAL_LOWER,
-                    ENERGY_DAILY_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_LOWER);
-            // 结构评价
-            setStructureBreakEvaluation(reportDTO, STRUCTURE_DAILY);
-
-            setNutrientEvaluation(reportDTO, energyStandard);
+            setStructureBreakEvaluation(mealReport, dietRecord, STRUCTURE_DINNER);
         }
 
-        return reportDTO;
+        return mealReport;
+    }
+
+    /**
+     * 获取每天饮食评价
+     *
+     * @param userStandard 饮食标准
+     * @param dietRecord   饮食总量
+     * @return 每餐饮食评价
+     */
+    public static DietDailyReport getDietDailyReport(TbDietUserStandard userStandard, TbDietRecord dietRecord) {
+        DietDailyReport dailyReport = new DietDailyReport();
+        // 一天总能量标准
+        double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
+                + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
+        // 真实摄入
+        double realEnergy = dietRecord.getEnergy();
+        dailyReport.setRealEnergy(realEnergy);
+
+        // 能量评价
+        setEnergyEvaluation(dailyReport, energyStandard, realEnergy, ENERGY_DAILY_RATIONAL_LOWER,
+                ENERGY_DAILY_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_UPPER, ENERGY_DAILY_BAD_RATIONAL_LOWER);
+        // 结构评价
+        setStructureBreakEvaluation(dailyReport, dietRecord, STRUCTURE_DAILY);
+
+        setNutrientEvaluation(dailyReport, dietRecord, energyStandard);
+
+        return dailyReport;
     }
 
     /**
      * 设置饮食评价
      *
-     * @param reportDTO                    饮食报告传输对象
+     * @param report                       饮食报告传输对象
      * @param energyStandard               能量标准
      * @param realEnergy                   真实摄入量
      * @param energyDinnerRationalLower    合适标准下限
@@ -218,153 +242,158 @@ public class MathUtils {
      * @param energyDinnerBadRationalUpper 超标上限
      * @param energyDinnerBadRationalLower 超标下限
      */
-    private static void setEnergyEvaluation(UserReportDTO reportDTO, double energyStandard, double realEnergy,
+    private static void setEnergyEvaluation(DietMealReport report, double energyStandard, double realEnergy,
                                             Double energyDinnerRationalLower, Double energyDinnerRationalUpper,
                                             Double energyDinnerBadRationalUpper, Double energyDinnerBadRationalLower) {
         // 设置合理范围
-        reportDTO.setLowerEnergy(energyStandard * energyDinnerRationalLower);
-        reportDTO.setUpperEnergy(energyStandard * energyDinnerRationalUpper);
+        report.setLowerEnergy(energyStandard * energyDinnerRationalLower);
+        report.setUpperEnergy(energyStandard * energyDinnerRationalUpper);
 
         if (realEnergy > (energyStandard * energyDinnerBadRationalUpper)
                 || realEnergy < (energyStandard * energyDinnerBadRationalLower)) {
-            reportDTO.setEnergyEvaluation(BAD);
+            report.setEnergyEvaluation(BAD);
         } else if (realEnergy < (energyStandard * energyDinnerRationalLower)
                 || realEnergy > (energyStandard * energyDinnerRationalUpper)) {
-            reportDTO.setEnergyEvaluation(GOOD);
+            report.setEnergyEvaluation(GOOD);
         } else {
-            reportDTO.setEnergyEvaluation(EXCELLENT);
+            report.setEnergyEvaluation(EXCELLENT);
         }
     }
 
     /**
      * 进行结构评价
      *
-     * @param reportDTO 饮食报告
+     * @param report    饮食报告
      * @param structure 结构标准
      */
-    private static void setStructureBreakEvaluation(UserReportDTO reportDTO, ArrayList<Integer> structure) {
+    private static void setStructureBreakEvaluation(DietMealReport report, TbDietRecord record, ArrayList<Integer> structure) {
         // 实际摄入种类，减去必须摄入种类
-        structure.removeAll(reportDTO.getStructureLack());
+        structure.removeAll(DataTransferUtils.str2Set(record.getStructureTypeSet()));
         if (structure.size() == 0) {
-            reportDTO.setStructureEvaluation(EXCELLENT);
+            report.setStructureEvaluation(EXCELLENT);
         } else if (structure.size() == 1) {
-            reportDTO.setStructureEvaluation(GOOD);
+            report.setStructureEvaluation(GOOD);
         } else {
-            reportDTO.setStructureEvaluation(BAD);
+            report.setStructureEvaluation(BAD);
         }
         Set<Integer> set = new TreeSet<>(structure);
-        reportDTO.setStructureLack(set);
+        report.setStructureLack(set);
     }
 
     /**
      * 设置营养素评价
      *
-     * @param reportDTO 饮食报告传输对象
-     * @param standard  饮食标准
+     * @param dailyReport 每日饮食报告
+     * @param record      饮食记录
+     * @param standard    饮食标准
      */
-    private static void setNutrientEvaluation(UserReportDTO reportDTO, Double standard) {
-
-        setProteinEvaluation(reportDTO, standard);
-        setFatEvaluation(reportDTO, standard);
-        setColEvaluation(reportDTO, standard);
-        setFibrinEvaluation(reportDTO);
+    private static void setNutrientEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double standard) {
+        setProteinEvaluation(dailyReport, record, standard);
+        setFatEvaluation(dailyReport, record, standard);
+        setColEvaluation(dailyReport, record, standard);
+        setFibrinEvaluation(dailyReport, record);
     }
 
     /**
      * 设置蛋白质评价
      *
-     * @param reportDTO      摄入总和
+     * @param dailyReport    每天饮食报告
+     * @param record         摄入总和
      * @param energyStandard 能量标准
      */
-    private static void setProteinEvaluation(UserReportDTO reportDTO, Double energyStandard) {
-        double proteinPer = (PROTEIN_ENERGY_OF_1G * reportDTO.getProtein()) / energyStandard;
+    private static void setProteinEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double energyStandard) {
+        double proteinPer = (PROTEIN_ENERGY_OF_1G * record.getProtein()) / energyStandard;
         double proteinStandard = (DAILY_PROTEIN_MORE * energyStandard / PROTEIN_ENERGY_OF_1G);
+
         if (proteinPer > DAILY_PROTEIN_MORE) {
             // 多
-            reportDTO.setProteinEvaluation(GOOD);
-            reportDTO.setProteinLack(reportDTO.getProtein() - proteinStandard);
+            dailyReport.setProteinEvaluation(GOOD);
+            dailyReport.setProteinLack(record.getProtein() - proteinStandard);
         } else if (proteinPer < DAILY_PROTEIN_LITTLE) {
             // 少
-            reportDTO.setProteinEvaluation(BAD);
-            reportDTO.setProteinLack(proteinStandard - reportDTO.getProtein());
+            dailyReport.setProteinEvaluation(BAD);
+            dailyReport.setProteinLack(proteinStandard - record.getProtein());
         } else {
             // 合适
-            reportDTO.setProteinEvaluation(EXCELLENT);
+            dailyReport.setProteinEvaluation(EXCELLENT);
         }
-        reportDTO.setProteinPer(proteinPer * PER_BASE);
+        dailyReport.setProteinPer(proteinPer * PER_BASE);
     }
 
     /**
      * 脂肪评价
      *
-     * @param reportDTO      摄入总和
+     * @param dailyReport    每天饮食报告
+     * @param record         摄入总和
      * @param energyStandard 能量标准
      */
-    private static void setFatEvaluation(UserReportDTO reportDTO, Double energyStandard) {
-        double fatPer = (FAT_ENERGY_OF_1G * reportDTO.getFat()) / energyStandard;
+    private static void setFatEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double energyStandard) {
+        double fatPer = (FAT_ENERGY_OF_1G * record.getFat()) / energyStandard;
         double fatStandard = (DAILY_FAT_MORE * energyStandard / FAT_ENERGY_OF_1G);
 
         if (fatPer > DAILY_FAT_MORE) {
             // 多
-            reportDTO.setFatEvaluation(GOOD);
-            reportDTO.setFatLack(reportDTO.getFat() - fatStandard);
+            dailyReport.setFatEvaluation(GOOD);
+            dailyReport.setFatLack(record.getFat() - fatStandard);
         } else if (fatPer < DAILY_FAT_LITTLE) {
             // 少
-            reportDTO.setFatEvaluation(BAD);
-            reportDTO.setFatLack(fatStandard - reportDTO.getFat());
+            dailyReport.setFatEvaluation(BAD);
+            dailyReport.setFatLack(fatStandard - record.getFat());
         } else {
             // 合适
-            reportDTO.setFatEvaluation(EXCELLENT);
+            dailyReport.setFatEvaluation(EXCELLENT);
         }
-        reportDTO.setFatPer(fatPer * PER_BASE);
+        dailyReport.setFatPer(fatPer * PER_BASE);
     }
 
     /**
      * 碳水化合物评价
      *
-     * @param reportDTO      摄入总和
+     * @param dailyReport    每天饮食报告
+     * @param record         摄入总和
      * @param energyStandard 能量标准
      */
-    private static void setColEvaluation(UserReportDTO reportDTO, Double energyStandard) {
-        double colPer = (COL_ENERGY_OF_1G * reportDTO.getCho()) / energyStandard;
+    private static void setColEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double energyStandard) {
+        double colPer = (COL_ENERGY_OF_1G * record.getCho()) / energyStandard;
         double colStandard = (DAILY_COL_MORE * energyStandard) / COL_ENERGY_OF_1G;
 
         if (colPer > DAILY_COL_MORE) {
             // 多
-            reportDTO.setColEvaluation(GOOD);
-            reportDTO.setColLack(reportDTO.getCho() - colStandard);
+            dailyReport.setColEvaluation(GOOD);
+            dailyReport.setColLack(record.getCho() - colStandard);
         } else if (colPer < DAILY_COL_LITTLE) {
             // 少
-            reportDTO.setColEvaluation(BAD);
-            reportDTO.setColLack(colStandard - reportDTO.getCho());
+            dailyReport.setColEvaluation(BAD);
+            dailyReport.setColLack(colStandard - record.getCho());
         } else {
             // 合适
-            reportDTO.setColEvaluation(EXCELLENT);
+            dailyReport.setColEvaluation(EXCELLENT);
         }
 
-        reportDTO.setColPer(colPer * PER_BASE);
+        dailyReport.setColPer(colPer * PER_BASE);
     }
 
     /**
      * 纤维素评价
      *
-     * @param reportDTO 摄入总和
+     * @param dailyReport 每天饮食报告
+     * @param record      摄入总和
      */
-    private static void setFibrinEvaluation(UserReportDTO reportDTO) {
-        double fiber = reportDTO.getFiber();
+    private static void setFibrinEvaluation(DietDailyReport dailyReport, TbDietRecord record) {
+        double fiber = record.getFiber();
 
         if (fiber > DAILY_FIBRIN_MORE) {
-            reportDTO.setFibrinEvaluation(GOOD);
-            reportDTO.setFibrinLack(fiber - DAILY_FIBRIN_MORE);
+            dailyReport.setFibrinEvaluation(GOOD);
+            dailyReport.setFibrinLack(fiber - DAILY_FIBRIN_MORE);
 
         } else if (fiber < DAILY_FIBRIN_LITTLE) {
-            reportDTO.setFibrinEvaluation(BAD);
-            reportDTO.setFibrinLack(DAILY_FIBRIN_LITTLE - fiber);
+            dailyReport.setFibrinEvaluation(BAD);
+            dailyReport.setFibrinLack(DAILY_FIBRIN_LITTLE - fiber);
 
         } else {
-            reportDTO.setFibrinEvaluation(EXCELLENT);
+            dailyReport.setFibrinEvaluation(EXCELLENT);
         }
-        reportDTO.setFibrinPer(fiber);
+        dailyReport.setFibrinPer(fiber);
     }
 
     /**
