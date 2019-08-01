@@ -60,4 +60,38 @@ public class DateUtilsTest {
     public void string2Date() {
         System.out.println(DateUtils.string2Date("2019-07-23 14:55:53.917"));
     }
+
+    @Test
+    public void getMonthStartDate() {
+        Date date = DateUtils.string2Date("2019-01-12");
+        System.out.println(date);
+        System.out.println(DateUtils.getMonthStartDate(date));
+
+        date = DateUtils.string2Date("2019-02-28");
+        System.out.println(date);
+        System.out.println(DateUtils.getMonthStartDate(date));
+
+        date = DateUtils.string2Date("2019-12-30");
+        System.out.println(date);
+        System.out.println(DateUtils.getMonthStartDate(date));
+    }
+
+    @Test
+    public void getNextMonthStartDate() {
+        Date date = DateUtils.string2Date("2019-01-12");
+        System.out.println(date);
+        System.out.println(DateUtils.getNextMonthStartDate(date));
+
+        date = DateUtils.string2Date("2019-02-28");
+        System.out.println(date);
+        System.out.println(DateUtils.getNextMonthStartDate(date));
+
+        date = DateUtils.string2Date("2019-02-29");
+        System.out.println(date);
+        System.out.println(DateUtils.getNextMonthStartDate(date));
+
+        date = DateUtils.string2Date("2019-12-01");
+        System.out.println(date);
+        System.out.println(DateUtils.getNextMonthStartDate(date));
+    }
 }

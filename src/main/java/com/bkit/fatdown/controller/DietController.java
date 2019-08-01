@@ -180,8 +180,8 @@ public class DietController {
     @RequestMapping(value = "/getDailyReport", method = RequestMethod.GET)
     public CommonResultDTO<DietDailyReport> getDailyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
 
-        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date.isEmpty()) {
-            return CommonResultDTO.validateFailed("uid无效");
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
+            return CommonResultDTO.validateFailed("uid/date为空无效");
         }
         Date inputDate = DateUtils.string2Date(date);
 

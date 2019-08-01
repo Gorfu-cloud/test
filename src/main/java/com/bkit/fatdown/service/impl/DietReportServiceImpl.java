@@ -2,6 +2,7 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
+import com.bkit.fatdown.dto.DietWeeklyReport;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietDailyReportMapper;
 import com.bkit.fatdown.mappers.TbDietMealReportMapper;
@@ -86,6 +87,24 @@ public class DietReportServiceImpl implements IDietReportService {
         }
 
         return report;
+    }
+
+
+    /**
+     * 生成每周饮食评价
+     *
+     * @param date 当周日期（周日算第一天）
+     * @param uid  用户id
+     * @param type 用餐类型
+     * @return 每周饮食评价
+     */
+    @Override
+    public DietWeeklyReport generateWeeklyReport(Date date, Integer uid, Integer type) {
+        // 获取菜式id列表
+//        List<Integer> foodIdList = listFoodId(foodService.)
+
+
+        return null;
     }
 
     /**

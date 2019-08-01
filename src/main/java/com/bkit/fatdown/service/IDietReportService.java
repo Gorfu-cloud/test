@@ -2,6 +2,7 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
+import com.bkit.fatdown.dto.DietWeeklyReport;
 import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
 
@@ -37,6 +38,16 @@ public interface IDietReportService {
      * @return 每天饮食报告
      */
     DietDailyReport generateDailyReport(Date date, Integer uid, Integer type);
+
+    /**
+     * 生成每周饮食评价
+     *
+     * @param date 当周日期（周日算第一天）
+     * @param uid  用户id
+     * @param type 用餐类型
+     * @return 每周饮食评价
+     */
+    DietWeeklyReport generateWeeklyReport(Date date, Integer uid, Integer type);
 
     /**
      * 保存每餐饮食报告
@@ -215,4 +226,5 @@ public interface IDietReportService {
      * @return 评价记录数
      */
     int countDietDailyReport(Date startDate, Date endDate, int uid);
+
 }

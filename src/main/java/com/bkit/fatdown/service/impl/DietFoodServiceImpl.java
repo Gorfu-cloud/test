@@ -53,6 +53,13 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     private static final Logger logger = LoggerFactory.getLogger(DietFoodServiceImpl.class);
 
+    private static final int BREAKFAST = 0;
+    private static final int LUNCH = 1;
+    private static final int DINNER = 2;
+    private static final int DAILY = 4;
+    private static final int WEEKLY = 5;
+    private static final int MONTH = 6;
+
     /**
      * 存在该菜式拆解: 0
      * 不存在该菜式拆解：1
@@ -208,8 +215,33 @@ public class DietFoodServiceImpl implements IDietFoodService {
      */
     @Override
     public List<TbFoodRecord> listFoodBasic(int uid, Date date, Integer type) {
+
+        List<TbFoodRecord> foodRecordList = new ArrayList<>();
+
+        switch (type) {
+            case BREAKFAST:
+                foodRecordList = listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date));
+                break;
+            case LUNCH:
+                foodRecordList = listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date));
+                break;
+            case DINNER:
+                foodRecordList = listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date));
+                break;
+            case DAILY:
+                foodRecordList = listFoodRecord(uid, DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
+                break;
+            case WEEKLY:
+                foodRecordList = listFoodRecord(uid, DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date));
+                break;
+            case MONTH:
+//                foodRecordList = listFoodRecord(uid,)
+                break;
+            default:
+                logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
+        }
         // 早餐
-        if (type == 0) {
+        if (type == BREAKFAST) {
             return listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date));
         } else if (type == 1) {
             // 午餐
@@ -338,7 +370,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
     }
 
-    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber, double goodProtein,
+    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber,
+                                       double goodProtein,
                                        double animalFat, Set<Integer> structType, Set<Integer> proteinSet, Set<Integer> stapleFoodSet,
                                        Set<Integer> fruitVegetableSet, Set<Integer> beansSet, Set<Integer> nutsSet) {
         TbDietRecord record = new TbDietRecord();

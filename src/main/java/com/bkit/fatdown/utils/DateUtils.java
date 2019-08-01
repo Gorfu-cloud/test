@@ -35,6 +35,37 @@ public class DateUtils {
         return no.getTime();
     }
 
+
+    /**
+     * 返回本月第一天
+     *
+     * @param now
+     * @return
+     */
+    public static Date getMonthStartDate(Date now) {
+        int month = now.getMonth();
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        no.set(Calendar.DAY_OF_MONTH, 1);
+        no.set(Calendar.MONTH, month);
+        return no.getTime();
+    }
+
+    /**
+     * 返回下一个月第一天
+     *
+     * @param now
+     * @return
+     */
+    public static Date getNextMonthStartDate(Date now) {
+        int month = now.getMonth() + 1;
+        Calendar no = Calendar.getInstance();
+        no.setTime(now);
+        no.set(Calendar.DAY_OF_MONTH, 1);
+        no.set(Calendar.MONTH, month);
+        return no.getTime();
+    }
+
     /**
      * 获取本周, 开始日期
      *
