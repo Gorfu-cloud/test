@@ -98,8 +98,8 @@ public class DietReportServiceImpl implements IDietReportService {
     public boolean insertMealReport(TbDietMealReport report) {
         if (report.getGmtCreate() == null) {
             report.setGmtCreate(new Date());
-            report.setGmtModified(new Date());
         }
+        report.setGmtModified(new Date());
         return mealReportMapper.insertSelective(report) > 0;
     }
 

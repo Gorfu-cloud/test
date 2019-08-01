@@ -1145,6 +1145,76 @@ public class TbDietRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andNutsSetIsNull() {
+            addCriterion("nuts_set is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetIsNotNull() {
+            addCriterion("nuts_set is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetEqualTo(String value) {
+            addCriterion("nuts_set =", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetNotEqualTo(String value) {
+            addCriterion("nuts_set <>", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetGreaterThan(String value) {
+            addCriterion("nuts_set >", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetGreaterThanOrEqualTo(String value) {
+            addCriterion("nuts_set >=", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetLessThan(String value) {
+            addCriterion("nuts_set <", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetLessThanOrEqualTo(String value) {
+            addCriterion("nuts_set <=", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetLike(String value) {
+            addCriterion("nuts_set like", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetNotLike(String value) {
+            addCriterion("nuts_set not like", value, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetIn(List<String> values) {
+            addCriterion("nuts_set in", values, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetNotIn(List<String> values) {
+            addCriterion("nuts_set not in", values, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetBetween(String value1, String value2) {
+            addCriterion("nuts_set between", value1, value2, "nutsSet");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutsSetNotBetween(String value1, String value2) {
+            addCriterion("nuts_set not between", value1, value2, "nutsSet");
+            return (Criteria) this;
+        }
+
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;

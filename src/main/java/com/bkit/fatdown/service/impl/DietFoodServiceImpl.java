@@ -1,6 +1,5 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.ElementTotalDTO;
 import com.bkit.fatdown.dto.FoodInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
@@ -9,8 +8,8 @@ import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
-import io.swagger.models.auth.In;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,7 +51,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Resource
     private IFoodElementService foodElementService;
 
-    private static Logger logger = Logger.getLogger(DietFoodServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DietFoodServiceImpl.class);
 
     /**
      * 存在该菜式拆解: 0
@@ -64,6 +63,17 @@ public class DietFoodServiceImpl implements IDietFoodService {
      */
     private static final int FOOD_GRAM_BASE = 100;
 
+    /**
+     * 类型：蛋白质1；主食2；蔬菜水果3；坚果4；豆类5。
+     */
+    private static final int PROTEIN = 1;
+    private static final int STAPLE_FOOD = 2;
+    private static final int FRUIT_VEGETABLE = 3;
+    private static final int NUTS = 4;
+    private static final int BEANS = 5;
+
+    private static final int GOOD_PROTEIN = 1;
+    private static final int ANIMAL_FAT = 1;
 
     /**
      * 保存饮食记录
@@ -72,6 +82,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return 保存结果
      */
     @Override
+
     public boolean insert(TbFoodRecord record) {
         record.setGmtCreate(new Date());
         record.setGmtModified(new Date());
@@ -258,6 +269,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
         Set<Integer> stapleFoodSet = new TreeSet<>();
         Set<Integer> fruitVegetableSet = new TreeSet<>();
         Set<Integer> beansSet = new TreeSet<>();
+        Set<Integer> nutsSet = new TreeSet<>();
 
         // 菜式信息
         TbFoodBasic foodBasic = foodBasicService.getFoodBasic(foodId);
@@ -286,35 +298,70 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 fiber += (gram / FOOD_GRAM_BASE) * elementBasic.getFiber();
                 fat += (gram / FOOD_GRAM_BASE) * elementBasic.getFat();
 
-                // 优质蛋白质摄入量
-                if (elementBasic.getGoodProtein() == 1) {
+                // 统计优质蛋白
+                if (elementBasic.getGoodProtein() == GOOD_PROTEIN) {
                     goodProtein += elementBasic.getProtein();
                 }
 
-                if (elementBasic.getAnimalFat() == 1) {
+                // 统计动物性脂肪
+                if (elementBasic.getAnimalFat() == ANIMAL_FAT) {
                     animalFat += elementBasic.getFat();
                 }
 
-
                 // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
                 structType.add(elementBasic.getType());
+
+                // 统计每次食物种类
+                switch (elementBasic.getType()) {
+                    case PROTEIN:
+                        proteinSet.add(elementBasic.getId());
+                        break;
+                    case STAPLE_FOOD:
+                        stapleFoodSet.add(elementBasic.getId());
+                        break;
+                    case FRUIT_VEGETABLE:
+                        fruitVegetableSet.add(elementBasic.getId());
+                        break;
+                    case BEANS:
+                        beansSet.add(elementBasic.getId());
+                        break;
+                    case NUTS:
+                        nutsSet.add(elementBasic.getId());
+                        break;
+                    default:
+                        logger.error("elementBasic type error , type : {}", elementBasic.getType());
+                }
             }
         }
 
-        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType);
+        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType,
+                proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
     }
 
-    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber,
-                                       double goodProtein, double animalFat, Set<Integer> structType) {
+    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber, double goodProtein,
+                                       double animalFat, Set<Integer> structType, Set<Integer> proteinSet, Set<Integer> stapleFoodSet,
+                                       Set<Integer> fruitVegetableSet, Set<Integer> beansSet, Set<Integer> nutsSet) {
         TbDietRecord record = new TbDietRecord();
         record.setEnergy(energy);
+
         record.setFat(fat);
         record.setCho(cho);
         record.setProtein(protein);
         record.setFiber(fiber);
+
+        // 动物性脂肪，优质蛋白
         record.setAnimalFat(animalFat);
         record.setGoodProtein(goodProtein);
+
+        // 食物种类结构
         record.setStructureSet(structType.toString());
+
+        // 食物种类均衡评价
+        record.setProteinSet(proteinSet.toString());
+        record.setStapleFoodSet(stapleFoodSet.toString());
+        record.setFruitVegetableSet(fruitVegetableSet.toString());
+        record.setBeansSet(beansSet.toString());
+        record.setNutsSet(nutsSet.toString());
 
         return record;
     }
@@ -372,6 +419,13 @@ public class DietFoodServiceImpl implements IDietFoodService {
         // 菜式拥有的营养种类
         Set<Integer> structType = DataTransferUtils.str2Set(target.getStructureSet());
 
+        // 统计每次食物种类
+        Set<Integer> proteinSet = DataTransferUtils.str2Set(target.getProteinSet());
+        Set<Integer> stapleFoodSet = DataTransferUtils.str2Set(target.getStapleFoodSet());
+        Set<Integer> fruitVegetableSet = DataTransferUtils.str2Set(target.getFruitVegetableSet());
+        Set<Integer> beansSet = DataTransferUtils.str2Set(target.getBeansSet());
+        Set<Integer> nutsSet = DataTransferUtils.str2Set(target.getNutsSet());
+
         // 摄入能量
         energy += temp.getEnergy();
 
@@ -386,8 +440,14 @@ public class DietFoodServiceImpl implements IDietFoodService {
         animalFat += temp.getAnimalFat();
 
         structType.addAll(DataTransferUtils.str2Set(temp.getStructureSet()));
+        proteinSet.addAll(DataTransferUtils.str2Set(temp.getProteinSet()));
+        fruitVegetableSet.addAll(DataTransferUtils.str2Set(temp.getFruitVegetableSet()));
+        stapleFoodSet.addAll(DataTransferUtils.str2Set(temp.getStapleFoodSet()));
+        beansSet.addAll(DataTransferUtils.str2Set(temp.getBeansSet()));
+        nutsSet.addAll(DataTransferUtils.str2Set(temp.getNutsSet()));
 
-        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType);
+        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType, proteinSet, stapleFoodSet,
+                fruitVegetableSet, beansSet, nutsSet);
     }
 
     /**
@@ -396,12 +456,25 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @param record 饮食记录
      */
     private void initDietRecord(TbDietRecord record) {
-        record.setFat(0.0);
         record.setEnergy(0.0);
+
+        // 营养素含量
         record.setFat(0.0);
         record.setCho(0.0);
         record.setProtein(0.0);
         record.setFiber(0.0);
+
+        // 饮食结构种类
         record.setStructureSet("");
+
+        // 膳食均衡种类：蛋白质，主食，蔬菜水果，豆类
+        record.setProteinSet("");
+        record.setStapleFoodSet("");
+        record.setFruitVegetableSet("");
+        record.setBeansSet("");
+        record.setNutsSet("");
+
+        record.setGoodProtein(0.0);
+        record.setAnimalFat(0.0);
     }
 }

@@ -48,6 +48,9 @@ public class DietController {
     @Resource
     private IFoodRecommendRecordService foodRecommendRecordService;
 
+    @Resource
+    private IDietRecordService dietRecordService;
+
     private static final int DATA_NOT_EXIST = 0;
     private static final int DATA_EXIST = 1;
 
@@ -182,17 +185,17 @@ public class DietController {
         }
         Date inputDate = DateUtils.string2Date(date);
 
-        if (reportService.countDietMealReport(inputDate, uid) < DAILY_REPORT_TOTAL) {
-            return CommonResultDTO.failed("数据不足,无法进行评价");
-        }
-
-        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
-            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
-            if (report == null) {
-                return CommonResultDTO.failed("记录为空");
-            }
-            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
-        }
+//        if (dietRecordService.countDietRecord(inputDate, uid) < DAILY_REPORT_TOTAL) {
+//            return CommonResultDTO.failed("数据不足,无法进行评价");
+//        }
+//
+//        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
+//            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
+//            if (report == null) {
+//                return CommonResultDTO.failed("记录为空");
+//            }
+//            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
+//        }
 
         // 生成每日饮食报告
         DietDailyReport dailyReport = reportService.generateDailyReport(inputDate, uid, DAILY_TYPE);

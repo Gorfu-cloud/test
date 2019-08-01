@@ -22,10 +22,10 @@ public class AesUtil {
     /**
      * AES解密
      *
-     * @param data           //密文，被加密的数据
-     * @param key            //秘钥
-     * @param iv             //偏移量
-     * @param encodingFormat //解密后的结果需要进行的编码
+     * @param data           密文，被加密的数据
+     * @param key            秘钥
+     * @param iv             偏移量
+     * @param encodingFormat 解密后的结果需要进行的编码
      * @return
      * @throws Exception
      */
