@@ -68,8 +68,8 @@ public class DietController {
     /**
      * 推荐菜式类型上下限
      */
-    private static final int FOOD_TYPE_UPPER = 4;
-    private static final int FOOD_TYPE_LOWER = 0;
+    private static final int FOOD_TYPE_UPPER = 8;
+    private static final int FOOD_TYPE_LOWER = 1;
 
     @ApiOperation("获取用餐信息，菜式名，重量（type：0早餐，1午餐，2晚餐）")
     @CrossOrigin
@@ -441,7 +441,7 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/listFoodRecommend", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommend(@RequestParam Integer foodType) {
-        if (foodType == null || foodType > FOOD_TYPE_UPPER || foodType <= FOOD_TYPE_LOWER) {
+        if (foodType == null || foodType > FOOD_TYPE_UPPER || foodType < FOOD_TYPE_LOWER) {
             return CommonResultDTO.validateFailed("foodType参数错误");
         }
 
