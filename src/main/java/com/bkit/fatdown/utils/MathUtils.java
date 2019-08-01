@@ -268,7 +268,7 @@ public class MathUtils {
      */
     private static void setStructureBreakEvaluation(DietMealReport report, TbDietRecord record, ArrayList<Integer> structure) {
         // 实际摄入种类，减去必须摄入种类
-        structure.removeAll(DataTransferUtils.str2Set(record.getStructureTypeSet()));
+        structure.removeAll(DataTransferUtils.str2Set(record.getStructureSet()));
         if (structure.size() == 0) {
             report.setStructureEvaluation(EXCELLENT);
         } else if (structure.size() == 1) {

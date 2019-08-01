@@ -58,6 +58,8 @@ public class DietController {
      * 4，每天，5,每周，6，每月
      */
     private static final int DAILY_REPORT_TOTAL = 3;
+    private static final int WEEKLY_REPORT_MIN_TOTAL = 15;
+    private static final int MOUTH_REPORT_MIN_TOTAL = 65;
     private static final int BREAKFAST_TYPE = 0;
     private static final int LUNCH_TYPE = 1;
     private static final int DINNER_TYPE = 2;
@@ -202,7 +204,6 @@ public class DietController {
         return CommonResultDTO.success(dailyReport);
     }
 
-
     @ApiOperation("查看三餐饮食报告，通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/listDailyReport", method = RequestMethod.GET)
@@ -246,13 +247,28 @@ public class DietController {
         return CommonResultDTO.success(reportList);
     }
 
-
-    @Deprecated
     @ApiOperation("查看每周饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
-    public CommonResultDTO listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
-        return null;
+    public CommonResultDTO<DietWeeklyReport> listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
+            return CommonResultDTO.validateFailed("uid无效");
+        }
+
+        Date inputDate = DateUtils.string2Date(date);
+
+        // 少于15次报告，无法生成数据
+        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
+            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
+        }
+
+        // 存在报告记录，直接返回记录
+
+        // 生成每周报告记录
+
+        // 如果报告为空，返回错误
+
+        return CommonResultDTO.success(new DietWeeklyReport());
     }
 
     @Deprecated
@@ -260,6 +276,23 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
     public CommonResultDTO listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
+            return CommonResultDTO.validateFailed("uid无效");
+        }
+
+        Date inputDate = DateUtils.string2Date(date);
+
+        // 少于65次报告，无法生成数据
+        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
+            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
+        }
+
+        // 存在报告记录，直接返回记录
+
+        // 生成每月报告记录
+
+        // 如果报告为空，返回错误
+
         return null;
     }
 
@@ -404,7 +437,7 @@ public class DietController {
         return CommonResultDTO.success(listMap);
     }
 
-    @ApiOperation("获取推荐菜式")
+    @ApiOperation("获取推荐菜式:1,蛋白质，2,碳水化合物，3,脂肪，4,纤维,5,豆类，6,坚果，7，优质蛋白质,8，动物性脂肪")
     @CrossOrigin
     @RequestMapping(value = "/listFoodRecommend", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommend(@RequestParam Integer foodType) {
