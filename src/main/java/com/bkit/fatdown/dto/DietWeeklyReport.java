@@ -9,11 +9,11 @@ package com.bkit.fatdown.dto;
  * @version: 1.0
  */
 public class DietWeeklyReport {
+    private Double energyPer;
     /**
      * 能量摄入评价：0 优，1 良，2 一般，3 差
      */
     private Integer energyEvaluation;
-    private Double energyPer;
 
     /**
      * 食物种类均衡评价:0 优，1 良，2 一般
@@ -28,30 +28,29 @@ public class DietWeeklyReport {
      * 三餐能量分配评价
      */
     private Double breakfastEnergyPer;
-    private Double lunchEnergyPer;
-    private Double dinnerEnergyPer;
     private Integer breakfastEnergyEvaluation;
+    private Double lunchEnergyPer;
     private Integer lunchEnergyEvaluation;
+    private Double dinnerEnergyPer;
     private Integer dinnerEnergyEvaluation;
+
 
     /**
      * 营养素评价: 0,合适，1,较合理，2,不合理
-     */
-    private Integer colEvaluation;
-    private Integer fatEvaluation;
-    private Integer fibrinEvaluation;
-    private Integer proteinEvaluation;
-    private Integer goodProteinEvaluation;
-    private Integer animalFatEvaluation;
-    /**
-     * 营养素百分比
+     * 除fibrin为克外，其他都为百分比，基准为100
      */
     private Double colPer;
+    private Integer colEvaluation;
     private Double fatPer;
+    private Integer fatEvaluation;
     private Double fibrinPer;
+    private Integer fibrinEvaluation;
     private Double proteinPer;
+    private Integer proteinEvaluation;
     private Double goodProteinPer;
+    private Integer goodProteinEvaluation;
     private Double animalFatPer;
+    private Integer animalFatEvaluation;
 
     public DietWeeklyReport() {
         init();
