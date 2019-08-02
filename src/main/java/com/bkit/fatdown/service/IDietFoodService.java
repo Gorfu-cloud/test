@@ -112,4 +112,6 @@ public interface IDietFoodService {
      * @return
      */
     TbDietRecord getDietRecordTotalByFoodList(List<Integer> foodIdList);
+
+    TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp);
 }

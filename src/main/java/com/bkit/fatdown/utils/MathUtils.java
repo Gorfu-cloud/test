@@ -2,13 +2,11 @@ package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.DietDailyReport;
 import com.bkit.fatdown.dto.DietMealReport;
+import com.bkit.fatdown.dto.DietWeeklyReport;
 import com.bkit.fatdown.dto.UserReportDTO;
 import com.bkit.fatdown.entity.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @file: MathUtils
@@ -87,9 +85,17 @@ public class MathUtils {
     private static final Double ENERGY_DAILY_BAD_RATIONAL_UPPER = 1.10;
     private static final Double ENERGY_DAILY_BAD_RATIONAL_LOWER = 0.90;
 
+    private static final Double ENERGY_WEEKLY_SO_BAD_LOWER = 0.70;
+    private static final Double ENERGY_WEEKLY_SO_BAD_UPPER = 1.20;
+    private static final Double ENERGY_WEEKLY_BAD_LOWER = 0.80;
+    private static final Double ENERGY_WEEKLY_BAD_UPPER = 1.10;
+    private static final Double ENERGY_WEEKLY_GOOD_LOWER = 0.90;
+    private static final Double ENERGY_WEEKLY_GOOD_UPPER = 1.00;
+
     private static final Integer EXCELLENT = 0;
     private static final Integer GOOD = 1;
     private static final Integer BAD = 2;
+    private static final Integer SO_BAD = 3;
 
     /**
      * 结构评价:1,蛋白质，2，主食，3，蔬菜水果，4，坚果，5,豆类
@@ -119,6 +125,25 @@ public class MathUtils {
     private static final Integer COL_ENERGY_OF_1G = 9;
 
     private static final Integer PER_BASE = 100;
+
+    /**
+     * 周种类均衡评价
+     */
+    private static final Integer WEEKLY_PROTEIN_GOOD = 5;
+    private static final Integer WEEKLY_PROTEIN_BAD = 4;
+
+    private static final Integer WEEKLY_STAPLE_FOOD_GOOD = 4;
+    private static final Integer WEEKLY_STAPLE_FOOD_BAD = 3;
+
+    private static final Integer WEEKLY_FRUIT_VEGETABLE_GOOD = 10;
+    private static final Integer WEEKLY_FRUIT_VEGETABLE_BAD = 7;
+
+    private static final Integer WEEKLY_NUT_BEAN_GOOD = 5;
+    private static final Integer WEEKLY_NUT_BEAN_BAD = 4;
+
+    private static final Integer WEEKLY_TOTAL_GOOD = 25;
+    private static final Integer WEEKLY_TOTAL_BAD = 18;
+
 
     /**
      * BMI=体重（千克）/（身高（米）*身高（米））
@@ -231,8 +256,56 @@ public class MathUtils {
         return dailyReport;
     }
 
+    public static DietWeeklyReport getDietWeeklyReport(TbDietUserStandard userStandard, TbDietRecord dietRecord,
+                                                       List<TbDietRecord> breakfastList, List<TbDietRecord> lunchList,
+                                                       List<TbDietRecord> dinnerList) {
+
+        DietWeeklyReport weeklyReport = new DietWeeklyReport();
+
+        int recordTotal = breakfastList.size() + lunchList.size() + dinnerList.size();
+        // 一天总能量标准
+        double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
+                + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
+        // 一周摄入
+        double realEnergy = dietRecord.getEnergy();
+        // 每天平均摄入
+        double realDailyEnergy = realEnergy / (recordTotal / 3.0);
+        // 能量评价
+        setEnergyEvaluation(weeklyReport, energyStandard, realDailyEnergy);
+        // 三餐能量评价
+        setMealEnergyEvaluation(weeklyReport, energyStandard, getMeanEnergy(breakfastList),
+                getMeanEnergy(lunchList), getMeanEnergy(dinnerList));
+        // 种类均衡评价
+        setSpeciesEvaluation(weeklyReport, dietRecord);
+
+
+        return weeklyReport;
+    }
+
     /**
-     * 设置饮食评价
+     * 每周能量评价
+     *
+     * @param report         每周报告
+     * @param energyStandard 每天能量标准
+     * @param realEnergy     真实摄入
+     */
+    private static void setEnergyEvaluation(DietWeeklyReport report, double energyStandard, double realEnergy) {
+        double energyPer = realEnergy / energyStandard;
+
+        report.setEnergyPer(energyPer);
+        if (energyPer > ENERGY_WEEKLY_SO_BAD_UPPER || energyPer < ENERGY_WEEKLY_SO_BAD_LOWER) {
+            report.setEnergyEvaluation(SO_BAD);
+        } else if (energyPer > ENERGY_WEEKLY_BAD_UPPER || energyPer < ENERGY_WEEKLY_BAD_LOWER) {
+            report.setEnergyEvaluation(BAD);
+        } else if (energyPer > ENERGY_WEEKLY_GOOD_UPPER || energyPer < ENERGY_WEEKLY_GOOD_LOWER) {
+            report.setEnergyEvaluation(GOOD);
+        } else {
+            report.setEnergyEvaluation(EXCELLENT);
+        }
+    }
+
+    /**
+     * 设置三餐，每天饮食能量评价
      *
      * @param report                       饮食报告传输对象
      * @param energyStandard               能量标准
@@ -278,6 +351,114 @@ public class MathUtils {
         }
         Set<Integer> set = new TreeSet<>(structure);
         report.setStructureLack(set);
+    }
+
+    /**
+     * 每周种类均衡评价
+     *
+     * @param report 周评价报告
+     * @param record 饮食记录
+     */
+    private static void setSpeciesEvaluation(DietWeeklyReport report, TbDietRecord record) {
+        int proteinTotal = DataTransferUtils.str2Set(record.getProteinSet()).size();
+        int stapleFoodTotal = DataTransferUtils.str2Set(record.getStapleFoodSet()).size();
+        int fruitVegetableTotal = DataTransferUtils.str2Set(record.getFruitVegetableSet()).size();
+        int nutTotal = DataTransferUtils.str2Set(record.getNutsSet()).size();
+        int beanTotal = DataTransferUtils.str2Set(record.getBeansSet()).size();
+
+        int nutBeanTotal = nutTotal + beanTotal;
+        int speciesTotal = proteinTotal + stapleFoodTotal + fruitVegetableTotal + nutTotal + beanTotal;
+
+        setSpeciesTotalEvaluation(report, speciesTotal);
+        setProteinSpeciesEvaluation(report, proteinTotal);
+        setStapleFoodSpeciesEvaluation(report, stapleFoodTotal);
+        setFruitVegetableSpeciesEvaluation(report, fruitVegetableTotal);
+        setNutBeanSpeciesEvaluation(report, nutBeanTotal);
+    }
+
+    private static void setProteinSpeciesEvaluation(DietWeeklyReport report, Integer total) {
+        if (total > WEEKLY_PROTEIN_GOOD) {
+            report.setProteinSpeciesEvaluation(EXCELLENT);
+        } else if (total < WEEKLY_PROTEIN_BAD) {
+            report.setProteinSpeciesEvaluation(BAD);
+        } else {
+            report.setProteinSpeciesEvaluation(GOOD);
+        }
+    }
+
+    private static void setStapleFoodSpeciesEvaluation(DietWeeklyReport report, Integer total) {
+        if (total > WEEKLY_STAPLE_FOOD_GOOD) {
+            report.setStapleFoodSpeciesEvaluation(EXCELLENT);
+        } else if (total < WEEKLY_STAPLE_FOOD_BAD) {
+            report.setStapleFoodSpeciesEvaluation(BAD);
+        } else {
+            report.setStapleFoodSpeciesEvaluation(GOOD);
+        }
+    }
+
+    private static void setFruitVegetableSpeciesEvaluation(DietWeeklyReport report, Integer total) {
+        if (total > WEEKLY_FRUIT_VEGETABLE_GOOD) {
+            report.setFruitVegetableSpeciesEvaluation(EXCELLENT);
+        } else if (total < WEEKLY_FRUIT_VEGETABLE_BAD) {
+            report.setFruitVegetableSpeciesEvaluation(BAD);
+        } else {
+            report.setFruitVegetableSpeciesEvaluation(GOOD);
+        }
+    }
+
+    private static void setNutBeanSpeciesEvaluation(DietWeeklyReport report, Integer total) {
+        if (total > WEEKLY_NUT_BEAN_GOOD) {
+            report.setBeanNutSpeciesEvaluation(EXCELLENT);
+        } else if (total < WEEKLY_NUT_BEAN_BAD) {
+            report.setBeanNutSpeciesEvaluation(BAD);
+        } else {
+            report.setBeanNutSpeciesEvaluation(GOOD);
+        }
+    }
+
+    private static void setSpeciesTotalEvaluation(DietWeeklyReport report, Integer total) {
+        if (total > WEEKLY_TOTAL_GOOD) {
+            report.setTotalSpeciesEvaluation(EXCELLENT);
+        } else if (total < WEEKLY_TOTAL_BAD) {
+            report.setTotalSpeciesEvaluation(BAD);
+        } else {
+            report.setTotalSpeciesEvaluation(GOOD);
+        }
+    }
+
+    private static void setMealEnergyEvaluation(DietWeeklyReport report, double energyStandard, double breakfastMeanEnergy, double lunchMeanEnergy, double dinnerMeanEnergy) {
+        double breakfastPer = breakfastMeanEnergy / energyStandard;
+        double lunchPer = lunchMeanEnergy / energyStandard;
+        double dinnerPer = dinnerMeanEnergy / energyStandard;
+
+        report.setBreakfastEnergyPer(breakfastPer);
+        report.setLunchEnergyPer(lunchPer);
+        report.setDinnerEnergyPer(dinnerPer);
+
+        if (breakfastPer > ENERGY_BREAKFAST_BAD_RATIONAL_UPPER || breakfastPer < ENERGY_BREAKFAST_BAD_RATIONAL_LOWER) {
+            report.setBreakfastEnergyEvaluation(BAD);
+        } else if (breakfastPer > ENERGY_BREAKFAST_RATIONAL_UPPER || breakfastPer < ENERGY_BREAKFAST_RATIONAL_LOWER) {
+            report.setBreakfastEnergyEvaluation(GOOD);
+        } else {
+            report.setBreakfastEnergyEvaluation(EXCELLENT);
+        }
+
+        if (lunchPer > ENERGY_LUNCH_BAD_RATIONAL_UPPER || lunchPer < ENERGY_LUNCH_BAD_RATIONAL_LOWER) {
+            report.setLunchEnergyEvaluation(BAD);
+        } else if (lunchPer > ENERGY_LUNCH_RATIONAL_UPPER || lunchPer < ENERGY_LUNCH_RATIONAL_LOWER) {
+            report.setLunchEnergyEvaluation(GOOD);
+        } else {
+            report.setLunchEnergyEvaluation(EXCELLENT);
+        }
+
+        if (dinnerPer > ENERGY_DINNER_BAD_RATIONAL_UPPER || dinnerPer < ENERGY_DINNER_BAD_RATIONAL_LOWER) {
+            report.setDinnerEnergyEvaluation(BAD);
+        } else if (dinnerPer > ENERGY_DINNER_RATIONAL_UPPER || dinnerPer < ENERGY_DINNER_RATIONAL_LOWER) {
+            report.setDinnerEnergyEvaluation(GOOD);
+        } else {
+            report.setDinnerEnergyEvaluation(EXCELLENT);
+        }
+
     }
 
     /**
@@ -450,4 +631,17 @@ public class MathUtils {
         return (height - PROTEIN_REDUCTION) * PROTEIN_COEFFICIENT;
     }
 
+    private static Double getMeanEnergy(List<TbDietRecord> list) {
+        if (list.size() == 1) {
+            return list.get(0).getEnergy();
+        }
+
+        double energyTotal = 0.0;
+
+        for (TbDietRecord record : list) {
+            energyTotal += record.getEnergy();
+        }
+
+        return energyTotal / list.size();
+    }
 }

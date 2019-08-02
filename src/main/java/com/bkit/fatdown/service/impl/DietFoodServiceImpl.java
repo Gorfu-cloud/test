@@ -235,27 +235,13 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 foodRecordList = listFoodRecord(uid, DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date));
                 break;
             case MONTH:
-//                foodRecordList = listFoodRecord(uid,)
+                foodRecordList = listFoodRecord(uid, DateUtils.getMonthStartDate(date), DateUtils.getMonthStartDate(date));
                 break;
             default:
                 logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
         }
-        // 早餐
-        if (type == BREAKFAST) {
-            return listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date));
-        } else if (type == 1) {
-            // 午餐
-            return listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date));
-        } else if (type == 2) {
-            // 晚餐
-            return listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date));
-        } else if (type == 4) {
-            // 一天
-            return listFoodRecord(uid, DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
-        } else {
-            logger.error(uid + "菜式列表错误");
-            return null;
-        }
+
+        return foodRecordList;
     }
 
     /**
@@ -444,7 +430,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @param temp   新增饮食记录
      * @return 饮食记录
      */
-    private TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp) {
+    @Override
+    public TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
         double energy = target.getEnergy(), fat = target.getFat(), goodProtein = target.getGoodProtein(),
                 protein = target.getProtein(), cho = target.getCho(), fiber = target.getFiber(),

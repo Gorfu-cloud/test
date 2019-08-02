@@ -30,6 +30,9 @@ public class DietWeeklyReport {
     private Double breakfastEnergyPer;
     private Double lunchEnergyPer;
     private Double dinnerEnergyPer;
+    private Integer breakfastEnergyEvaluation;
+    private Integer lunchEnergyEvaluation;
+    private Integer dinnerEnergyEvaluation;
 
     /**
      * 营养素评价: 0,合适，1,较合理，2,不合理
@@ -68,6 +71,10 @@ public class DietWeeklyReport {
         this.breakfastEnergyPer = 0.0;
         this.lunchEnergyPer = 0.0;
         this.dinnerEnergyPer = 0.0;
+
+        this.breakfastEnergyEvaluation = 0;
+        this.lunchEnergyEvaluation = 0;
+        this.dinnerEnergyEvaluation = 0;
 
         this.colEvaluation = 0;
         this.fatEvaluation = 0;
@@ -118,6 +125,30 @@ public class DietWeeklyReport {
 
     public Integer getFruitVegetableSpeciesEvaluation() {
         return fruitVegetableSpeciesEvaluation;
+    }
+
+    public Integer getBreakfastEnergyEvaluation() {
+        return breakfastEnergyEvaluation;
+    }
+
+    public void setBreakfastEnergyEvaluation(Integer breakfastEnergyEvaluation) {
+        this.breakfastEnergyEvaluation = breakfastEnergyEvaluation;
+    }
+
+    public Integer getLunchEnergyEvaluation() {
+        return lunchEnergyEvaluation;
+    }
+
+    public void setLunchEnergyEvaluation(Integer lunchEnergyEvaluation) {
+        this.lunchEnergyEvaluation = lunchEnergyEvaluation;
+    }
+
+    public Integer getDinnerEnergyEvaluation() {
+        return dinnerEnergyEvaluation;
+    }
+
+    public void setDinnerEnergyEvaluation(Integer dinnerEnergyEvaluation) {
+        this.dinnerEnergyEvaluation = dinnerEnergyEvaluation;
     }
 
     public void setFruitVegetableSpeciesEvaluation(Integer fruitVegetableSpeciesEvaluation) {

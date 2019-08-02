@@ -50,6 +50,8 @@ public class DietReportServiceImpl implements IDietReportService {
     private static final int LUNCH = 1;
     private static final int DINNER = 2;
     private static final int DAILY = 4;
+    private static final int WEEKLY = 5;
+    private static final int MONTH = 6;
 
     /**
      * @param date 报告日期
@@ -95,16 +97,33 @@ public class DietReportServiceImpl implements IDietReportService {
      *
      * @param date 当周日期（周日算第一天）
      * @param uid  用户id
-     * @param type 用餐类型
      * @return 每周饮食评价
      */
     @Override
-    public DietWeeklyReport generateWeeklyReport(Date date, Integer uid, Integer type) {
+    public DietWeeklyReport generateWeeklyReport(Date date, Integer uid) {
         // 获取菜式id列表
-//        List<Integer> foodIdList = listFoodId(foodService.)
+        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, WEEKLY));
 
+        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
 
-        return null;
+        List<TbDietRecord> breakfastList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
+                DateUtils.getDateEnd(date), uid, BREAKFAST);
+
+        List<TbDietRecord> lunchList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
+                DateUtils.getDateEnd(date), uid, LUNCH);
+
+        List<TbDietRecord> dinnerList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
+                DateUtils.getDateEnd(date), uid, DINNER);
+
+        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+
+        DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, breakfastList, lunchList, dinnerList);
+
+        if (isFinishMeal(date, WEEKLY)) {
+            System.out.println("已经过了用餐时间");
+        }
+
+        return report;
     }
 
     /**
@@ -450,6 +469,10 @@ public class DietReportServiceImpl implements IDietReportService {
             return DateUtils.isLargerTime(now, DateUtils.getDinnerEndTime(date));
         } else if (type == DAILY) {
             return DateUtils.isLargerTime(now, DateUtils.getDateEnd(date));
+        } else if (type == WEEKLY) {
+            return DateUtils.isLargerTime(now, DateUtils.getCurrentWeekEnd(date));
+        } else if (type == MONTH) {
+            return DateUtils.isLargerTime(now, DateUtils.getNextMonthStartDate(date));
         } else {
             logger.error("isFinishMeal type out of index, date: {}  type: {}", date, type);
             return false;

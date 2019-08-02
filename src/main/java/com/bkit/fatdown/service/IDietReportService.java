@@ -44,10 +44,9 @@ public interface IDietReportService {
      *
      * @param date 当周日期（周日算第一天）
      * @param uid  用户id
-     * @param type 用餐类型
      * @return 每周饮食评价
      */
-    DietWeeklyReport generateWeeklyReport(Date date, Integer uid, Integer type);
+    DietWeeklyReport generateWeeklyReport(Date date, Integer uid);
 
     /**
      * 保存每餐饮食报告

@@ -162,6 +162,43 @@ public class DietRecordServiceImpl implements IDietRecordService {
     }
 
     /**
+     * 获取一天饮食三餐记录
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 饮食记录
+     */
+    @Override
+    public List<TbDietRecord> listDietMealRecord(Date startDate, Date endDate, int uid) {
+        TbDietRecordExample example = new TbDietRecordExample();
+        example.createCriteria()
+                .andGmtCreateBetween(startDate, endDate)
+                .andUserIdEqualTo(uid)
+                .andTypeLessThanOrEqualTo(3);
+        return dietRecordMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取一段日期指定类型饮食记录
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @param type      用餐类型
+     * @return 饮食列表
+     */
+    @Override
+    public List<TbDietRecord> listDietMealRecord(Date startDate, Date endDate, int uid, int type) {
+        TbDietRecordExample example = new TbDietRecordExample();
+        example.createCriteria()
+                .andGmtCreateBetween(startDate, endDate)
+                .andUserIdEqualTo(uid)
+                .andTypeEqualTo(type);
+        return dietRecordMapper.selectByExample(example);
+    }
+
+    /**
      * 获取某天，饮食成分记录列表
      *
      * @param date 记录日期

@@ -102,6 +102,27 @@ public interface IDietRecordService {
     List<TbDietRecord> listDietRecord(Date date, int uid);
 
     /**
+     * 获取一天饮食三餐记录
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 饮食记录
+     */
+    List<TbDietRecord> listDietMealRecord(Date startDate, Date endDate, int uid);
+
+    /**
+     * 获取一段日期指定类型饮食记录
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @param type      用餐类型
+     * @return 饮食列表
+     */
+    List<TbDietRecord> listDietMealRecord(Date startDate, Date endDate, int uid, int type);
+
+    /**
      * 获取某天，饮食成分记录
      *
      * @param date     记录日期
