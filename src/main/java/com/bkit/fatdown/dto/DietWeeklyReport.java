@@ -18,10 +18,15 @@ public class DietWeeklyReport {
     /**
      * 食物种类均衡评价:0 优，1 良，2 一般
      */
+    private Integer proteinSpeciesTotal;
     private Integer proteinSpeciesEvaluation;
+    private Integer stapleFoodSpeciesTotal;
     private Integer stapleFoodSpeciesEvaluation;
-    private Integer fruitVegetableSpeciesEvaluation;
+    private Integer beanNutSpeciesTotal;
     private Integer beanNutSpeciesEvaluation;
+    private Integer fruitVegetableSpeciesTotal;
+    private Integer fruitVegetableSpeciesEvaluation;
+    private Integer totalSpeciesTotal;
     private Integer totalSpeciesEvaluation;
 
     /**
@@ -88,6 +93,12 @@ public class DietWeeklyReport {
         this.proteinPer = 0.0;
         this.goodProteinPer = 0.0;
         this.animalFatPer = 0.0;
+
+        this.fruitVegetableSpeciesTotal = 0;
+        this.stapleFoodSpeciesTotal = 0;
+        this.beanNutSpeciesTotal = 0;
+        this.totalSpeciesTotal = 0;
+        this.proteinSpeciesTotal = 0;
     }
 
     public Integer getEnergyEvaluation() {
@@ -288,5 +299,45 @@ public class DietWeeklyReport {
 
     public void setAnimalFatPer(Double animalFatPer) {
         this.animalFatPer = animalFatPer;
+    }
+
+    public Integer getProteinSpeciesTotal() {
+        return proteinSpeciesTotal;
+    }
+
+    public void setProteinSpeciesTotal(Integer proteinSpeciesTotal) {
+        this.proteinSpeciesTotal = proteinSpeciesTotal;
+    }
+
+    public Integer getStapleFoodSpeciesTotal() {
+        return stapleFoodSpeciesTotal;
+    }
+
+    public void setStapleFoodSpeciesTotal(Integer stapleFoodSpeciesTotal) {
+        this.stapleFoodSpeciesTotal = stapleFoodSpeciesTotal;
+    }
+
+    public Integer getBeanNutSpeciesTotal() {
+        return beanNutSpeciesTotal;
+    }
+
+    public void setBeanNutSpeciesTotal(Integer beanNutSpeciesTotal) {
+        this.beanNutSpeciesTotal = beanNutSpeciesTotal;
+    }
+
+    public Integer getFruitVegetableSpeciesTotal() {
+        return fruitVegetableSpeciesTotal;
+    }
+
+    public void setFruitVegetableSpeciesTotal(Integer fruitVegetableSpeciesTotal) {
+        this.fruitVegetableSpeciesTotal = fruitVegetableSpeciesTotal;
+    }
+
+    public Integer getTotalSpeciesTotal() {
+        return totalSpeciesTotal;
+    }
+
+    public void setTotalSpeciesTotal(Integer totalSpeciesTotal) {
+        this.totalSpeciesTotal = totalSpeciesTotal;
     }
 }

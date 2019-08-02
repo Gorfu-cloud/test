@@ -382,6 +382,12 @@ public class MathUtils {
         int nutBeanTotal = nutTotal + beanTotal;
         int speciesTotal = proteinTotal + stapleFoodTotal + fruitVegetableTotal + nutTotal + beanTotal;
 
+        report.setTotalSpeciesTotal(speciesTotal);
+        report.setProteinSpeciesTotal(proteinTotal);
+        report.setBeanNutSpeciesTotal(nutBeanTotal);
+        report.setFruitVegetableSpeciesTotal(fruitVegetableTotal);
+        report.setStapleFoodSpeciesTotal(stapleFoodTotal);
+
         setSpeciesTotalEvaluation(report, speciesTotal);
         setProteinSpeciesEvaluation(report, proteinTotal);
         setStapleFoodSpeciesEvaluation(report, stapleFoodTotal);

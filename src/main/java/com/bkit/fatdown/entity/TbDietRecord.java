@@ -596,4 +596,29 @@ public class TbDietRecord {
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
     }
+
+
+    @Override
+    public String toString() {
+        return "TbDietRecord{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", energy=" + energy +
+                ", protein=" + protein +
+                ", cho=" + cho +
+                ", fiber=" + fiber +
+                ", fat=" + fat +
+                ", goodProtein=" + goodProtein +
+                ", animalFat=" + animalFat +
+                ", structureSet='" + structureSet + '\'' +
+                ", proteinSet='" + proteinSet + '\'' +
+                ", stapleFoodSet='" + stapleFoodSet + '\'' +
+                ", fruitVegetableSet='" + fruitVegetableSet + '\'' +
+                ", beansSet='" + beansSet + '\'' +
+                ", nutsSet='" + nutsSet + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                '}';
+    }
 }
