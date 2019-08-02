@@ -179,6 +179,7 @@ public class MathUtils {
                                                          TbUserLifeStyle lifeStyle) {
 
         TbDietUserStandard userStandard = new TbDietUserStandard();
+        userStandard.setWeight(Double.valueOf(privacyInfo.getWeight()));
         userStandard.setId(basicInfo.getId());
         userStandard.setEnergy(getBasicEnergy(basicInfo.getGender(), privacyInfo.getHeight(), privacyInfo.getWeight()));
         // 饮食口味导致的标准
@@ -304,7 +305,7 @@ public class MathUtils {
     private static void setEnergyEvaluation(DietWeeklyReport report, double energyStandard, double realEnergy) {
         double energyPer = realEnergy / energyStandard;
 
-        report.setEnergyPer(energyPer);
+        report.setEnergyPer(energyPer * PER_BASE);
         if (energyPer > ENERGY_WEEKLY_SO_BAD_UPPER || energyPer < ENERGY_WEEKLY_SO_BAD_LOWER) {
             report.setEnergyEvaluation(SO_BAD);
         } else if (energyPer > ENERGY_WEEKLY_BAD_UPPER || energyPer < ENERGY_WEEKLY_BAD_LOWER) {
@@ -453,9 +454,9 @@ public class MathUtils {
         double lunchPer = lunchMeanEnergy / energyStandard;
         double dinnerPer = dinnerMeanEnergy / energyStandard;
 
-        report.setBreakfastEnergyPer(breakfastPer);
-        report.setLunchEnergyPer(lunchPer);
-        report.setDinnerEnergyPer(dinnerPer);
+        report.setBreakfastEnergyPer(breakfastPer * PER_BASE);
+        report.setLunchEnergyPer(lunchPer * PER_BASE);
+        report.setDinnerEnergyPer(dinnerPer * PER_BASE);
 
         if (breakfastPer > ENERGY_BREAKFAST_BAD_RATIONAL_UPPER || breakfastPer < ENERGY_BREAKFAST_BAD_RATIONAL_LOWER) {
             report.setBreakfastEnergyEvaluation(BAD);
@@ -571,7 +572,7 @@ public class MathUtils {
 
     private static void setGoodProteinEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record) {
         double goodProteinPer = record.getGoodProtein() / record.getProtein();
-        weeklyReport.setGoodProteinPer(goodProteinPer* PER_BASE);
+        weeklyReport.setGoodProteinPer(goodProteinPer * PER_BASE);
 
         if (goodProteinPer > GOOD_PROTEIN_GOOD) {
             weeklyReport.setGoodProteinEvaluation(EXCELLENT);
@@ -584,7 +585,7 @@ public class MathUtils {
 
     private static void setAnimalFatEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record) {
         double animalFatPer = record.getAnimalFat() / record.getFat();
-        weeklyReport.setAnimalFatPer(animalFatPer* PER_BASE);
+        weeklyReport.setAnimalFatPer(animalFatPer * PER_BASE);
 
         if (animalFatPer < ANIMAL_FAT_GOOD) {
             weeklyReport.setAnimalFatEvaluation(EXCELLENT);
