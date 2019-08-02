@@ -185,17 +185,17 @@ public class DietController {
         }
         Date inputDate = DateUtils.string2Date(date);
 
-//        if (dietRecordService.countDietRecord(inputDate, uid) < DAILY_REPORT_TOTAL) {
-//            return CommonResultDTO.failed("数据不足,无法进行评价");
-//        }
-//
-//        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
-//            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
-//            if (report == null) {
-//                return CommonResultDTO.failed("记录为空");
-//            }
-//            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
-//        }
+        if (dietRecordService.countDietRecord(inputDate, uid) < DAILY_REPORT_TOTAL) {
+            return CommonResultDTO.failed("数据不足,无法进行评价");
+        }
+
+        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
+            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
+            if (report == null) {
+                return CommonResultDTO.failed("记录为空");
+            }
+            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
+        }
 
         // 生成每日饮食报告
         DietDailyReport dailyReport = reportService.generateDailyReport(inputDate, uid, DAILY_TYPE);
@@ -260,18 +260,21 @@ public class DietController {
 
         Date inputDate = DateUtils.string2Date(date);
 
-        // 少于15次报告，无法生成数据
-        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
-            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
-        }
+//        // 少于15次报告，无法生成数据
+//        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
+//            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
+//        }
 
         // 存在报告记录，直接返回记录
 
         // 生成每周报告记录
-
+        DietWeeklyReport report = reportService.generateWeeklyReport(inputDate, uid);
         // 如果报告为空，返回错误
+        if (report == null) {
+            return CommonResultDTO.failed("报告为空！");
+        }
 
-        return CommonResultDTO.success(new DietWeeklyReport());
+        return CommonResultDTO.success(report);
     }
 
     @Deprecated

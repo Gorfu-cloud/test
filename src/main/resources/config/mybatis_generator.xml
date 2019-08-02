@@ -48,9 +48,9 @@
         <!--               enableUpdateByExample="true"/>-->
         <!--积分模块 结束-->
         <!--饮食模块 开始-->
-                <table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true"
-                       enableSelectByExample="true"
-                       enableUpdateByExample="true"/>
+<!--                <table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--                       enableSelectByExample="true"-->
+<!--                       enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_food_basic" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
@@ -63,16 +63,16 @@
         <!--        <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_diet_user_standard" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
+                <table tableName="tb_diet_user_standard" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true"
+                       enableUpdateByExample="true"/>
         <!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
 
         <!--饮食评价报告-->
-        <table tableName="tb_diet_record" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+<!--        <table tableName="tb_diet_record" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
 <!--        <table tableName="tb_diet_daily_report" enableCountByExample="true" enableDeleteByExample="true"-->
 <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
 <!--        <table tableName="tb_diet_meal_report" enableCountByExample="true" enableDeleteByExample="true"-->

@@ -119,6 +119,17 @@ public class MathUtils {
 
     private static final Double DAILY_FIBRIN_MORE = 60.0;
     private static final Double DAILY_FIBRIN_LITTLE = 40.0;
+    private static final Double DAILY_FIBRIN_BAD_UPPER = 1.2;
+    private static final Double DAILY_FIBRIN_BAD_LOWER = 0.80;
+    private static final Double DAILY_FIBRIN_GOOD_UPPER = 1.10;
+    private static final Double DAILY_FIBRIN_GOOD_LOWER = 0.90;
+
+    private static final Double GOOD_PROTEIN_GOOD = 0.50;
+    private static final Double GOOD_PROTEIN_BAD = 0.30;
+
+    private static final Double ANIMAL_FAT_GOOD = 0.50;
+    private static final Double ANIMAL_FAT_BAD = 0.60;
+
 
     private static final Integer PROTEIN_ENERGY_OF_1G = 9;
     private static final Integer FAT_ENERGY_OF_1G = 9;
@@ -261,7 +272,7 @@ public class MathUtils {
                                                        List<TbDietRecord> dinnerList) {
 
         DietWeeklyReport weeklyReport = new DietWeeklyReport();
-
+        double weight = userStandard.getWeight();
         int recordTotal = breakfastList.size() + lunchList.size() + dinnerList.size();
         // 一天总能量标准
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
@@ -270,14 +281,15 @@ public class MathUtils {
         double realEnergy = dietRecord.getEnergy();
         // 每天平均摄入
         double realDailyEnergy = realEnergy / (recordTotal / 3.0);
-        // 能量评价
+        // 全天能量评价
         setEnergyEvaluation(weeklyReport, energyStandard, realDailyEnergy);
         // 三餐能量评价
         setMealEnergyEvaluation(weeklyReport, energyStandard, getMeanEnergy(breakfastList),
                 getMeanEnergy(lunchList), getMeanEnergy(dinnerList));
         // 种类均衡评价
         setSpeciesEvaluation(weeklyReport, dietRecord);
-
+        // 每周营养素评价
+        setNutrientEvaluation(weeklyReport, dietRecord, energyStandard, recordTotal, weight);
 
         return weeklyReport;
     }
@@ -426,7 +438,17 @@ public class MathUtils {
         }
     }
 
-    private static void setMealEnergyEvaluation(DietWeeklyReport report, double energyStandard, double breakfastMeanEnergy, double lunchMeanEnergy, double dinnerMeanEnergy) {
+    /**
+     * 每周三餐能量评价
+     *
+     * @param report              每周评价报告
+     * @param energyStandard      能量标准
+     * @param breakfastMeanEnergy 早餐能量
+     * @param lunchMeanEnergy     午餐能量
+     * @param dinnerMeanEnergy    晚餐能量
+     */
+    private static void setMealEnergyEvaluation(DietWeeklyReport report, double energyStandard, double breakfastMeanEnergy,
+                                                double lunchMeanEnergy, double dinnerMeanEnergy) {
         double breakfastPer = breakfastMeanEnergy / energyStandard;
         double lunchPer = lunchMeanEnergy / energyStandard;
         double dinnerPer = dinnerMeanEnergy / energyStandard;
@@ -461,8 +483,9 @@ public class MathUtils {
 
     }
 
+
     /**
-     * 设置营养素评价
+     * 设置每天营养素评价
      *
      * @param dailyReport 每日饮食报告
      * @param record      饮食记录
@@ -473,6 +496,104 @@ public class MathUtils {
         setFatEvaluation(dailyReport, record, standard);
         setColEvaluation(dailyReport, record, standard);
         setFibrinEvaluation(dailyReport, record);
+    }
+
+    private static void setNutrientEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record, Double standard,
+                                              int total, double weight) {
+        setProteinEvaluation(weeklyReport, record, standard, total);
+        setFatEvaluation(weeklyReport, record, standard, total);
+        setColEvaluation(weeklyReport, record, standard, total);
+        setFibrinEvaluation(weeklyReport, record, total, weight);
+        setGoodProteinEvaluation(weeklyReport, record);
+        setAnimalFatEvaluation(weeklyReport, record);
+    }
+
+    private static void setProteinEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record, Double energyStandard, int total) {
+        double proteinPer = (PROTEIN_ENERGY_OF_1G * record.getProtein() / (total / 3.0)) / energyStandard;
+
+        if (proteinPer > DAILY_PROTEIN_MORE) {
+            // 多
+            weeklyReport.setProteinEvaluation(GOOD);
+        } else if (proteinPer < DAILY_PROTEIN_LITTLE) {
+            // 少
+            weeklyReport.setProteinEvaluation(BAD);
+        } else {
+            // 合适
+            weeklyReport.setProteinEvaluation(EXCELLENT);
+        }
+        weeklyReport.setProteinPer(proteinPer * PER_BASE);
+    }
+
+    private static void setFatEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record, Double energyStandard, int total) {
+        double fatPer = (FAT_ENERGY_OF_1G * record.getFat() / (total / 3.0)) / energyStandard;
+
+        if (fatPer > DAILY_FAT_MORE) {
+            // 多
+            weeklyReport.setFatEvaluation(GOOD);
+        } else if (fatPer < DAILY_FAT_LITTLE) {
+            // 少
+            weeklyReport.setFatEvaluation(BAD);
+        } else {
+            // 合适
+            weeklyReport.setFatEvaluation(EXCELLENT);
+        }
+        weeklyReport.setFatPer(fatPer * PER_BASE);
+    }
+
+    private static void setColEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record, Double energyStandard, int total) {
+        double colPer = (COL_ENERGY_OF_1G * record.getCho() / (total / 3.0)) / energyStandard;
+
+        if (colPer > DAILY_COL_MORE) {
+            // 多
+            weeklyReport.setColEvaluation(GOOD);
+        } else if (colPer < DAILY_COL_LITTLE) {
+            // 少
+            weeklyReport.setColEvaluation(BAD);
+        } else {
+            // 合适
+            weeklyReport.setColEvaluation(EXCELLENT);
+        }
+        weeklyReport.setColPer(colPer * PER_BASE);
+    }
+
+    private static void setFibrinEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record, int total, double weight) {
+        double fiber = record.getFiber() / (total / 3.0) / weight;
+
+        if (fiber > DAILY_FIBRIN_BAD_UPPER || fiber < DAILY_FIBRIN_BAD_LOWER) {
+            weeklyReport.setFibrinEvaluation(BAD);
+        } else if (fiber > DAILY_FIBRIN_GOOD_UPPER || fiber < DAILY_FIBRIN_GOOD_LOWER) {
+            weeklyReport.setFibrinEvaluation(GOOD);
+        } else {
+            weeklyReport.setFibrinEvaluation(EXCELLENT);
+        }
+        weeklyReport.setFibrinPer(fiber);
+    }
+
+    private static void setGoodProteinEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record) {
+        double goodProteinPer = record.getGoodProtein() / record.getProtein();
+        weeklyReport.setGoodProteinPer(goodProteinPer* PER_BASE);
+
+        if (goodProteinPer > GOOD_PROTEIN_GOOD) {
+            weeklyReport.setGoodProteinEvaluation(EXCELLENT);
+        } else if (goodProteinPer < GOOD_PROTEIN_BAD) {
+            weeklyReport.setGoodProteinEvaluation(BAD);
+        } else {
+            weeklyReport.setGoodProteinEvaluation(GOOD);
+        }
+    }
+
+    private static void setAnimalFatEvaluation(DietWeeklyReport weeklyReport, TbDietRecord record) {
+        double animalFatPer = record.getAnimalFat() / record.getFat();
+        weeklyReport.setAnimalFatPer(animalFatPer* PER_BASE);
+
+        if (animalFatPer < ANIMAL_FAT_GOOD) {
+            weeklyReport.setAnimalFatEvaluation(EXCELLENT);
+        } else if (animalFatPer > ANIMAL_FAT_BAD) {
+            weeklyReport.setAnimalFatEvaluation(BAD);
+        } else {
+            weeklyReport.setAnimalFatEvaluation(GOOD);
+        }
+
     }
 
     /**
