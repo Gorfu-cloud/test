@@ -1,7 +1,6 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.ElementTotalDTO;
-import com.bkit.fatdown.dto.FoodInfoDTO;
+import com.bkit.fatdown.dto.diet.FoodInfoDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;

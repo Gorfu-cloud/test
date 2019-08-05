@@ -1,6 +1,5 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.DietMealReport;
 import com.bkit.fatdown.entity.TbDietRecord;
 
 import java.util.Date;

@@ -2,6 +2,7 @@ package com.bkit.fatdown.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.*;
+import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;

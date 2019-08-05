@@ -1,4 +1,4 @@
-package com.bkit.fatdown.dto;
+package com.bkit.fatdown.dto.diet;
 
 import java.util.Set;
 import java.util.TreeSet;

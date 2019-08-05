@@ -1,10 +1,9 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
-import com.bkit.fatdown.dto.DietDailyReport;
-import com.bkit.fatdown.dto.DietMealReport;
+import com.bkit.fatdown.dto.diet.DietDailyReport;
+import com.bkit.fatdown.dto.diet.DietMealReport;
 import com.bkit.fatdown.entity.*;
-import io.swagger.models.auth.In;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 

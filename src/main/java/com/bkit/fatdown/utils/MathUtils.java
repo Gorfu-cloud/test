@@ -1,9 +1,9 @@
 package com.bkit.fatdown.utils;
 
-import com.bkit.fatdown.dto.DietDailyReport;
-import com.bkit.fatdown.dto.DietMealReport;
-import com.bkit.fatdown.dto.DietWeeklyReport;
-import com.bkit.fatdown.dto.UserReportDTO;
+import com.bkit.fatdown.dto.diet.DietDailyReport;
+import com.bkit.fatdown.dto.diet.DietMealReport;
+import com.bkit.fatdown.dto.diet.DietWeeklyReport;
+import com.bkit.fatdown.dto.diet.SpeciesEvaluation;
 import com.bkit.fatdown.entity.*;
 
 import java.util.*;
@@ -372,7 +372,7 @@ public class MathUtils {
      * @param report 周评价报告
      * @param record 饮食记录
      */
-    private static void setSpeciesEvaluation(DietWeeklyReport report, TbDietRecord record) {
+    private static void setSpeciesEvaluation(SpeciesEvaluation report, TbDietRecord record) {
         int proteinTotal = DataTransferUtils.str2Set(record.getProteinSet()).size();
         int stapleFoodTotal = DataTransferUtils.str2Set(record.getStapleFoodSet()).size();
         int fruitVegetableTotal = DataTransferUtils.str2Set(record.getFruitVegetableSet()).size();
