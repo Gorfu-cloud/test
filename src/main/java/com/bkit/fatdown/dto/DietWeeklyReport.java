@@ -39,7 +39,6 @@ public class DietWeeklyReport {
     private Double dinnerEnergyPer;
     private Integer dinnerEnergyEvaluation;
 
-
     /**
      * 营养素评价: 0,合适，1,较合理，2,不合理
      * 除fibrin为克外，其他都为百分比，基准为100
@@ -61,7 +60,7 @@ public class DietWeeklyReport {
         init();
     }
 
-    private void init() {
+    public void init() {
 
         this.energyEvaluation = 0;
         this.energyPer = 0.0;

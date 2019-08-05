@@ -277,21 +277,20 @@ public class DietController {
         return CommonResultDTO.success(report);
     }
 
-    @Deprecated
     @ApiOperation("查看每月饮食报告,通过uid，date")
     @CrossOrigin
     @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
-    public CommonResultDTO listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+    public CommonResultDTO<DietMonthReport> listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid无效");
         }
 
         Date inputDate = DateUtils.string2Date(date);
 
-        // 少于65次报告，无法生成数据
-        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
-            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
-        }
+//        // 少于65次报告，无法生成数据
+//        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
+//            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
+//        }
 
         // 存在报告记录，直接返回记录
 
@@ -299,7 +298,7 @@ public class DietController {
 
         // 如果报告为空，返回错误
 
-        return null;
+        return CommonResultDTO.success(new DietMonthReport());
     }
 
     @ApiOperation("通过菜式Id，计算所含元素总量")
