@@ -1,8 +1,6 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.diet.DietDailyReport;
-import com.bkit.fatdown.dto.diet.DietMealReport;
-import com.bkit.fatdown.dto.diet.DietWeeklyReport;
+import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
 
@@ -155,6 +153,27 @@ public interface IDietReportService {
      * @return 报告记录数
      */
     int countDietMealReport(int id);
+
+    /**
+     * 获取每种类型用餐，能量报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param type      用餐类型：0,早餐，1午餐，2晚餐
+     * @return 返回值
+     */
+    Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type);
+
+    /**
+     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @return 返回值
+     */
+    NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate);
 
     /**
      * 保存每日评价

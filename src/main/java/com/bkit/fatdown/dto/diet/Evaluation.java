@@ -17,6 +17,13 @@ public class Evaluation {
         init();
     }
 
+    public Evaluation(int excellent, int good, int ordinary) {
+        init();
+        this.excellent = excellent;
+        this.good = good;
+        this.ordinary = ordinary;
+    }
+
     public void init() {
         this.excellent = 0;
         this.good = 0;

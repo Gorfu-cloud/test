@@ -1,8 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.diet.DietDailyReport;
-import com.bkit.fatdown.dto.diet.DietMealReport;
-import com.bkit.fatdown.dto.diet.DietWeeklyReport;
+import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietDailyReportMapper;
 import com.bkit.fatdown.mappers.TbDietMealReportMapper;
@@ -52,6 +50,10 @@ public class DietReportServiceImpl implements IDietReportService {
     private static final int DAILY = 4;
     private static final int WEEKLY = 5;
     private static final int MONTH = 6;
+
+    private static final Integer EXCELLENT = 0;
+    private static final Integer GOOD = 1;
+    private static final Integer BAD = 2;
 
     /**
      * @param date 报告日期
@@ -104,20 +106,23 @@ public class DietReportServiceImpl implements IDietReportService {
         // 获取菜式id列表
         List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, WEEKLY));
 
+        Date startDate = DateUtils.getCurrentWeekStart(date);
+        Date endDate = DateUtils.getCurrentWeekEnd(date);
+
         TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
 
-        List<TbDietRecord> breakfastList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
-                DateUtils.getDateEnd(date), uid, BREAKFAST);
-
-        List<TbDietRecord> lunchList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
-                DateUtils.getDateEnd(date), uid, LUNCH);
-
-        List<TbDietRecord> dinnerList = dietRecordService.listDietMealRecord(DateUtils.getCurrentWeekStart(date),
-                DateUtils.getDateEnd(date), uid, DINNER);
+        List<TbDietDailyReport> reportList = listDietDailyReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid);
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
-        DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, breakfastList, lunchList, dinnerList);
+        DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, reportList);
+
+        // 营养素评价统计
+        report.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        // 早午晚餐能量评价统计
+        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
+        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
+        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER));
 
         if (isFinishMeal(date, WEEKLY)) {
             System.out.println("已经过了用餐时间");
@@ -125,6 +130,7 @@ public class DietReportServiceImpl implements IDietReportService {
 
         return report;
     }
+
 
     /**
      * 保存每餐饮食报告
@@ -291,6 +297,128 @@ public class DietReportServiceImpl implements IDietReportService {
         example.createCriteria()
                 .andIdEqualTo(id);
         return (int) mealReportMapper.countByExample(example);
+    }
+
+    /**
+     * 获取每种类型用餐，能量报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param type      用餐类型：0,早餐，1午餐，2晚餐
+     * @return 返回值
+     */
+    @Override
+    public Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type) {
+        int excellentTotal, goodTotal, badTotal;
+
+        excellentTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, EXCELLENT);
+        goodTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, GOOD);
+        badTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Integer countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type, int level) {
+        TbDietMealReportExample example = new TbDietMealReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate)
+                .andTypeEqualTo(type)
+                .andEnergyEvaluationEqualTo(level);
+        return (int) mealReportMapper.countByExample(example);
+    }
+
+    private Integer countProteinEvaluation(int uid, Date startDate, Date endDate, int level) {
+        TbDietDailyReportExample example = new TbDietDailyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate)
+                .andProteinEvaluationEqualTo(level);
+        return (int) dailyReportMapper.countByExample(example);
+    }
+
+    private Integer countFatEvaluation(int uid, Date startDate, Date endDate, int level) {
+        TbDietDailyReportExample example = new TbDietDailyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate)
+                .andFatEvaluationEqualTo(level);
+        return (int) dailyReportMapper.countByExample(example);
+    }
+
+    private Integer countColEvaluation(int uid, Date startDate, Date endDate, int level) {
+        TbDietDailyReportExample example = new TbDietDailyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate)
+                .andColEvaluationEqualTo(level);
+        return (int) dailyReportMapper.countByExample(example);
+    }
+
+    private Integer countFibrinEvaluation(int uid, Date startDate, Date endDate, int level) {
+        TbDietDailyReportExample example = new TbDietDailyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate)
+                .andFibrinEvaluationEqualTo(level);
+        return (int) dailyReportMapper.countByExample(example);
+    }
+
+    /**
+     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @return 返回值
+     */
+    @Override
+    public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate) {
+        Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
+
+        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate);
+        fatEvaluation = countFatEvaluation(uid, startDate, endDate);
+        colEvaluation = countColEvaluation(uid, startDate, endDate);
+        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate);
+
+        return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
+    }
+
+    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countProteinEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countFatEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countColEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countColEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countFibrinEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
     }
 
     /**

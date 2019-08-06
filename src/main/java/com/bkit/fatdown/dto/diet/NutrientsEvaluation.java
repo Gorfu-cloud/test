@@ -14,7 +14,18 @@ public class NutrientsEvaluation {
     private Evaluation carbs;
     private Evaluation fibrin;
 
-    public void init() {
+    public NutrientsEvaluation() {
+        init();
+    }
+
+    public NutrientsEvaluation(Evaluation protein, Evaluation fat, Evaluation carbs, Evaluation fibrin) {
+        this.protein = protein;
+        this.fat = fat;
+        this.carbs = carbs;
+        this.fibrin = fibrin;
+    }
+
+    private void init() {
         this.protein = new Evaluation();
         this.fat = new Evaluation();
         this.carbs = new Evaluation();

@@ -253,8 +253,8 @@ public class DietController {
 
     @ApiOperation("查看每周饮食报告,通过uid，date")
     @CrossOrigin
-    @RequestMapping(value = "/listWeeklyReport", method = RequestMethod.GET)
-    public CommonResultDTO<DietWeeklyReport> listWeeklyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+    @RequestMapping(value = "/getWeeklyReport", method = RequestMethod.GET)
+    public CommonResultDTO<DietWeeklyReport> getWeeklyReport(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid无效");
         }
@@ -280,8 +280,8 @@ public class DietController {
 
     @ApiOperation("查看每月饮食报告,通过uid，date")
     @CrossOrigin
-    @RequestMapping(value = "/listMonthlyReport", method = RequestMethod.GET)
-    public CommonResultDTO<DietMonthReport> listMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
+    @RequestMapping(value = "/getMonthlyReport", method = RequestMethod.GET)
+    public CommonResultDTO<DietMonthReport> getMonthlyReportByUid(@RequestParam Integer uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid无效");
         }

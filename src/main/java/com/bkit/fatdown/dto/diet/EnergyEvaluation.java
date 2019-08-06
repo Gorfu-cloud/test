@@ -16,6 +16,11 @@ public class EnergyEvaluation extends Evaluation {
         init();
     }
 
+    public EnergyEvaluation(int excellent, int good, int ordinary, int bad) {
+        super(excellent, good, ordinary);
+        this.bad = bad;
+    }
+
     @Override
     public void init() {
         super.init();
