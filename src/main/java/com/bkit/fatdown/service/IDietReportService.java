@@ -16,7 +16,6 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-
 public interface IDietReportService {
     /**
      * 生成每餐饮食报告
