@@ -8,6 +8,7 @@ import com.bkit.fatdown.entity.TbTestRecord;
 import com.bkit.fatdown.service.ITestPaperService;
 import com.bkit.fatdown.service.ITestService;
 import com.bkit.fatdown.utils.DataTransferUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-
+@Api(value = "/test", tags = "抢答模块接口")
 @RestController
 @RequestMapping("/test")
 public class TestController {

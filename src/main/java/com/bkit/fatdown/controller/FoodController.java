@@ -7,6 +7,7 @@ import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @modified:
  * @version: 1.0
  */
+@Api(value = "/food", tags = "食物推荐、饮食图库接口")
 @RestController
 @RequestMapping("/food")
 public class FoodController {

@@ -8,6 +8,7 @@ import com.bkit.fatdown.service.ITaskListService;
 import com.bkit.fatdown.service.ITaskRecordService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.DataTransferUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-
+@Api(value = "/task", tags = "任务模块接口")
 @RestController
 @RequestMapping("/task")
 public class TaskController {

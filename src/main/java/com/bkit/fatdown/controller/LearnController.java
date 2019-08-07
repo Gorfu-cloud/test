@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.TbLearnRecord;
 import com.bkit.fatdown.service.ILearnRecordService;
 import com.bkit.fatdown.service.ILearnService;
 import com.bkit.fatdown.utils.DateUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-
+@Api(value = "/learn", tags = "学习模块接口")
 @RestController
 @RequestMapping("/learn")
 public class LearnController {

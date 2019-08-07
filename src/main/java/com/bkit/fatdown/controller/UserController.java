@@ -9,6 +9,7 @@ import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.DataTransferUtils;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-
+@Api(value = "/user", tags = "用户基础信息、隐私数据、生活习惯接口")
 @RestController
 @RequestMapping("/user")
 public class UserController {
