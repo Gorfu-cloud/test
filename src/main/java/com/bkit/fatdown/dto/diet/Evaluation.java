@@ -12,6 +12,7 @@ public class Evaluation {
     private int excellent;
     private int good;
     private int ordinary;
+//    private double score;
 
     public Evaluation() {
         init();

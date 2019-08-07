@@ -33,8 +33,6 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
      * 服务器路径
      */
     private static final String SERVICE_URL = "https://sunnyqcloud.com/fatdown";
-
-
     /**
      * @description: 配置swagger文档
      * @params: null
@@ -42,7 +40,6 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 2019/7/11
      */
-
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -69,10 +66,10 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 // 页面标题
                 .title("葆康减脂平台API文档")
                 // API描述
-                .description("创建日期:2019年7月11日,修改日期:2019年7月30日")
+                .description("创建日期:2019年7月11日,修改日期:2019年8月07日")
                 // 创建路径
                 .termsOfServiceUrl(SERVICE_URL)
-                .version("2.1.1")
+                .version("2.1.5")
                 .build();
     }
 
