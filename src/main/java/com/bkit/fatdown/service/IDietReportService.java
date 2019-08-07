@@ -3,6 +3,7 @@ package com.bkit.fatdown.service;
 import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
+import com.bkit.fatdown.entity.TbDietWeeklyReport;
 
 import java.util.Date;
 import java.util.List;
@@ -245,4 +246,81 @@ public interface IDietReportService {
      */
     int countDietDailyReport(Date startDate, Date endDate, int uid);
 
+    /**
+     * 获取当天饮食报告id
+     *
+     * @param date 日期
+     * @param uid  用户编号
+     * @return 用户id
+     */
+    int getDietDailyReportId(Date date, int uid);
+
+    /**
+     * 创建每周饮食报告
+     *
+     * @param report 每周饮食报告
+     * @return 插入结果
+     */
+    boolean insert(TbDietWeeklyReport report);
+
+    /**
+     * 更新每周饮食报告
+     *
+     * @param report 每周饮食报告
+     * @return 更新结果
+     */
+    boolean update(TbDietWeeklyReport report);
+
+    /**
+     * 创建每周饮食报告
+     *
+     * @param id 报告编号
+     * @return 插入结果
+     */
+    boolean deleteWeeklyReport(int id);
+
+    /**
+     * 获取每周饮食报告
+     *
+     * @param date 日期
+     * @param uid  用户编号
+     * @return 每周饮食报告
+     */
+    TbDietWeeklyReport getDietWeeklyReport(Date date, int uid);
+
+    /**
+     * 获取每周饮食报告
+     *
+     * @param id 饮食报告id
+     * @return 饮食报告
+     */
+    TbDietWeeklyReport getDietWeeklyReport(int id);
+
+    /**
+     * 获取某段时间的饮食报告
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户编号
+     * @return 饮食报告
+     */
+    List<TbDietWeeklyReport> listDietWeeklyReport(Date startDate, Date endDate, int uid);
+
+    /**
+     * 获取每周饮食报告记录
+     *
+     * @param date 某周的其中一天（周日为第一天）
+     * @param uid  用户编号
+     * @return 用户编号
+     */
+    int countWeeklyReport(Date date, int uid);
+
+    /**
+     * 获取报告id
+     *
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @return 用户类型
+     */
+    int getWeeklyReportId(Date date, int uid);
 }

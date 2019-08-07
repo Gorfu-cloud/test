@@ -10,7 +10,13 @@ package com.bkit.fatdown.dto.diet;
  */
 public class TotalEvaluation {
     private double total;
-    private double evaluation;
+    private Integer evaluation;
+
+    public TotalEvaluation(double total, Integer evaluation) {
+        init();
+        this.total = total;
+        this.evaluation = evaluation;
+    }
 
     public TotalEvaluation() {
         init();
@@ -18,7 +24,7 @@ public class TotalEvaluation {
 
     private void init() {
         this.total = 0.0;
-        this.evaluation = 0.0;
+        this.evaluation = 0;
     }
 
     public double getTotal() {
@@ -29,11 +35,11 @@ public class TotalEvaluation {
         this.total = total;
     }
 
-    public double getEvaluation() {
+    public Integer getEvaluation() {
         return evaluation;
     }
 
-    public void setEvaluation(double evaluation) {
+    public void setEvaluation(Integer evaluation) {
         this.evaluation = evaluation;
     }
 }

@@ -10,10 +10,13 @@ package com.bkit.fatdown.dto.diet;
  */
 public class DietWeeklyReport {
     /**
+     * 每天饮食能量评价统计
+     */
+    private EnergyEvaluation energyEvaluation;
+    /**
      * 种类均衡评价
      */
     private SpeciesEvaluation speciesEvaluation;
-    private EnergyEvaluation energyEvaluation;
     /**
      * 三餐能量报告
      */
@@ -31,8 +34,8 @@ public class DietWeeklyReport {
     }
 
     public void init() {
-        this.speciesEvaluation = new SpeciesEvaluation();
         this.energyEvaluation = new EnergyEvaluation();
+        this.speciesEvaluation = new SpeciesEvaluation();
         this.breakfast = new Evaluation();
         this.lunch = new Evaluation();
         this.dinner = new Evaluation();

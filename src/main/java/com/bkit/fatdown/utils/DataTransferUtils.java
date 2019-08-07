@@ -1,8 +1,7 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
-import com.bkit.fatdown.dto.diet.DietDailyReport;
-import com.bkit.fatdown.dto.diet.DietMealReport;
+import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -406,12 +405,10 @@ public class DataTransferUtils {
      * 转化为数据库储存对象
      *
      * @param report 每日饮食报告
-     * @param uid    用户id
      * @return 每日饮食报告
      */
-    public static TbDietDailyReport transferDailyReport(DietDailyReport report, int uid) {
+    public static TbDietDailyReport transferDailyReport(DietDailyReport report) {
         TbDietDailyReport dailyReport = new TbDietDailyReport();
-        dailyReport.setUserId(uid);
 
         // 能量评价
         dailyReport.setEnergyEvaluation(report.getEnergyEvaluation());
@@ -488,5 +485,142 @@ public class DataTransferUtils {
         dailyReport.setFibrinLack(report.getFibrinLack());
 
         return dailyReport;
+    }
+
+    /**
+     * 转换为数据库对象
+     *
+     * @param dietReport 饮食报告
+     * @return 数据库存储对象
+     */
+    public static TbDietWeeklyReport transferWeeklyReport(DietWeeklyReport dietReport) {
+        TbDietWeeklyReport report = new TbDietWeeklyReport();
+        //设置能量评价
+        report.setEnergyExcellent(dietReport.getEnergyEvaluation().getExcellent());
+        report.setEnergyGood(dietReport.getEnergyEvaluation().getGood());
+        report.setEnergyBad(dietReport.getEnergyEvaluation().getBad());
+        report.setEnergyOrdinary(dietReport.getEnergyEvaluation().getOrdinary());
+
+        //设置均衡评价
+        report.setProteinSpeciesEvaluation(dietReport.getSpeciesEvaluation().getProteinSpecies().getEvaluation());
+        report.setProteinSpeciesTotal(dietReport.getSpeciesEvaluation().getProteinSpecies().getTotal());
+        report.setStapleFoodSpeciesEvaluation(dietReport.getSpeciesEvaluation().getStapleFoodSpecies().getEvaluation());
+        report.setStapleFoodSpeciesTotal(dietReport.getSpeciesEvaluation().getStapleFoodSpecies().getTotal());
+        report.setFruitVegetableSpeciesEvaluation(dietReport.getSpeciesEvaluation().getFruitVegetableSpecies().getEvaluation());
+        report.setFruitVegetableSpeciesTotal(dietReport.getSpeciesEvaluation().getFruitVegetableSpecies().getTotal());
+        report.setBeanNutSpeciesEvaluation(dietReport.getSpeciesEvaluation().getBeanNutSpecies().getEvaluation());
+        report.setBeanNutSpeciesTotal(dietReport.getSpeciesEvaluation().getBeanNutSpecies().getTotal());
+        report.setTotalSpeciesEvaluation(dietReport.getSpeciesEvaluation().getTotalSpecies().getEvaluation());
+        report.setTotalSpeciesTotal(dietReport.getSpeciesEvaluation().getTotalSpecies().getTotal());
+
+        //三餐能量评价
+        report.setBreakfastExcellent(dietReport.getBreakfast().getExcellent());
+        report.setBreakfastGood(dietReport.getBreakfast().getGood());
+        report.setBreakfastOrdinary(dietReport.getBreakfast().getOrdinary());
+        report.setLunchExcellent(dietReport.getLunch().getExcellent());
+        report.setLunchGood(dietReport.getLunch().getGood());
+        report.setLunchOrdinary(dietReport.getLunch().getOrdinary());
+        report.setDinnerExcellent(dietReport.getDinner().getExcellent());
+        report.setDinnerGood(dietReport.getDinner().getGood());
+        report.setDinnerOrdinary(dietReport.getDinner().getOrdinary());
+
+        // 营养素评价
+        report.setProteinExcellent(dietReport.getNutrientsEvaluation().getProtein().getExcellent());
+        report.setProteinGood(dietReport.getNutrientsEvaluation().getProtein().getGood());
+        report.setProteinOrdinary(dietReport.getNutrientsEvaluation().getProtein().getOrdinary());
+        report.setFatExcellent(dietReport.getNutrientsEvaluation().getFat().getExcellent());
+        report.setFatGood(dietReport.getNutrientsEvaluation().getFat().getGood());
+        report.setFatOrdinary(dietReport.getNutrientsEvaluation().getFat().getOrdinary());
+        report.setFibrinExcellent(dietReport.getNutrientsEvaluation().getFibrin().getExcellent());
+        report.setFibrinGood(dietReport.getNutrientsEvaluation().getFibrin().getGood());
+        report.setFibrinOrdinary(dietReport.getNutrientsEvaluation().getFibrin().getGood());
+        report.setCarbsExcellent(dietReport.getNutrientsEvaluation().getCarbs().getExcellent());
+        report.setCarbsGood(dietReport.getNutrientsEvaluation().getCarbs().getGood());
+        report.setCarbsOrdinary(dietReport.getNutrientsEvaluation().getCarbs().getOrdinary());
+
+        // 优质蛋白，动物性脂肪
+        report.setGoodProteinEvaluation(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getEvaluation());
+        report.setGoodProteinPer(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getTotal());
+        report.setAnimalFatEvaluation(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation());
+        report.setAnimalFatPer(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getTotal());
+
+        return report;
+    }
+
+    /**
+     * 转换为Dto
+     *
+     * @param dietReport 数据库对象
+     * @return dto
+     */
+    public static DietWeeklyReport transferWeeklyReport(TbDietWeeklyReport dietReport) {
+        DietWeeklyReport report = new DietWeeklyReport();
+        report.setEnergyEvaluation(getEnergyEvaluation(dietReport));
+        report.setBreakfast(getBreakfastEvaluation(dietReport));
+        report.setLunch(getLunchEvaluation(dietReport));
+        report.setDinner(getDinnerEvaluation(dietReport));
+        report.setSpeciesEvaluation(getSpeciesEvaluation(dietReport));
+        report.setNutrientsEvaluation(getNutrientsEvaluation(dietReport));
+        report.setWeeklyNutrientsEvaluation(getWeeklyNutrientsEvaluation(dietReport));
+        return report;
+    }
+
+    private static EnergyEvaluation getEnergyEvaluation(TbDietWeeklyReport dietReport) {
+        EnergyEvaluation energyEvaluation = new EnergyEvaluation();
+        energyEvaluation.setExcellent(dietReport.getEnergyExcellent());
+        energyEvaluation.setGood(dietReport.getEnergyGood());
+        energyEvaluation.setOrdinary(dietReport.getEnergyOrdinary());
+        energyEvaluation.setBad(dietReport.getEnergyBad());
+        return energyEvaluation;
+    }
+
+    private static Evaluation getBreakfastEvaluation(TbDietWeeklyReport dietReport) {
+        Evaluation evaluation = new Evaluation();
+        evaluation.setExcellent(dietReport.getBreakfastExcellent());
+        evaluation.setGood(dietReport.getBreakfastGood());
+        evaluation.setOrdinary(dietReport.getBreakfastOrdinary());
+        return evaluation;
+    }
+
+    private static Evaluation getLunchEvaluation(TbDietWeeklyReport dietReport) {
+        Evaluation evaluation = new Evaluation();
+        evaluation.setExcellent(dietReport.getLunchExcellent());
+        evaluation.setGood(dietReport.getLunchGood());
+        evaluation.setOrdinary(dietReport.getLunchOrdinary());
+        return evaluation;
+    }
+
+    private static Evaluation getDinnerEvaluation(TbDietWeeklyReport dietReport) {
+        Evaluation evaluation = new Evaluation();
+        evaluation.setExcellent(dietReport.getDinnerExcellent());
+        evaluation.setGood(dietReport.getDinnerGood());
+        evaluation.setOrdinary(dietReport.getDinnerOrdinary());
+        return evaluation;
+    }
+
+    private static SpeciesEvaluation getSpeciesEvaluation(TbDietWeeklyReport report) {
+        SpeciesEvaluation evaluation = new SpeciesEvaluation();
+        evaluation.setBeanNutSpecies(new TotalEvaluation(report.getBeanNutSpeciesTotal(), report.getBeanNutSpeciesEvaluation()));
+        evaluation.setFruitVegetableSpecies(new TotalEvaluation(report.getFruitVegetableSpeciesTotal(), report.getFruitVegetableSpeciesEvaluation()));
+        evaluation.setProteinSpecies(new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getStapleFoodSpeciesEvaluation()));
+        evaluation.setStapleFoodSpecies(new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getTotalSpeciesEvaluation()));
+        evaluation.setTotalSpecies(new TotalEvaluation(report.getTotalSpeciesTotal(), report.getTotalSpeciesEvaluation()));
+        return evaluation;
+    }
+
+    private static NutrientsEvaluation getNutrientsEvaluation(TbDietWeeklyReport report) {
+        NutrientsEvaluation evaluation = new NutrientsEvaluation();
+        evaluation.setCarbs(new Evaluation(report.getCarbsExcellent(), report.getCarbsGood(), report.getCarbsOrdinary()));
+        evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary()));
+        evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary()));
+        evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary()));
+        return evaluation;
+    }
+
+    private static WeeklyNutrientsEvaluation getWeeklyNutrientsEvaluation(TbDietWeeklyReport report) {
+        WeeklyNutrientsEvaluation evaluation = new WeeklyNutrientsEvaluation();
+        evaluation.setAnimalFat(new TotalEvaluation(report.getAnimalFatPer(), report.getAnimalFatEvaluation()));
+        evaluation.setGoodProtein(new TotalEvaluation(report.getGoodProteinPer(), report.getGoodProteinEvaluation()));
+        return evaluation;
     }
 }

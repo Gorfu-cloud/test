@@ -271,9 +271,11 @@ public class MathUtils {
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
                 + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
         // 每天能量评价统计
-        setEnergyEvaluation(dailyReportList, energyStandard);
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard);
+        weeklyReport.setEnergyEvaluation(energyEvaluation);
         // 种类均衡评价
-        setSpeciesEvaluation(weeklyReport.getSpeciesEvaluation(), dietRecord);
+        setSpeciesEvaluation(weeklyReport.getSpeciesEvaluation(), dietRecord, WEEKLY_TOTAL_GOOD, WEEKLY_TOTAL_BAD, WEEKLY_PROTEIN_GOOD, WEEKLY_PROTEIN_BAD,
+                WEEKLY_STAPLE_FOOD_GOOD, WEEKLY_STAPLE_FOOD_BAD, WEEKLY_FRUIT_VEGETABLE_GOOD, WEEKLY_FRUIT_VEGETABLE_BAD, WEEKLY_NUT_BEAN_GOOD, WEEKLY_NUT_BEAN_BAD);
         // 每周营养素评价,优质蛋白质，动物性脂肪
         setWeeklyNutrientEvaluation(weeklyReport.getWeeklyNutrientsEvaluation(), dietRecord);
 
@@ -361,7 +363,9 @@ public class MathUtils {
      * @param evaluation 周评价报告
      * @param record     饮食记录
      */
-    private static void setSpeciesEvaluation(SpeciesEvaluation evaluation, TbDietRecord record) {
+    private static void setSpeciesEvaluation(SpeciesEvaluation evaluation, TbDietRecord record, double totalGood, double totalBad, double proteinGood, double proteinBad,
+                                             double stapleFoodGood, double stapleFoodBad, double fruitVegetableGood, double fruitVegetableBad, double nutBeanGood,
+                                             double nutBeanBad) {
         int proteinTotal = DataTransferUtils.str2Set(record.getProteinSet()).size();
         int stapleFoodTotal = DataTransferUtils.str2Set(record.getStapleFoodSet()).size();
         int fruitVegetableTotal = DataTransferUtils.str2Set(record.getFruitVegetableSet()).size();
@@ -371,31 +375,32 @@ public class MathUtils {
         int nutBeanTotal = nutTotal + beanTotal;
         int speciesTotal = proteinTotal + stapleFoodTotal + fruitVegetableTotal + nutTotal + beanTotal;
 
-        setSpeciesTotalEvaluation(evaluation.getTotalSpecies(), speciesTotal);
-        setProteinSpeciesEvaluation(evaluation.getProteinSpecies(), proteinTotal);
-        setStapleFoodSpeciesEvaluation(evaluation.getStapleFoodSpecies(), stapleFoodTotal);
-        setFruitVegetableSpeciesEvaluation(evaluation.getFruitVegetableSpecies(), fruitVegetableTotal);
-        setNutBeanSpeciesEvaluation(evaluation.getBeanNutSpecies(), nutBeanTotal);
+        // 种类均衡评价
+        setSpeciesTotalEvaluation(evaluation.getTotalSpecies(), speciesTotal, totalGood, totalBad);
+        setProteinSpeciesEvaluation(evaluation.getProteinSpecies(), proteinTotal, proteinGood, proteinBad);
+        setStapleFoodSpeciesEvaluation(evaluation.getStapleFoodSpecies(), stapleFoodTotal, stapleFoodGood, stapleFoodBad);
+        setFruitVegetableSpeciesEvaluation(evaluation.getFruitVegetableSpecies(), fruitVegetableTotal, fruitVegetableGood, fruitVegetableBad);
+        setNutBeanSpeciesEvaluation(evaluation.getBeanNutSpecies(), nutBeanTotal, nutBeanGood, nutBeanBad);
     }
 
-    private static void setProteinSpeciesEvaluation(TotalEvaluation evaluation, Integer total) {
-        setSpeciesEvaluation(evaluation, total, WEEKLY_PROTEIN_GOOD, WEEKLY_PROTEIN_BAD);
+    private static void setProteinSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
+        setSpeciesEvaluation(evaluation, total, good, bad);
     }
 
-    private static void setStapleFoodSpeciesEvaluation(TotalEvaluation evaluation, Integer total) {
-        setSpeciesEvaluation(evaluation, total, WEEKLY_STAPLE_FOOD_GOOD, WEEKLY_STAPLE_FOOD_BAD);
+    private static void setStapleFoodSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
+        setSpeciesEvaluation(evaluation, total, good, bad);
     }
 
-    private static void setFruitVegetableSpeciesEvaluation(TotalEvaluation evaluation, Integer total) {
-        setSpeciesEvaluation(evaluation, total, WEEKLY_FRUIT_VEGETABLE_GOOD, WEEKLY_FRUIT_VEGETABLE_BAD);
+    private static void setFruitVegetableSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
+        setSpeciesEvaluation(evaluation, total, good, bad);
     }
 
-    private static void setNutBeanSpeciesEvaluation(TotalEvaluation evaluation, Integer total) {
-        setSpeciesEvaluation(evaluation, total, WEEKLY_NUT_BEAN_GOOD, WEEKLY_NUT_BEAN_BAD);
+    private static void setNutBeanSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
+        setSpeciesEvaluation(evaluation, total, good, bad);
     }
 
-    private static void setSpeciesTotalEvaluation(TotalEvaluation evaluation, Integer total) {
-        setSpeciesEvaluation(evaluation, total, WEEKLY_TOTAL_GOOD, WEEKLY_TOTAL_BAD);
+    private static void setSpeciesTotalEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
+        setSpeciesEvaluation(evaluation, total, good, bad);
     }
 
     private static void setSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {

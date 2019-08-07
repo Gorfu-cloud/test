@@ -4,6 +4,7 @@ import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietDailyReportMapper;
 import com.bkit.fatdown.mappers.TbDietMealReportMapper;
+import com.bkit.fatdown.mappers.TbDietWeeklyReportMapper;
 import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DataTransferUtils;
@@ -42,6 +43,9 @@ public class DietReportServiceImpl implements IDietReportService {
     @Resource
     private IDietRecordService dietRecordService;
 
+    @Resource
+    private TbDietWeeklyReportMapper weeklyReportMapper;
+
     private static final Logger logger = LoggerFactory.getLogger(DietReportServiceImpl.class);
 
     private static final int BREAKFAST = 0;
@@ -79,14 +83,23 @@ public class DietReportServiceImpl implements IDietReportService {
 
         // 已经过了用餐时间，储存饮食记录
         if (isFinishMeal(date, DAILY)) {
-            TbDietDailyReport dailyReport = DataTransferUtils.transferDailyReport(report, uid);
-            dailyReport.setGmtCreate(date);
+            TbDietDailyReport dailyReport = DataTransferUtils.transferDailyReport(report);
+            dailyReport.setUserId(uid);
             dailyReport.setGmtModified(date);
-            boolean result = insertDailyReport(dailyReport);
-            if (result) {
-                logger.info("tb_diet_daily_report insert success, date:{} and uid:{} and type:{}", date, uid, type);
+            boolean result;
+            if (countDietDailyReport(date, uid) == 0) {
+                dailyReport.setGmtCreate(date);
+                result = insertDailyReport(dailyReport);
             } else {
-                logger.error("tb_diet_daily_report insert fail, date:{} and uid:{} and type:{}", date, uid, type);
+                int id = getDietDailyReportId(date, uid);
+                dailyReport.setId(id);
+                result = updateDailyReport(dailyReport);
+            }
+
+            if (result) {
+                logger.info("tb_diet_daily_report insert or update success, date:{} and uid:{} and type:{}", date, uid, type);
+            } else {
+                logger.error("tb_diet_daily_report insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
             }
         }
 
@@ -124,13 +137,30 @@ public class DietReportServiceImpl implements IDietReportService {
         report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
         report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER));
 
+        // 储存报告
         if (isFinishMeal(date, WEEKLY)) {
-            System.out.println("已经过了用餐时间");
+            TbDietWeeklyReport weeklyReport = DataTransferUtils.transferWeeklyReport(report);
+            weeklyReport.setUserId(uid);
+            weeklyReport.setGmtModified(new Date());
+            boolean result;
+            if (countWeeklyReport(date, uid) == 0) {
+                weeklyReport.setGmtCreate(date);
+                result = insert(weeklyReport);
+            } else {
+                int id = getWeeklyReportId(date, uid);
+                weeklyReport.setId(id);
+                result = update(weeklyReport);
+            }
+
+            if (result) {
+                logger.info("tb_diet_weekly_report insert or update success, date:{} and uid:{} ", date, uid);
+            } else {
+                logger.error("tb_diet_weekly_report insert or update fail, date:{} and uid:{}", date, uid);
+            }
         }
 
         return report;
     }
-
 
     /**
      * 保存每餐饮食报告
@@ -366,62 +396,6 @@ public class DietReportServiceImpl implements IDietReportService {
     }
 
     /**
-     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
-     *
-     * @param uid       用户编号
-     * @param startDate 开始日期
-     * @param endDate   结束日期
-     * @return 返回值
-     */
-    @Override
-    public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate) {
-        Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
-
-        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate);
-        fatEvaluation = countFatEvaluation(uid, startDate, endDate);
-        colEvaluation = countColEvaluation(uid, startDate, endDate);
-        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate);
-
-        return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
-    }
-
-    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate) {
-        int excellentTotal, goodTotal, badTotal;
-        excellentTotal = countProteinEvaluation(uid, startDate, endDate, EXCELLENT);
-        goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
-        badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
-
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
-    }
-
-    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate) {
-        int excellentTotal, goodTotal, badTotal;
-        excellentTotal = countFatEvaluation(uid, startDate, endDate, EXCELLENT);
-        goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
-        badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
-
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
-    }
-
-    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate) {
-        int excellentTotal, goodTotal, badTotal;
-        excellentTotal = countColEvaluation(uid, startDate, endDate, EXCELLENT);
-        goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
-        badTotal = countColEvaluation(uid, startDate, endDate, BAD);
-
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
-    }
-
-    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate) {
-        int excellentTotal, goodTotal, badTotal;
-        excellentTotal = countFibrinEvaluation(uid, startDate, endDate, EXCELLENT);
-        goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
-        badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
-
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
-    }
-
-    /**
      * 保存每日评价
      *
      * @param report 饮食评价
@@ -447,7 +421,6 @@ public class DietReportServiceImpl implements IDietReportService {
         if (report.getGmtModified() == null) {
             report.setGmtModified(new Date());
         }
-
         return dailyReportMapper.updateByPrimaryKeySelective(report) > 0;
     }
 
@@ -501,6 +474,18 @@ public class DietReportServiceImpl implements IDietReportService {
                 .andGmtCreateBetween(DateUtils.getDateStart(startDate), DateUtils.getDateEnd(endDate));
 
         return dailyReportMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取当天饮食报告id
+     *
+     * @param date 日期
+     * @param uid  用户编号
+     * @return 用户id
+     */
+    @Override
+    public int getDietDailyReportId(Date date, int uid) {
+        return listDietDailyReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid).get(0).getId();
     }
 
     /**
@@ -570,7 +555,6 @@ public class DietReportServiceImpl implements IDietReportService {
         return report;
     }
 
-
     /**
      * 获取菜式id
      *
@@ -584,6 +568,62 @@ public class DietReportServiceImpl implements IDietReportService {
             foodIdList.add(record.getFoodId());
         }
         return foodIdList;
+    }
+
+    /**
+     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @return 返回值
+     */
+    @Override
+    public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate) {
+        Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
+
+        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate);
+        fatEvaluation = countFatEvaluation(uid, startDate, endDate);
+        colEvaluation = countColEvaluation(uid, startDate, endDate);
+        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate);
+
+        return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
+    }
+
+    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countProteinEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countFatEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countColEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countColEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
+    }
+
+    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate) {
+        int excellentTotal, goodTotal, badTotal;
+        excellentTotal = countFibrinEvaluation(uid, startDate, endDate, EXCELLENT);
+        goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
+        badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal);
     }
 
     private boolean isFinishMeal(Date date, int type) {
@@ -605,5 +645,118 @@ public class DietReportServiceImpl implements IDietReportService {
             logger.error("isFinishMeal type out of index, date: {}  type: {}", date, type);
             return false;
         }
+    }
+
+    /**
+     * 创建每周饮食报告
+     *
+     * @param report 每周饮食报告
+     * @return 插入结果
+     */
+    @Override
+    public boolean insert(TbDietWeeklyReport report) {
+        if (report.getGmtCreate() == null) {
+            report.setGmtCreate(new Date());
+        }
+        return weeklyReportMapper.insertSelective(report) > 0;
+    }
+
+    /**
+     * 更新每周饮食报告
+     *
+     * @param report 每周饮食报告
+     * @return 更新结果
+     */
+    @Override
+    public boolean update(TbDietWeeklyReport report) {
+        if (report.getGmtModified() == null) {
+            report.setGmtModified(new Date());
+        }
+        return weeklyReportMapper.updateByPrimaryKeySelective(report) > 0;
+    }
+
+    /**
+     * 创建每周饮食报告
+     *
+     * @param id 报告编号
+     * @return 插入结果
+     */
+    @Override
+    public boolean deleteWeeklyReport(int id) {
+        return weeklyReportMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    /**
+     * 获取每周饮食报告
+     *
+     * @param id 饮食报告id
+     * @return 饮食报告
+     */
+    @Override
+    public TbDietWeeklyReport getDietWeeklyReport(int id) {
+        return weeklyReportMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 获取每周饮食报告
+     *
+     * @param date 日期
+     * @param uid  用户编号
+     * @return 每周饮食报告
+     */
+    @Override
+    public TbDietWeeklyReport getDietWeeklyReport(Date date, int uid) {
+        return listDietWeeklyReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid).get(0);
+    }
+
+
+    /**
+     * 获取某段时间的饮食报告
+     *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户编号
+     * @return 饮食报告
+     */
+    @Override
+    public List<TbDietWeeklyReport> listDietWeeklyReport(Date startDate, Date endDate, int uid) {
+        TbDietWeeklyReportExample example = new TbDietWeeklyReportExample();
+        example.createCriteria()
+                .andGmtCreateBetween(DateUtils.getCurrentWeekStart(startDate), DateUtils.getCurrentWeekEnd(endDate))
+                .andUserIdEqualTo(uid);
+        return weeklyReportMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取每周饮食报告记录
+     *
+     * @param date 某周的其中一天（周日为第一天）
+     * @param uid  用户编号
+     * @return 用户编号
+     */
+    @Override
+    public int countWeeklyReport(Date date, int uid) {
+        return countWeeklyReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid);
+    }
+
+    /**
+     * 获取报告id
+     *
+     * @param date 报告日期
+     * @param uid  用户编号
+     * @return 用户类型
+     */
+    @Override
+    public int getWeeklyReportId(Date date, int uid) {
+        return listDietWeeklyReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid).get(0).getId();
+    }
+
+
+    private int countWeeklyReport(Date startDate, Date endDate, int uid) {
+        TbDietWeeklyReportExample example = new TbDietWeeklyReportExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(startDate, endDate);
+        return (int) weeklyReportMapper.countByExample(example);
     }
 }
