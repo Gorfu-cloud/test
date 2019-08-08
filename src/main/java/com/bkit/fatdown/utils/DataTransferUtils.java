@@ -579,7 +579,6 @@ public class DataTransferUtils {
         report.setLunch(getLunchEvaluation(dietReport));
         report.setDinner(getDinnerEvaluation(dietReport));
         report.setSpeciesEvaluation(getSpeciesEvaluation(dietReport));
-        report.setWeeklyNutrientsEvaluation(getNutrientsEvaluation(dietReport));
         report.setWeeklyNutrientsEvaluation(getWeeklyNutrientsEvaluation(dietReport));
         return report;
     }
@@ -639,19 +638,14 @@ public class DataTransferUtils {
         return evaluation;
     }
 
-    private static NutrientsEvaluation getNutrientsEvaluation(TbDietWeeklyReport report) {
-        NutrientsEvaluation evaluation = new NutrientsEvaluation();
-        evaluation.setCarbs(new Evaluation(report.getCarbsExcellent(), report.getCarbsGood(), report.getCarbsOrdinary(), report.getCarbsScore()));
-        evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary(), report.getFatScore()));
-        evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary(), report.getFibrinScore()));
-        evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary(), report.getProteinScore()));
-        return evaluation;
-    }
-
     private static WeeklyNutrientsEvaluation getWeeklyNutrientsEvaluation(TbDietWeeklyReport report) {
         WeeklyNutrientsEvaluation evaluation = new WeeklyNutrientsEvaluation();
         evaluation.setAnimalFat(new TotalEvaluation(report.getAnimalFatPer(), report.getAnimalFatEvaluation()));
         evaluation.setGoodProtein(new TotalEvaluation(report.getGoodProteinPer(), report.getGoodProteinEvaluation()));
+        evaluation.setCarbs(new Evaluation(report.getCarbsExcellent(), report.getCarbsGood(), report.getCarbsOrdinary(), report.getCarbsScore()));
+        evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary(), report.getFatScore()));
+        evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary(), report.getFibrinScore()));
+        evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary(), report.getProteinScore()));
         return evaluation;
     }
 }

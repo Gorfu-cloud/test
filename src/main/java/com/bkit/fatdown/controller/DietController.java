@@ -137,18 +137,18 @@ public class DietController {
 
         Date inputDate = DateUtils.string2Date(date);
 
-        if (reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST) {
-            DietWeeklyReport report = DataTransferUtils.transferWeeklyReport(reportService.getDietWeeklyReport(inputDate, uid));
-            if (report == null) {
-                return CommonResultDTO.failed("获取报告失败");
-            }
-            return CommonResultDTO.success(report);
-        }
-
-        // 少于15次报告，无法生成数据
-        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
-            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
-        }
+//        if (reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST) {
+//            DietWeeklyReport report = DataTransferUtils.transferWeeklyReport(reportService.getDietWeeklyReport(inputDate, uid));
+//            if (report == null) {
+//                return CommonResultDTO.failed("获取报告失败");
+//            }
+//            return CommonResultDTO.success(report);
+//        }
+//
+//        // 少于15次报告，无法生成数据
+//        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
+//            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
+//        }
 
         // 生成每周报告记录
         DietWeeklyReport report = reportService.generateWeeklyReport(inputDate, uid);

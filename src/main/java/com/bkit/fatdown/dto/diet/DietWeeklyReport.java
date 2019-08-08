@@ -88,11 +88,4 @@ public class DietWeeklyReport {
     public void setWeeklyNutrientsEvaluation(WeeklyNutrientsEvaluation weeklyNutrientsEvaluation) {
         this.weeklyNutrientsEvaluation = weeklyNutrientsEvaluation;
     }
-
-    public void setWeeklyNutrientsEvaluation(NutrientsEvaluation nutrientsEvaluation) {
-        this.weeklyNutrientsEvaluation.setCarbs(nutrientsEvaluation.getCarbs());
-        this.weeklyNutrientsEvaluation.setFat(nutrientsEvaluation.getFat());
-        this.weeklyNutrientsEvaluation.setFibrin(nutrientsEvaluation.getFibrin());
-        this.weeklyNutrientsEvaluation.setProtein(nutrientsEvaluation.getProtein());
-    }
 }

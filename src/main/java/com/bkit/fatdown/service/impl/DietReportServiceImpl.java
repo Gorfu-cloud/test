@@ -132,9 +132,11 @@ public class DietReportServiceImpl implements IDietReportService {
         DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, reportList);
 
         // 营养素评价统计
-        report.setWeeklyNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
         nutrientsEvaluation.setScore(MathUtils.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
+        report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
+
         // 早午晚餐能量评价统计
         report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
         report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));

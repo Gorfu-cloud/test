@@ -48,4 +48,11 @@ public class WeeklyNutrientsEvaluation extends NutrientsEvaluation {
     public void setScore(double score) {
         this.score = score;
     }
+
+    public void setNutrientsEvaluation(NutrientsEvaluation evaluation) {
+        setFibrin(evaluation.getFibrin());
+        setProtein(evaluation.getProtein());
+        setFat(evaluation.getFat());
+        setCarbs(evaluation.getCarbs());
+    }
 }
