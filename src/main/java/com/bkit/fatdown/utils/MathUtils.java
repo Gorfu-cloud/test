@@ -152,6 +152,11 @@ public class MathUtils {
     private static final Integer WEEKLY_TOTAL_GOOD = 25;
     private static final Integer WEEKLY_TOTAL_BAD = 18;
 
+    private static final int WEEKLY_EXCELLENT_SCORE = 20;
+    private static final int WEEKLY_GOOD_SCORE = 15;
+    private static final int WEEKLY_ORDINARY_SCORE = 10;
+    private static final int WEEKLY_BAD_SCORE = 0;
+
 
     /**
      * BMI=体重（千克）/（身高（米）*身高（米））
@@ -305,7 +310,9 @@ public class MathUtils {
             }
         }
 
-        return new EnergyEvaluation(excellentTotal, goodTotal, ordinaryTotal, badTotal);
+        double score = getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
+
+        return new EnergyEvaluation(excellentTotal, goodTotal, ordinaryTotal, badTotal, score);
     }
 
     /**
@@ -381,6 +388,7 @@ public class MathUtils {
         setStapleFoodSpeciesEvaluation(evaluation.getStapleFoodSpecies(), stapleFoodTotal, stapleFoodGood, stapleFoodBad);
         setFruitVegetableSpeciesEvaluation(evaluation.getFruitVegetableSpecies(), fruitVegetableTotal, fruitVegetableGood, fruitVegetableBad);
         setNutBeanSpeciesEvaluation(evaluation.getBeanNutSpecies(), nutBeanTotal, nutBeanGood, nutBeanBad);
+        setSpeciesScore(evaluation);
     }
 
     private static void setProteinSpeciesEvaluation(TotalEvaluation evaluation, Integer total, double good, double bad) {
@@ -412,6 +420,13 @@ public class MathUtils {
         } else {
             evaluation.setEvaluation(GOOD);
         }
+    }
+
+    private static void setSpeciesScore(SpeciesEvaluation evaluation) {
+        double score = MathUtils.getWeeklyScore(evaluation.getBeanNutSpecies()) + MathUtils.getWeeklyScore(evaluation.getFruitVegetableSpecies())
+                + MathUtils.getWeeklyScore(evaluation.getProteinSpecies()) + MathUtils.getWeeklyScore(evaluation.getStapleFoodSpecies())
+                + MathUtils.getWeeklyScore(evaluation.getTotalSpecies());
+        evaluation.setScore(score);
     }
 
 
@@ -632,5 +647,45 @@ public class MathUtils {
 
     private static Double getProtein(Integer height) {
         return (height - PROTEIN_REDUCTION) * PROTEIN_COEFFICIENT;
+    }
+
+    public static Double getWeeklyScore(int excellent, int good, int ordinary, int bad) {
+        return getScore(excellent, good, ordinary, bad, WEEKLY_EXCELLENT_SCORE, WEEKLY_GOOD_SCORE,
+                WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
+    }
+
+    public static Double getWeeklyScore(TotalEvaluation evaluation) {
+        return getScore(evaluation, WEEKLY_EXCELLENT_SCORE, WEEKLY_GOOD_SCORE,
+                WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
+    }
+
+    private static Double getScore(int excellent, int good, int ordinary, int bad, int excellentScore,
+                                   int goodScore, int ordinaryScore, int badScore) {
+        return (double) (excellent * excellentScore + good * goodScore + ordinary * ordinaryScore + bad * badScore);
+    }
+
+    private static Double getScore(TotalEvaluation evaluation, int excellentScore, int goodScore, int ordinaryScore, int badScore) {
+        int level = evaluation.getEvaluation();
+        double result;
+        if (level == EXCELLENT) {
+            result = excellentScore;
+        } else if (level == GOOD) {
+            result = goodScore;
+        } else if (level == BAD) {
+            result = ordinaryScore;
+        } else {
+            result = badScore;
+        }
+        return result;
+    }
+
+    public static double getWeeklyScore(WeeklyNutrientsEvaluation nutrientsEvaluation, double size) {
+        double total;
+
+        total = getWeeklyScore(nutrientsEvaluation.getAnimalFat()) + getWeeklyScore(nutrientsEvaluation.getGoodProtein())
+                + nutrientsEvaluation.getCarbs().getScore() + nutrientsEvaluation.getFat().getScore() + nutrientsEvaluation.getProtein().getScore()
+                + nutrientsEvaluation.getFibrin().getScore();
+
+        return total / size;
     }
 }

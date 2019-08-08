@@ -8,15 +8,19 @@ package com.bkit.fatdown.dto.diet;
  * @modified:
  * @version: 1.0
  */
-public class WeeklyNutrientsEvaluation {
+public class WeeklyNutrientsEvaluation extends NutrientsEvaluation {
     private TotalEvaluation animalFat;
     private TotalEvaluation goodProtein;
+    private double score;
 
     public WeeklyNutrientsEvaluation() {
+        super();
         init();
     }
 
-    private void init() {
+    @Override
+    public void init() {
+        super.init();
         this.animalFat = new TotalEvaluation();
         this.goodProtein = new TotalEvaluation();
     }
@@ -35,5 +39,13 @@ public class WeeklyNutrientsEvaluation {
 
     public void setGoodProtein(TotalEvaluation goodProtein) {
         this.goodProtein = goodProtein;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

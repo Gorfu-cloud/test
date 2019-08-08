@@ -59,6 +59,8 @@ public class DietReportServiceImpl implements IDietReportService {
     private static final Integer GOOD = 1;
     private static final Integer BAD = 2;
 
+    private static final double WEEKLY_NUTRIENT_SIZE = 6;
+
     /**
      * @param date 报告日期
      * @param uid  用户编号
@@ -106,7 +108,6 @@ public class DietReportServiceImpl implements IDietReportService {
         return report;
     }
 
-
     /**
      * 生成每周饮食评价
      *
@@ -131,7 +132,9 @@ public class DietReportServiceImpl implements IDietReportService {
         DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, reportList);
 
         // 营养素评价统计
-        report.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        report.setWeeklyNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
+        nutrientsEvaluation.setScore(MathUtils.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         // 早午晚餐能量评价统计
         report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
         report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
@@ -340,13 +343,15 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type) {
-        int excellentTotal, goodTotal, badTotal;
+        int excellentTotal, goodTotal, ordinaryTotal;
 
         excellentTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, EXCELLENT);
         goodTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, GOOD);
-        badTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, BAD);
+        ordinaryTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, BAD);
 
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
+        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, 0);
+
+        return new Evaluation(excellentTotal, goodTotal, ordinaryTotal, score);
     }
 
     private Integer countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type, int level) {
@@ -596,7 +601,9 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
 
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
+        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
     private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate) {
@@ -605,7 +612,9 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
 
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
+        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
     private Evaluation countColEvaluation(int uid, Date startDate, Date endDate) {
@@ -614,7 +623,9 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countColEvaluation(uid, startDate, endDate, BAD);
 
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
+        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
     private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate) {
@@ -623,7 +634,9 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
 
-        return new Evaluation(excellentTotal, goodTotal, badTotal);
+        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+
+        return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
     private boolean isFinishMeal(Date date, int type) {

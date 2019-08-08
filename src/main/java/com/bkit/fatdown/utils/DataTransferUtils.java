@@ -496,12 +496,14 @@ public class DataTransferUtils {
     public static TbDietWeeklyReport transferWeeklyReport(DietWeeklyReport dietReport) {
         TbDietWeeklyReport report = new TbDietWeeklyReport();
         //设置能量评价
+        report.setEnergyScore(dietReport.getEnergyEvaluation().getScore());
         report.setEnergyExcellent(dietReport.getEnergyEvaluation().getExcellent());
         report.setEnergyGood(dietReport.getEnergyEvaluation().getGood());
         report.setEnergyBad(dietReport.getEnergyEvaluation().getBad());
         report.setEnergyOrdinary(dietReport.getEnergyEvaluation().getOrdinary());
 
         //设置均衡评价
+        report.setSpeciesScore(dietReport.getSpeciesEvaluation().getScore());
         report.setProteinSpeciesEvaluation(dietReport.getSpeciesEvaluation().getProteinSpecies().getEvaluation());
         report.setProteinSpeciesTotal(dietReport.getSpeciesEvaluation().getProteinSpecies().getTotal());
         report.setStapleFoodSpeciesEvaluation(dietReport.getSpeciesEvaluation().getStapleFoodSpecies().getEvaluation());
@@ -514,35 +516,52 @@ public class DataTransferUtils {
         report.setTotalSpeciesTotal(dietReport.getSpeciesEvaluation().getTotalSpecies().getTotal());
 
         //三餐能量评价
+        report.setBreakfastScore(dietReport.getBreakfast().getScore());
         report.setBreakfastExcellent(dietReport.getBreakfast().getExcellent());
         report.setBreakfastGood(dietReport.getBreakfast().getGood());
         report.setBreakfastOrdinary(dietReport.getBreakfast().getOrdinary());
+
         report.setLunchExcellent(dietReport.getLunch().getExcellent());
         report.setLunchGood(dietReport.getLunch().getGood());
         report.setLunchOrdinary(dietReport.getLunch().getOrdinary());
+        report.setLunchScore(dietReport.getLunch().getScore());
+
         report.setDinnerExcellent(dietReport.getDinner().getExcellent());
         report.setDinnerGood(dietReport.getDinner().getGood());
         report.setDinnerOrdinary(dietReport.getDinner().getOrdinary());
+        report.setDinnerScore(dietReport.getDinner().getScore());
 
         // 营养素评价
-        report.setProteinExcellent(dietReport.getNutrientsEvaluation().getProtein().getExcellent());
-        report.setProteinGood(dietReport.getNutrientsEvaluation().getProtein().getGood());
-        report.setProteinOrdinary(dietReport.getNutrientsEvaluation().getProtein().getOrdinary());
-        report.setFatExcellent(dietReport.getNutrientsEvaluation().getFat().getExcellent());
-        report.setFatGood(dietReport.getNutrientsEvaluation().getFat().getGood());
-        report.setFatOrdinary(dietReport.getNutrientsEvaluation().getFat().getOrdinary());
-        report.setFibrinExcellent(dietReport.getNutrientsEvaluation().getFibrin().getExcellent());
-        report.setFibrinGood(dietReport.getNutrientsEvaluation().getFibrin().getGood());
-        report.setFibrinOrdinary(dietReport.getNutrientsEvaluation().getFibrin().getGood());
-        report.setCarbsExcellent(dietReport.getNutrientsEvaluation().getCarbs().getExcellent());
-        report.setCarbsGood(dietReport.getNutrientsEvaluation().getCarbs().getGood());
-        report.setCarbsOrdinary(dietReport.getNutrientsEvaluation().getCarbs().getOrdinary());
+        report.setNutrientScore(dietReport.getWeeklyNutrientsEvaluation().getScore());
+
+        report.setProteinExcellent(dietReport.getWeeklyNutrientsEvaluation().getProtein().getExcellent());
+        report.setProteinGood(dietReport.getWeeklyNutrientsEvaluation().getProtein().getGood());
+        report.setProteinOrdinary(dietReport.getWeeklyNutrientsEvaluation().getProtein().getOrdinary());
+        report.setProteinScore(dietReport.getWeeklyNutrientsEvaluation().getProtein().getScore());
+
+        report.setFatExcellent(dietReport.getWeeklyNutrientsEvaluation().getFat().getExcellent());
+        report.setFatGood(dietReport.getWeeklyNutrientsEvaluation().getFat().getGood());
+        report.setFatOrdinary(dietReport.getWeeklyNutrientsEvaluation().getFat().getOrdinary());
+        report.setFatScore(dietReport.getWeeklyNutrientsEvaluation().getFat().getScore());
+
+        report.setFibrinExcellent(dietReport.getWeeklyNutrientsEvaluation().getFibrin().getExcellent());
+        report.setFibrinGood(dietReport.getWeeklyNutrientsEvaluation().getFibrin().getGood());
+        report.setFibrinOrdinary(dietReport.getWeeklyNutrientsEvaluation().getFibrin().getOrdinary());
+        report.setFibrinScore(dietReport.getWeeklyNutrientsEvaluation().getFibrin().getScore());
+
+        report.setCarbsExcellent(dietReport.getWeeklyNutrientsEvaluation().getCarbs().getExcellent());
+        report.setCarbsGood(dietReport.getWeeklyNutrientsEvaluation().getCarbs().getGood());
+        report.setCarbsOrdinary(dietReport.getWeeklyNutrientsEvaluation().getCarbs().getOrdinary());
+        report.setCarbsScore(dietReport.getWeeklyNutrientsEvaluation().getCarbs().getScore());
 
         // 优质蛋白，动物性脂肪
         report.setGoodProteinEvaluation(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getEvaluation());
         report.setGoodProteinPer(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getTotal());
+        report.setGoodProteinScore(MathUtils.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein()));
+
         report.setAnimalFatEvaluation(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation());
         report.setAnimalFatPer(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getTotal());
+        report.setAnimalFatScore(MathUtils.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat()));
 
         return report;
     }
@@ -560,7 +579,7 @@ public class DataTransferUtils {
         report.setLunch(getLunchEvaluation(dietReport));
         report.setDinner(getDinnerEvaluation(dietReport));
         report.setSpeciesEvaluation(getSpeciesEvaluation(dietReport));
-        report.setNutrientsEvaluation(getNutrientsEvaluation(dietReport));
+        report.setWeeklyNutrientsEvaluation(getNutrientsEvaluation(dietReport));
         report.setWeeklyNutrientsEvaluation(getWeeklyNutrientsEvaluation(dietReport));
         return report;
     }
@@ -571,6 +590,7 @@ public class DataTransferUtils {
         energyEvaluation.setGood(dietReport.getEnergyGood());
         energyEvaluation.setOrdinary(dietReport.getEnergyOrdinary());
         energyEvaluation.setBad(dietReport.getEnergyBad());
+        energyEvaluation.setScore(dietReport.getEnergyScore());
         return energyEvaluation;
     }
 
@@ -579,6 +599,7 @@ public class DataTransferUtils {
         evaluation.setExcellent(dietReport.getBreakfastExcellent());
         evaluation.setGood(dietReport.getBreakfastGood());
         evaluation.setOrdinary(dietReport.getBreakfastOrdinary());
+        evaluation.setScore(dietReport.getBreakfastScore());
         return evaluation;
     }
 
@@ -587,6 +608,7 @@ public class DataTransferUtils {
         evaluation.setExcellent(dietReport.getLunchExcellent());
         evaluation.setGood(dietReport.getLunchGood());
         evaluation.setOrdinary(dietReport.getLunchOrdinary());
+        evaluation.setScore(dietReport.getLunchScore());
         return evaluation;
     }
 
@@ -595,25 +617,34 @@ public class DataTransferUtils {
         evaluation.setExcellent(dietReport.getDinnerExcellent());
         evaluation.setGood(dietReport.getDinnerGood());
         evaluation.setOrdinary(dietReport.getDinnerOrdinary());
+        evaluation.setScore(dietReport.getDinnerScore());
         return evaluation;
     }
 
     private static SpeciesEvaluation getSpeciesEvaluation(TbDietWeeklyReport report) {
         SpeciesEvaluation evaluation = new SpeciesEvaluation();
-        evaluation.setBeanNutSpecies(new TotalEvaluation(report.getBeanNutSpeciesTotal(), report.getBeanNutSpeciesEvaluation()));
-        evaluation.setFruitVegetableSpecies(new TotalEvaluation(report.getFruitVegetableSpeciesTotal(), report.getFruitVegetableSpeciesEvaluation()));
-        evaluation.setProteinSpecies(new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getStapleFoodSpeciesEvaluation()));
-        evaluation.setStapleFoodSpecies(new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getTotalSpeciesEvaluation()));
-        evaluation.setTotalSpecies(new TotalEvaluation(report.getTotalSpeciesTotal(), report.getTotalSpeciesEvaluation()));
+
+        TotalEvaluation beanNut = new TotalEvaluation(report.getBeanNutSpeciesTotal(), report.getBeanNutSpeciesEvaluation());
+        TotalEvaluation fruitVegetable = new TotalEvaluation(report.getFruitVegetableSpeciesTotal(), report.getFruitVegetableSpeciesEvaluation());
+        TotalEvaluation protein = new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getStapleFoodSpeciesEvaluation());
+        TotalEvaluation stapleFood = new TotalEvaluation(report.getStapleFoodSpeciesTotal(), report.getStapleFoodSpeciesEvaluation());
+        TotalEvaluation total = new TotalEvaluation(report.getTotalSpeciesTotal(), report.getTotalSpeciesEvaluation());
+        evaluation.setBeanNutSpecies(beanNut);
+        evaluation.setFruitVegetableSpecies(fruitVegetable);
+        evaluation.setProteinSpecies(protein);
+        evaluation.setStapleFoodSpecies(stapleFood);
+        evaluation.setTotalSpecies(total);
+        evaluation.setScore(report.getSpeciesScore());
+
         return evaluation;
     }
 
     private static NutrientsEvaluation getNutrientsEvaluation(TbDietWeeklyReport report) {
         NutrientsEvaluation evaluation = new NutrientsEvaluation();
-        evaluation.setCarbs(new Evaluation(report.getCarbsExcellent(), report.getCarbsGood(), report.getCarbsOrdinary()));
-        evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary()));
-        evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary()));
-        evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary()));
+        evaluation.setCarbs(new Evaluation(report.getCarbsExcellent(), report.getCarbsGood(), report.getCarbsOrdinary(), report.getCarbsScore()));
+        evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary(), report.getFatScore()));
+        evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary(), report.getFibrinScore()));
+        evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary(), report.getProteinScore()));
         return evaluation;
     }
 

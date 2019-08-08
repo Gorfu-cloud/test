@@ -26,7 +26,6 @@ public class DietWeeklyReport {
     /**
      * 营养素评价
      */
-    private NutrientsEvaluation nutrientsEvaluation;
     private WeeklyNutrientsEvaluation weeklyNutrientsEvaluation;
 
     public DietWeeklyReport() {
@@ -39,7 +38,6 @@ public class DietWeeklyReport {
         this.breakfast = new Evaluation();
         this.lunch = new Evaluation();
         this.dinner = new Evaluation();
-        this.nutrientsEvaluation = new NutrientsEvaluation();
         this.weeklyNutrientsEvaluation = new WeeklyNutrientsEvaluation();
     }
 
@@ -83,19 +81,18 @@ public class DietWeeklyReport {
         this.dinner = dinner;
     }
 
-    public NutrientsEvaluation getNutrientsEvaluation() {
-        return nutrientsEvaluation;
-    }
-
-    public void setNutrientsEvaluation(NutrientsEvaluation nutrientsEvaluation) {
-        this.nutrientsEvaluation = nutrientsEvaluation;
-    }
-
     public WeeklyNutrientsEvaluation getWeeklyNutrientsEvaluation() {
         return weeklyNutrientsEvaluation;
     }
 
     public void setWeeklyNutrientsEvaluation(WeeklyNutrientsEvaluation weeklyNutrientsEvaluation) {
         this.weeklyNutrientsEvaluation = weeklyNutrientsEvaluation;
+    }
+
+    public void setWeeklyNutrientsEvaluation(NutrientsEvaluation nutrientsEvaluation) {
+        this.weeklyNutrientsEvaluation.setCarbs(nutrientsEvaluation.getCarbs());
+        this.weeklyNutrientsEvaluation.setFat(nutrientsEvaluation.getFat());
+        this.weeklyNutrientsEvaluation.setFibrin(nutrientsEvaluation.getFibrin());
+        this.weeklyNutrientsEvaluation.setProtein(nutrientsEvaluation.getProtein());
     }
 }

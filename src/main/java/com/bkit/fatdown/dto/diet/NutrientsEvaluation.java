@@ -25,7 +25,7 @@ public class NutrientsEvaluation {
         this.fibrin = fibrin;
     }
 
-    private void init() {
+    public void init() {
         this.protein = new Evaluation();
         this.fat = new Evaluation();
         this.carbs = new Evaluation();

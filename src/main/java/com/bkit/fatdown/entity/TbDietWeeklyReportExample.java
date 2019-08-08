@@ -315,6 +315,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andEnergyScoreIsNull() {
+            addCriterion("energy_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreIsNotNull() {
+            addCriterion("energy_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreEqualTo(Double value) {
+            addCriterion("energy_score =", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreNotEqualTo(Double value) {
+            addCriterion("energy_score <>", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreGreaterThan(Double value) {
+            addCriterion("energy_score >", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("energy_score >=", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreLessThan(Double value) {
+            addCriterion("energy_score <", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreLessThanOrEqualTo(Double value) {
+            addCriterion("energy_score <=", value, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreIn(List<Double> values) {
+            addCriterion("energy_score in", values, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreNotIn(List<Double> values) {
+            addCriterion("energy_score not in", values, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreBetween(Double value1, Double value2) {
+            addCriterion("energy_score between", value1, value2, "energyScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnergyScoreNotBetween(Double value1, Double value2) {
+            addCriterion("energy_score not between", value1, value2, "energyScore");
+            return (Criteria) this;
+        }
+
         public Criteria andEnergyExcellentIsNull() {
             addCriterion("energy_excellent is null");
             return (Criteria) this;
@@ -552,6 +612,66 @@ public class TbDietWeeklyReportExample {
 
         public Criteria andEnergyBadNotBetween(Integer value1, Integer value2) {
             addCriterion("energy_bad not between", value1, value2, "energyBad");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreIsNull() {
+            addCriterion("species_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreIsNotNull() {
+            addCriterion("species_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreEqualTo(Double value) {
+            addCriterion("species_score =", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreNotEqualTo(Double value) {
+            addCriterion("species_score <>", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreGreaterThan(Double value) {
+            addCriterion("species_score >", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("species_score >=", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreLessThan(Double value) {
+            addCriterion("species_score <", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreLessThanOrEqualTo(Double value) {
+            addCriterion("species_score <=", value, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreIn(List<Double> values) {
+            addCriterion("species_score in", values, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreNotIn(List<Double> values) {
+            addCriterion("species_score not in", values, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreBetween(Double value1, Double value2) {
+            addCriterion("species_score between", value1, value2, "speciesScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andSpeciesScoreNotBetween(Double value1, Double value2) {
+            addCriterion("species_score not between", value1, value2, "speciesScore");
             return (Criteria) this;
         }
 
@@ -1155,6 +1275,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andBreakfastScoreIsNull() {
+            addCriterion("breakfast_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreIsNotNull() {
+            addCriterion("breakfast_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreEqualTo(Double value) {
+            addCriterion("breakfast_score =", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreNotEqualTo(Double value) {
+            addCriterion("breakfast_score <>", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreGreaterThan(Double value) {
+            addCriterion("breakfast_score >", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("breakfast_score >=", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreLessThan(Double value) {
+            addCriterion("breakfast_score <", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreLessThanOrEqualTo(Double value) {
+            addCriterion("breakfast_score <=", value, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreIn(List<Double> values) {
+            addCriterion("breakfast_score in", values, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreNotIn(List<Double> values) {
+            addCriterion("breakfast_score not in", values, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreBetween(Double value1, Double value2) {
+            addCriterion("breakfast_score between", value1, value2, "breakfastScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andBreakfastScoreNotBetween(Double value1, Double value2) {
+            addCriterion("breakfast_score not between", value1, value2, "breakfastScore");
+            return (Criteria) this;
+        }
+
         public Criteria andBreakfastExcellentIsNull() {
             addCriterion("breakfast_excellent is null");
             return (Criteria) this;
@@ -1332,6 +1512,66 @@ public class TbDietWeeklyReportExample {
 
         public Criteria andBreakfastOrdinaryNotBetween(Integer value1, Integer value2) {
             addCriterion("breakfast_ordinary not between", value1, value2, "breakfastOrdinary");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreIsNull() {
+            addCriterion("lunch_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreIsNotNull() {
+            addCriterion("lunch_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreEqualTo(Double value) {
+            addCriterion("lunch_score =", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreNotEqualTo(Double value) {
+            addCriterion("lunch_score <>", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreGreaterThan(Double value) {
+            addCriterion("lunch_score >", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("lunch_score >=", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreLessThan(Double value) {
+            addCriterion("lunch_score <", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreLessThanOrEqualTo(Double value) {
+            addCriterion("lunch_score <=", value, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreIn(List<Double> values) {
+            addCriterion("lunch_score in", values, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreNotIn(List<Double> values) {
+            addCriterion("lunch_score not in", values, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreBetween(Double value1, Double value2) {
+            addCriterion("lunch_score between", value1, value2, "lunchScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andLunchScoreNotBetween(Double value1, Double value2) {
+            addCriterion("lunch_score not between", value1, value2, "lunchScore");
             return (Criteria) this;
         }
 
@@ -1515,6 +1755,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andDinnerScoreIsNull() {
+            addCriterion("dinner_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreIsNotNull() {
+            addCriterion("dinner_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreEqualTo(Double value) {
+            addCriterion("dinner_score =", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreNotEqualTo(Double value) {
+            addCriterion("dinner_score <>", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreGreaterThan(Double value) {
+            addCriterion("dinner_score >", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("dinner_score >=", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreLessThan(Double value) {
+            addCriterion("dinner_score <", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreLessThanOrEqualTo(Double value) {
+            addCriterion("dinner_score <=", value, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreIn(List<Double> values) {
+            addCriterion("dinner_score in", values, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreNotIn(List<Double> values) {
+            addCriterion("dinner_score not in", values, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreBetween(Double value1, Double value2) {
+            addCriterion("dinner_score between", value1, value2, "dinnerScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andDinnerScoreNotBetween(Double value1, Double value2) {
+            addCriterion("dinner_score not between", value1, value2, "dinnerScore");
+            return (Criteria) this;
+        }
+
         public Criteria andDinnerExcellentIsNull() {
             addCriterion("dinner_excellent is null");
             return (Criteria) this;
@@ -1692,6 +1992,126 @@ public class TbDietWeeklyReportExample {
 
         public Criteria andDinnerOrdinaryNotBetween(Integer value1, Integer value2) {
             addCriterion("dinner_ordinary not between", value1, value2, "dinnerOrdinary");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreIsNull() {
+            addCriterion("nutrient_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreIsNotNull() {
+            addCriterion("nutrient_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreEqualTo(Double value) {
+            addCriterion("nutrient_score =", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreNotEqualTo(Double value) {
+            addCriterion("nutrient_score <>", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreGreaterThan(Double value) {
+            addCriterion("nutrient_score >", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("nutrient_score >=", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreLessThan(Double value) {
+            addCriterion("nutrient_score <", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreLessThanOrEqualTo(Double value) {
+            addCriterion("nutrient_score <=", value, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreIn(List<Double> values) {
+            addCriterion("nutrient_score in", values, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreNotIn(List<Double> values) {
+            addCriterion("nutrient_score not in", values, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreBetween(Double value1, Double value2) {
+            addCriterion("nutrient_score between", value1, value2, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andNutrientScoreNotBetween(Double value1, Double value2) {
+            addCriterion("nutrient_score not between", value1, value2, "nutrientScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreIsNull() {
+            addCriterion("protein_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreIsNotNull() {
+            addCriterion("protein_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreEqualTo(Double value) {
+            addCriterion("protein_score =", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreNotEqualTo(Double value) {
+            addCriterion("protein_score <>", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreGreaterThan(Double value) {
+            addCriterion("protein_score >", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("protein_score >=", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreLessThan(Double value) {
+            addCriterion("protein_score <", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreLessThanOrEqualTo(Double value) {
+            addCriterion("protein_score <=", value, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreIn(List<Double> values) {
+            addCriterion("protein_score in", values, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreNotIn(List<Double> values) {
+            addCriterion("protein_score not in", values, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreBetween(Double value1, Double value2) {
+            addCriterion("protein_score between", value1, value2, "proteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andProteinScoreNotBetween(Double value1, Double value2) {
+            addCriterion("protein_score not between", value1, value2, "proteinScore");
             return (Criteria) this;
         }
 
@@ -1875,6 +2295,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andFatScoreIsNull() {
+            addCriterion("fat_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreIsNotNull() {
+            addCriterion("fat_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreEqualTo(Double value) {
+            addCriterion("fat_score =", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreNotEqualTo(Double value) {
+            addCriterion("fat_score <>", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreGreaterThan(Double value) {
+            addCriterion("fat_score >", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("fat_score >=", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreLessThan(Double value) {
+            addCriterion("fat_score <", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreLessThanOrEqualTo(Double value) {
+            addCriterion("fat_score <=", value, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreIn(List<Double> values) {
+            addCriterion("fat_score in", values, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreNotIn(List<Double> values) {
+            addCriterion("fat_score not in", values, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreBetween(Double value1, Double value2) {
+            addCriterion("fat_score between", value1, value2, "fatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFatScoreNotBetween(Double value1, Double value2) {
+            addCriterion("fat_score not between", value1, value2, "fatScore");
+            return (Criteria) this;
+        }
+
         public Criteria andFatExcellentIsNull() {
             addCriterion("fat_excellent is null");
             return (Criteria) this;
@@ -2052,6 +2532,66 @@ public class TbDietWeeklyReportExample {
 
         public Criteria andFatOrdinaryNotBetween(Integer value1, Integer value2) {
             addCriterion("fat_ordinary not between", value1, value2, "fatOrdinary");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreIsNull() {
+            addCriterion("fibrin_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreIsNotNull() {
+            addCriterion("fibrin_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreEqualTo(Double value) {
+            addCriterion("fibrin_score =", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreNotEqualTo(Double value) {
+            addCriterion("fibrin_score <>", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreGreaterThan(Double value) {
+            addCriterion("fibrin_score >", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("fibrin_score >=", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreLessThan(Double value) {
+            addCriterion("fibrin_score <", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreLessThanOrEqualTo(Double value) {
+            addCriterion("fibrin_score <=", value, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreIn(List<Double> values) {
+            addCriterion("fibrin_score in", values, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreNotIn(List<Double> values) {
+            addCriterion("fibrin_score not in", values, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreBetween(Double value1, Double value2) {
+            addCriterion("fibrin_score between", value1, value2, "fibrinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andFibrinScoreNotBetween(Double value1, Double value2) {
+            addCriterion("fibrin_score not between", value1, value2, "fibrinScore");
             return (Criteria) this;
         }
 
@@ -2235,6 +2775,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andCarbsScoreIsNull() {
+            addCriterion("carbs_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreIsNotNull() {
+            addCriterion("carbs_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreEqualTo(Double value) {
+            addCriterion("carbs_score =", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreNotEqualTo(Double value) {
+            addCriterion("carbs_score <>", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreGreaterThan(Double value) {
+            addCriterion("carbs_score >", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("carbs_score >=", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreLessThan(Double value) {
+            addCriterion("carbs_score <", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreLessThanOrEqualTo(Double value) {
+            addCriterion("carbs_score <=", value, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreIn(List<Double> values) {
+            addCriterion("carbs_score in", values, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreNotIn(List<Double> values) {
+            addCriterion("carbs_score not in", values, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreBetween(Double value1, Double value2) {
+            addCriterion("carbs_score between", value1, value2, "carbsScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCarbsScoreNotBetween(Double value1, Double value2) {
+            addCriterion("carbs_score not between", value1, value2, "carbsScore");
+            return (Criteria) this;
+        }
+
         public Criteria andCarbsGoodIsNull() {
             addCriterion("carbs_good is null");
             return (Criteria) this;
@@ -2415,6 +3015,66 @@ public class TbDietWeeklyReportExample {
             return (Criteria) this;
         }
 
+        public Criteria andAnimalFatScoreIsNull() {
+            addCriterion("animal_fat_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreIsNotNull() {
+            addCriterion("animal_fat_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreEqualTo(Double value) {
+            addCriterion("animal_fat_score =", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreNotEqualTo(Double value) {
+            addCriterion("animal_fat_score <>", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreGreaterThan(Double value) {
+            addCriterion("animal_fat_score >", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("animal_fat_score >=", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreLessThan(Double value) {
+            addCriterion("animal_fat_score <", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreLessThanOrEqualTo(Double value) {
+            addCriterion("animal_fat_score <=", value, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreIn(List<Double> values) {
+            addCriterion("animal_fat_score in", values, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreNotIn(List<Double> values) {
+            addCriterion("animal_fat_score not in", values, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreBetween(Double value1, Double value2) {
+            addCriterion("animal_fat_score between", value1, value2, "animalFatScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andAnimalFatScoreNotBetween(Double value1, Double value2) {
+            addCriterion("animal_fat_score not between", value1, value2, "animalFatScore");
+            return (Criteria) this;
+        }
+
         public Criteria andAnimalFatPerIsNull() {
             addCriterion("animal_fat_per is null");
             return (Criteria) this;
@@ -2532,6 +3192,66 @@ public class TbDietWeeklyReportExample {
 
         public Criteria andAnimalFatEvaluationNotBetween(Integer value1, Integer value2) {
             addCriterion("animal_fat_evaluation not between", value1, value2, "animalFatEvaluation");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreIsNull() {
+            addCriterion("good_protein_score is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreIsNotNull() {
+            addCriterion("good_protein_score is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreEqualTo(Double value) {
+            addCriterion("good_protein_score =", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreNotEqualTo(Double value) {
+            addCriterion("good_protein_score <>", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreGreaterThan(Double value) {
+            addCriterion("good_protein_score >", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreGreaterThanOrEqualTo(Double value) {
+            addCriterion("good_protein_score >=", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreLessThan(Double value) {
+            addCriterion("good_protein_score <", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreLessThanOrEqualTo(Double value) {
+            addCriterion("good_protein_score <=", value, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreIn(List<Double> values) {
+            addCriterion("good_protein_score in", values, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreNotIn(List<Double> values) {
+            addCriterion("good_protein_score not in", values, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreBetween(Double value1, Double value2) {
+            addCriterion("good_protein_score between", value1, value2, "goodProteinScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodProteinScoreNotBetween(Double value1, Double value2) {
+            addCriterion("good_protein_score not between", value1, value2, "goodProteinScore");
             return (Criteria) this;
         }
 

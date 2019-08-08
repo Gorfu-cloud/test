@@ -16,8 +16,8 @@ public class EnergyEvaluation extends Evaluation {
         init();
     }
 
-    public EnergyEvaluation(int excellent, int good, int ordinary, int bad) {
-        super(excellent, good, ordinary);
+    public EnergyEvaluation(int excellent, int good, int ordinary, int bad, double score) {
+        super(excellent, good, ordinary, score);
         this.bad = bad;
     }
 

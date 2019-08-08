@@ -12,23 +12,25 @@ public class Evaluation {
     private int excellent;
     private int good;
     private int ordinary;
-//    private double score;
+    private double score;
 
     public Evaluation() {
         init();
     }
 
-    public Evaluation(int excellent, int good, int ordinary) {
+    public Evaluation(int excellent, int good, int ordinary, double score) {
         init();
         this.excellent = excellent;
         this.good = good;
         this.ordinary = ordinary;
+        this.score = score;
     }
 
     public void init() {
         this.excellent = 0;
         this.good = 0;
         this.ordinary = 0;
+        this.score = 0.0;
     }
 
     public int getExcellent() {
@@ -53,5 +55,13 @@ public class Evaluation {
 
     public void setOrdinary(int ordinary) {
         this.ordinary = ordinary;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

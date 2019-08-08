@@ -18,6 +18,8 @@ public class SpeciesEvaluation {
     private TotalEvaluation beanNutSpecies;
     private TotalEvaluation fruitVegetableSpecies;
     private TotalEvaluation totalSpecies;
+    private double score;
+
 
     public SpeciesEvaluation() {
         init();
@@ -29,7 +31,6 @@ public class SpeciesEvaluation {
         this.fruitVegetableSpecies = new TotalEvaluation();
         this.beanNutSpecies = new TotalEvaluation();
         this.totalSpecies = new TotalEvaluation();
-
     }
 
     public TotalEvaluation getProteinSpecies() {
@@ -70,5 +71,13 @@ public class SpeciesEvaluation {
 
     public void setTotalSpecies(TotalEvaluation totalSpecies) {
         this.totalSpecies = totalSpecies;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }
