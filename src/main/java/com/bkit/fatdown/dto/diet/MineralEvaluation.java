@@ -18,6 +18,7 @@ public class MineralEvaluation {
     private TotalEvaluation zn;
     private TotalEvaluation se;
     private TotalEvaluation cu;
+    private double score;
 
     public MineralEvaluation() {
         init();
@@ -96,5 +97,13 @@ public class MineralEvaluation {
 
     public void setCu(TotalEvaluation cu) {
         this.cu = cu;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

@@ -15,6 +15,7 @@ public class VitaminEvaluation {
     private TotalEvaluation b3;
     private TotalEvaluation c;
     private TotalEvaluation e;
+    private double score;
 
     public VitaminEvaluation() {
         init();
@@ -75,5 +76,13 @@ public class VitaminEvaluation {
 
     public void setE(TotalEvaluation e) {
         this.e = e;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 }

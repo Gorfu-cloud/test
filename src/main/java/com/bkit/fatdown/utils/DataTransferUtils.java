@@ -646,6 +646,7 @@ public class DataTransferUtils {
         evaluation.setFat(new Evaluation(report.getFatExcellent(), report.getFatGood(), report.getFatOrdinary(), report.getFatScore()));
         evaluation.setFibrin(new Evaluation(report.getFibrinExcellent(), report.getFibrinGood(), report.getFibrinOrdinary(), report.getFibrinScore()));
         evaluation.setProtein(new Evaluation(report.getProteinExcellent(), report.getProteinGood(), report.getProteinOrdinary(), report.getProteinScore()));
+        evaluation.setScore(report.getNutrientScore());
         return evaluation;
     }
 }

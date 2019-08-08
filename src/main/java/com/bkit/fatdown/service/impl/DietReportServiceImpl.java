@@ -535,7 +535,6 @@ public class DietReportServiceImpl implements IDietReportService {
         List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, type));
         // 计算菜式组成成分总量
         TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
-
         // 记录饮食成分记录失败
         if (dietRecordService.failInsertDietRecord(record, date, type, uid)) {
             logger.error("tb_diet_record insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
