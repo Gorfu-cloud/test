@@ -3,7 +3,9 @@ package com.bkit.fatdown.dto;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModel;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @file: CommonPageDTO
@@ -15,7 +17,7 @@ import java.util.List;
  */
 
 @ApiModel
-public class CommonPageDTO<T> {
+public class CommonPageDTO<T> implements Serializable {
     /**
      * 页号
      */
@@ -83,21 +85,43 @@ public class CommonPageDTO<T> {
         this.total = total;
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
     public List<T> getList() {
         return list;
     }
 
     public void setList(List<T> list) {
         this.list = list;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CommonPageDTO)) {
+            return false;
+        }
+        CommonPageDTO<?> that = (CommonPageDTO<?>) o;
+        return getPageNum().equals(that.getPageNum()) &&
+                getPageSize().equals(that.getPageSize()) &&
+                getTotalPage().equals(that.getTotalPage()) &&
+                getTotal().equals(that.getTotal()) &&
+                getList().equals(that.getList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPageNum(), getPageSize(), getTotalPage(), getTotal(), getList());
+    }
+
+    @Override
+    public String toString() {
+        return "CommonPageDTO{" +
+                "pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                ", totalPage=" + totalPage +
+                ", total=" + total +
+                ", list=" + list +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.bkit.fatdown.dto.diet;
 
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -11,7 +12,7 @@ import java.util.TreeSet;
  * @modified:
  * @version: 1.0
  */
-public class DietMealReport {
+public class DietMealReport implements Serializable {
 
     /**
      * 能量评价，真实摄入，上限，下限
@@ -91,5 +92,17 @@ public class DietMealReport {
 
     public void setStructureLack(Set<Integer> structureLack) {
         this.structureLack = structureLack;
+    }
+
+    @Override
+    public String toString() {
+        return "DietMealReport{" +
+                "realEnergy=" + realEnergy +
+                ", upperEnergy=" + upperEnergy +
+                ", lowerEnergy=" + lowerEnergy +
+                ", energyEvaluation=" + energyEvaluation +
+                ", structureEvaluation=" + structureEvaluation +
+                ", structureLack=" + structureLack +
+                '}';
     }
 }

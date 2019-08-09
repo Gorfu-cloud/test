@@ -1,4 +1,6 @@
-package com.bkit.fatdown.dto;
+package com.bkit.fatdown.dto.task;
+
+import java.io.Serializable;
 
 /**
  * @file: TaskListDTO
@@ -9,7 +11,7 @@ package com.bkit.fatdown.dto;
  * @version: 1.0
  */
 
-public class UserTaskListDTO {
+public class UserTaskListDTO implements Serializable {
 
     /**
      * 任务类型
@@ -110,5 +112,19 @@ public class UserTaskListDTO {
 
     public void setCycle(Integer cycle) {
         this.cycle = cycle;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTaskListDTO{" +
+                "type='" + type + '\'' +
+                ", title='" + title + '\'' +
+                ", score=" + score +
+                ", taskId=" + taskId +
+                ", complete=" + complete +
+                ", flag=" + flag +
+                ", cycle=" + cycle +
+                ", taskPageUrl='" + taskPageUrl + '\'' +
+                '}';
     }
 }

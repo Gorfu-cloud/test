@@ -1,4 +1,4 @@
-package com.bkit.fatdown.dto.diet;
+package com.bkit.fatdown.dto.diet.common;
 
 /**
  * @file: SpeciesEvaluation

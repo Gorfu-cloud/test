@@ -1,7 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.UserTaskListDTO;
+import com.bkit.fatdown.dto.task.UserTaskListDTO;
 import com.bkit.fatdown.entity.TbTaskList;
 import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;

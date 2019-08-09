@@ -1,6 +1,8 @@
 package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.diet.*;
+import com.bkit.fatdown.dto.diet.common.Evaluation;
+import com.bkit.fatdown.dto.diet.common.NutrientsEvaluation;
 import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
 import com.bkit.fatdown.entity.TbDietWeeklyReport;

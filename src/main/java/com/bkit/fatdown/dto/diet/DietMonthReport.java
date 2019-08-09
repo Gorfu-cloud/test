@@ -1,5 +1,9 @@
 package com.bkit.fatdown.dto.diet;
 
+import com.bkit.fatdown.dto.diet.common.FibrinEvaluation;
+import com.bkit.fatdown.dto.diet.common.MineralEvaluation;
+import com.bkit.fatdown.dto.diet.common.VitaminEvaluation;
+
 /**
  * @file: DietMonthReport
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>

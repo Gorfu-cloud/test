@@ -2,7 +2,7 @@ package com.bkit.fatdown.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.diet.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;

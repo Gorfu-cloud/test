@@ -1,4 +1,4 @@
-package com.bkit.fatdown.dto.diet;
+package com.bkit.fatdown.dto.food;
 
 import io.swagger.annotations.ApiModel;
 
@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiModel;
  * @version: 1.0
  */
 
-@ApiModel
 public class FoodInfoDTO {
     private String foodName;
     private Double foodGram;

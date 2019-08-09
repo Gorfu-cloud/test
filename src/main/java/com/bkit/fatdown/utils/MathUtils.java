@@ -1,6 +1,10 @@
 package com.bkit.fatdown.utils;
 
 import com.bkit.fatdown.dto.diet.*;
+import com.bkit.fatdown.dto.diet.common.EnergyEvaluation;
+import com.bkit.fatdown.dto.diet.common.SpeciesEvaluation;
+import com.bkit.fatdown.dto.diet.common.TotalEvaluation;
+import com.bkit.fatdown.dto.diet.common.WeeklyNutrientsEvaluation;
 import com.bkit.fatdown.entity.*;
 
 import java.util.*;

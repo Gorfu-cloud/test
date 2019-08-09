@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.diet.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodInfoDTO;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.utils.DateUtils;
 import org.junit.Test;

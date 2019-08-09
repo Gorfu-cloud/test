@@ -1,7 +1,8 @@
-package com.bkit.fatdown.dto;
+package com.bkit.fatdown.dto.test;
 
 import com.bkit.fatdown.entity.TbPaperBasic;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @version: 1.0
  */
 
-public class UserTestListDTO {
+public class UserTestListDTO implements Serializable {
     private Integer id;
     private String title;
     private Date startTime;
@@ -72,5 +73,16 @@ public class UserTestListDTO {
 
     public void setIsDone(Integer isDone) {
         this.isDone = isDone;
+    }
+
+    @Override
+    public String toString() {
+        return "UserTestListDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", isDone=" + isDone +
+                '}';
     }
 }

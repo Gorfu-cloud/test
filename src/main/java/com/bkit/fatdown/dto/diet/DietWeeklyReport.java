@@ -1,5 +1,10 @@
 package com.bkit.fatdown.dto.diet;
 
+import com.bkit.fatdown.dto.diet.common.EnergyEvaluation;
+import com.bkit.fatdown.dto.diet.common.Evaluation;
+import com.bkit.fatdown.dto.diet.common.SpeciesEvaluation;
+import com.bkit.fatdown.dto.diet.common.WeeklyNutrientsEvaluation;
+
 /**
  * @file: DietWeeklyReport
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>

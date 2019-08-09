@@ -3,6 +3,8 @@ package com.bkit.fatdown.dto;
 import com.bkit.fatdown.common.api.IErrorCode;
 import com.bkit.fatdown.common.api.ResultCodeEnum;
 
+import java.io.Serializable;
+
 /**
  * @file: CommonResultDTO
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -12,8 +14,8 @@ import com.bkit.fatdown.common.api.ResultCodeEnum;
  * @version: 1.0
  */
 
-public class CommonResultDTO<T> {
-    private long code;
+public class CommonResultDTO<T> implements Serializable {
+    private Long code;
     private String message;
     private T data;
 
@@ -28,11 +30,12 @@ public class CommonResultDTO<T> {
 
     /**
      * 返回成功结果
+     *
      * @param <T>
      * @return
      */
     public static <T> CommonResultDTO<T> success() {
-        return new CommonResultDTO<T>(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage(),null);
+        return new CommonResultDTO<T>(ResultCodeEnum.SUCCESS.getCode(), ResultCodeEnum.SUCCESS.getMessage(), null);
     }
 
     /**

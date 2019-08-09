@@ -1,7 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.UserTestListDTO;
+import com.bkit.fatdown.dto.test.UserTestListDTO;
 import com.bkit.fatdown.entity.TbPaperBasic;
 import com.bkit.fatdown.entity.TbQuestionBasic;
 import com.bkit.fatdown.entity.TbTestRecord;

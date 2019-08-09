@@ -1,4 +1,6 @@
-package com.bkit.fatdown.dto.diet;
+package com.bkit.fatdown.dto.diet.common;
+
+import com.bkit.fatdown.dto.diet.common.Evaluation;
 
 /**
  * @file: NutrientsEvaluation
