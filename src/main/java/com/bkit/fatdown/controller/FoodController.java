@@ -53,19 +53,13 @@ public class FoodController {
     @Resource
     private IFoodRecommendTypeService recommendTypeService;
 
-    /**
-     * 推荐菜式类型上下限
-     */
-    private static final int FOOD_TYPE_UPPER = 8;
-    private static final int FOOD_TYPE_LOWER = 1;
-
     private static final int DATA_NOT_EXIST = 0;
 
     @ApiOperation("获取指定类型推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/listFoodRecommend", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommend(@RequestParam Integer foodType) {
-        if (foodType == null || foodType > FOOD_TYPE_UPPER || foodType < FOOD_TYPE_LOWER) {
+        if (foodType == null || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("foodType参数错误");
         }
 
