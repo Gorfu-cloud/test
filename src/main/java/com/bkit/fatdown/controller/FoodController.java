@@ -57,8 +57,8 @@ public class FoodController {
 
     @ApiOperation("获取指定类型推荐菜式")
     @CrossOrigin
-    @RequestMapping(value = "/listFoodRecommend", method = RequestMethod.GET)
-    public CommonResultDTO listFoodRecommend(@RequestParam Integer foodType) {
+    @RequestMapping(value = "/FoodRecommends/{foodType}", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecommend(@PathVariable Integer foodType) {
         if (foodType == null || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("foodType参数错误");
         }
@@ -74,7 +74,7 @@ public class FoodController {
 
     @ApiOperation("添加食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/addFoodRecommend", method = RequestMethod.POST)
+    @RequestMapping(value = "/FoodRecommend", method = RequestMethod.POST)
     public CommonResultDTO addFoodRecommend(@RequestParam String foodName, @RequestParam Integer foodType) {
         if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("foodName/foodType无效");
@@ -93,8 +93,8 @@ public class FoodController {
 
     @ApiOperation("删除食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/deleteFoodRecommend", method = RequestMethod.DELETE)
-    public CommonResultDTO deleteFoodRecommend(@RequestParam Integer id) {
+    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteFoodRecommend(@PathVariable Integer id) {
         if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id无效");
         }
@@ -108,8 +108,8 @@ public class FoodController {
 
     @ApiOperation("更新食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/updateFoodRecommend", method = RequestMethod.POST)
-    public CommonResultDTO updateFoodRecommend(@RequestParam Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
+    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateFoodRecommend(@PathVariable Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
         if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST
                 || id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id/foodName/foodType无效");
@@ -129,8 +129,8 @@ public class FoodController {
 
     @ApiOperation("获取食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/getFoodRecommend", method = RequestMethod.GET)
-    public CommonResultDTO getFoodRecommend(@RequestParam Integer id) {
+    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getFoodRecommend(@PathVariable Integer id) {
         if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id无效");
         }
@@ -172,7 +172,7 @@ public class FoodController {
 
     @ApiOperation("获取推荐菜式选择记录")
     @CrossOrigin
-    @RequestMapping(value = "/listFoodRecommendRecord", method = RequestMethod.GET)
+    @RequestMapping(value = "/RecommendRecords", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
@@ -191,7 +191,7 @@ public class FoodController {
 
     @ApiOperation("获取所有推荐菜式类型")
     @CrossOrigin
-    @RequestMapping(value = "listAllRecommendType", method = RequestMethod.GET)
+    @RequestMapping(value = "RecommendTypes", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFoodRecommendType>> listAllRecommendType() {
         List<TbFoodRecommendType> typeList = recommendTypeService.listAllType();
         if (typeList.size() == 0) {
@@ -202,8 +202,8 @@ public class FoodController {
 
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/getRecommendTypeInfo", method = RequestMethod.GET)
-    public CommonResultDTO<TbFoodRecommendType> getRecommendTypeInfo(@RequestParam int id) {
+    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.GET)
+    public CommonResultDTO<TbFoodRecommendType> getRecommendTypeInfo(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");
         }
@@ -217,8 +217,8 @@ public class FoodController {
 
     @ApiOperation("删除推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/deleteRecommendType", method = RequestMethod.DELETE)
-    public CommonResultDTO deleteRecommendType(@RequestParam int id) {
+    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteRecommendType(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");
         }
@@ -231,7 +231,7 @@ public class FoodController {
 
     @ApiOperation("添加推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/addRecommendType", method = RequestMethod.POST)
+    @RequestMapping(value = "/RecommendType", method = RequestMethod.POST)
     public CommonResultDTO addRecommendType(@RequestParam String typeName) {
         if (typeName.isEmpty()) {
             return CommonResultDTO.validateFailed("菜式类型名称不能为空");
@@ -248,8 +248,8 @@ public class FoodController {
 
     @ApiOperation("更新推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/updateRecommendType", method = RequestMethod.POST)
-    public CommonResultDTO updateRecommendType(@RequestParam String typeName, @RequestParam Integer id) {
+    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateRecommendType(@RequestParam String typeName, @PathVariable Integer id) {
         if (typeName.isEmpty() || id == null) {
             return CommonResultDTO.validateFailed("菜式类型名称或id不能为空");
         }
@@ -266,12 +266,12 @@ public class FoodController {
 
     @ApiOperation("计算菜式成分总和")
     @CrossOrigin
-    @RequestMapping(value = "/getFoodElementTotal", method = RequestMethod.GET)
-    public CommonResultDTO getFoodElementTotalById(@RequestParam Integer foodId) {
-        if (foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST) {
+    @RequestMapping(value = "/FoodElementTotal/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getFoodElementTotalById(@PathVariable Integer id) {
+        if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id错误");
         }
-        return CommonResultDTO.success(foodService.getDietRecord(foodId));
+        return CommonResultDTO.success(foodService.getDietRecord(id));
     }
 
     @ApiOperation("获取用餐菜式信息")
