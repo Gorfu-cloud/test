@@ -50,18 +50,9 @@ public class MathUtils {
     private static final Double PROTEIN_COEFFICIENT = 1.2;
 
     /**
-     * 维生素默认相关系数
+     * 每天不可溶纤维标准，每kg体重
      */
-    private static final Double V_B1_MAN = 1.4;
-    private static final Double V_B2_MAN = 1.4;
-    private static final Double V_B1_WOMEN = 1.3;
-    private static final Double V_B2_WOMEN = 1.2;
-
-    /**
-     * 矿物质
-     */
-    private static final Double FE_MAN = 15.0;
-    private static final Double FE_WOMEN = 20.0;
+    private static final Double INSOLUBLE_FIBRE_DAILY = 0.40;
 
     /**
      * 能量范围
@@ -118,12 +109,8 @@ public class MathUtils {
     private static final Double DAILY_COL_MORE = 0.40;
     private static final Double DAILY_COL_LITTLE = 0.20;
 
-    private static final Double DAILY_FIBRIN_MORE = 60.0;
-    private static final Double DAILY_FIBRIN_LITTLE = 40.0;
-    private static final Double DAILY_FIBRIN_BAD_UPPER = 1.2;
-    private static final Double DAILY_FIBRIN_BAD_LOWER = 0.80;
-    private static final Double DAILY_FIBRIN_GOOD_UPPER = 1.10;
-    private static final Double DAILY_FIBRIN_GOOD_LOWER = 0.90;
+    private static final Double DAILY_FIBRIN_GOOD_UPPER = 1.125;
+    private static final Double DAILY_FIBRIN_GOOD_LOWER = 0.875;
 
     private static final Double GOOD_PROTEIN_GOOD = 0.50;
     private static final Double GOOD_PROTEIN_BAD = 0.30;
@@ -185,7 +172,6 @@ public class MathUtils {
                                                          TbUserLifeStyle lifeStyle) {
 
         TbDietUserStandard userStandard = new TbDietUserStandard();
-        userStandard.setWeight(Double.valueOf(privacyInfo.getWeight()));
         userStandard.setId(basicInfo.getId());
         userStandard.setEnergy(getBasicEnergy(basicInfo.getGender(), privacyInfo.getHeight(), privacyInfo.getWeight()));
         // 饮食口味导致的标准
@@ -193,16 +179,7 @@ public class MathUtils {
         userStandard.setSaltyEnergy(getSaltyEnergy(privacyInfo.getWeight(), lifeStyle.getFoodTaste()));
         userStandard.setSpicyEnergy(getSpicyEnergy(privacyInfo.getWeight(), lifeStyle.getSpicyDegree()));
         userStandard.setProtein(getProtein(privacyInfo.getHeight()));
-
-        if (basicInfo.getGender() == WOMEN) {
-            userStandard.setVitaminB1(V_B1_WOMEN);
-            userStandard.setVitaminB2(V_B2_WOMEN);
-            userStandard.setFe(FE_WOMEN);
-        } else {
-            userStandard.setVitaminB1(V_B1_MAN);
-            userStandard.setVitaminB2(V_B2_MAN);
-            userStandard.setFe(FE_MAN);
-        }
+        userStandard.setInsolubleFibre(getInsolubleFibre(privacyInfo.getWeight()));
         return userStandard;
     }
 
@@ -268,7 +245,8 @@ public class MathUtils {
         // 结构评价
         setStructureBreakEvaluation(dailyReport, dietRecord, STRUCTURE_DAILY);
 
-        setNutrientEvaluation(dailyReport, dietRecord, energyStandard);
+        // 营养素评价
+        setNutrientEvaluation(dailyReport, dietRecord, energyStandard, userStandard.getInsolubleFibre());
 
         return dailyReport;
     }
@@ -452,11 +430,11 @@ public class MathUtils {
      * @param record      饮食记录
      * @param standard    饮食标准
      */
-    private static void setNutrientEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double standard) {
+    private static void setNutrientEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double standard, Double insolubleFibre) {
         setProteinEvaluation(dailyReport, record, standard);
         setFatEvaluation(dailyReport, record, standard);
         setColEvaluation(dailyReport, record, standard);
-        setFibrinEvaluation(dailyReport, record);
+        setInsolubleFibrinEvaluation(dailyReport, record, insolubleFibre);
     }
 
     /**
@@ -557,17 +535,17 @@ public class MathUtils {
      * @param energyStandard 能量标准
      */
     private static void setColEvaluation(DietDailyReport dailyReport, TbDietRecord record, Double energyStandard) {
-        double colPer = (COL_ENERGY_OF_1G * record.getCho()) / energyStandard;
+        double colPer = (COL_ENERGY_OF_1G * record.getCarbs()) / energyStandard;
         double colStandard = (DAILY_COL_MORE * energyStandard) / COL_ENERGY_OF_1G;
 
         if (colPer > DAILY_COL_MORE) {
             // 多
             dailyReport.setColEvaluation(GOOD);
-            dailyReport.setColLack(record.getCho() - colStandard);
+            dailyReport.setColLack(record.getCarbs() - colStandard);
         } else if (colPer < DAILY_COL_LITTLE) {
             // 少
             dailyReport.setColEvaluation(BAD);
-            dailyReport.setColLack(colStandard - record.getCho());
+            dailyReport.setColLack(colStandard - record.getCarbs());
         } else {
             // 合适
             dailyReport.setColEvaluation(EXCELLENT);
@@ -577,22 +555,22 @@ public class MathUtils {
     }
 
     /**
-     * 纤维素评价
+     * 不可溶纤维评价
      *
      * @param dailyReport 每天饮食报告
      * @param record      摄入总和
      */
-    private static void setFibrinEvaluation(DietDailyReport dailyReport, TbDietRecord record) {
-        double fiber = record.getFiber();
+    private static void setInsolubleFibrinEvaluation(DietDailyReport dailyReport, TbDietRecord record, double insolubleFibre) {
+        double fiber = record.getInsolubleFiber();
+        double goodStandardUpper = insolubleFibre * DAILY_FIBRIN_GOOD_UPPER;
+        double goodStandardLower = insolubleFibre * DAILY_FIBRIN_GOOD_LOWER;
 
-        if (fiber > DAILY_FIBRIN_MORE) {
+        if (fiber > goodStandardUpper) {
             dailyReport.setFibrinEvaluation(GOOD);
-            dailyReport.setFibrinLack(fiber - DAILY_FIBRIN_MORE);
-
-        } else if (fiber < DAILY_FIBRIN_LITTLE) {
+            dailyReport.setFibrinLack(fiber - goodStandardUpper);
+        } else if (fiber < goodStandardLower) {
             dailyReport.setFibrinEvaluation(BAD);
-            dailyReport.setFibrinLack(DAILY_FIBRIN_LITTLE - fiber);
-
+            dailyReport.setFibrinLack(goodStandardLower - fiber);
         } else {
             dailyReport.setFibrinEvaluation(EXCELLENT);
         }
@@ -651,6 +629,10 @@ public class MathUtils {
 
     private static Double getProtein(Integer height) {
         return (height - PROTEIN_REDUCTION) * PROTEIN_COEFFICIENT;
+    }
+
+    private static Double getInsolubleFibre(Integer weight) {
+        return weight * INSOLUBLE_FIBRE_DAILY;
     }
 
     public static Double getWeeklyScore(int excellent, int good, int ordinary, int bad) {

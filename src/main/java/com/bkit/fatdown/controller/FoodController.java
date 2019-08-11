@@ -9,6 +9,8 @@ import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +55,12 @@ public class FoodController {
     @Resource
     private IFoodRecommendTypeService recommendTypeService;
 
+    @Resource
+    private IDietRecordService dietRecordService;
+
     private static final int DATA_NOT_EXIST = 0;
+
+    private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
 
     @ApiOperation("获取指定类型推荐菜式")
     @CrossOrigin
@@ -266,12 +273,12 @@ public class FoodController {
 
     @ApiOperation("计算菜式成分总和")
     @CrossOrigin
-    @RequestMapping(value = "/FoodElementTotal/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/FoodElement/{id}", method = RequestMethod.GET)
     public CommonResultDTO getFoodElementTotalById(@PathVariable Integer id) {
         if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id错误");
         }
-        return CommonResultDTO.success(foodService.getDietRecord(id));
+        return CommonResultDTO.success(foodService.generateDietRecord(id));
     }
 
     @ApiOperation("获取用餐菜式信息")
@@ -298,12 +305,14 @@ public class FoodController {
     @Transactional
     public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
+        // 获取上传结果
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
 
         String empty = "msg";
         String urlOfString = "url";
         String flagOfExist = "flag";
 
+        // 上传失败
         if (result.containsKey(empty)) {
             return CommonResultDTO.validateFailed("上传文件为空");
         }
@@ -336,7 +345,6 @@ public class FoodController {
                 if (id == -1) {
                     return CommonResultDTO.failed("创建菜式记录失败");
                 }
-
                 // 插入饮食记录
                 foodRecord = new TbFoodRecord();
                 foodRecord.setFoodId(id);
@@ -357,6 +365,19 @@ public class FoodController {
             foodRecord.setUserId(uid);
             foodRecord.setFoodQuantity(gram);
             foodRecord.setImgUrl(imgUrl);
+
+            // 更新每餐饮食成分记录
+            if (dietRecordService.updateDietRecord(uid)) {
+                logger.info("update diet_record success, uid: {}", uid);
+            } else {
+                logger.error("update diet_record fail, uid: {}", uid);
+            }
+            // 更新每天用餐成分总量记录
+            if (dietRecordService.updateDailyDietRecord(uid)) {
+                logger.info("update daily dietRecord success, uid: {}", uid);
+            } else {
+                logger.error("update daily dietRecord fail, uid: {}", uid);
+            }
 
             if (foodService.insert(foodRecord)) {
                 return CommonResultDTO.success();

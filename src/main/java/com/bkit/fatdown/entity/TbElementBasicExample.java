@@ -505,63 +505,63 @@ public class TbElementBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andEdibleIsNull() {
-            addCriterion("edible is null");
+        public Criteria andEatPerIsNull() {
+            addCriterion("eat_per is null");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleIsNotNull() {
-            addCriterion("edible is not null");
+        public Criteria andEatPerIsNotNull() {
+            addCriterion("eat_per is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleEqualTo(Double value) {
-            addCriterion("edible =", value, "edible");
+        public Criteria andEatPerEqualTo(Double value) {
+            addCriterion("eat_per =", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleNotEqualTo(Double value) {
-            addCriterion("edible <>", value, "edible");
+        public Criteria andEatPerNotEqualTo(Double value) {
+            addCriterion("eat_per <>", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleGreaterThan(Double value) {
-            addCriterion("edible >", value, "edible");
+        public Criteria andEatPerGreaterThan(Double value) {
+            addCriterion("eat_per >", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleGreaterThanOrEqualTo(Double value) {
-            addCriterion("edible >=", value, "edible");
+        public Criteria andEatPerGreaterThanOrEqualTo(Double value) {
+            addCriterion("eat_per >=", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleLessThan(Double value) {
-            addCriterion("edible <", value, "edible");
+        public Criteria andEatPerLessThan(Double value) {
+            addCriterion("eat_per <", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleLessThanOrEqualTo(Double value) {
-            addCriterion("edible <=", value, "edible");
+        public Criteria andEatPerLessThanOrEqualTo(Double value) {
+            addCriterion("eat_per <=", value, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleIn(List<Double> values) {
-            addCriterion("edible in", values, "edible");
+        public Criteria andEatPerIn(List<Double> values) {
+            addCriterion("eat_per in", values, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleNotIn(List<Double> values) {
-            addCriterion("edible not in", values, "edible");
+        public Criteria andEatPerNotIn(List<Double> values) {
+            addCriterion("eat_per not in", values, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleBetween(Double value1, Double value2) {
-            addCriterion("edible between", value1, value2, "edible");
+        public Criteria andEatPerBetween(Double value1, Double value2) {
+            addCriterion("eat_per between", value1, value2, "eatPer");
             return (Criteria) this;
         }
 
-        public Criteria andEdibleNotBetween(Double value1, Double value2) {
-            addCriterion("edible not between", value1, value2, "edible");
+        public Criteria andEatPerNotBetween(Double value1, Double value2) {
+            addCriterion("eat_per not between", value1, value2, "eatPer");
             return (Criteria) this;
         }
 
@@ -805,723 +805,423 @@ public class TbElementBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andChoIsNull() {
-            addCriterion("cho is null");
+        public Criteria andCarbsIsNull() {
+            addCriterion("carbs is null");
             return (Criteria) this;
         }
 
-        public Criteria andChoIsNotNull() {
-            addCriterion("cho is not null");
+        public Criteria andCarbsIsNotNull() {
+            addCriterion("carbs is not null");
             return (Criteria) this;
         }
 
-        public Criteria andChoEqualTo(Double value) {
-            addCriterion("cho =", value, "cho");
+        public Criteria andCarbsEqualTo(Double value) {
+            addCriterion("carbs =", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoNotEqualTo(Double value) {
-            addCriterion("cho <>", value, "cho");
+        public Criteria andCarbsNotEqualTo(Double value) {
+            addCriterion("carbs <>", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoGreaterThan(Double value) {
-            addCriterion("cho >", value, "cho");
+        public Criteria andCarbsGreaterThan(Double value) {
+            addCriterion("carbs >", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoGreaterThanOrEqualTo(Double value) {
-            addCriterion("cho >=", value, "cho");
+        public Criteria andCarbsGreaterThanOrEqualTo(Double value) {
+            addCriterion("carbs >=", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoLessThan(Double value) {
-            addCriterion("cho <", value, "cho");
+        public Criteria andCarbsLessThan(Double value) {
+            addCriterion("carbs <", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoLessThanOrEqualTo(Double value) {
-            addCriterion("cho <=", value, "cho");
+        public Criteria andCarbsLessThanOrEqualTo(Double value) {
+            addCriterion("carbs <=", value, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoIn(List<Double> values) {
-            addCriterion("cho in", values, "cho");
+        public Criteria andCarbsIn(List<Double> values) {
+            addCriterion("carbs in", values, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoNotIn(List<Double> values) {
-            addCriterion("cho not in", values, "cho");
+        public Criteria andCarbsNotIn(List<Double> values) {
+            addCriterion("carbs not in", values, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoBetween(Double value1, Double value2) {
-            addCriterion("cho between", value1, value2, "cho");
+        public Criteria andCarbsBetween(Double value1, Double value2) {
+            addCriterion("carbs between", value1, value2, "carbs");
             return (Criteria) this;
         }
 
-        public Criteria andChoNotBetween(Double value1, Double value2) {
-            addCriterion("cho not between", value1, value2, "cho");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberIsNull() {
-            addCriterion("fiber is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberIsNotNull() {
-            addCriterion("fiber is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberEqualTo(Double value) {
-            addCriterion("fiber =", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberNotEqualTo(Double value) {
-            addCriterion("fiber <>", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberGreaterThan(Double value) {
-            addCriterion("fiber >", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberGreaterThanOrEqualTo(Double value) {
-            addCriterion("fiber >=", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberLessThan(Double value) {
-            addCriterion("fiber <", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberLessThanOrEqualTo(Double value) {
-            addCriterion("fiber <=", value, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberIn(List<Double> values) {
-            addCriterion("fiber in", values, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberNotIn(List<Double> values) {
-            addCriterion("fiber not in", values, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberBetween(Double value1, Double value2) {
-            addCriterion("fiber between", value1, value2, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andFiberNotBetween(Double value1, Double value2) {
-            addCriterion("fiber not between", value1, value2, "fiber");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolIsNull() {
-            addCriterion("cholesterol is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolIsNotNull() {
-            addCriterion("cholesterol is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolEqualTo(Double value) {
-            addCriterion("cholesterol =", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolNotEqualTo(Double value) {
-            addCriterion("cholesterol <>", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolGreaterThan(Double value) {
-            addCriterion("cholesterol >", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolGreaterThanOrEqualTo(Double value) {
-            addCriterion("cholesterol >=", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolLessThan(Double value) {
-            addCriterion("cholesterol <", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolLessThanOrEqualTo(Double value) {
-            addCriterion("cholesterol <=", value, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolIn(List<Double> values) {
-            addCriterion("cholesterol in", values, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolNotIn(List<Double> values) {
-            addCriterion("cholesterol not in", values, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolBetween(Double value1, Double value2) {
-            addCriterion("cholesterol between", value1, value2, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andCholesterolNotBetween(Double value1, Double value2) {
-            addCriterion("cholesterol not between", value1, value2, "cholesterol");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshIsNull() {
-            addCriterion("ash is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshIsNotNull() {
-            addCriterion("ash is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshEqualTo(Double value) {
-            addCriterion("ash =", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshNotEqualTo(Double value) {
-            addCriterion("ash <>", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshGreaterThan(Double value) {
-            addCriterion("ash >", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshGreaterThanOrEqualTo(Double value) {
-            addCriterion("ash >=", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshLessThan(Double value) {
-            addCriterion("ash <", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshLessThanOrEqualTo(Double value) {
-            addCriterion("ash <=", value, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshIn(List<Double> values) {
-            addCriterion("ash in", values, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshNotIn(List<Double> values) {
-            addCriterion("ash not in", values, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshBetween(Double value1, Double value2) {
-            addCriterion("ash between", value1, value2, "ash");
-            return (Criteria) this;
-        }
-
-        public Criteria andAshNotBetween(Double value1, Double value2) {
-            addCriterion("ash not between", value1, value2, "ash");
+        public Criteria andCarbsNotBetween(Double value1, Double value2) {
+            addCriterion("carbs not between", value1, value2, "carbs");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAIsNull() {
-            addCriterion("vitamin_A is null");
+            addCriterion("vitamin_a is null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAIsNotNull() {
-            addCriterion("vitamin_A is not null");
+            addCriterion("vitamin_a is not null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAEqualTo(Double value) {
-            addCriterion("vitamin_A =", value, "vitaminA");
+            addCriterion("vitamin_a =", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminANotEqualTo(Double value) {
-            addCriterion("vitamin_A <>", value, "vitaminA");
+            addCriterion("vitamin_a <>", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAGreaterThan(Double value) {
-            addCriterion("vitamin_A >", value, "vitaminA");
+            addCriterion("vitamin_a >", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAGreaterThanOrEqualTo(Double value) {
-            addCriterion("vitamin_A >=", value, "vitaminA");
+            addCriterion("vitamin_a >=", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminALessThan(Double value) {
-            addCriterion("vitamin_A <", value, "vitaminA");
+            addCriterion("vitamin_a <", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminALessThanOrEqualTo(Double value) {
-            addCriterion("vitamin_A <=", value, "vitaminA");
+            addCriterion("vitamin_a <=", value, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminAIn(List<Double> values) {
-            addCriterion("vitamin_A in", values, "vitaminA");
+            addCriterion("vitamin_a in", values, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminANotIn(List<Double> values) {
-            addCriterion("vitamin_A not in", values, "vitaminA");
+            addCriterion("vitamin_a not in", values, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminABetween(Double value1, Double value2) {
-            addCriterion("vitamin_A between", value1, value2, "vitaminA");
+            addCriterion("vitamin_a between", value1, value2, "vitaminA");
             return (Criteria) this;
         }
 
         public Criteria andVitaminANotBetween(Double value1, Double value2) {
-            addCriterion("vitamin_A not between", value1, value2, "vitaminA");
+            addCriterion("vitamin_a not between", value1, value2, "vitaminA");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneIsNull() {
-            addCriterion("carotene is null");
+        public Criteria andVitaminB1IsNull() {
+            addCriterion("vitamin_b1 is null");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneIsNotNull() {
-            addCriterion("carotene is not null");
+        public Criteria andVitaminB1IsNotNull() {
+            addCriterion("vitamin_b1 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneEqualTo(Double value) {
-            addCriterion("carotene =", value, "carotene");
+        public Criteria andVitaminB1EqualTo(Double value) {
+            addCriterion("vitamin_b1 =", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneNotEqualTo(Double value) {
-            addCriterion("carotene <>", value, "carotene");
+        public Criteria andVitaminB1NotEqualTo(Double value) {
+            addCriterion("vitamin_b1 <>", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneGreaterThan(Double value) {
-            addCriterion("carotene >", value, "carotene");
+        public Criteria andVitaminB1GreaterThan(Double value) {
+            addCriterion("vitamin_b1 >", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneGreaterThanOrEqualTo(Double value) {
-            addCriterion("carotene >=", value, "carotene");
+        public Criteria andVitaminB1GreaterThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b1 >=", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneLessThan(Double value) {
-            addCriterion("carotene <", value, "carotene");
+        public Criteria andVitaminB1LessThan(Double value) {
+            addCriterion("vitamin_b1 <", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneLessThanOrEqualTo(Double value) {
-            addCriterion("carotene <=", value, "carotene");
+        public Criteria andVitaminB1LessThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b1 <=", value, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneIn(List<Double> values) {
-            addCriterion("carotene in", values, "carotene");
+        public Criteria andVitaminB1In(List<Double> values) {
+            addCriterion("vitamin_b1 in", values, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneNotIn(List<Double> values) {
-            addCriterion("carotene not in", values, "carotene");
+        public Criteria andVitaminB1NotIn(List<Double> values) {
+            addCriterion("vitamin_b1 not in", values, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneBetween(Double value1, Double value2) {
-            addCriterion("carotene between", value1, value2, "carotene");
+        public Criteria andVitaminB1Between(Double value1, Double value2) {
+            addCriterion("vitamin_b1 between", value1, value2, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andCaroteneNotBetween(Double value1, Double value2) {
-            addCriterion("carotene not between", value1, value2, "carotene");
+        public Criteria andVitaminB1NotBetween(Double value1, Double value2) {
+            addCriterion("vitamin_b1 not between", value1, value2, "vitaminB1");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolIsNull() {
-            addCriterion("retinol is null");
+        public Criteria andVitaminB2IsNull() {
+            addCriterion("vitamin_b2 is null");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolIsNotNull() {
-            addCriterion("retinol is not null");
+        public Criteria andVitaminB2IsNotNull() {
+            addCriterion("vitamin_b2 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolEqualTo(Double value) {
-            addCriterion("retinol =", value, "retinol");
+        public Criteria andVitaminB2EqualTo(Double value) {
+            addCriterion("vitamin_b2 =", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolNotEqualTo(Double value) {
-            addCriterion("retinol <>", value, "retinol");
+        public Criteria andVitaminB2NotEqualTo(Double value) {
+            addCriterion("vitamin_b2 <>", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolGreaterThan(Double value) {
-            addCriterion("retinol >", value, "retinol");
+        public Criteria andVitaminB2GreaterThan(Double value) {
+            addCriterion("vitamin_b2 >", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolGreaterThanOrEqualTo(Double value) {
-            addCriterion("retinol >=", value, "retinol");
+        public Criteria andVitaminB2GreaterThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b2 >=", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolLessThan(Double value) {
-            addCriterion("retinol <", value, "retinol");
+        public Criteria andVitaminB2LessThan(Double value) {
+            addCriterion("vitamin_b2 <", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolLessThanOrEqualTo(Double value) {
-            addCriterion("retinol <=", value, "retinol");
+        public Criteria andVitaminB2LessThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b2 <=", value, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolIn(List<Double> values) {
-            addCriterion("retinol in", values, "retinol");
+        public Criteria andVitaminB2In(List<Double> values) {
+            addCriterion("vitamin_b2 in", values, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolNotIn(List<Double> values) {
-            addCriterion("retinol not in", values, "retinol");
+        public Criteria andVitaminB2NotIn(List<Double> values) {
+            addCriterion("vitamin_b2 not in", values, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolBetween(Double value1, Double value2) {
-            addCriterion("retinol between", value1, value2, "retinol");
+        public Criteria andVitaminB2Between(Double value1, Double value2) {
+            addCriterion("vitamin_b2 between", value1, value2, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andRetinolNotBetween(Double value1, Double value2) {
-            addCriterion("retinol not between", value1, value2, "retinol");
+        public Criteria andVitaminB2NotBetween(Double value1, Double value2) {
+            addCriterion("vitamin_b2 not between", value1, value2, "vitaminB2");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminIsNull() {
-            addCriterion("thiamin is null");
+        public Criteria andVitaminB3IsNull() {
+            addCriterion("vitamin_b3 is null");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminIsNotNull() {
-            addCriterion("thiamin is not null");
+        public Criteria andVitaminB3IsNotNull() {
+            addCriterion("vitamin_b3 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminEqualTo(Double value) {
-            addCriterion("thiamin =", value, "thiamin");
+        public Criteria andVitaminB3EqualTo(Double value) {
+            addCriterion("vitamin_b3 =", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminNotEqualTo(Double value) {
-            addCriterion("thiamin <>", value, "thiamin");
+        public Criteria andVitaminB3NotEqualTo(Double value) {
+            addCriterion("vitamin_b3 <>", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminGreaterThan(Double value) {
-            addCriterion("thiamin >", value, "thiamin");
+        public Criteria andVitaminB3GreaterThan(Double value) {
+            addCriterion("vitamin_b3 >", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminGreaterThanOrEqualTo(Double value) {
-            addCriterion("thiamin >=", value, "thiamin");
+        public Criteria andVitaminB3GreaterThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b3 >=", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminLessThan(Double value) {
-            addCriterion("thiamin <", value, "thiamin");
+        public Criteria andVitaminB3LessThan(Double value) {
+            addCriterion("vitamin_b3 <", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminLessThanOrEqualTo(Double value) {
-            addCriterion("thiamin <=", value, "thiamin");
+        public Criteria andVitaminB3LessThanOrEqualTo(Double value) {
+            addCriterion("vitamin_b3 <=", value, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminIn(List<Double> values) {
-            addCriterion("thiamin in", values, "thiamin");
+        public Criteria andVitaminB3In(List<Double> values) {
+            addCriterion("vitamin_b3 in", values, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminNotIn(List<Double> values) {
-            addCriterion("thiamin not in", values, "thiamin");
+        public Criteria andVitaminB3NotIn(List<Double> values) {
+            addCriterion("vitamin_b3 not in", values, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminBetween(Double value1, Double value2) {
-            addCriterion("thiamin between", value1, value2, "thiamin");
+        public Criteria andVitaminB3Between(Double value1, Double value2) {
+            addCriterion("vitamin_b3 between", value1, value2, "vitaminB3");
             return (Criteria) this;
         }
 
-        public Criteria andThiaminNotBetween(Double value1, Double value2) {
-            addCriterion("thiamin not between", value1, value2, "thiamin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinIsNull() {
-            addCriterion("riboflavin is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinIsNotNull() {
-            addCriterion("riboflavin is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinEqualTo(Double value) {
-            addCriterion("riboflavin =", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinNotEqualTo(Double value) {
-            addCriterion("riboflavin <>", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinGreaterThan(Double value) {
-            addCriterion("riboflavin >", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinGreaterThanOrEqualTo(Double value) {
-            addCriterion("riboflavin >=", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinLessThan(Double value) {
-            addCriterion("riboflavin <", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinLessThanOrEqualTo(Double value) {
-            addCriterion("riboflavin <=", value, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinIn(List<Double> values) {
-            addCriterion("riboflavin in", values, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinNotIn(List<Double> values) {
-            addCriterion("riboflavin not in", values, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinBetween(Double value1, Double value2) {
-            addCriterion("riboflavin between", value1, value2, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andRiboflavinNotBetween(Double value1, Double value2) {
-            addCriterion("riboflavin not between", value1, value2, "riboflavin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinIsNull() {
-            addCriterion("niacin is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinIsNotNull() {
-            addCriterion("niacin is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinEqualTo(Double value) {
-            addCriterion("niacin =", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinNotEqualTo(Double value) {
-            addCriterion("niacin <>", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinGreaterThan(Double value) {
-            addCriterion("niacin >", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinGreaterThanOrEqualTo(Double value) {
-            addCriterion("niacin >=", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinLessThan(Double value) {
-            addCriterion("niacin <", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinLessThanOrEqualTo(Double value) {
-            addCriterion("niacin <=", value, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinIn(List<Double> values) {
-            addCriterion("niacin in", values, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinNotIn(List<Double> values) {
-            addCriterion("niacin not in", values, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinBetween(Double value1, Double value2) {
-            addCriterion("niacin between", value1, value2, "niacin");
-            return (Criteria) this;
-        }
-
-        public Criteria andNiacinNotBetween(Double value1, Double value2) {
-            addCriterion("niacin not between", value1, value2, "niacin");
+        public Criteria andVitaminB3NotBetween(Double value1, Double value2) {
+            addCriterion("vitamin_b3 not between", value1, value2, "vitaminB3");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCIsNull() {
-            addCriterion("vitamin_C is null");
+            addCriterion("vitamin_c is null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCIsNotNull() {
-            addCriterion("vitamin_C is not null");
+            addCriterion("vitamin_c is not null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCEqualTo(Double value) {
-            addCriterion("vitamin_C =", value, "vitaminC");
+            addCriterion("vitamin_c =", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCNotEqualTo(Double value) {
-            addCriterion("vitamin_C <>", value, "vitaminC");
+            addCriterion("vitamin_c <>", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCGreaterThan(Double value) {
-            addCriterion("vitamin_C >", value, "vitaminC");
+            addCriterion("vitamin_c >", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCGreaterThanOrEqualTo(Double value) {
-            addCriterion("vitamin_C >=", value, "vitaminC");
+            addCriterion("vitamin_c >=", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCLessThan(Double value) {
-            addCriterion("vitamin_C <", value, "vitaminC");
+            addCriterion("vitamin_c <", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCLessThanOrEqualTo(Double value) {
-            addCriterion("vitamin_C <=", value, "vitaminC");
+            addCriterion("vitamin_c <=", value, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCIn(List<Double> values) {
-            addCriterion("vitamin_C in", values, "vitaminC");
+            addCriterion("vitamin_c in", values, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCNotIn(List<Double> values) {
-            addCriterion("vitamin_C not in", values, "vitaminC");
+            addCriterion("vitamin_c not in", values, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCBetween(Double value1, Double value2) {
-            addCriterion("vitamin_C between", value1, value2, "vitaminC");
+            addCriterion("vitamin_c between", value1, value2, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminCNotBetween(Double value1, Double value2) {
-            addCriterion("vitamin_C not between", value1, value2, "vitaminC");
+            addCriterion("vitamin_c not between", value1, value2, "vitaminC");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEIsNull() {
-            addCriterion("vitamin_E is null");
+            addCriterion("vitamin_e is null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEIsNotNull() {
-            addCriterion("vitamin_E is not null");
+            addCriterion("vitamin_e is not null");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEEqualTo(Double value) {
-            addCriterion("vitamin_E =", value, "vitaminE");
+            addCriterion("vitamin_e =", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminENotEqualTo(Double value) {
-            addCriterion("vitamin_E <>", value, "vitaminE");
+            addCriterion("vitamin_e <>", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEGreaterThan(Double value) {
-            addCriterion("vitamin_E >", value, "vitaminE");
+            addCriterion("vitamin_e >", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEGreaterThanOrEqualTo(Double value) {
-            addCriterion("vitamin_E >=", value, "vitaminE");
+            addCriterion("vitamin_e >=", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminELessThan(Double value) {
-            addCriterion("vitamin_E <", value, "vitaminE");
+            addCriterion("vitamin_e <", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminELessThanOrEqualTo(Double value) {
-            addCriterion("vitamin_E <=", value, "vitaminE");
+            addCriterion("vitamin_e <=", value, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEIn(List<Double> values) {
-            addCriterion("vitamin_E in", values, "vitaminE");
+            addCriterion("vitamin_e in", values, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminENotIn(List<Double> values) {
-            addCriterion("vitamin_E not in", values, "vitaminE");
+            addCriterion("vitamin_e not in", values, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminEBetween(Double value1, Double value2) {
-            addCriterion("vitamin_E between", value1, value2, "vitaminE");
+            addCriterion("vitamin_e between", value1, value2, "vitaminE");
             return (Criteria) this;
         }
 
         public Criteria andVitaminENotBetween(Double value1, Double value2) {
-            addCriterion("vitamin_E not between", value1, value2, "vitaminE");
+            addCriterion("vitamin_e not between", value1, value2, "vitaminE");
             return (Criteria) this;
         }
 
@@ -1582,6 +1282,126 @@ public class TbElementBasicExample {
 
         public Criteria andCaNotBetween(Double value1, Double value2) {
             addCriterion("ca not between", value1, value2, "ca");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnIsNull() {
+            addCriterion("zn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnIsNotNull() {
+            addCriterion("zn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnEqualTo(Double value) {
+            addCriterion("zn =", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnNotEqualTo(Double value) {
+            addCriterion("zn <>", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnGreaterThan(Double value) {
+            addCriterion("zn >", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnGreaterThanOrEqualTo(Double value) {
+            addCriterion("zn >=", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnLessThan(Double value) {
+            addCriterion("zn <", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnLessThanOrEqualTo(Double value) {
+            addCriterion("zn <=", value, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnIn(List<Double> values) {
+            addCriterion("zn in", values, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnNotIn(List<Double> values) {
+            addCriterion("zn not in", values, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnBetween(Double value1, Double value2) {
+            addCriterion("zn between", value1, value2, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andZnNotBetween(Double value1, Double value2) {
+            addCriterion("zn not between", value1, value2, "zn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnIsNull() {
+            addCriterion("mn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnIsNotNull() {
+            addCriterion("mn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnEqualTo(Double value) {
+            addCriterion("mn =", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnNotEqualTo(Double value) {
+            addCriterion("mn <>", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnGreaterThan(Double value) {
+            addCriterion("mn >", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnGreaterThanOrEqualTo(Double value) {
+            addCriterion("mn >=", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnLessThan(Double value) {
+            addCriterion("mn <", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnLessThanOrEqualTo(Double value) {
+            addCriterion("mn <=", value, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnIn(List<Double> values) {
+            addCriterion("mn in", values, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnNotIn(List<Double> values) {
+            addCriterion("mn not in", values, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnBetween(Double value1, Double value2) {
+            addCriterion("mn between", value1, value2, "mn");
+            return (Criteria) this;
+        }
+
+        public Criteria andMnNotBetween(Double value1, Double value2) {
+            addCriterion("mn not between", value1, value2, "mn");
             return (Criteria) this;
         }
 
@@ -1885,63 +1705,63 @@ public class TbElementBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andZnIsNull() {
-            addCriterion("zn is null");
+        public Criteria andCuIsNull() {
+            addCriterion("cu is null");
             return (Criteria) this;
         }
 
-        public Criteria andZnIsNotNull() {
-            addCriterion("zn is not null");
+        public Criteria andCuIsNotNull() {
+            addCriterion("cu is not null");
             return (Criteria) this;
         }
 
-        public Criteria andZnEqualTo(Double value) {
-            addCriterion("zn =", value, "zn");
+        public Criteria andCuEqualTo(Double value) {
+            addCriterion("cu =", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnNotEqualTo(Double value) {
-            addCriterion("zn <>", value, "zn");
+        public Criteria andCuNotEqualTo(Double value) {
+            addCriterion("cu <>", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnGreaterThan(Double value) {
-            addCriterion("zn >", value, "zn");
+        public Criteria andCuGreaterThan(Double value) {
+            addCriterion("cu >", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnGreaterThanOrEqualTo(Double value) {
-            addCriterion("zn >=", value, "zn");
+        public Criteria andCuGreaterThanOrEqualTo(Double value) {
+            addCriterion("cu >=", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnLessThan(Double value) {
-            addCriterion("zn <", value, "zn");
+        public Criteria andCuLessThan(Double value) {
+            addCriterion("cu <", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnLessThanOrEqualTo(Double value) {
-            addCriterion("zn <=", value, "zn");
+        public Criteria andCuLessThanOrEqualTo(Double value) {
+            addCriterion("cu <=", value, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnIn(List<Double> values) {
-            addCriterion("zn in", values, "zn");
+        public Criteria andCuIn(List<Double> values) {
+            addCriterion("cu in", values, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnNotIn(List<Double> values) {
-            addCriterion("zn not in", values, "zn");
+        public Criteria andCuNotIn(List<Double> values) {
+            addCriterion("cu not in", values, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnBetween(Double value1, Double value2) {
-            addCriterion("zn between", value1, value2, "zn");
+        public Criteria andCuBetween(Double value1, Double value2) {
+            addCriterion("cu between", value1, value2, "cu");
             return (Criteria) this;
         }
 
-        public Criteria andZnNotBetween(Double value1, Double value2) {
-            addCriterion("zn not between", value1, value2, "zn");
+        public Criteria andCuNotBetween(Double value1, Double value2) {
+            addCriterion("cu not between", value1, value2, "cu");
             return (Criteria) this;
         }
 
@@ -2005,123 +1825,243 @@ public class TbElementBasicExample {
             return (Criteria) this;
         }
 
-        public Criteria andCuIsNull() {
-            addCriterion("cu is null");
+        public Criteria andSolubleFiberIsNull() {
+            addCriterion("soluble_fiber is null");
             return (Criteria) this;
         }
 
-        public Criteria andCuIsNotNull() {
-            addCriterion("cu is not null");
+        public Criteria andSolubleFiberIsNotNull() {
+            addCriterion("soluble_fiber is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCuEqualTo(Double value) {
-            addCriterion("cu =", value, "cu");
+        public Criteria andSolubleFiberEqualTo(Double value) {
+            addCriterion("soluble_fiber =", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuNotEqualTo(Double value) {
-            addCriterion("cu <>", value, "cu");
+        public Criteria andSolubleFiberNotEqualTo(Double value) {
+            addCriterion("soluble_fiber <>", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuGreaterThan(Double value) {
-            addCriterion("cu >", value, "cu");
+        public Criteria andSolubleFiberGreaterThan(Double value) {
+            addCriterion("soluble_fiber >", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuGreaterThanOrEqualTo(Double value) {
-            addCriterion("cu >=", value, "cu");
+        public Criteria andSolubleFiberGreaterThanOrEqualTo(Double value) {
+            addCriterion("soluble_fiber >=", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuLessThan(Double value) {
-            addCriterion("cu <", value, "cu");
+        public Criteria andSolubleFiberLessThan(Double value) {
+            addCriterion("soluble_fiber <", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuLessThanOrEqualTo(Double value) {
-            addCriterion("cu <=", value, "cu");
+        public Criteria andSolubleFiberLessThanOrEqualTo(Double value) {
+            addCriterion("soluble_fiber <=", value, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuIn(List<Double> values) {
-            addCriterion("cu in", values, "cu");
+        public Criteria andSolubleFiberIn(List<Double> values) {
+            addCriterion("soluble_fiber in", values, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuNotIn(List<Double> values) {
-            addCriterion("cu not in", values, "cu");
+        public Criteria andSolubleFiberNotIn(List<Double> values) {
+            addCriterion("soluble_fiber not in", values, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuBetween(Double value1, Double value2) {
-            addCriterion("cu between", value1, value2, "cu");
+        public Criteria andSolubleFiberBetween(Double value1, Double value2) {
+            addCriterion("soluble_fiber between", value1, value2, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andCuNotBetween(Double value1, Double value2) {
-            addCriterion("cu not between", value1, value2, "cu");
+        public Criteria andSolubleFiberNotBetween(Double value1, Double value2) {
+            addCriterion("soluble_fiber not between", value1, value2, "solubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnIsNull() {
-            addCriterion("mn is null");
+        public Criteria andInsolubleFiberIsNull() {
+            addCriterion("insoluble_fiber is null");
             return (Criteria) this;
         }
 
-        public Criteria andMnIsNotNull() {
-            addCriterion("mn is not null");
+        public Criteria andInsolubleFiberIsNotNull() {
+            addCriterion("insoluble_fiber is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMnEqualTo(Double value) {
-            addCriterion("mn =", value, "mn");
+        public Criteria andInsolubleFiberEqualTo(Double value) {
+            addCriterion("insoluble_fiber =", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnNotEqualTo(Double value) {
-            addCriterion("mn <>", value, "mn");
+        public Criteria andInsolubleFiberNotEqualTo(Double value) {
+            addCriterion("insoluble_fiber <>", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnGreaterThan(Double value) {
-            addCriterion("mn >", value, "mn");
+        public Criteria andInsolubleFiberGreaterThan(Double value) {
+            addCriterion("insoluble_fiber >", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnGreaterThanOrEqualTo(Double value) {
-            addCriterion("mn >=", value, "mn");
+        public Criteria andInsolubleFiberGreaterThanOrEqualTo(Double value) {
+            addCriterion("insoluble_fiber >=", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnLessThan(Double value) {
-            addCriterion("mn <", value, "mn");
+        public Criteria andInsolubleFiberLessThan(Double value) {
+            addCriterion("insoluble_fiber <", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnLessThanOrEqualTo(Double value) {
-            addCriterion("mn <=", value, "mn");
+        public Criteria andInsolubleFiberLessThanOrEqualTo(Double value) {
+            addCriterion("insoluble_fiber <=", value, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnIn(List<Double> values) {
-            addCriterion("mn in", values, "mn");
+        public Criteria andInsolubleFiberIn(List<Double> values) {
+            addCriterion("insoluble_fiber in", values, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnNotIn(List<Double> values) {
-            addCriterion("mn not in", values, "mn");
+        public Criteria andInsolubleFiberNotIn(List<Double> values) {
+            addCriterion("insoluble_fiber not in", values, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnBetween(Double value1, Double value2) {
-            addCriterion("mn between", value1, value2, "mn");
+        public Criteria andInsolubleFiberBetween(Double value1, Double value2) {
+            addCriterion("insoluble_fiber between", value1, value2, "insolubleFiber");
             return (Criteria) this;
         }
 
-        public Criteria andMnNotBetween(Double value1, Double value2) {
-            addCriterion("mn not between", value1, value2, "mn");
+        public Criteria andInsolubleFiberNotBetween(Double value1, Double value2) {
+            addCriterion("insoluble_fiber not between", value1, value2, "insolubleFiber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolIsNull() {
+            addCriterion("cholesterol is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolIsNotNull() {
+            addCriterion("cholesterol is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolEqualTo(Double value) {
+            addCriterion("cholesterol =", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolNotEqualTo(Double value) {
+            addCriterion("cholesterol <>", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolGreaterThan(Double value) {
+            addCriterion("cholesterol >", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolGreaterThanOrEqualTo(Double value) {
+            addCriterion("cholesterol >=", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolLessThan(Double value) {
+            addCriterion("cholesterol <", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolLessThanOrEqualTo(Double value) {
+            addCriterion("cholesterol <=", value, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolIn(List<Double> values) {
+            addCriterion("cholesterol in", values, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolNotIn(List<Double> values) {
+            addCriterion("cholesterol not in", values, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolBetween(Double value1, Double value2) {
+            addCriterion("cholesterol between", value1, value2, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andCholesterolNotBetween(Double value1, Double value2) {
+            addCriterion("cholesterol not between", value1, value2, "cholesterol");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshIsNull() {
+            addCriterion("ash is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshIsNotNull() {
+            addCriterion("ash is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshEqualTo(Double value) {
+            addCriterion("ash =", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshNotEqualTo(Double value) {
+            addCriterion("ash <>", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshGreaterThan(Double value) {
+            addCriterion("ash >", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshGreaterThanOrEqualTo(Double value) {
+            addCriterion("ash >=", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshLessThan(Double value) {
+            addCriterion("ash <", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshLessThanOrEqualTo(Double value) {
+            addCriterion("ash <=", value, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshIn(List<Double> values) {
+            addCriterion("ash in", values, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshNotIn(List<Double> values) {
+            addCriterion("ash not in", values, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshBetween(Double value1, Double value2) {
+            addCriterion("ash between", value1, value2, "ash");
+            return (Criteria) this;
+        }
+
+        public Criteria andAshNotBetween(Double value1, Double value2) {
+            addCriterion("ash not between", value1, value2, "ash");
             return (Criteria) this;
         }
 

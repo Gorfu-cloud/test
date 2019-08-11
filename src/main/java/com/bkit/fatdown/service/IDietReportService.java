@@ -34,10 +34,9 @@ public interface IDietReportService {
      *
      * @param date 报告日期
      * @param uid  用户编号
-     * @param type 报告类型：4每天
      * @return 每天饮食报告
      */
-    DietDailyReport generateDailyReport(Date date, Integer uid, Integer type);
+    DietDailyReport generateDailyReport(Date date, Integer uid);
 
     /**
      * 生成每周饮食评价

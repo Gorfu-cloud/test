@@ -88,13 +88,6 @@ public interface IDietFoodService {
      */
     List<TbFoodRecord> listFoodBasic(int uid, Date date, Integer type);
 
-    /**
-     * 拆解菜式
-     *
-     * @param foodIdList
-     * @return
-     */
-    TbDietRecord getDietRecordTotalByRecordList(List<Integer> foodIdList);
 
     /**
      * 通过foodId 获取菜式组成成分，元素总量
@@ -102,7 +95,7 @@ public interface IDietFoodService {
      * @param foodId
      * @return
      */
-    TbDietRecord getDietRecord(int foodId);
+    TbDietRecord generateDietRecord(int foodId);
 
     /**
      * 返回指定菜式搭配总量

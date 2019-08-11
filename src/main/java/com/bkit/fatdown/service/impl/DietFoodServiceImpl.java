@@ -81,6 +81,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     private static final int GOOD_PROTEIN = 1;
     private static final int ANIMAL_FAT = 1;
+    private static final int FOOD_DEFAULT_TYPE = 0;
 
     /**
      * 保存饮食记录
@@ -156,7 +157,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     /**
      * 通过用户编号获取饮食标准
      *
-     * @param uid
+     * @param uid 用户编号
      * @return
      */
     @Override
@@ -164,16 +165,6 @@ public class DietFoodServiceImpl implements IDietFoodService {
         return dietStandardMapper.selectByPrimaryKey(uid);
     }
 
-    /**
-     * 拆解菜式
-     *
-     * @param recordIdList
-     * @return
-     */
-    @Override
-    public TbDietRecord getDietRecordTotalByRecordList(List<Integer> recordIdList) {
-        return getDietRecordTotalByFoodList(recordIdList);
-    }
 
     /**
      * 返回指定菜式搭配总量
@@ -194,11 +185,11 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         // 记录为1时，直接返回
         if (foodIdList.size() == 1) {
-            return getDietRecord(foodIdList.get(0));
+            return generateDietRecord(foodIdList.get(0));
         }
 
         for (int id : foodIdList) {
-            TbDietRecord temp = getDietRecord(id);
+            TbDietRecord temp = generateDietRecord(id);
             target = mergeDietRecord(target, temp);
         }
 
@@ -276,23 +267,22 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public TbDietRecord getDietRecord(int foodId) {
+    public TbDietRecord generateDietRecord(int foodId) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维 , 动物性脂肪， 优质蛋白质
-        double energy = 0, fat = 0, protein = 0, cho = 0, fiber = 0, animalFat = 0, goodProtein = 0;
+        double energy = 0, fat = 0, protein = 0, carbs = 0, fiber = 0, animalFat = 0, goodProtein = 0;
+        double vitaminA = 0, vitaminB1 = 0, vitaminB2 = 0, vitaminB3 = 0, vitaminC = 0, vitaminE = 0;
+        double ca = 0, p = 0, k = 0, mg = 0, fe = 0, zn = 0, se = 0, cu = 0, na = 0, mn = 0;
         // 菜式拥有的营养结构种类
         Set<Integer> structType = new TreeSet<>();
-
-        // 周评价：食物种类均衡
+        // 周/月评价：食物种类均衡
         Set<Integer> proteinSet = new TreeSet<>();
         Set<Integer> stapleFoodSet = new TreeSet<>();
         Set<Integer> fruitVegetableSet = new TreeSet<>();
         Set<Integer> beansSet = new TreeSet<>();
         Set<Integer> nutsSet = new TreeSet<>();
-
         // 菜式信息
         TbFoodBasic foodBasic = foodBasicService.getFoodBasic(foodId);
         int flag = foodBasic.getFlag();
-
 
         // 存该菜式记录时,计算菜式组成成分，元素总量
         if (flag == EXIST_FOOD) {
@@ -306,29 +296,46 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 double gram = entry.getValue();
                 // 计算根据每一百克，计算对应的元素含量
                 TbElementBasic elementBasic = elementBasicService.getElementBasic(basicId);
+                double elementPer = gram / FOOD_GRAM_BASE;
 
                 // 能量摄入
-                energy += (gram / FOOD_GRAM_BASE) * elementBasic.getEnergy();
-
+                energy += (elementPer) * elementBasic.getEnergy();
                 // 营养素
-                protein += (gram / FOOD_GRAM_BASE) * elementBasic.getProtein();
-                cho += (gram / FOOD_GRAM_BASE) * elementBasic.getCho();
-                fiber += (gram / FOOD_GRAM_BASE) * elementBasic.getFiber();
-                fat += (gram / FOOD_GRAM_BASE) * elementBasic.getFat();
+                protein += elementPer * elementBasic.getProtein();
+                carbs += elementPer * elementBasic.getCarbs();
+                fiber += elementPer * (elementBasic.getSolubleFiber() + elementBasic.getInsolubleFiber());
+                fat += elementPer * elementBasic.getFat();
+                // 维生素
+                vitaminA += elementPer * elementBasic.getVitaminA();
+                vitaminB1 += elementPer * elementBasic.getVitaminB1();
+                vitaminB2 += elementPer * elementBasic.getVitaminB2();
+                vitaminB3 += elementPer * elementBasic.getVitaminB3();
+                vitaminC += elementPer * elementBasic.getVitaminC();
+                vitaminE += elementPer * elementBasic.getVitaminE();
+                // 矿物质
+                ca += elementPer * elementBasic.getCa();
+                p += elementPer * elementBasic.getP();
+                k += elementPer * elementBasic.getK();
+                mg += elementPer * elementBasic.getMg();
+                fe += elementPer * elementBasic.getFe();
+                zn += elementPer * elementBasic.getZn();
+                se += elementPer * elementBasic.getSe();
+                cu += elementPer * elementBasic.getCu();
+                mn += elementPer * elementBasic.getMn();
+                na += elementPer * elementBasic.getNa();
 
                 // 统计优质蛋白
                 if (elementBasic.getGoodProtein() == GOOD_PROTEIN) {
-                    goodProtein += elementBasic.getProtein();
+                    goodProtein += elementBasic.getProtein() * elementPer;
                 }
-
                 // 统计动物性脂肪
                 if (elementBasic.getAnimalFat() == ANIMAL_FAT) {
-                    animalFat += elementBasic.getFat();
+                    animalFat += elementBasic.getFat() * elementPer;
                 }
-
                 // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
-                structType.add(elementBasic.getType());
-
+                if (elementBasic.getType() != FOOD_DEFAULT_TYPE) {
+                    structType.add(elementBasic.getType());
+                }
                 // 统计每次食物种类
                 switch (elementBasic.getType()) {
                     case PROTEIN:
@@ -351,22 +358,49 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 }
             }
         }
-
-        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType,
+        TbDietRecord record = new TbDietRecord();
+        // 设置每天评价需要数据
+        setDaily(record, energy, fat, protein, carbs, fiber, goodProtein, animalFat, structType,
                 proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
+        // 设置维生素数据
+        setVitamin(record, vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
+        // 设置矿物质数据
+        setMinerals(record, ca, p, k, mg, fe, zn, se, cu, na, mn);
+        return record;
     }
 
-    private TbDietRecord setDietRecord(double energy, double fat, double protein, double cho, double fiber,
-                                       double goodProtein,
-                                       double animalFat, Set<Integer> structType, Set<Integer> proteinSet, Set<Integer> stapleFoodSet,
-                                       Set<Integer> fruitVegetableSet, Set<Integer> beansSet, Set<Integer> nutsSet) {
-        TbDietRecord record = new TbDietRecord();
+    private void setMinerals(TbDietRecord record, double ca, double p, double k, double mg, double fe, double zn, double se,
+                             double cu, double na, double mn) {
+        record.setCa(ca);
+        record.setP(p);
+        record.setK(k);
+        record.setMg(mg);
+        record.setFe(fe);
+        record.setZn(zn);
+        record.setSe(se);
+        record.setCu(cu);
+        record.setNa(na);
+        record.setMn(mn);
+    }
+
+    private void setVitamin(TbDietRecord record, double va, double vb1, double vb2, double vb3, double vc, double ve) {
+        record.setVitaminA(va);
+        record.setVitaminB1(vb1);
+        record.setVitaminB2(vb2);
+        record.setVitaminB3(vb3);
+        record.setVitaminC(vc);
+        record.setVitaminE(ve);
+    }
+
+    private void setDaily(TbDietRecord record, double energy, double fat, double protein, double carbs, double fiber, double goodProtein,
+                          double animalFat, Set<Integer> structType, Set<Integer> proteinSet, Set<Integer> stapleFoodSet,
+                          Set<Integer> fruitVegetableSet, Set<Integer> beansSet, Set<Integer> nutsSet) {
         record.setEnergy(energy);
 
         record.setFat(fat);
-        record.setCho(cho);
+        record.setCarbs(carbs);
         record.setProtein(protein);
-        record.setFiber(fiber);
+        record.setInsolubleFiber(fiber);
 
         // 动物性脂肪，优质蛋白
         record.setAnimalFat(animalFat);
@@ -381,8 +415,6 @@ public class DietFoodServiceImpl implements IDietFoodService {
         record.setFruitVegetableSet(fruitVegetableSet.toString());
         record.setBeansSet(beansSet.toString());
         record.setNutsSet(nutsSet.toString());
-
-        return record;
     }
 
     /**
@@ -434,8 +466,13 @@ public class DietFoodServiceImpl implements IDietFoodService {
     public TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维
         double energy = target.getEnergy(), fat = target.getFat(), goodProtein = target.getGoodProtein(),
-                protein = target.getProtein(), cho = target.getCho(), fiber = target.getFiber(),
+                protein = target.getProtein(), carbs = target.getCarbs(), fiber = target.getInsolubleFiber(),
                 animalFat = target.getAnimalFat();
+        double vitaminA = target.getVitaminA(), vitaminB1 = target.getVitaminB1(), vitaminB2 = target.getVitaminB2(),
+                vitaminB3 = target.getVitaminB3(), vitaminC = target.getVitaminC(), vitaminE = target.getVitaminE();
+        double ca = target.getCa(), p = target.getP(), k = target.getK(), mg = target.getMg(), fe = target.getFe(),
+                zn = target.getZn(), se = target.getSe(), cu = target.getCu(), na = target.getNa(), mn = target.getMn();
+
         // 菜式拥有的营养种类
         Set<Integer> structType = DataTransferUtils.str2Set(target.getStructureSet());
 
@@ -452,12 +489,30 @@ public class DietFoodServiceImpl implements IDietFoodService {
         // 营养素
         fat += temp.getFat();
         protein += temp.getProtein();
-        cho += temp.getCho();
-        fiber += temp.getFiber();
+        carbs += temp.getCarbs();
+        fiber += temp.getInsolubleFiber();
 
         // 优质蛋白，动物性脂肪
         goodProtein += temp.getGoodProtein();
         animalFat += temp.getAnimalFat();
+        // 维生素
+        vitaminA += temp.getVitaminA();
+        vitaminB1 += temp.getVitaminB1();
+        vitaminB2 += temp.getVitaminB2();
+        vitaminB3 += temp.getVitaminB3();
+        vitaminC += temp.getVitaminC();
+        vitaminE += temp.getVitaminE();
+        // 矿物质
+        ca += temp.getCa();
+        p += temp.getP();
+        k += temp.getK();
+        mg += temp.getMg();
+        fe += temp.getFe();
+        zn += temp.getZn();
+        se += temp.getSe();
+        cu += temp.getCu();
+        mn += temp.getMn();
+        na += temp.getNa();
 
         structType.addAll(DataTransferUtils.str2Set(temp.getStructureSet()));
         proteinSet.addAll(DataTransferUtils.str2Set(temp.getProteinSet()));
@@ -466,8 +521,15 @@ public class DietFoodServiceImpl implements IDietFoodService {
         beansSet.addAll(DataTransferUtils.str2Set(temp.getBeansSet()));
         nutsSet.addAll(DataTransferUtils.str2Set(temp.getNutsSet()));
 
-        return setDietRecord(energy, fat, protein, cho, fiber, goodProtein, animalFat, structType, proteinSet, stapleFoodSet,
-                fruitVegetableSet, beansSet, nutsSet);
+        TbDietRecord record = new TbDietRecord();
+        // 设置每天评价需要数据
+        setDaily(record, energy, fat, protein, carbs, fiber, goodProtein, animalFat, structType,
+                proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
+        // 设置维生素数据
+        setVitamin(record, vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
+        // 设置矿物质数据
+        setMinerals(record, ca, p, k, mg, fe, zn, se, cu, na, mn);
+        return record;
     }
 
     /**
@@ -480,9 +542,10 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         // 营养素含量
         record.setFat(0.0);
-        record.setCho(0.0);
+        record.setCarbs(0.0);
         record.setProtein(0.0);
-        record.setFiber(0.0);
+        record.setInsolubleFiber(0.0);
+        record.setSolubleFiber(0.0);
 
         // 饮食结构种类
         record.setStructureSet("");
@@ -496,5 +559,23 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         record.setGoodProtein(0.0);
         record.setAnimalFat(0.0);
+
+        record.setCa(0.0);
+        record.setP(0.0);
+        record.setK(0.0);
+        record.setMg(0.0);
+        record.setFe(0.0);
+        record.setZn(0.0);
+        record.setSe(0.0);
+        record.setCu(0.0);
+        record.setNa(0.0);
+        record.setMn(0.0);
+
+        record.setVitaminA(0.0);
+        record.setVitaminB1(0.0);
+        record.setVitaminB2(0.0);
+        record.setVitaminB3(0.0);
+        record.setVitaminC(0.0);
+        record.setVitaminE(0.0);
     }
 }

@@ -40,9 +40,8 @@ public class LearnController {
 
     @ApiOperation("创建学习记录")
     @CrossOrigin
-    @RequestMapping(value = "/addRecord", method = RequestMethod.POST)
-    public CommonResultDTO insertLearnRecord(@RequestParam(value = "uid") Integer uid,
-                                             @RequestParam(value = "learnId") Integer learnId) {
+    @RequestMapping(value = "/Record", method = RequestMethod.POST)
+    public CommonResultDTO insertLearnRecord(@RequestParam Integer uid, @RequestParam Integer learnId) {
 
         Date today = new Date();
 
@@ -67,7 +66,7 @@ public class LearnController {
 
     @ApiOperation("获取开启的学习内容")
     @CrossOrigin
-    @RequestMapping(value = "/listLearnInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/LearnInfo", method = RequestMethod.GET)
     public CommonResultDTO listLearnInfo() {
         Date today = new Date();
 
@@ -89,21 +88,21 @@ public class LearnController {
 
     @ApiOperation("通过ID获取指定学习内容")
     @CrossOrigin
-    @RequestMapping(value = "/getLearnInfo/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/LearnInfo/{id}", method = RequestMethod.GET)
     public CommonResultDTO getLearnInfoById(@PathVariable Integer id) {
         return CommonResultDTO.success(learnService.getById(id));
     }
 
     @ApiOperation("通过uid,获取学习分数")
     @CrossOrigin
-    @RequestMapping(value = "/getPoints/{uid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/Points/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getPointsByUid(@PathVariable Integer uid) {
         return CommonResultDTO.failed("未完成");
     }
 
     @ApiOperation("通过id,获取题目解析")
     @CrossOrigin
-    @RequestMapping(value = "/getExplanation/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/Explanation/{id}", method = RequestMethod.GET)
     public CommonResultDTO getExplanationById(@PathVariable Integer id) {
         return CommonResultDTO.success(learnService.getById(id));
     }

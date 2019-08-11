@@ -35,7 +35,6 @@ public class DateUtils {
         return no.getTime();
     }
 
-
     /**
      * 返回本月第一天
      *
@@ -312,6 +311,16 @@ public class DateUtils {
      */
     public static Boolean isLargerTime(Date object, Date target) {
         return object.getTime() > target.getTime();
+    }
+
+    public static int getMealType(Date now) {
+        if (isLargerTime(getBreakfastEndTime(now), now)) {
+            return 0;
+        } else if (isLargerTime(getLunchEndTime(now), now)) {
+            return 1;
+        } else {
+            return 2;
+        }
     }
 
 }

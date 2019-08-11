@@ -67,22 +67,14 @@ public class DietReportServiceImpl implements IDietReportService {
     /**
      * @param date 报告日期
      * @param uid  用户编号
-     * @param type 报告类型：4每天
      * @return 每天饮食报告
      */
     @Override
-    public DietDailyReport generateDailyReport(Date date, Integer uid, Integer type) {
-        // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, type));
-        // 计算菜式组成成分总量
-        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+    public DietDailyReport generateDailyReport(Date date, Integer uid) {
+
+        TbDietRecord record = dietRecordService.getDietRecord(date, uid, DAILY);
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
-
-        // 记录饮食成分记录失败
-        if (dietRecordService.failInsertDietRecord(record, date, type, uid)) {
-            logger.error("tb_diet_record insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
-        }
 
         DietDailyReport report = MathUtils.getDietDailyReport(userStandard, record);
 
@@ -102,9 +94,9 @@ public class DietReportServiceImpl implements IDietReportService {
             }
 
             if (result) {
-                logger.info("tb_diet_daily_report insert or update success, date:{} and uid:{} and type:{}", date, uid, type);
+                logger.info("tb_diet_daily_report insert or update success, date:{} and uid:{} ", date, uid);
             } else {
-                logger.error("tb_diet_daily_report insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
+                logger.error("tb_diet_daily_report insert or update fail, date:{} and uid:{} ", date, uid);
             }
         }
 
@@ -533,19 +525,13 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public DietMealReport generateMealReport(Date date, Integer uid, Integer type) {
-
-        // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, type));
         // 计算菜式组成成分总量
-        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
-        // 记录饮食成分记录失败
-        if (dietRecordService.failInsertDietRecord(record, date, type, uid)) {
-            logger.error("tb_diet_record insert or update fail, date:{} and uid:{} and type:{}", date, uid, type);
-        }
+        TbDietRecord record = dietRecordService.getDietRecord(date, uid, type);
 
         // 获取用户标准
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
+        // 获取用户用餐标准
         DietMealReport report = MathUtils.getDietMealReport(userStandard, record, type);
 
         // 已经过了用餐时间，记录用餐记录

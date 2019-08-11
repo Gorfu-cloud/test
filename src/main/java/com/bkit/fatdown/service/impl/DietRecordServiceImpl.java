@@ -2,7 +2,9 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietRecordExample;
+import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.mappers.TbDietRecordMapper;
+import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.utils.DateUtils;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +29,9 @@ public class DietRecordServiceImpl implements IDietRecordService {
 
     @Resource
     private TbDietRecordMapper dietRecordMapper;
+
+    @Resource
+    private IDietFoodService foodService;
 
     private static final Logger logger = LoggerFactory.getLogger(DietFoodServiceImpl.class);
 
@@ -89,6 +95,24 @@ public class DietRecordServiceImpl implements IDietRecordService {
     }
 
     /**
+     * 获取饮食记录
+     *
+     * @param date 日期
+     * @param uid  用户id
+     * @param type 类型
+     * @return 饮食记录总量
+     */
+    @Override
+    public TbDietRecord getDietRecord(Date date, int uid, int type) {
+        TbDietRecordExample example = new TbDietRecordExample();
+        example.createCriteria()
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date))
+                .andTypeEqualTo(type)
+                .andUserIdEqualTo(uid);
+        return dietRecordMapper.selectByExample(example).get(0);
+    }
+
+    /**
      * 通过id，获取饮食成分记录
      *
      * @param id 饮食成分记录编号
@@ -97,6 +121,48 @@ public class DietRecordServiceImpl implements IDietRecordService {
     @Override
     public TbDietRecord getDietRecord(int id) {
         return dietRecordMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 更新 饮食成分记录每天
+     *
+     * @param uid 用户id
+     * @return 更新是否成功
+     */
+    @Override
+    public boolean updateDailyDietRecord(int uid) {
+        Date now = new Date();
+        int type = 4;
+        return updateDietRecord(now, uid, type);
+    }
+
+    private boolean updateDietRecord(Date now, int uid, int type) {
+        // 饮食记录id
+        int id = getDietRecordId(now, uid, type);
+        // 获取菜式id列表
+        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, now, type));
+        // 统计食用成分总量
+        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+        record.setId(id);
+        record.setUserId(uid);
+        record.setType(type);
+        record.setGmtCreate(now);
+
+        return updateOnlyRecord(record);
+    }
+
+
+    /**
+     * 更新 饮食成分记录(每餐和每天）
+     *
+     * @param uid 用户id
+     * @return 更新是否成功
+     */
+    @Override
+    public boolean updateDietRecord(int uid) {
+        Date now = new Date();
+        int type = DateUtils.getMealType(now);
+        return updateDietRecord(now, uid, type);
     }
 
     /**
@@ -233,31 +299,17 @@ public class DietRecordServiceImpl implements IDietRecordService {
     }
 
     /**
-     * 保存饮食成份记录
+     * 获取菜式id
      *
-     * @param record 饮食记录
-     * @param date   饮食日期
-     * @param type   饮食类型
-     * @param uid    用户id
-     * @return 添加结果
+     * @param foodRecordList 饮食记录
+     * @return 返回 菜式列表id
      */
-    @Override
-    public boolean failInsertDietRecord(TbDietRecord record, Date date, Integer type, Integer uid) {
-        record.setUserId(uid);
-        record.setGmtModified(date);
-        record.setType(type);
+    private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
+        List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);
 
-        logger.info("tb_diet_record insert or update start, date:{} and type: {} and uid: {}", date, type, uid);
-
-        // 新建记录
-        if (countDietRecord(date, uid, type) == 0) {
-            record.setGmtCreate(date);
-            return !insert(record);
+        for (TbFoodRecord record : foodRecordList) {
+            foodIdList.add(record.getFoodId());
         }
-
-        // 获取饮食记录id，并更新
-        int id = getDietRecordId(date, uid, type);
-        record.setId(id);
-        return !update(record);
+        return foodIdList;
     }
 }

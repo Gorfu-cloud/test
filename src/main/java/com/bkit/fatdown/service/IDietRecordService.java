@@ -55,6 +55,16 @@ public interface IDietRecordService {
     TbDietRecord getDietRecord(int id);
 
     /**
+     * 获取饮食记录
+     *
+     * @param date 日期
+     * @param uid  用户id
+     * @param type 类型
+     * @return 饮食记录总量
+     */
+    TbDietRecord getDietRecord(Date date, int uid, int type);
+
+    /**
      * 饮食成分记录
      *
      * @param date 记录日期
@@ -63,6 +73,22 @@ public interface IDietRecordService {
      * @return 饮食成分记录编号
      */
     int getDietRecordId(Date date, int uid, int type);
+
+    /**
+     * 更新 饮食成分记录
+     *
+     * @param uid 用户id
+     * @return 更新是否成功
+     */
+    boolean updateDietRecord(int uid);
+
+    /**
+     * 更新 饮食成分记录每天
+     *
+     * @param uid 用户id
+     * @return 更新是否成功
+     */
+    boolean updateDailyDietRecord(int uid);
 
     /**
      * 统计饮食成分记录
@@ -131,14 +157,4 @@ public interface IDietRecordService {
      */
     List<TbDietRecord> listDietRecord(Date date, int uid, List<Integer> typeList);
 
-    /**
-     * 保存饮食成份记录
-     *
-     * @param record 饮食记录
-     * @param date   饮食日期
-     * @param type   饮食类型
-     * @param uid    用户id
-     * @return 添加结果
-     */
-    boolean failInsertDietRecord(TbDietRecord record, Date date, Integer type, Integer uid);
 }

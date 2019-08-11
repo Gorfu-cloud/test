@@ -9,6 +9,8 @@ import com.bkit.fatdown.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiKeyAuthDefinition;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,6 +38,9 @@ public class DietController {
     @Resource
     private IDietRecordService dietRecordService;
 
+    @Resource
+    private IDietFoodService foodService;
+
     private static final int DATA_NOT_EXIST = 0;
     private static final int DATA_EXIST = 1;
 
@@ -52,6 +57,8 @@ public class DietController {
     private static final int LUNCH_TYPE = 1;
     private static final int DINNER_TYPE = 2;
     private static final int DAILY_TYPE = 4;
+
+    private static final Logger logger = LoggerFactory.getLogger(DietController.class);
 
     @ApiOperation("查看早餐饮食报告,通过uid，date")
     @CrossOrigin
@@ -263,5 +270,27 @@ public class DietController {
         // 如果报告为空，返回错误
 
         return CommonResultDTO.success(new DietMonthReport());
+    }
+
+    @ApiOperation("获取用户饮食标准")
+    @CrossOrigin
+    @RequestMapping(value = "userStandard/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getUserStandard(@PathVariable Integer uid) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("uid有误");
+        }
+
+        if (foodService.updateDietStandardByUid(uid)) {
+            logger.info("update userStandard success, uid:{}", uid);
+        } else {
+            logger.error("update userStandard fail, uid:{}", uid);
+        }
+
+        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+        if (userStandard == null) {
+            return CommonResultDTO.failed("获取用户饮食标准失败");
+        }
+
+        return CommonResultDTO.success(userStandard);
     }
 }

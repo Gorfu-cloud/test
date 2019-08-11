@@ -176,7 +176,6 @@ public class UserController {
         return CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
     }
 
-
     @ApiOperation("通过UID获取用户所有生活习惯")
     @CrossOrigin
     @RequestMapping(value = "/listLifeStyle", method = RequestMethod.GET)
@@ -189,7 +188,6 @@ public class UserController {
         }
         return CommonResultDTO.validateFailed();
     }
-
 
     @ApiOperation("更新用户生活习惯,必传userId")
     @CrossOrigin
