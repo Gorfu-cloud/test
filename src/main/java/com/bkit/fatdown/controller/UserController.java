@@ -27,7 +27,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/user", tags = "用户基础信息、隐私数据、生活习惯接口")
+@Api(value = "/user", tags = "用户信息模块")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -230,8 +230,8 @@ public class UserController {
     /**
      * 更新隐私数据
      *
-     * @param privacyInfo
-     * @return
+     * @param privacyInfo 饮食数据
+     * @return 更新情况
      */
     private boolean updatePrivacyInfo(TbUserPrivacyInfo privacyInfo) {
         // 当天有隐私记录存在,获取原来的id，并更新原来记录

@@ -22,7 +22,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/learn", tags = "学习模块接口")
+@Api(value = "/learn", tags = "学习知识模块")
 @RestController
 @RequestMapping("/learn")
 public class LearnController {

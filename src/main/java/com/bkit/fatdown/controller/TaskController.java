@@ -25,7 +25,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/task", tags = "任务模块接口")
+@Api(value = "/task", tags = "任务积分模块")
 @RestController
 @RequestMapping("/task")
 public class TaskController {

@@ -31,7 +31,7 @@ public class DietFoodServiceImplTest {
     @Resource
     private DietFoodServiceImpl foodService;
 
-    private static final int uid = 54;
+    private static final int uid = 60;
 
     @Test
     public void updateDietStandardByUid() {
@@ -53,7 +53,8 @@ public class DietFoodServiceImplTest {
 
     @Test
     public void listFoodBasic() {
-        List<TbFoodRecord> list = foodService.listFoodBasic(uid, DateUtils.string2Date("2019-07-25"), 1);
+        List<TbFoodRecord> list = foodService.listFoodRecord(uid, DateUtils.string2Date("2019-08-12"), 0);
+        System.out.println(list.size());
         for (TbFoodRecord record : list) {
             System.out.println(record.getFoodId());
         }

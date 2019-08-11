@@ -26,7 +26,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/test", tags = "抢答模块接口")
+@Api(value = "/test", tags = "测试抢答模块")
 @RestController
 @RequestMapping("/test")
 public class TestController {

@@ -137,13 +137,10 @@ public class DietRecordServiceImpl implements IDietRecordService {
     }
 
     private boolean updateDietRecord(Date now, int uid, int type) {
-        // 饮食记录id
-        int id = getDietRecordId(now, uid, type);
         // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, now, type));
+        List<Integer> foodIdList = listFoodId(foodService.listFoodRecord(uid, now, type));
         // 统计食用成分总量
         TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
-        record.setId(id);
         record.setUserId(uid);
         record.setType(type);
         record.setGmtCreate(now);

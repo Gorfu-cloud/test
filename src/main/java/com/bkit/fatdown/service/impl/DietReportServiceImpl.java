@@ -71,11 +71,11 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public DietDailyReport generateDailyReport(Date date, Integer uid) {
-
+        // 获取元素总量一天
         TbDietRecord record = dietRecordService.getDietRecord(date, uid, DAILY);
-
+        // 用户饮食标准
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
-
+        // 生成每天评价报告
         DietDailyReport report = MathUtils.getDietDailyReport(userStandard, record);
 
         // 已经过了用餐时间，储存饮食记录
@@ -113,14 +113,18 @@ public class DietReportServiceImpl implements IDietReportService {
     @Override
     public DietWeeklyReport generateWeeklyReport(Date date, Integer uid) {
         // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodBasic(uid, date, WEEKLY));
+        List<Integer> foodIdList = listFoodId(foodService.listFoodRecord(uid, date, WEEKLY));
 
         Date startDate = DateUtils.getCurrentWeekStart(date);
         Date endDate = DateUtils.getCurrentWeekEnd(date);
 
-        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+        // 获取元素总量
+        List<TbDietRecord> recordList = dietRecordService.listDietMealRecord(startDate, endDate, uid, DAILY);
 
-        List<TbDietDailyReport> reportList = listDietDailyReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid);
+        // 获取每天饮食记录总量
+        TbDietRecord record = foodService.getDietRecord(recordList);
+
+        List<TbDietDailyReport> reportList = listDietDailyReport(startDate, endDate, uid);
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 

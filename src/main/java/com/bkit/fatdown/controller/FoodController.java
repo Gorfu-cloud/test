@@ -3,6 +3,7 @@ package com.bkit.fatdown.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @file: FoodController
@@ -29,7 +27,7 @@ import java.util.Map;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/food", tags = "食物推荐、饮食图库接口")
+@Api(value = "/food", tags = "菜式推荐模块")
 @RestController
 @RequestMapping("/food")
 public class FoodController {
@@ -50,13 +48,7 @@ public class FoodController {
     private IFoodBasicService foodBasicService;
 
     @Resource
-    private IPictureService pictureService;
-
-    @Resource
     private IFoodRecommendTypeService recommendTypeService;
-
-    @Resource
-    private IDietRecordService dietRecordService;
 
     private static final int DATA_NOT_EXIST = 0;
 
@@ -64,7 +56,7 @@ public class FoodController {
 
     @ApiOperation("获取指定类型推荐菜式")
     @CrossOrigin
-    @RequestMapping(value = "/FoodRecommends/{foodType}", method = RequestMethod.GET)
+    @RequestMapping(value = "/foodRecommends/{foodType}", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommend(@PathVariable Integer foodType) {
         if (foodType == null || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("foodType参数错误");
@@ -81,7 +73,7 @@ public class FoodController {
 
     @ApiOperation("添加食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/FoodRecommend", method = RequestMethod.POST)
+    @RequestMapping(value = "/foodRecommend", method = RequestMethod.POST)
     public CommonResultDTO addFoodRecommend(@RequestParam String foodName, @RequestParam Integer foodType) {
         if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("foodName/foodType无效");
@@ -100,7 +92,7 @@ public class FoodController {
 
     @ApiOperation("删除食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteFoodRecommend(@PathVariable Integer id) {
         if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id无效");
@@ -115,7 +107,7 @@ public class FoodController {
 
     @ApiOperation("更新食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.PUT)
     public CommonResultDTO updateFoodRecommend(@PathVariable Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
         if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST
                 || id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
@@ -136,7 +128,7 @@ public class FoodController {
 
     @ApiOperation("获取食物推荐信息")
     @CrossOrigin
-    @RequestMapping(value = "/FoodRecommend/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.GET)
     public CommonResultDTO getFoodRecommend(@PathVariable Integer id) {
         if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id无效");
@@ -179,7 +171,7 @@ public class FoodController {
 
     @ApiOperation("获取推荐菜式选择记录")
     @CrossOrigin
-    @RequestMapping(value = "/RecommendRecords", method = RequestMethod.GET)
+    @RequestMapping(value = "/recommendRecords", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
@@ -198,7 +190,7 @@ public class FoodController {
 
     @ApiOperation("获取所有推荐菜式类型")
     @CrossOrigin
-    @RequestMapping(value = "RecommendTypes", method = RequestMethod.GET)
+    @RequestMapping(value = "/recommendTypes", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFoodRecommendType>> listAllRecommendType() {
         List<TbFoodRecommendType> typeList = recommendTypeService.listAllType();
         if (typeList.size() == 0) {
@@ -209,7 +201,7 @@ public class FoodController {
 
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.GET)
     public CommonResultDTO<TbFoodRecommendType> getRecommendTypeInfo(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");
@@ -224,7 +216,7 @@ public class FoodController {
 
     @ApiOperation("删除推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteRecommendType(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");
@@ -238,7 +230,7 @@ public class FoodController {
 
     @ApiOperation("添加推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/RecommendType", method = RequestMethod.POST)
+    @RequestMapping(value = "/recommendType", method = RequestMethod.POST)
     public CommonResultDTO addRecommendType(@RequestParam String typeName) {
         if (typeName.isEmpty()) {
             return CommonResultDTO.validateFailed("菜式类型名称不能为空");
@@ -255,7 +247,7 @@ public class FoodController {
 
     @ApiOperation("更新推荐菜式类型信息")
     @CrossOrigin
-    @RequestMapping(value = "/RecommendType/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.PUT)
     public CommonResultDTO updateRecommendType(@RequestParam String typeName, @PathVariable Integer id) {
         if (typeName.isEmpty() || id == null) {
             return CommonResultDTO.validateFailed("菜式类型名称或id不能为空");
@@ -273,7 +265,7 @@ public class FoodController {
 
     @ApiOperation("计算菜式成分总和")
     @CrossOrigin
-    @RequestMapping(value = "/FoodElement/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/elementTotal/{id}", method = RequestMethod.GET)
     public CommonResultDTO getFoodElementTotalById(@PathVariable Integer id) {
         if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id错误");
@@ -299,154 +291,19 @@ public class FoodController {
         return CommonResultDTO.success(recordList);
     }
 
-    @ApiOperation("上传图片并保存菜式信息")
+    @ApiOperation("获取菜式推荐情况")
     @CrossOrigin
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @Transactional
-    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
-                                  @RequestParam String foodName, @RequestParam Double gram) {
-        // 获取上传结果
-        Map<String, Object> result = pictureService.upload(picture, uid, new Date());
+    @RequestMapping(value = "/recommendTypes/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO<List<RecommendTypeDTO>> listRecommendType(@PathVariable Integer uid, @RequestParam String date,
+                                                                     @RequestParam Integer type) {
 
-        String empty = "msg";
-        String urlOfString = "url";
-        String flagOfExist = "flag";
+        List<RecommendTypeDTO> recommendTypeDTOList = new ArrayList<>();
+        RecommendTypeDTO recommendTypeDTO = new RecommendTypeDTO();
+        recommendTypeDTO.setId(1);
+        recommendTypeDTO.setStatus(0);
+        recommendTypeDTO.setTypeName("蛋白质");
+        recommendTypeDTOList.add(recommendTypeDTO);
 
-        // 上传失败
-        if (result.containsKey(empty)) {
-            return CommonResultDTO.validateFailed("上传文件为空");
-        }
-
-        // 判断上传是否成功，url：图片路径，flag=0上传失败
-        if (result.containsKey(urlOfString) && result.containsKey(flagOfExist)) {
-            int id;
-            TbFoodRecord foodRecord;
-            int flag = Integer.parseInt(result.get(flagOfExist).toString());
-            String imgUrl = result.get(flagOfExist).toString();
-
-            // 上传图片失败
-            if (flag == DATA_NOT_EXIST) {
-                return CommonResultDTO.failed("上传图片失败");
-            }
-
-            // 查找食物基础信息是否存在？
-            List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);
-            // 菜式不在数据库中,插入新菜式记录,flag= 0 -> 已有菜式，flag= 1 -> 新菜式
-            if (foodList.size() == DATA_NOT_EXIST) {
-                TbFoodBasic newFoodBasic = new TbFoodBasic();
-                newFoodBasic.setFoodName(foodName);
-                newFoodBasic.setQuantity(gram);
-                newFoodBasic.setType("未知");
-                // 菜式不存在
-                newFoodBasic.setFlag(1);
-
-                // 创建记录并返回创建id，id = -1 -> 插入失败
-                id = foodBasicService.insertReturnId(newFoodBasic);
-                if (id == -1) {
-                    return CommonResultDTO.failed("创建菜式记录失败");
-                }
-                // 插入饮食记录
-                foodRecord = new TbFoodRecord();
-                foodRecord.setFoodId(id);
-                foodRecord.setUserId(uid);
-                foodRecord.setFoodQuantity(gram);
-                foodRecord.setImgUrl(imgUrl);
-
-                if (foodService.insert(foodRecord)) {
-                    return CommonResultDTO.success();
-                }
-                return CommonResultDTO.failed("创建饮食记录失败");
-            }
-
-            // 插入饮食记录
-            TbFoodBasic foodBasicBasic = foodList.get(0);
-            foodRecord = new TbFoodRecord();
-            foodRecord.setFoodId(foodBasicBasic.getId());
-            foodRecord.setUserId(uid);
-            foodRecord.setFoodQuantity(gram);
-            foodRecord.setImgUrl(imgUrl);
-
-            // 更新每餐饮食成分记录
-            if (dietRecordService.updateDietRecord(uid)) {
-                logger.info("update diet_record success, uid: {}", uid);
-            } else {
-                logger.error("update diet_record fail, uid: {}", uid);
-            }
-            // 更新每天用餐成分总量记录
-            if (dietRecordService.updateDailyDietRecord(uid)) {
-                logger.info("update daily dietRecord success, uid: {}", uid);
-            } else {
-                logger.error("update daily dietRecord fail, uid: {}", uid);
-            }
-
-            if (foodService.insert(foodRecord)) {
-                return CommonResultDTO.success();
-            }
-            return CommonResultDTO.failed("创建饮食记录失败");
-        }
-        return CommonResultDTO.validateFailed("参数错误");
-    }
-
-    @ApiOperation("拍照获取识别食物结果")
-    @CrossOrigin
-    @RequestMapping(value = "/recognise", method = RequestMethod.POST)
-    public CommonResultDTO recognise(@RequestParam MultipartFile file) {
-        String foodData = "data";
-        // 解析识别返回结果数组
-        JSONObject jsonObject = RecogniseUtils.recognise(file);
-        if (jsonObject.getJSONArray(foodData).size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.validateFailed("无法识别或识别结果为空");
-        }
-
-        return CommonResultDTO.success(jsonObject.getJSONArray(foodData));
-    }
-
-    @ApiOperation("获取早餐饮食图库")
-    @CrossOrigin
-    @RequestMapping(value = "/listBreakfast/{uid}/{date}", method = RequestMethod.GET)
-    public CommonResultDTO listBreakfast(@PathVariable Integer uid, @PathVariable String date) {
-        List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getBreakfastStartTime(DateUtils.string2Date(date)),
-                DateUtils.getBreakfastEndTime(DateUtils.string2Date(date)));
-        if (pictureList.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed("早餐，无记录");
-        }
-        return CommonResultDTO.success(pictureList);
-    }
-
-    @ApiOperation("获取午餐饮食图库")
-    @CrossOrigin
-    @RequestMapping(value = "/listLunch/{uid}/{date}", method = RequestMethod.GET)
-    public CommonResultDTO listLunch(@PathVariable Integer uid, @PathVariable String date) {
-
-        List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getLunchStartTime(DateUtils.string2Date(date)),
-                DateUtils.getLunchEndTime(DateUtils.string2Date(date)));
-        if (pictureList.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed("午餐，无记录");
-        }
-        return CommonResultDTO.success(pictureList);
-    }
-
-    @ApiOperation("获取晚餐饮食图库")
-    @CrossOrigin
-    @RequestMapping(value = "/listDinner/{uid}/{date}", method = RequestMethod.GET)
-    public CommonResultDTO listDinner(@PathVariable Integer uid, @PathVariable String date) {
-        List<TbDietPicture> pictureList = pictureService.listBetweenTime(uid, DateUtils.getDinnerStartTime(DateUtils.string2Date(date)),
-                DateUtils.getDinnerEndTime(DateUtils.string2Date(date)));
-        if (pictureList.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed("晚餐，无记录");
-        }
-        return CommonResultDTO.success(pictureList);
-    }
-
-    @ApiOperation("获取早、午、晚餐饮食图库")
-    @CrossOrigin
-    @RequestMapping(value = "/listDietPicture/{uid}/{date}", method = RequestMethod.GET)
-    public CommonResultDTO listDietPicture(@PathVariable Integer uid, @PathVariable String date) {
-
-        HashMap<String, Object> listMap = pictureService.listByDate(uid, DateUtils.string2Date(date));
-        if (listMap.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed("该日期下没有记录");
-        }
-        return CommonResultDTO.success(listMap);
+        return CommonResultDTO.success(recommendTypeDTOList);
     }
 }

@@ -322,5 +322,4 @@ public class DateUtils {
             return 2;
         }
     }
-
 }

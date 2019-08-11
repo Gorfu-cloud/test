@@ -78,6 +78,8 @@ public interface IDietFoodService {
      */
     List<FoodInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type);
 
+    TbDietRecord getDietRecord(List<TbDietRecord> recordList);
+
     /**
      * 返回菜式列表
      *
@@ -86,8 +88,7 @@ public interface IDietFoodService {
      * @param type
      * @return
      */
-    List<TbFoodRecord> listFoodBasic(int uid, Date date, Integer type);
-
+    List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type);
 
     /**
      * 通过foodId 获取菜式组成成分，元素总量

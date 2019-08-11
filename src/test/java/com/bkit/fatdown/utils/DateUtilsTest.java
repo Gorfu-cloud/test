@@ -94,4 +94,9 @@ public class DateUtilsTest {
         System.out.println(date);
         System.out.println(DateUtils.getNextMonthStartDate(date));
     }
+
+    @Test
+    public void getMealType() {
+        System.out.println(DateUtils.getMealType(new Date()));
+    }
 }

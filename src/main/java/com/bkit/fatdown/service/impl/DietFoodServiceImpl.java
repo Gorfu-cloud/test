@@ -197,6 +197,29 @@ public class DietFoodServiceImpl implements IDietFoodService {
     }
 
     /**
+     * 获取饮食成分总量
+     *
+     * @param recordList 总量记录
+     * @return 总量
+     */
+    @Override
+    public TbDietRecord getDietRecord(List<TbDietRecord> recordList) {
+
+        if (recordList.size() == 1) {
+            return recordList.get(0);
+        }
+
+        TbDietRecord target = new TbDietRecord();
+        initDietRecord(target);
+        for (TbDietRecord record : recordList) {
+            target = mergeDietRecord(target, record);
+        }
+
+        return target;
+    }
+
+
+    /**
      * 返回菜式列表
      *
      * @param uid
@@ -205,7 +228,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public List<TbFoodRecord> listFoodBasic(int uid, Date date, Integer type) {
+    public List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type) {
 
         List<TbFoodRecord> foodRecordList = new ArrayList<>();
 
