@@ -6,6 +6,7 @@ import com.bkit.fatdown.dto.food.FoodInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.Api;
@@ -145,8 +146,8 @@ public class FoodController {
 
     @ApiOperation("创建推荐菜式选择记录")
     @CrossOrigin
-    @RequestMapping(value = "/addFoodRecommendRecord", method = RequestMethod.GET)
-    public CommonResultDTO addFoodRecommendRecord(@RequestParam int uid, @RequestParam int foodId,
+    @RequestMapping(value = "/recommendRecord/{uid}", method = RequestMethod.POST)
+    public CommonResultDTO addFoodRecommendRecord(@PathVariable int uid, @RequestParam int foodId,
                                                   @RequestParam String date, @RequestParam int foodType) {
         if (date == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
                 || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
@@ -275,8 +276,8 @@ public class FoodController {
 
     @ApiOperation("获取用餐菜式信息")
     @CrossOrigin
-    @RequestMapping(value = "/listFoodInfo", method = RequestMethod.GET)
-    public CommonResultDTO<List<FoodInfoDTO>> listFoodInfo(@RequestParam Integer uid, @RequestParam String date,
+    @RequestMapping(value = "/foodInfo/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO<List<FoodInfoDTO>> listFoodInfo(@PathVariable Integer uid, @RequestParam String date,
                                                            @RequestParam Integer type) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid无效");
@@ -303,6 +304,9 @@ public class FoodController {
         recommendTypeDTO.setStatus(0);
         recommendTypeDTO.setTypeName("蛋白质");
         recommendTypeDTOList.add(recommendTypeDTO);
+
+        List<TbFoodRecommend> recommendList = recommendService.listFoodRecommend(1);
+//        recommendTypeDTO.setFoodList(DataTransferUtils.);
 
         return CommonResultDTO.success(recommendTypeDTOList);
     }

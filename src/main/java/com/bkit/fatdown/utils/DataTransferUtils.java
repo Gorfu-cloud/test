@@ -650,4 +650,6 @@ public class DataTransferUtils {
         evaluation.setScore(report.getNutrientScore());
         return evaluation;
     }
+
+//    private static
 }

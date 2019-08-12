@@ -667,8 +667,9 @@ public class MathUtils {
 
     public static double getWeeklyScore(WeeklyNutrientsEvaluation nutrientsEvaluation, double size) {
         double total;
-
-        total = getWeeklyScore(nutrientsEvaluation.getAnimalFat()) + getWeeklyScore(nutrientsEvaluation.getGoodProtein())
+        int dayCount = 5;
+        // 均衡比例，优质蛋白，动物性脂肪 × size
+        total = getWeeklyScore(nutrientsEvaluation.getAnimalFat()) * dayCount + getWeeklyScore(nutrientsEvaluation.getGoodProtein()) * dayCount
                 + nutrientsEvaluation.getCarbs().getScore() + nutrientsEvaluation.getFat().getScore() + nutrientsEvaluation.getProtein().getScore()
                 + nutrientsEvaluation.getFibrin().getScore();
 

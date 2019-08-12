@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @file: RecommendTypeDTO
@@ -21,14 +22,17 @@ public class RecommendTypeDTO implements Serializable {
     private String typeName;
     @ApiModelProperty(value = "推荐食物类型状态：0 缺乏，1 偏多", example = "0")
     private Integer status;
+    @ApiModelProperty(value = "推荐食物列表")
+    private List<RecommendFoodInfoDTO> foodList;
 
     public RecommendTypeDTO() {
     }
 
-    public RecommendTypeDTO(Integer id, String typeName, Integer status) {
+    public RecommendTypeDTO(Integer id, String typeName, Integer status, List<RecommendFoodInfoDTO> foodList) {
         this.id = id;
         this.typeName = typeName;
         this.status = status;
+        this.foodList = foodList;
     }
 
     public Integer getId() {
@@ -55,12 +59,21 @@ public class RecommendTypeDTO implements Serializable {
         this.status = status;
     }
 
+    public List<RecommendFoodInfoDTO> getFoodList() {
+        return foodList;
+    }
+
+    public void setFoodList(List<RecommendFoodInfoDTO> foodList) {
+        this.foodList = foodList;
+    }
+
     @Override
     public String toString() {
         return "RecommendTypeDTO{" +
                 "id=" + id +
                 ", typeName='" + typeName + '\'' +
                 ", status=" + status +
+                ", foodList=" + foodList.toString() +
                 '}';
     }
 }
