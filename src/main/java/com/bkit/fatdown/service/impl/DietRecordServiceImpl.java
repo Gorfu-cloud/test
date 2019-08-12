@@ -136,18 +136,19 @@ public class DietRecordServiceImpl implements IDietRecordService {
         return updateDietRecord(now, uid, type);
     }
 
-    private boolean updateDietRecord(Date now, int uid, int type) {
-        // 获取菜式id列表
-        List<Integer> foodIdList = listFoodId(foodService.listFoodRecord(uid, now, type));
+    @Override
+    public boolean updateDietRecord(Date now, int uid, int type) {
+        List<TbFoodRecord> foodRecordList = foodService.listFoodRecord(uid, now, type);
+
         // 统计食用成分总量
-        TbDietRecord record = foodService.getDietRecordTotalByFoodList(foodIdList);
+        TbDietRecord record = foodService.getDietRecordTotal(foodRecordList);
+
         record.setUserId(uid);
         record.setType(type);
         record.setGmtCreate(now);
 
         return updateOnlyRecord(record);
     }
-
 
     /**
      * 更新 饮食成分记录(每餐和每天）
@@ -312,20 +313,5 @@ public class DietRecordServiceImpl implements IDietRecordService {
                 .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date))
                 .andTypeIn(typeList);
         return dietRecordMapper.selectByExample(example);
-    }
-
-    /**
-     * 获取菜式id
-     *
-     * @param foodRecordList 饮食记录
-     * @return 返回 菜式列表id
-     */
-    private List<Integer> listFoodId(List<TbFoodRecord> foodRecordList) {
-        List<Integer> foodIdList = new ArrayList<>(foodRecordList.size() + 1);
-
-        for (TbFoodRecord record : foodRecordList) {
-            foodIdList.add(record.getFoodId());
-        }
-        return foodIdList;
     }
 }

@@ -181,6 +181,18 @@ public class DietReportServiceImpl implements IDietReportService {
         return mealReportMapper.insertSelective(report) > 0;
     }
 
+    @Override
+    public boolean updateMealReportOnly(TbDietMealReport report) {
+
+        if (countDietMealReport(report.getGmtCreate(), report.getType(), report.getUserId()) == 0) {
+            return insertMealReport(report);
+        } else {
+            int id = getDietMealReport(report.getGmtCreate(), report.getType(), report.getUserId()).getId();
+            report.setId(id);
+            return updateMealReport(report);
+        }
+    }
+
     /**
      * 删除每餐饮食报告
      *
@@ -200,9 +212,7 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public boolean updateMealReport(TbDietMealReport report) {
-        if (report.getGmtModified() == null) {
-            report.setGmtModified(new Date());
-        }
+        report.setGmtModified(new Date());
         return mealReportMapper.updateByPrimaryKeySelective(report) > 0;
     }
 
@@ -542,12 +552,11 @@ public class DietReportServiceImpl implements IDietReportService {
         if (isFinishMeal(date, type)) {
             TbDietMealReport mealReport = DataTransferUtils.transferDietMealReport(report, uid, type);
             mealReport.setGmtCreate(date);
-            mealReport.setGmtModified(date);
-            boolean result = insertMealReport(mealReport);
+            boolean result = updateMealReportOnly(mealReport);
             if (result) {
-                logger.info("tb_diet_meal_report insert success, date:{} and uid:{} and type:{}", date, uid, type);
+                logger.info("tb_diet_meal_report insert/update success, date:{} and uid:{} and type:{}", date, uid, type);
             } else {
-                logger.error("tb_diet_meal_report insert fail, date:{} and uid:{} and type:{}", date, uid, type);
+                logger.error("tb_diet_meal_report insert/update fail, date:{} and uid:{} and type:{}", date, uid, type);
             }
         }
 

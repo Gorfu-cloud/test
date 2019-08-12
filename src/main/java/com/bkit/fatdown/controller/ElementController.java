@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IFoodBasicService;
 import io.swagger.annotations.Api;
@@ -33,10 +34,10 @@ public class ElementController {
     @ApiOperation("计算菜式成分总和")
     @CrossOrigin
     @RequestMapping(value = "/elementTotal/{id}", method = RequestMethod.GET)
-    public CommonResultDTO getFoodElementTotalById(@PathVariable Integer id) {
+    public CommonResultDTO<TbDietRecord> getFoodElementTotalById(@PathVariable Integer id, @RequestParam Double eatPer) {
         if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id错误");
         }
-        return CommonResultDTO.success(foodService.generateDietRecord(id));
+        return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100));
     }
 }

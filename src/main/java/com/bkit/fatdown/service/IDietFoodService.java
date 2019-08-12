@@ -28,6 +28,14 @@ public interface IDietFoodService {
     boolean insert(TbFoodRecord record);
 
     /**
+     * 获取饮食记录
+     *
+     * @param id 获取饮食记录
+     * @return 饮食记录
+     */
+    TbFoodRecord getFoodRecord(int id);
+
+    /**
      * 获取用户某天饮食记录
      *
      * @param uid
@@ -99,20 +107,21 @@ public interface IDietFoodService {
     boolean updateFoodRecord(TbFoodRecord foodRecord);
 
     /**
-     * 通过foodId 获取菜式组成成分，元素总量
+     * 通过 食物记录，获取元素总和
      *
-     * @param foodId
-     * @return
+     * @param foodId 食物编号
+     * @param eatPer 食用度
+     * @return 元素总和
      */
-    TbDietRecord generateDietRecord(int foodId);
+    TbDietRecord generateDietRecord(int foodId, double eatPer);
 
     /**
-     * 返回指定菜式搭配总量
+     * 返回元素总和
      *
-     * @param foodIdList
-     * @return
+     * @param recordList 食物记录
+     * @return 食物元素总和
      */
-    TbDietRecord getDietRecordTotalByFoodList(List<Integer> foodIdList);
+    TbDietRecord getDietRecordTotal(List<TbFoodRecord> recordList);
 
     TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp);
 }

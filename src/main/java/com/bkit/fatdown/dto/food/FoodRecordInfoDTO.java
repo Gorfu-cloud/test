@@ -13,6 +13,7 @@ import java.io.Serializable;
  * @version: 1.0
  */
 public class FoodRecordInfoDTO implements Serializable {
+    private Integer id;
     private String foodName;
     private Double foodGram;
     private Double eatPer;
@@ -20,7 +21,8 @@ public class FoodRecordInfoDTO implements Serializable {
     public FoodRecordInfoDTO() {
     }
 
-    public FoodRecordInfoDTO(String foodName, Double foodGram, Double eatPer) {
+    public FoodRecordInfoDTO(Integer id, String foodName, Double foodGram, Double eatPer) {
+        this.id = id;
         this.foodName = foodName;
         this.foodGram = foodGram;
         this.eatPer = eatPer;
@@ -50,10 +52,19 @@ public class FoodRecordInfoDTO implements Serializable {
         this.eatPer = eatPer;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "FoodRecordInfoDTO{" +
-                "foodName='" + foodName + '\'' +
+                "id=" + id +
+                ", foodName='" + foodName + '\'' +
                 ", foodGram=" + foodGram +
                 ", eatPer=" + eatPer +
                 '}';

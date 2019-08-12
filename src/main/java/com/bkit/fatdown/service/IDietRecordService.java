@@ -74,6 +74,8 @@ public interface IDietRecordService {
      */
     int getDietRecordId(Date date, int uid, int type);
 
+    boolean updateDietRecord(Date now, int uid, int type);
+
     /**
      * 更新 饮食成分记录
      *

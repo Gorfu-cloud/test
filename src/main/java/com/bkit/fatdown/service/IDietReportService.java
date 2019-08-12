@@ -55,6 +55,8 @@ public interface IDietReportService {
      */
     boolean insertMealReport(TbDietMealReport report);
 
+    boolean updateMealReportOnly(TbDietMealReport report);
+
     /**
      * 删除每餐饮食报告
      *

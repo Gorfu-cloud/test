@@ -4,7 +4,9 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.IDietFoodService;
+import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @file: DietController
@@ -31,6 +34,10 @@ public class DietController {
 
     @Resource
     private IUserBasicInfoService basicInfoService;
+
+    @Resource
+    private IDietRecordService dietRecordService;
+
 
     private static final Logger logger = LoggerFactory.getLogger(DietController.class);
 
@@ -71,6 +78,24 @@ public class DietController {
         TbFoodRecord record = new TbFoodRecord();
         record.setEatPer(eatPer / 100.0);
         record.setId(id);
+
+        // 更新
+        TbFoodRecord foodRecord = foodService.getFoodRecord(id);
+        Date date = foodRecord.getGmtCreate();
+        int uid = foodRecord.getUserId();
+        int type = DateUtils.getMealType(date);
+
+        if (dietRecordService.updateDietRecord(date, uid, type)) {
+            logger.info("fix eatPer:{} and update dietRecord success，date：{} and uid：{} and type：{}", eatPer, date, uid, type);
+        } else {
+            logger.error("fix eatPer:{} and update dietRecord fail，date：{} and uid：{} and type：{}", eatPer, date, uid, type);
+        }
+
+        if (dietRecordService.updateDietRecord(date, uid, 4)) {
+            logger.info("update dietRecord daily success，date：{} and uid：{} and type：4", date, uid);
+        } else {
+            logger.error("update dietRecord daily fail，date：{} and uid：{} and type：4", date, uid);
+        }
 
         if (foodService.updateFoodRecord(record)) {
             return CommonResultDTO.success();
