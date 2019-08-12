@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
@@ -220,6 +220,18 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
 
     /**
+     * 更新饮食食物信息
+     *
+     * @param foodRecord 饮食食物信息
+     * @return 更新情况
+     */
+    @Override
+    public boolean updateFoodRecord(TbFoodRecord foodRecord) {
+        foodRecord.setGmtModified(new Date());
+        return foodRecordMapper.updateByPrimaryKeySelective(foodRecord) > 0;
+    }
+
+    /**
      * 返回菜式列表
      *
      * @param uid
@@ -267,7 +279,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public List<FoodInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type) {
+    public List<FoodRecordInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type) {
         List<TbFoodRecord> recordList;
         // 早餐
         if (type == 0) {
@@ -463,19 +475,20 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @param recordList
      * @return
      */
-    private List<FoodInfoDTO> listFoodInfoDTO(List<TbFoodRecord> recordList) {
-        List<FoodInfoDTO> foodInfoDTOList = new ArrayList<>(8);
-        FoodInfoDTO foodInfoDTO;
+    private List<FoodRecordInfoDTO> listFoodInfoDTO(List<TbFoodRecord> recordList) {
+        List<FoodRecordInfoDTO> foodRecordInfoDTOList = new ArrayList<>(8);
+        FoodRecordInfoDTO foodRecordInfoDTO;
         for (TbFoodRecord record : recordList) {
-            foodInfoDTO = new FoodInfoDTO();
+            foodRecordInfoDTO = new FoodRecordInfoDTO();
             TbFoodBasic basic = foodBasicService.getFoodBasic(record.getFoodId());
-
-            foodInfoDTO.setFoodName(basic.getFoodName());
-            foodInfoDTO.setFoodGram(basic.getQuantity());
-            foodInfoDTOList.add(foodInfoDTO);
+            // 设置食用比例，×100，方便显示
+            foodRecordInfoDTO.setEatPer(record.getEatPer() * 100);
+            foodRecordInfoDTO.setFoodName(basic.getFoodName());
+            foodRecordInfoDTO.setFoodGram(basic.getQuantity());
+            foodRecordInfoDTOList.add(foodRecordInfoDTO);
         }
 
-        return foodInfoDTOList;
+        return foodRecordInfoDTOList;
     }
 
     /**

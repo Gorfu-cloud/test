@@ -284,10 +284,15 @@ public class ReportController {
     @CrossOrigin
     @RequestMapping(value = "/weekCount/{uid}", method = RequestMethod.GET)
     public CommonResultDTO countWeeklyReport(@PathVariable Integer uid, @RequestParam String date) {
+        Date inputDate = DateUtils.string2Date(date);
+
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date.isEmpty()) {
             return CommonResultDTO.validateFailed("uid无效");
         }
-        Date inputDate = DateUtils.string2Date(date);
+
+        if (reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST) {
+            return CommonResultDTO.success(reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST);
+        }
 
         return CommonResultDTO.success(dietRecordService.countWeeklyDietRecord(inputDate, uid) >= WEEKLY_REPORT_MIN_TOTAL);
     }

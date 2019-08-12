@@ -445,6 +445,66 @@ public class TbFoodRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andEatPerIsNull() {
+            addCriterion("eat_per is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerIsNotNull() {
+            addCriterion("eat_per is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerEqualTo(Double value) {
+            addCriterion("eat_per =", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerNotEqualTo(Double value) {
+            addCriterion("eat_per <>", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerGreaterThan(Double value) {
+            addCriterion("eat_per >", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerGreaterThanOrEqualTo(Double value) {
+            addCriterion("eat_per >=", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerLessThan(Double value) {
+            addCriterion("eat_per <", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerLessThanOrEqualTo(Double value) {
+            addCriterion("eat_per <=", value, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerIn(List<Double> values) {
+            addCriterion("eat_per in", values, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerNotIn(List<Double> values) {
+            addCriterion("eat_per not in", values, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerBetween(Double value1, Double value2) {
+            addCriterion("eat_per between", value1, value2, "eatPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andEatPerNotBetween(Double value1, Double value2) {
+            addCriterion("eat_per not between", value1, value2, "eatPer");
+            return (Criteria) this;
+        }
+
         public Criteria andFoodQuantityIsNull() {
             addCriterion("food_quantity is null");
             return (Criteria) this;

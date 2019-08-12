@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodRecord;
@@ -76,7 +76,7 @@ public interface IDietFoodService {
      * @param type
      * @return
      */
-    List<FoodInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type);
+    List<FoodRecordInfoDTO> listFoodInfoDTO(int uid, Date date, Integer type);
 
     TbDietRecord getDietRecord(List<TbDietRecord> recordList);
 
@@ -89,6 +89,14 @@ public interface IDietFoodService {
      * @return
      */
     List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type);
+
+    /**
+     * 更新饮食食物信息
+     *
+     * @param foodRecord 饮食食物信息
+     * @return 更新情况
+     */
+    boolean updateFoodRecord(TbFoodRecord foodRecord);
 
     /**
      * 通过foodId 获取菜式组成成分，元素总量

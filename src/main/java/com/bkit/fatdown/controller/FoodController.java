@@ -1,22 +1,18 @@
 package com.bkit.fatdown.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
-import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -265,15 +261,15 @@ public class FoodController {
     @ApiOperation("获取用餐菜式信息")
     @CrossOrigin
     @RequestMapping(value = "/foodInfo/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO<List<FoodInfoDTO>> listFoodInfo(@PathVariable Integer uid, @RequestParam String date,
-                                                           @RequestParam Integer type) {
+    public CommonResultDTO<List<FoodRecordInfoDTO>> listFoodInfo(@PathVariable Integer uid, @RequestParam String date,
+                                                                 @RequestParam Integer type) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid无效");
         }
 
         Date inputDate = DateUtils.string2Date(date);
 
-        List<FoodInfoDTO> recordList = foodService.listFoodInfoDTO(uid, inputDate, type);
+        List<FoodRecordInfoDTO> recordList = foodService.listFoodInfoDTO(uid, inputDate, type);
         if (recordList.size() == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("记录不存在");
         }

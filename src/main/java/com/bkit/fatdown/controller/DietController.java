@@ -2,6 +2,7 @@ package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietUserStandard;
+import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import io.swagger.annotations.Api;
@@ -57,5 +58,24 @@ public class DietController {
 
         logger.info("getUserStandard success, uid:{}", uid);
         return CommonResultDTO.success(userStandard);
+    }
+
+    @ApiOperation("更新菜式食用量")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecord/{id}", method = RequestMethod.PATCH)
+    public CommonResultDTO updateEatPer(@PathVariable Integer id, @RequestParam Integer eatPer) {
+        if (id == null || eatPer == null) {
+            return CommonResultDTO.validateFailed("更新食用比例");
+        }
+
+        TbFoodRecord record = new TbFoodRecord();
+        record.setEatPer(eatPer / 100.0);
+        record.setId(id);
+
+        if (foodService.updateFoodRecord(record)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
     }
 }

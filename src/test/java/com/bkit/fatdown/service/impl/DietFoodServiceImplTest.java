@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.utils.DateUtils;
 import org.junit.Test;
@@ -45,9 +45,9 @@ public class DietFoodServiceImplTest {
 
     @Test
     public void listFoodRecord() {
-        List<FoodInfoDTO> foodInfoDTOList = foodService.listFoodInfoDTO(uid, new Date(), 1);
-        for (FoodInfoDTO foodInfoDTO : foodInfoDTOList) {
-            System.out.println(foodInfoDTO.getFoodName() + " " + foodInfoDTO.getFoodGram());
+        List<FoodRecordInfoDTO> foodRecordInfoDTOList = foodService.listFoodInfoDTO(uid, new Date(), 1);
+        for (FoodRecordInfoDTO foodRecordInfoDTO : foodRecordInfoDTOList) {
+            System.out.println(foodRecordInfoDTO.getFoodName() + " " + foodRecordInfoDTO.getFoodGram());
         }
     }
 
