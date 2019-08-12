@@ -118,6 +118,15 @@ public interface IDietRecordService {
     int countDietRecord(Date date, int uid, int type);
 
     /**
+     * 统计饮食成分记录
+     *
+     * @param date 某周的一天
+     * @param uid  用户编号
+     * @return 记录数
+     */
+    int countWeeklyDietRecord(Date date, int uid);
+
+    /**
      * 获取某天，饮食成分记录列表
      *
      * @param date 记录日期

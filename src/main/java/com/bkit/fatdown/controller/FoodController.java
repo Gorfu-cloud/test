@@ -3,6 +3,7 @@ package com.bkit.fatdown.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodInfoDTO;
+import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.service.*;
@@ -44,9 +45,6 @@ public class FoodController {
 
     @Resource
     private IFoodRecommendRecordService recommendRecordService;
-
-    @Resource
-    private IFoodBasicService foodBasicService;
 
     @Resource
     private IFoodRecommendTypeService recommendTypeService;
@@ -264,16 +262,6 @@ public class FoodController {
         return CommonResultDTO.failed("类型更新失败");
     }
 
-    @ApiOperation("计算菜式成分总和")
-    @CrossOrigin
-    @RequestMapping(value = "/elementTotal/{id}", method = RequestMethod.GET)
-    public CommonResultDTO getFoodElementTotalById(@PathVariable Integer id) {
-        if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
-            return CommonResultDTO.validateFailed("id错误");
-        }
-        return CommonResultDTO.success(foodService.generateDietRecord(id));
-    }
-
     @ApiOperation("获取用餐菜式信息")
     @CrossOrigin
     @RequestMapping(value = "/foodInfo/{uid}", method = RequestMethod.GET)
@@ -305,8 +293,14 @@ public class FoodController {
         recommendTypeDTO.setTypeName("蛋白质");
         recommendTypeDTOList.add(recommendTypeDTO);
 
+        List<RecommendFoodInfoDTO> foodInfoDTOS = new ArrayList<>();
+
         List<TbFoodRecommend> recommendList = recommendService.listFoodRecommend(1);
-//        recommendTypeDTO.setFoodList(DataTransferUtils.);
+        for (TbFoodRecommend recommend : recommendList) {
+            foodInfoDTOS.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
+        }
+
+        recommendTypeDTO.setFoodList(foodInfoDTOS);
 
         return CommonResultDTO.success(recommendTypeDTOList);
     }

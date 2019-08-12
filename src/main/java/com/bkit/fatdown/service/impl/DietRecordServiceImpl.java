@@ -224,6 +224,7 @@ public class DietRecordServiceImpl implements IDietRecordService {
         return (int) dietRecordMapper.countByExample(example);
     }
 
+
     /**
      * 获取一天饮食三餐记录
      *
@@ -259,6 +260,24 @@ public class DietRecordServiceImpl implements IDietRecordService {
                 .andUserIdEqualTo(uid)
                 .andTypeEqualTo(type);
         return dietRecordMapper.selectByExample(example);
+    }
+
+    /**
+     * 统计饮食成分记录
+     *
+     * @param date 某周的一天
+     * @param uid  用户编号
+     * @return 记录数
+     */
+    @Override
+    public int countWeeklyDietRecord(Date date, int uid) {
+        TbDietRecordExample example = new TbDietRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                // 求早午晚餐
+                .andTypeLessThanOrEqualTo(4)
+                .andGmtCreateBetween(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date));
+        return (int) dietRecordMapper.countByExample(example);
     }
 
     /**

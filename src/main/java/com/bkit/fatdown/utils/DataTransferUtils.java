@@ -3,6 +3,8 @@ package com.bkit.fatdown.utils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.dto.diet.common.*;
+import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
+import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -651,5 +653,12 @@ public class DataTransferUtils {
         return evaluation;
     }
 
-//    private static
+    public static RecommendFoodInfoDTO transferRecommendFoodInfo(TbFoodRecommend recommend) {
+        RecommendFoodInfoDTO foodInfoDTO = new RecommendFoodInfoDTO();
+        foodInfoDTO.setFoodName(recommend.getFoodName());
+        foodInfoDTO.setFoodType(recommend.getFoodType());
+        foodInfoDTO.setId(recommend.getId());
+
+        return foodInfoDTO;
+    }
 }
