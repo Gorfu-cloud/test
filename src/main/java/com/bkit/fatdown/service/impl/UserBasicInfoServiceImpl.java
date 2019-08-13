@@ -7,7 +7,8 @@ import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.WeappUtil;
 import com.github.pagehelper.PageHelper;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,20 +29,20 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     @Resource
     private TbUserBasicInfoMapper userBasicInfoMapper;
 
-    private static Logger logger = Logger.getLogger(UserBasicInfoServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(UserBasicInfoServiceImpl.class);
 
     @Override
     public boolean insert(TbUserBasicInfo userBasicInfo) {
         userBasicInfo.setGmtCreate(new Date());
         userBasicInfo.setGmtModified(new Date());
         int num = userBasicInfoMapper.insertSelective(userBasicInfo);
-        logger.info("创建用户基础信息:" + userBasicInfo.getOpenId());
+        logger.info("user register start , openId :{} ", userBasicInfo.getOpenId());
         return num > 0;
     }
 
     @Override
     public boolean update(TbUserBasicInfo userBasicInfo) {
-        logger.info(userBasicInfo.getId() + "开始登陆");
+        logger.info("user start login, uid :{}", userBasicInfo.getId());
         userBasicInfo.setGmtModified(new Date());
         int num = userBasicInfoMapper.updateByPrimaryKeySelective(userBasicInfo);
         return num > 0;
@@ -69,7 +70,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     /**
      * 分页查找用户
      *
-     * @return
+     * @return 用户
      */
     @Override
     public List<TbUserBasicInfo> listAll(Integer pageSize, Integer pageNum) {

@@ -50,7 +50,6 @@ public class CommonController {
     }
 
 
-
     @ApiOperation("删除问题类型")
     @RequestMapping(value = "/questionType/{id}", method = RequestMethod.DELETE)
     @CrossOrigin
@@ -99,4 +98,6 @@ public class CommonController {
 
         return CommonResultDTO.failed();
     }
+
+
 }

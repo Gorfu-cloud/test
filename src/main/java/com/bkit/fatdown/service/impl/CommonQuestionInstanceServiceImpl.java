@@ -25,6 +25,9 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
     @Resource
     private TbCommonQuestionInstanceMapper questionInstanceMapper;
 
+    private static final int USERFUL = 1;
+    private static final int USERLESS = 2;
+
     /**
      * @param questionInstance 问题实例
      * @return 是否成功
@@ -75,7 +78,7 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
         TbCommonQuestionInstanceExample example = new TbCommonQuestionInstanceExample();
         example.createCriteria()
                 .andQuestionIdEqualTo(questionId);
-        return questionInstanceMapper.selectByExample(example);
+        return questionInstanceMapper.selectByExampleWithBLOBs(example);
     }
 
     /**
@@ -88,10 +91,10 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
         TbCommonQuestionInstance instance = getCommonQuestionInstance(instanceId);
         int count;
 
-        if (evaluation == 1) {
+        if (evaluation == USERFUL) {
             count = instance.getUsefulTotal() + 1;
             instance.setUsefulTotal(count);
-        } else if (evaluation == 2) {
+        } else if (evaluation == USERLESS) {
             count = instance.getUselessTotal() - 1;
             instance.setUselessTotal(count);
         }
