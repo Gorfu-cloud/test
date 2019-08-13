@@ -91,6 +91,25 @@
         <!--        <table tableName="tb_snack_record" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--        enableUpdateByExample="true"/>-->
         <!--饮食模块 结束-->
+        <!--反馈模块 开始-->
+        <!--常见问题部分-->
+        <table tableName="tb_common_question" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <table tableName="tb_common_question_instance" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--反馈部分-->
+        <table tableName="tb_feedback_info" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <table tableName="tb_feedback_reply" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <table tableName="tb_feedback_type" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--反馈模块 结束-->
 
         <!--测试模块 开始-->
         <!--        <table tableName="tb_paper_basic" enableCountByExample="true" enableDeleteByExample="true"-->

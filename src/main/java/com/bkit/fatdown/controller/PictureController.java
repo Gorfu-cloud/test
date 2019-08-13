@@ -209,8 +209,15 @@ public class PictureController {
     @ApiOperation("删除饮食图片")
     @CrossOrigin
     @RequestMapping(value = "/meal/{uid}", method = RequestMethod.DELETE)
-    public CommonResultDTO deleteMealPicture(@PathVariable Integer uid, @RequestParam String url) {
+    public CommonResultDTO deleteMealPicture(@PathVariable Integer uid, @RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("url")) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        String url = map.get("url");
+
         if (pictureService.count(uid, url) == 0) {
+            logger.error("picture fail");
             return CommonResultDTO.validateFailed("图片记录不存在");
         }
 

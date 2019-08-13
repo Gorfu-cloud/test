@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * @file: DietController
@@ -42,6 +43,7 @@ public class DietController {
     private static final Logger logger = LoggerFactory.getLogger(DietController.class);
 
     private static final int DATA_NOT_EXIST = 0;
+    private static final int DAY_TYPE = 4;
 
     @ApiOperation("获取用户饮食标准")
     @CrossOrigin
@@ -69,11 +71,14 @@ public class DietController {
 
     @ApiOperation("更新菜式食用量")
     @CrossOrigin
-    @RequestMapping(value = "/foodRecord/{id}", method = RequestMethod.PATCH)
-    public CommonResultDTO updateEatPer(@PathVariable Integer id, @RequestParam Integer eatPer) {
-        if (id == null || eatPer == null) {
+    @RequestMapping(value = "/foodRecord/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateEatPer(@PathVariable Integer id, @RequestBody HashMap<String, Integer> map) {
+
+        if (id == null || !map.containsKey("eatPer")) {
             return CommonResultDTO.validateFailed("更新食用比例");
         }
+
+        Integer eatPer = map.get("eatPer");
 
         TbFoodRecord record = new TbFoodRecord();
         record.setEatPer(eatPer / 100.0);
@@ -91,10 +96,10 @@ public class DietController {
             logger.error("fix eatPer:{} and update dietRecord fail，date：{} and uid：{} and type：{}", eatPer, date, uid, type);
         }
 
-        if (dietRecordService.updateDietRecord(date, uid, 4)) {
-            logger.info("update dietRecord daily success，date：{} and uid：{} and type：4", date, uid);
+        if (dietRecordService.updateDietRecord(date, uid, DAY_TYPE)) {
+            logger.info("update dietRecord daily success，date：{} and uid：{} and type：{}", date, uid, DAY_TYPE);
         } else {
-            logger.error("update dietRecord daily fail，date：{} and uid：{} and type：4", date, uid);
+            logger.error("update dietRecord daily fail，date：{} and uid：{} and type：{}", date, uid, DAY_TYPE);
         }
 
         if (foodService.updateFoodRecord(record)) {
