@@ -1,6 +1,5 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.entity.TbCommonQuestion;
 import com.bkit.fatdown.entity.TbCommonQuestionInstance;
 import com.bkit.fatdown.entity.TbCommonQuestionInstanceExample;
 import com.bkit.fatdown.mappers.TbCommonQuestionInstanceMapper;
@@ -25,8 +24,8 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
     @Resource
     private TbCommonQuestionInstanceMapper questionInstanceMapper;
 
-    private static final int USERFUL = 1;
-    private static final int USERLESS = 2;
+    private static final int USEFUL = 1;
+    private static final int USELESS = 2;
 
     /**
      * @param questionInstance 问题实例
@@ -76,6 +75,7 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
     @Override
     public List<TbCommonQuestionInstance> listCommonQuestionInstance(int questionId) {
         TbCommonQuestionInstanceExample example = new TbCommonQuestionInstanceExample();
+        example.setOrderByClause("useful_total desc");
         example.createCriteria()
                 .andQuestionIdEqualTo(questionId);
         return questionInstanceMapper.selectByExampleWithBLOBs(example);
@@ -84,17 +84,17 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
     /**
      * @param instanceId 实例id
      * @param evaluation 评价：0 未，1有帮助，2无帮助
-     * @return
+     * @return 是否成功
      */
     @Override
     public boolean instanceEvaluation(int instanceId, int evaluation) {
         TbCommonQuestionInstance instance = getCommonQuestionInstance(instanceId);
         int count;
 
-        if (evaluation == USERFUL) {
+        if (evaluation == USEFUL) {
             count = instance.getUsefulTotal() + 1;
             instance.setUsefulTotal(count);
-        } else if (evaluation == USERLESS) {
+        } else if (evaluation == USELESS) {
             count = instance.getUselessTotal() - 1;
             instance.setUselessTotal(count);
         }

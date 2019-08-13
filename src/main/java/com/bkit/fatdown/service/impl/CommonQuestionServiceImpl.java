@@ -72,7 +72,9 @@ public class CommonQuestionServiceImpl implements ICommonQuestionService {
      */
     @Override
     public List<TbCommonQuestion> listCommonQuestion() {
-        return commonQuestionMapper.selectByExample(new TbCommonQuestionExample());
+        TbCommonQuestionExample example = new TbCommonQuestionExample();
+        example.setOrderByClause("views_total desc");
+        return commonQuestionMapper.selectByExample(example);
     }
 
     /**
@@ -82,6 +84,7 @@ public class CommonQuestionServiceImpl implements ICommonQuestionService {
     @Override
     public List<TbCommonQuestion> listCommonQuestion(int status) {
         TbCommonQuestionExample example = new TbCommonQuestionExample();
+        example.setOrderByClause("views_total desc");
         example.createCriteria()
                 .andStatusEqualTo(status);
 
