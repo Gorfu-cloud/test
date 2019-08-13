@@ -56,7 +56,7 @@ public class PictureController {
 
     @ApiOperation("上传图片并保存菜式信息")
     @CrossOrigin
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
         // 获取上传结果
