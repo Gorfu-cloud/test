@@ -140,9 +140,9 @@ public class FoodController {
 
     @ApiOperation("创建推荐菜式选择记录")
     @CrossOrigin
-    @RequestMapping(value = "/recommendRecord/{uid}", method = RequestMethod.POST)
-    public CommonResultDTO addFoodRecommendRecord(@PathVariable int uid, @RequestParam int foodId,
-                                                  @RequestParam String date, @RequestParam int foodType) {
+    @RequestMapping(value = "/recommendRecord/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO addFoodRecommendRecord(@PathVariable int uid, @RequestParam Integer foodId,
+                                                  @RequestParam String date, @RequestParam Integer foodType) {
         if (date == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
                 || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid/recommendId 错误");

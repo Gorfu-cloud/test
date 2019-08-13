@@ -56,4 +56,31 @@ public interface IPictureService {
      * @return
      */
     Integer countRecord(Date start, Date end, Integer uid);
+
+    /**
+     * 获取饮食图片记录数
+     *
+     * @param uid 用户id
+     * @param url 图片url
+     * @return 记录数
+     */
+    Integer count(Integer uid, String url);
+
+    /**
+     * 删除饮食图片
+     *
+     * @param uid 用户id
+     * @param url 图片url
+     * @return 是否成功
+     */
+    boolean delete(Integer uid, String url);
+
+    /**
+     * 获取饮食图片
+     *
+     * @param uid 用户id
+     * @param url 图片路径
+     * @return 饮食图片
+     */
+    TbDietPicture getPicture(Integer uid, String url);
 }

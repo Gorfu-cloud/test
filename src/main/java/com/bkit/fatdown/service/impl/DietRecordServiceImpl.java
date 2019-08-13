@@ -10,6 +10,7 @@ import com.bkit.fatdown.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Service
+@Transactional
 public class DietRecordServiceImpl implements IDietRecordService {
 
     @Resource

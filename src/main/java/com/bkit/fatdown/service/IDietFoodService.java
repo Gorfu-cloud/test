@@ -36,6 +36,15 @@ public interface IDietFoodService {
     TbFoodRecord getFoodRecord(int id);
 
     /**
+     * 删除饮食记录
+     *
+     * @param uid 用户id
+     * @param url 图片路径
+     * @return 删除结果
+     */
+    boolean delete(int uid, String url);
+
+    /**
      * 获取用户某天饮食记录
      *
      * @param uid

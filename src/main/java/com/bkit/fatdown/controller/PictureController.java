@@ -57,7 +57,6 @@ public class PictureController {
     @ApiOperation("上传图片并保存菜式信息")
     @CrossOrigin
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    @Transactional
     public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
         // 获取上传结果
@@ -205,6 +204,39 @@ public class PictureController {
             return CommonResultDTO.failed("该日期下没有记录");
         }
         return CommonResultDTO.success(listMap);
+    }
+
+    @ApiOperation("删除饮食图片")
+    @CrossOrigin
+    @RequestMapping(value = "/meal/{uid}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteMealPicture(@PathVariable Integer uid, @RequestParam String url) {
+        if (pictureService.count(uid, url) == 0) {
+            return CommonResultDTO.validateFailed("图片记录不存在");
+        }
+
+        TbDietPicture picture = pictureService.getPicture(uid, url);
+
+        Date date = picture.getGmtCreate();
+        int type = DateUtils.getMealType(date);
+
+        // 删除图片
+        if (pictureService.delete(uid, url) && foodService.delete(uid, url)) {
+            // 这里需要更新饮食评价成分
+            if (dietRecordService.updateDietRecord(date, uid, type)) {
+                logger.info("update dietRecord success，date：{} and uid：{} and type：{}", date, uid, type);
+            } else {
+                logger.error("update dietRecord fail，date：{} and uid：{} and type：{}", date, uid, type);
+            }
+
+            if (dietRecordService.updateDietRecord(date, uid, 4)) {
+                logger.info("update dietRecord daily success，date：{} and uid：{} and type：4", date, uid);
+            } else {
+                logger.error("update dietRecord daily fail，date：{} and uid：{} and type：4", date, uid);
+            }
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
     }
 
 }

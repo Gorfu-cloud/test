@@ -98,6 +98,22 @@ public class DietFoodServiceImpl implements IDietFoodService {
     }
 
     /**
+     * 删除饮食记录
+     *
+     * @param uid 用户id
+     * @param url 图片路径
+     * @return 删除结果
+     */
+    @Override
+    public boolean delete(int uid, String url) {
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andImgUrlEqualTo(url);
+        return foodRecordMapper.deleteByExample(example) > 0;
+    }
+
+    /**
      * 获取饮食记录
      *
      * @param id 获取饮食记录

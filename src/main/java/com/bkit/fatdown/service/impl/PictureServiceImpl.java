@@ -74,6 +74,54 @@ public class PictureServiceImpl implements IPictureService {
         return resultMap;
     }
 
+    /**
+     * 获取饮食图片记录数
+     *
+     * @param uid 用户id
+     * @param url 图片url
+     * @return 记录数
+     */
+    @Override
+    public Integer count(Integer uid, String url) {
+        TbDietPictureExample example = new TbDietPictureExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andUrlEqualTo(url);
+        return (int) pictureMapper.countByExample(example);
+    }
+
+    /**
+     * 获取饮食图片
+     *
+     * @param uid 用户id
+     * @param url 图片路径
+     * @return 饮食图片
+     */
+    @Override
+    public TbDietPicture getPicture(Integer uid, String url) {
+        TbDietPictureExample example = new TbDietPictureExample();
+        example.createCriteria()
+                .andUrlEqualTo(url)
+                .andUserIdEqualTo(uid);
+        return pictureMapper.selectByExample(example).get(0);
+    }
+
+    /**
+     * 删除饮食图片
+     *
+     * @param uid 用户id
+     * @param url 图片url
+     * @return 是否成功
+     */
+    @Override
+    public boolean delete(Integer uid, String url) {
+        TbDietPictureExample example = new TbDietPictureExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andUrlEqualTo(url);
+        return pictureMapper.deleteByExample(example) > 0;
+    }
+
     @Override
     public List<TbDietPicture> listBetweenTime(int uid, Date start, Date end) {
         TbDietPictureExample example = new TbDietPictureExample();
