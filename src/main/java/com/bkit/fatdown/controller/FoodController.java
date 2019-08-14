@@ -283,20 +283,47 @@ public class FoodController {
                                                                      @RequestParam Integer type) {
 
         List<RecommendTypeDTO> recommendTypeDTOList = new ArrayList<>();
-        RecommendTypeDTO recommendTypeDTO = new RecommendTypeDTO();
-        recommendTypeDTO.setId(1);
-        recommendTypeDTO.setStatus(0);
-        recommendTypeDTO.setTypeName("蛋白质");
-        recommendTypeDTOList.add(recommendTypeDTO);
 
-        List<RecommendFoodInfoDTO> foodInfoDTOS = new ArrayList<>();
+        RecommendTypeDTO recommendTypeDTO1 = new RecommendTypeDTO();
+        recommendTypeDTO1.setId(1);
+        recommendTypeDTO1.setStatus(0);
+        recommendTypeDTO1.setTypeName("蛋白质");
+        recommendTypeDTOList.add(recommendTypeDTO1);
 
-        List<TbFoodRecommend> recommendList = recommendService.listFoodRecommend(1);
-        for (TbFoodRecommend recommend : recommendList) {
-            foodInfoDTOS.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
+        RecommendTypeDTO recommendTypeDTO2 = new RecommendTypeDTO();
+        recommendTypeDTO2.setId(2);
+        recommendTypeDTO2.setStatus(0);
+        recommendTypeDTO2.setTypeName("主食");
+        recommendTypeDTOList.add(recommendTypeDTO2);
+
+        RecommendTypeDTO recommendTypeDTO3 = new RecommendTypeDTO();
+        recommendTypeDTO3.setId(3);
+        recommendTypeDTO3.setStatus(0);
+        recommendTypeDTO3.setTypeName("脂肪");
+        recommendTypeDTOList.add(recommendTypeDTO3);
+
+        List<RecommendFoodInfoDTO> foodInfoDTOS1 = new ArrayList<>();
+        List<RecommendFoodInfoDTO> foodInfoDTOS2 = new ArrayList<>();
+        List<RecommendFoodInfoDTO> foodInfoDTOS3 = new ArrayList<>();
+
+        List<TbFoodRecommend> recommendList1 = recommendService.listFoodRecommend(1);
+        for (TbFoodRecommend recommend : recommendList1) {
+            foodInfoDTOS1.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
         }
 
-        recommendTypeDTO.setFoodList(foodInfoDTOS);
+        List<TbFoodRecommend> recommendList2 = recommendService.listFoodRecommend(2);
+        for (TbFoodRecommend recommend : recommendList2) {
+            foodInfoDTOS2.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
+        }
+
+        List<TbFoodRecommend> recommendList3 = recommendService.listFoodRecommend(3);
+        for (TbFoodRecommend recommend : recommendList3) {
+            foodInfoDTOS3.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
+        }
+
+        recommendTypeDTO1.setFoodList(foodInfoDTOS1);
+        recommendTypeDTO2.setFoodList(foodInfoDTOS2);
+        recommendTypeDTO3.setFoodList(foodInfoDTOS3);
 
         return CommonResultDTO.success(recommendTypeDTOList);
     }

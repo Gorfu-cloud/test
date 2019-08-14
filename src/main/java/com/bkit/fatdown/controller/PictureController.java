@@ -15,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,8 +55,8 @@ public class PictureController {
 
     @ApiOperation("上传图片并保存菜式信息")
     @CrossOrigin
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @RequestParam Integer uid,
+    @RequestMapping(value = "/upload/diet/{uid}", method = RequestMethod.POST)
+    public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @PathVariable Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
         // 获取上传结果
         Map<String, Object> result = pictureService.upload(picture, uid, new Date());
@@ -145,7 +144,7 @@ public class PictureController {
 
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
-    @RequestMapping(value = "/recognise", method = RequestMethod.GET)
+    @RequestMapping(value = "/recognise", method = RequestMethod.POST)
     public CommonResultDTO recognise(@RequestParam MultipartFile file) {
         String foodData = "data";
         // 解析识别返回结果数组

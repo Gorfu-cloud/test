@@ -7,8 +7,6 @@ import com.bkit.fatdown.service.IFeedbackReplyService;
 import com.bkit.fatdown.service.IFeedbackTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.omg.CORBA.COMM_FAILURE;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
