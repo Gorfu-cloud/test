@@ -165,13 +165,16 @@ public class CommonController {
 
     @ApiOperation("增加问题实例说明")
     @CrossOrigin
-    @RequestMapping(value = "/question", method = RequestMethod.POST)
-    public CommonResultDTO addQuestionInstance(@RequestParam String title, @RequestParam String content, @RequestParam Integer status) {
-        if (title.isEmpty() || content.isEmpty() || status > 1 || status < 0) {
+    @RequestMapping(value = "/question/{questionType}", method = RequestMethod.POST)
+    public CommonResultDTO addQuestionInstance(@PathVariable Integer questionType, @RequestParam String title,
+                                               @RequestParam String content, @RequestParam Integer status) {
+        if (commonQuestionService.countCommonQuestion(questionType) == DATA_NO_EXIST || title.isEmpty()
+                || content.isEmpty() || status > 1 || status < 0) {
             return CommonResultDTO.validateFailed();
         }
 
         TbCommonQuestionInstance questionInstance = new TbCommonQuestionInstance();
+        questionInstance.setQuestionId(questionType);
         questionInstance.setTitle(title);
         questionInstance.setContent(content);
         questionInstance.setStatus(status);

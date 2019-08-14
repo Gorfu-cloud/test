@@ -56,4 +56,10 @@ public interface IFeedbackTypeService {
      * @return 记录数
      */
     int count(int typeId);
+
+    /**
+     * @param typeName 反馈类型名称
+     * @return 记录数
+     */
+    int count(String typeName);
 }

@@ -4,19 +4,14 @@ package com.bkit.fatdown.utils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.l;
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.uid;
 
 /**
  * @file: FtpUtils
@@ -37,7 +32,7 @@ public class FtpUtils {
     private static final String IMAGE_BASE_URL_HTTP = "http://image.sunnyqcloud.com";
     private static final DateFormat DF = new SimpleDateFormat("/yyyy/MM/dd");
 
-    private static Logger logger = Logger.getLogger(FtpUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(FtpUtils.class);
 
     /**
      * @description: 连接服务器，传送文件
@@ -108,13 +103,14 @@ public class FtpUtils {
         return result;
     }
 
+
     /**
      * 上传图片到云数据库
      *
-     * @param uploadFile
-     * @param uid
-     * @param date
-     * @return
+     * @param uploadFile 上传图片
+     * @param uid        用id
+     * @param date       日期
+     * @return imgUrl：图片路径，flag：是否上传成功（true、false）
      */
     public static Map<String, String> uploadPicture(MultipartFile uploadFile, int uid, Date date) {
         logger.info("上传图片开始");
@@ -126,15 +122,12 @@ public class FtpUtils {
         //得到文件的后缀名称
         assert oldPictureName != null;
         String postfix = oldPictureName.substring(oldPictureName.lastIndexOf("."));
-
         //构建出一个新的文件名
         newPictureName = newPictureName + postfix;
-
         //图片上传 http://image.sunnyqcloud.com/pictures/4/2019/07/22/1563806098299320.jpg
         String imagePath = "/pictures/" + uid + DF.format(date);
 
         boolean result = false;
-
         try {
             result = uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASE_PATH,
                     imagePath, newPictureName, uploadFile.getInputStream());

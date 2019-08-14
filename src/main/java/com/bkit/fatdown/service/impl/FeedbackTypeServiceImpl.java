@@ -77,6 +77,18 @@ public class FeedbackTypeServiceImpl implements IFeedbackTypeService {
     }
 
     /**
+     * @param typeName 反馈类型名称
+     * @return 记录数
+     */
+    @Override
+    public int count(String typeName) {
+        TbFeedbackTypeExample example = new TbFeedbackTypeExample();
+        example.createCriteria()
+                .andTypeNameEqualTo(typeName);
+        return (int) typeMapper.countByExample(example);
+    }
+
+    /**
      * @param typeId 类型id
      * @return 记录数
      */
