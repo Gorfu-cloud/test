@@ -62,25 +62,29 @@ public class FeedbackController {
         info.setUserId(uid);
         info.setContent(content);
 
-        // 图片为空
-        if (fileArray.length > 0) {
-            Set<String> urlSet = new TreeSet<>();
-            Date now = new Date();
-            Map<String, String> result;
+        try {
+            // 图片为空
+            if (fileArray.length > 0) {
+                Set<String> urlSet = new TreeSet<>();
+                Date now = new Date();
+                Map<String, String> result;
 
-            for (MultipartFile file : fileArray) {
-                // 上传图片结果：imgUrl，flag（true/false）
-                result = FtpUtils.uploadPicture(file, uid, now);
-                // 上传失败
-                if ("false".equals(result.get("flag"))) {
-                    return CommonResultDTO.failed();
-                }
+                for (MultipartFile file : fileArray) {
+                    // 上传图片结果：imgUrl，flag（true/false）
+                    result = FtpUtils.uploadPicture(file, uid, now);
+                    // 上传失败
+                    if ("false".equals(result.get("flag"))) {
+                        return CommonResultDTO.failed();
+                    }
 
-                if ("true".equals(result.get("flag"))) {
-                    urlSet.add(result.get("imgUrl"));
+                    if ("true".equals(result.get("flag"))) {
+                        urlSet.add(result.get("imgUrl"));
+                    }
                 }
+                info.setImgUrlSet(urlSet.toString());
             }
-            info.setImgUrlSet(urlSet.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (infoService.insert(info)) {
@@ -146,15 +150,20 @@ public class FeedbackController {
     @ApiOperation("添加反馈回复信息")
     @CrossOrigin
     @RequestMapping(value = "/reply/{infoId}", method = RequestMethod.POST)
-    public CommonResultDTO addReply(@PathVariable Integer infoId, @RequestParam String content) {
-        if (infoService.countById(infoId) == DATA_NOT_EXIST || content.isEmpty()) {
+    public CommonResultDTO addReply(@PathVariable Integer infoId, @RequestParam String content, @RequestParam Integer status) {
+        if (infoService.countById(infoId) == DATA_NOT_EXIST || content.isEmpty() || status < 0 || status > 2) {
             return CommonResultDTO.validateFailed();
         }
 
         TbFeedbackReply reply = new TbFeedbackReply();
         reply.setInfoId(infoId);
         reply.setContent(content);
-        if (replyService.insert(reply)) {
+
+        TbFeedbackInfo info = new TbFeedbackInfo();
+        info.setId(infoId);
+        info.setStatus(status);
+
+        if (replyService.insert(reply) && infoService.update(info)) {
             return CommonResultDTO.success();
         }
 
@@ -185,6 +194,10 @@ public class FeedbackController {
         }
 
         int evaluation = map.get(EVALUATION_STR);
+
+        if (evaluation > 2 || evaluation < 0) {
+            return CommonResultDTO.validateFailed();
+        }
 
         TbFeedbackReply reply = new TbFeedbackReply();
         reply.setId(replyId);
