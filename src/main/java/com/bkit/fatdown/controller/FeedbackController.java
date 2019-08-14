@@ -49,13 +49,43 @@ public class FeedbackController {
         return CommonResultDTO.success();
     }
 
-    public CommonResultDTO<List<TbFeedbackInfo>> listInfoByUid() {
-        return CommonResultDTO.success();
+    @ApiOperation("查看用户反馈列表")
+    @CrossOrigin
+    @RequestMapping(value = "/info/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO<List<TbFeedbackInfo>> listInfoByUid(@RequestParam Integer uid) {
+        if (infoService.countByUid(uid) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbFeedbackInfo> infoList = infoService.listFeedbackInfo(uid);
+
+        if (infoList == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(infoList);
     }
 
-    public CommonResultDTO<TbFeedbackInfo> getInfo() {
-        return CommonResultDTO.success();
-    }
 
+    @ApiOperation("查看用户反馈详情")
+    @CrossOrigin
+    @RequestMapping(value = "/info/details/{infoId}", method = RequestMethod.GET)
+    public CommonResultDTO<TbFeedbackInfo> getInfo(@PathVariable Integer infoId) {
+        if (infoId == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (infoService.countById(infoId) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFeedbackInfo info = infoService.getFeedbackInfo(infoId);
+
+        if (info == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(info);
+    }
 
 }

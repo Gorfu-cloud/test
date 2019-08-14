@@ -69,6 +69,21 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
     }
 
     /**
+     * @param questionId 问题实例类型
+     * @param status     状态
+     * @return 相对状态问题实例类型
+     */
+    @Override
+    public List<TbCommonQuestionInstance> listCommonQuestionInstance(int questionId, int status) {
+        TbCommonQuestionInstanceExample example = new TbCommonQuestionInstanceExample();
+        example.setOrderByClause("useful_total desc");
+        example.createCriteria()
+                .andStatusEqualTo(status)
+                .andQuestionIdEqualTo(questionId);
+        return questionInstanceMapper.selectByExampleWithBLOBs(example);
+    }
+
+    /**
      * @param questionId 类型id
      * @return 常见问题列表
      */

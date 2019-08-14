@@ -6,7 +6,6 @@ import com.bkit.fatdown.entity.TbCommonQuestionInstance;
 import com.bkit.fatdown.service.ICommonQuestionInstanceService;
 import com.bkit.fatdown.service.ICommonQuestionService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,31 +37,15 @@ public class CommonController {
     private static final Integer OPEN = 1;
     private static final Integer DATA_NO_EXIST = 0;
 
-    @ApiOperation("获取问题列表")
-    @RequestMapping(value = "/questionTypes", method = RequestMethod.GET)
+    @ApiOperation("获取所有问题类型列表（已编辑完成）")
+    @RequestMapping(value = "/questionTypes/open", method = RequestMethod.GET)
     @CrossOrigin
-    public CommonResultDTO<List<TbCommonQuestion>> listCommonQuestion() {
+    public CommonResultDTO<List<TbCommonQuestion>> listCommonQuestionOpen() {
         List<TbCommonQuestion> questionList = commonQuestionService.listCommonQuestion(OPEN);
         if (questionList == null) {
             return CommonResultDTO.failed();
         }
         return CommonResultDTO.success(questionList);
-    }
-
-
-    @ApiOperation("删除问题类型")
-    @RequestMapping(value = "/questionType/{id}", method = RequestMethod.DELETE)
-    @CrossOrigin
-    public CommonResultDTO deleteCommonQuestion(@PathVariable int id) {
-        if (commonQuestionService.countCommonQuestion(id) == DATA_NO_EXIST) {
-            return CommonResultDTO.validateFailed();
-        }
-
-        if (commonQuestionService.delete(id)) {
-            return CommonResultDTO.success();
-        }
-
-        return CommonResultDTO.failed();
     }
 
     @ApiOperation("获取问题实例列表")
@@ -80,9 +63,90 @@ public class CommonController {
         return CommonResultDTO.success(instanceList);
     }
 
+    @ApiOperation("添加问题类型")
+    @CrossOrigin
+    @RequestMapping(value = "/questionType", method = RequestMethod.POST)
+    public CommonResultDTO addQuestionType(@RequestParam String title, @RequestParam Integer status) {
+        if (title.isEmpty() || status == null || status > 1 || status < 0) {
+            return CommonResultDTO.validateFailed("status/title错误");
+        }
+
+        if (commonQuestionService.countCommonQuestion(title) > 0) {
+            return CommonResultDTO.validateFailed("title 存在");
+        }
+
+        TbCommonQuestion question = new TbCommonQuestion();
+        question.setTitle(title);
+        question.setStatus(status);
+
+        if (commonQuestionService.insert(question)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("删除问题类型")
+    @RequestMapping(value = "/questionType/{id}", method = RequestMethod.DELETE)
+    @CrossOrigin
+    public CommonResultDTO deleteCommonQuestion(@PathVariable int id) {
+        if (commonQuestionService.countCommonQuestion(id) == DATA_NO_EXIST) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (commonQuestionService.delete(id)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("更新问题类型")
+    @CrossOrigin
+    @RequestMapping(value = "/questionType/{typeId}", method = RequestMethod.PUT)
+    public CommonResultDTO updateQuestionType(@PathVariable Integer typeId, @RequestBody HashMap<String, String> map) {
+
+        if (!map.containsKey("title") || !map.containsKey("status")) {
+            return CommonResultDTO.validateFailed("status/title错误");
+        }
+
+        String title = map.get("title");
+        Integer status = Integer.valueOf(map.get("status"));
+
+        if (title.isEmpty() || status > 1 || status < 0) {
+            return CommonResultDTO.validateFailed("status/title错误");
+        }
+
+        if (commonQuestionService.countCommonQuestion(title) > 0 || commonQuestionService.countCommonQuestion(typeId) == DATA_NO_EXIST) {
+            return CommonResultDTO.validateFailed("title 存在/ 问题类型不存在");
+        }
+
+        TbCommonQuestion question = new TbCommonQuestion();
+        question.setTitle(title);
+        question.setStatus(status);
+        question.setId(typeId);
+
+        if (commonQuestionService.update(question)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("获取所有问题类型列表")
+    @CrossOrigin
+    @RequestMapping(value = "/questionTypes", method = RequestMethod.GET)
+    public CommonResultDTO<List<TbCommonQuestion>> listCommonQuestion() {
+        List<TbCommonQuestion> questionList = commonQuestionService.listCommonQuestion();
+        if (questionList == null) {
+            return CommonResultDTO.failed();
+        }
+        return CommonResultDTO.success(questionList);
+    }
+
     @ApiOperation("对问题说明帮助进行评价（map中填写，evaluation: 0未评价，1有帮助，2无帮助")
     @CrossOrigin
-    @RequestMapping(value = "/question/evaluation/{instanceId}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/question/evaluation/{instanceId}", method = RequestMethod.PUT)
     public CommonResultDTO addQuestionInstanceEvaluation(@PathVariable Integer instanceId, @RequestBody HashMap<String, Integer> map) {
         String evaluationStr = "evaluation";
 
@@ -99,5 +163,44 @@ public class CommonController {
         return CommonResultDTO.failed();
     }
 
+    @ApiOperation("增加问题实例说明")
+    @CrossOrigin
+    @RequestMapping(value = "/question", method = RequestMethod.POST)
+    public CommonResultDTO addQuestionInstance(@RequestParam String title, @RequestParam String content, @RequestParam Integer status) {
+        if (title.isEmpty() || content.isEmpty() || status > 1 || status < 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbCommonQuestionInstance questionInstance = new TbCommonQuestionInstance();
+        questionInstance.setTitle(title);
+        questionInstance.setContent(content);
+        questionInstance.setStatus(status);
+
+        if (questionInstanceService.insert(questionInstance)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+//    @ApiOperation("更新问题实例说明")
+//    @CrossOrigin
+//    @RequestMapping(value = "/question", method = RequestMethod.PUT)
+//    public CommonResultDTO updateQuestionInstance(@RequestBody HashMap) {
+//        if (title.isEmpty() || content.isEmpty() || status > 1 || status < 0) {
+//            return CommonResultDTO.validateFailed();
+//        }
+//
+//        TbCommonQuestionInstance questionInstance =new TbCommonQuestionInstance();
+//        questionInstance.setTitle(title);
+//        questionInstance.setContent(content);
+//        questionInstance.setStatus(status);
+//
+//        if (questionInstanceService.insert(questionInstance)){
+//            return CommonResultDTO.success();
+//        }
+//
+//        return CommonResultDTO.failed();
+//    }
 
 }

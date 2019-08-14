@@ -94,7 +94,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     public boolean insert(TbFoodRecord record) {
         record.setGmtCreate(new Date());
         record.setGmtModified(new Date());
-        return foodRecordMapper.insert(record) > 0;
+        return foodRecordMapper.insertSelective(record) > 0;
     }
 
     /**
@@ -150,7 +150,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     public boolean insertDietStandard(TbDietUserStandard standard) {
         standard.setGmtCreate(new Date());
         standard.setGmtModified(new Date());
-        return dietStandardMapper.insert(standard) > 0;
+        return dietStandardMapper.insertSelective(standard) > 0;
     }
 
     /**
