@@ -235,6 +235,7 @@ public class FeedbackController {
     @CrossOrigin
     @RequestMapping(value = "/type", method = RequestMethod.POST)
     public CommonResultDTO addReplyType(@RequestParam String typeName, @RequestParam Integer status) {
+        // 添加类型名称不存在
         if (typeService.count(typeName) != DATA_NOT_EXIST || status < 0 || status > 1 || typeName.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
@@ -309,7 +310,7 @@ public class FeedbackController {
         return CommonResultDTO.success(type);
     }
 
-    @ApiOperation("获取反馈类型")
+    @ApiOperation("获取所有反馈类型")
     @CrossOrigin
     @RequestMapping(value = "/types", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFeedbackType>> listReplyType() {
@@ -323,7 +324,7 @@ public class FeedbackController {
         return CommonResultDTO.success(typeList);
     }
 
-    @ApiOperation("获取反馈类型")
+    @ApiOperation("获取反馈类型（已编辑）")
     @CrossOrigin
     @RequestMapping(value = "/types/open", method = RequestMethod.GET)
     public CommonResultDTO<List<TbFeedbackType>> listReplyTypeOpen() {
