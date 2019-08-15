@@ -8,6 +8,7 @@ import com.bkit.fatdown.service.IFeedbackInfoService;
 import com.bkit.fatdown.service.IFeedbackReplyService;
 import com.bkit.fatdown.service.IFeedbackTypeService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.FtpUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,11 +49,46 @@ public class FeedbackController {
     private static final String TYPE_NAME_STR = "typeName";
     private static final String STATUS_STR = "status";
 
-    @ApiOperation("添加用户反馈信息")
+    @ApiOperation("添加用户反馈信息图片")
+    @CrossOrigin
+    @RequestMapping(value = "/info/{uid}/{infoId}", method = RequestMethod.POST)
+    public CommonResultDTO addInfoPicture(@PathVariable Integer uid, @RequestParam Integer infoId, @RequestParam MultipartFile file) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || infoService.countById(infoId) == DATA_NOT_EXIST || file == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFeedbackInfo info = new TbFeedbackInfo();
+
+        Set<String> urlSet = DataTransferUtils.string2Set(infoService.getFeedbackInfo(infoId).getImgUrlSet());
+
+        Date now = new Date();
+        Map<String, String> result;
+
+        // 上传图片结果：imgUrl，flag（true/false）
+        result = FtpUtils.uploadPicture(file, uid, now);
+
+        // 上传失败
+        if ("false".equals(result.get("flag"))) {
+            return CommonResultDTO.failed();
+        }
+
+        if ("true".equals(result.get("flag"))) {
+            urlSet.add(result.get("imgUrl"));
+        }
+
+        info.setId(infoId);
+        info.setImgUrlSet(urlSet.toString());
+
+        if (infoService.update(info)) {
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("添加用户反馈信息,返回infoId")
     @CrossOrigin
     @RequestMapping(value = "/info/{uid}", method = RequestMethod.POST)
-    public CommonResultDTO addInfo(@PathVariable Integer uid, @RequestParam Integer typeId, @RequestParam String content,
-                                   @RequestParam(required = false) MultipartFile[] fileArray) {
+    public CommonResultDTO addInfo(@PathVariable Integer uid, @RequestParam Integer typeId, @RequestParam String content) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || typeService.count(typeId) == DATA_NOT_EXIST || content.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
@@ -61,36 +97,12 @@ public class FeedbackController {
         info.setTypeId(typeId);
         info.setUserId(uid);
         info.setContent(content);
-
-        try {
-            // 图片为空
-            if (fileArray.length > 0) {
-                Set<String> urlSet = new TreeSet<>();
-                Date now = new Date();
-                Map<String, String> result;
-
-                for (MultipartFile file : fileArray) {
-                    // 上传图片结果：imgUrl，flag（true/false）
-                    result = FtpUtils.uploadPicture(file, uid, now);
-                    // 上传失败
-                    if ("false".equals(result.get("flag"))) {
-                        return CommonResultDTO.failed();
-                    }
-
-                    if ("true".equals(result.get("flag"))) {
-                        urlSet.add(result.get("imgUrl"));
-                    }
-                }
-                info.setImgUrlSet(urlSet.toString());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        info.setImgUrlSet("");
 
         if (infoService.insert(info)) {
-            return CommonResultDTO.success();
+            int id = infoService.getInfoId(typeId, uid, content);
+            return CommonResultDTO.success(id);
         }
-
         return CommonResultDTO.failed();
     }
 

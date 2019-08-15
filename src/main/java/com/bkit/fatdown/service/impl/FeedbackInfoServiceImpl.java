@@ -93,6 +93,23 @@ public class FeedbackInfoServiceImpl implements IFeedbackInfoService {
     }
 
     /**
+     * @param typeId  反馈类型
+     * @param uid     用户id
+     * @param content 反馈内容
+     * @return infoId
+     */
+    @Override
+    public int getInfoId(Integer typeId, Integer uid, String content) {
+        TbFeedbackInfoExample example = new TbFeedbackInfoExample();
+        example.setOrderByClause("gmt_create desc");
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andTypeIdEqualTo(typeId)
+                .andContentEqualTo(content);
+        return infoMapper.selectByExample(example).get(0).getId();
+    }
+
+    /**
      * @param id 记录id
      * @return 记录数
      */

@@ -356,6 +356,23 @@ public class DataTransferUtils {
         return set;
     }
 
+    public static Set<String> string2Set(String strSet) {
+        Set<String> set = new TreeSet<>();
+        int minSetSize = 3;
+        if (strSet.length() < minSetSize) {
+            return set;
+        }
+
+        int startIndex = 1;
+        int endIndex = strSet.length() - 1;
+        // 注意：逗号之后有一个空格
+        String splitStr = ", ";
+        // 去除首尾[]
+        String newStr = strSet.substring(startIndex, endIndex);
+        set.addAll(Arrays.asList(newStr.split(splitStr)));
+        return set;
+    }
+
     /**
      * 转换为数据库储存对象
      *

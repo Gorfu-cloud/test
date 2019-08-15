@@ -55,4 +55,12 @@ public interface IFeedbackInfoService {
      * @return 记录数
      */
     int countById(int id);
+
+    /**
+     * @param typeId  反馈类型
+     * @param uid     用户id
+     * @param content 反馈内容
+     * @return infoId
+     */
+    int getInfoId(Integer typeId, Integer uid, String content);
 }

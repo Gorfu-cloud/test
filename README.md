@@ -15,6 +15,16 @@ Nginx 反向代理 ——> tomcat1,tomcat2,tomcat3
 使用idea导入vcs -> git
 自动导入依赖
 
+### 部署说明
+- 直接替换（热部署，直接替换即可） 
+
+    /opt/tomcats/tomcat1/webapp/fatdown.war
+    /opt/tomcats/tomcat2/webapp/fatdown.war
+    /opt/tomcats/tomcat3/webapp/fatdown.war
+
+注意
+- 重启服务器后需要重启tomcat1,tomcat2,tomcat3，以及nginx
+
 ### 使用说明
 
 1. 接口使用swagger2文档[本地访问](http://localhost:8088/fatdown/swagger-ui.html)
@@ -55,7 +65,7 @@ Nginx 反向代理 ——> tomcat1,tomcat2,tomcat3
 - ~~菜式识别（调用第三方接口，返回结果）~~
 - ~~每餐饮食评价~~
 - ~~每天饮食评价~~
-- 每周饮食评价
+- ~~每周饮食评价~~
 - 每月饮食评价
 - ~~三餐饮食图库~~
 - ~~菜式推荐增删改查（增删改查）~~
@@ -68,7 +78,11 @@ Nginx 反向代理 ——> tomcat1,tomcat2,tomcat3
 
 **7/29：新增需求**
 
-- 增加用户菜式用餐量（5%，10%,15%...95%,100%)选择修改，用餐后修改
+- ~~增加用户菜式用餐量（5%，10%,15%...95%,100%)选择修改，用餐后修改~~
+
+**8/15：新增需求**
+- ~~饮食图片可删除~~
+- 饮食历史可添加
 
 **优化计划**
 

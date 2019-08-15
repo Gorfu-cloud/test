@@ -110,7 +110,7 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
             count = instance.getUsefulTotal() + 1;
             instance.setUsefulTotal(count);
         } else if (evaluation == USELESS) {
-            count = instance.getUselessTotal() - 1;
+            count = instance.getUselessTotal() + 1;
             instance.setUselessTotal(count);
         }
 

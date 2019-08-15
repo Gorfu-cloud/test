@@ -142,6 +142,8 @@ public class PictureController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
+
+
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
     @RequestMapping(value = "/recognise", method = RequestMethod.POST)
