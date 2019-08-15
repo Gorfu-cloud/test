@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.feedback.FeedbackInfoDTO;
 import com.bkit.fatdown.entity.TbFeedbackInfo;
 import com.bkit.fatdown.entity.TbFeedbackReply;
 import com.bkit.fatdown.entity.TbFeedbackType;
@@ -124,7 +125,7 @@ public class FeedbackController {
     @ApiOperation("查看用户反馈列表")
     @CrossOrigin
     @RequestMapping(value = "/info/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO<List<TbFeedbackInfo>> listInfoByUid(@PathVariable Integer uid) {
+    public CommonResultDTO<List<FeedbackInfoDTO>> listInfoByUid(@PathVariable Integer uid) {
         if (infoService.countByUid(uid) == 0) {
             return CommonResultDTO.validateFailed();
         }
@@ -135,13 +136,19 @@ public class FeedbackController {
             return CommonResultDTO.failed();
         }
 
-        return CommonResultDTO.success(infoList);
+        List<FeedbackInfoDTO> infoDTOList = new ArrayList<>();
+
+        for (TbFeedbackInfo info : infoList) {
+            infoDTOList.add(transferFeedbackInfo(info));
+        }
+
+        return CommonResultDTO.success(infoDTOList);
     }
 
     @ApiOperation("查看用户反馈详情")
     @CrossOrigin
     @RequestMapping(value = "/info/details/{infoId}", method = RequestMethod.GET)
-    public CommonResultDTO<TbFeedbackInfo> getInfo(@PathVariable Integer infoId) {
+    public CommonResultDTO<FeedbackInfoDTO> getInfo(@PathVariable Integer infoId) {
         if (infoId == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -156,7 +163,7 @@ public class FeedbackController {
             return CommonResultDTO.failed();
         }
 
-        return CommonResultDTO.success(info);
+        return CommonResultDTO.success(transferFeedbackInfo(info));
     }
 
     @ApiOperation("添加反馈回复信息")
@@ -363,5 +370,17 @@ public class FeedbackController {
         }
 
         return CommonResultDTO.success(typeList);
+    }
+
+    /**
+     * @param info 反馈信息
+     * @return 封装后信息
+     */
+    private FeedbackInfoDTO transferFeedbackInfo(TbFeedbackInfo info) {
+        FeedbackInfoDTO infoDTO = new FeedbackInfoDTO(info);
+        String typeName = typeService.get(info.getTypeId()).getTypeName();
+        infoDTO.setTypeName(typeName);
+
+        return infoDTO;
     }
 }
