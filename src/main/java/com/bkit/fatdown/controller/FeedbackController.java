@@ -13,6 +13,8 @@ import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.FtpUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,10 +52,12 @@ public class FeedbackController {
     private static final String TYPE_NAME_STR = "typeName";
     private static final String STATUS_STR = "status";
 
+    private static final Logger logger = LoggerFactory.getLogger(FeedbackController.class);
+
     @ApiOperation("添加用户反馈信息图片")
     @CrossOrigin
     @RequestMapping(value = "/info/{uid}/{infoId}", method = RequestMethod.POST)
-    public CommonResultDTO addInfoPicture(@PathVariable Integer uid, @RequestParam Integer infoId, @RequestParam MultipartFile file) {
+    public CommonResultDTO addInfoPicture(@PathVariable Integer uid, @PathVariable Integer infoId, @RequestParam MultipartFile file) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || infoService.countById(infoId) == DATA_NOT_EXIST || file == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -70,11 +74,13 @@ public class FeedbackController {
 
         // 上传失败
         if ("false".equals(result.get("flag"))) {
+            logger.error("upload picture fail, uid:{} and infoId:{} and file: {}", uid, infoId, file.getOriginalFilename());
             return CommonResultDTO.failed();
         }
 
         if ("true".equals(result.get("flag"))) {
             urlSet.add(result.get("imgUrl"));
+            logger.info("upload picture success, uid:{} and infoId:{} and file: {} and imgUrl: {}", uid, infoId, file.getOriginalFilename(), result.get("imgUrl"));
         }
 
         info.setId(infoId);
@@ -89,7 +95,14 @@ public class FeedbackController {
     @ApiOperation("添加用户反馈信息,返回infoId")
     @CrossOrigin
     @RequestMapping(value = "/info/{uid}", method = RequestMethod.POST)
-    public CommonResultDTO addInfo(@PathVariable Integer uid, @RequestParam Integer typeId, @RequestParam String content) {
+    public CommonResultDTO addInfo(@PathVariable Integer uid, @RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("typeId") || !map.containsKey("content")) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Integer typeId = Integer.valueOf(map.get("typeId"));
+        String content = map.get("content");
+
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || typeService.count(typeId) == DATA_NOT_EXIST || content.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
@@ -136,13 +149,13 @@ public class FeedbackController {
             return CommonResultDTO.failed();
         }
 
-        List<FeedbackInfoDTO> infoDTOList = new ArrayList<>();
+        List<FeedbackInfoDTO> dtos = new ArrayList<>();
 
         for (TbFeedbackInfo info : infoList) {
-            infoDTOList.add(transferFeedbackInfo(info));
+            dtos.add(transferFeedbackInfo(info));
         }
 
-        return CommonResultDTO.success(infoDTOList);
+        return CommonResultDTO.success(dtos);
     }
 
     @ApiOperation("查看用户反馈详情")
