@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -150,7 +149,7 @@ public class DietRecordServiceImpl implements IDietRecordService {
     @Override
     public boolean updateDietRecord(Date now, int uid, int type) {
         List<TbFoodRecord> foodRecordList = foodService.listFoodRecord(uid, now, type);
-
+        logger.info("update foodRecord , size:{} ",foodRecordList.size());
         // 统计食用成分总量
         TbDietRecord record = foodService.getDietRecordTotal(foodRecordList);
 

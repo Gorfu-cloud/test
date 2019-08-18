@@ -92,7 +92,9 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Override
 
     public boolean insert(TbFoodRecord record) {
-        record.setGmtCreate(new Date());
+        if (record.getGmtCreate() == null) {
+            record.setGmtCreate(new Date());
+        }
         record.setGmtModified(new Date());
         return foodRecordMapper.insertSelective(record) > 0;
     }
@@ -206,6 +208,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         // 为空时，直接返回初始化结果
         if (recordList.isEmpty()) {
+            logger.warn("recordList is Empty");
             return target;
         }
 
@@ -408,7 +411,10 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 }
             }
         }
+
+
         TbDietRecord record = new TbDietRecord();
+        initDietRecord(record);
         // 根据实际食用，计算能量
         if (eatPer < 1) {
             // 设置每天评价需要数据
@@ -426,6 +432,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
             setVitamin(record, vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
             setMinerals(record, ca, p, k, mg, fe, zn, se, cu, na, mn);
         }
+
         return record;
     }
 
@@ -584,6 +591,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
         nutsSet.addAll(DataTransferUtils.str2Set(temp.getNutsSet()));
 
         TbDietRecord record = new TbDietRecord();
+        initDietRecord(record);
         // 设置每天评价需要数据
         setDaily(record, energy, fat, protein, carbs, fiber, goodProtein, animalFat, structType,
                 proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
@@ -591,6 +599,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
         setVitamin(record, vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
         // 设置矿物质数据
         setMinerals(record, ca, p, k, mg, fe, zn, se, cu, na, mn);
+        System.out.println("energy"+record.getEnergy());
         return record;
     }
 
