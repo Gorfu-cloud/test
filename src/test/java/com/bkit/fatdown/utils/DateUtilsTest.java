@@ -1,6 +1,9 @@
 package com.bkit.fatdown.utils;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
@@ -14,6 +17,8 @@ import static org.junit.Assert.*;
  * @modified:
  * @version: 1.0
  */
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class DateUtilsTest {
 
 //    @Test
@@ -58,7 +63,7 @@ public class DateUtilsTest {
 
     @Test
     public void string2Date() {
-        System.out.println(DateUtils.string2Date("2019-07-23 14:55:53.917"));
+        System.out.println(DateUtils.string2Date("2019-07-23"));
     }
 
     @Test
@@ -82,11 +87,11 @@ public class DateUtilsTest {
         System.out.println(date);
         System.out.println(DateUtils.getNextMonthStartDate(date));
 
-        date = DateUtils.string2Date("2019-02-28");
+        date = DateUtils.string2Date("2019-02-28 19:00:01");
         System.out.println(date);
         System.out.println(DateUtils.getNextMonthStartDate(date));
 
-        date = DateUtils.string2Date("2019-02-29");
+        date = DateUtils.string2Date("2019-02-29 19:0:1");
         System.out.println(date);
         System.out.println(DateUtils.getNextMonthStartDate(date));
 
@@ -99,4 +104,5 @@ public class DateUtilsTest {
     public void getMealType() {
         System.out.println(DateUtils.getMealType(new Date()));
     }
+
 }

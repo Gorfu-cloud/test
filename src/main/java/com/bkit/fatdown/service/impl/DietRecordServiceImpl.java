@@ -47,8 +47,8 @@ public class DietRecordServiceImpl implements IDietRecordService {
     public boolean insert(TbDietRecord record) {
         if (record.getGmtCreate() == null) {
             record.setGmtCreate(new Date());
-            record.setGmtModified(new Date());
         }
+        record.setGmtModified(new Date());
         return dietRecordMapper.insertSelective(record) > 0;
     }
 
@@ -60,9 +60,7 @@ public class DietRecordServiceImpl implements IDietRecordService {
      */
     @Override
     public boolean update(TbDietRecord record) {
-        if (record.getGmtCreate() == null) {
-            record.setGmtModified(new Date());
-        }
+        record.setGmtModified(new Date());
         return dietRecordMapper.updateByPrimaryKeySelective(record) > 0;
     }
 
@@ -123,6 +121,17 @@ public class DietRecordServiceImpl implements IDietRecordService {
     @Override
     public TbDietRecord getDietRecord(int id) {
         return dietRecordMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * @param date 日期
+     * @param uid  用户id
+     * @return 是否成功
+     */
+    @Override
+    public boolean updateDailyDietRecord(Date date, int uid) {
+        int type = 4;
+        return updateDietRecord(date, uid, type);
     }
 
     /**

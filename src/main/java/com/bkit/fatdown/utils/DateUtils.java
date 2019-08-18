@@ -219,6 +219,11 @@ public class DateUtils {
         return dateFormat.parse(strDate, new ParsePosition(0));
     }
 
+    public static Date string2DateTime(String strDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.parse(strDate, new ParsePosition(0));
+    }
+
     /**
      * 获取早餐开始时间
      *

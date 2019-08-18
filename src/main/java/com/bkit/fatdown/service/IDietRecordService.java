@@ -76,6 +76,7 @@ public interface IDietRecordService {
 
     boolean updateDietRecord(Date now, int uid, int type);
 
+
     /**
      * 更新 饮食成分记录
      *
@@ -91,6 +92,13 @@ public interface IDietRecordService {
      * @return 更新是否成功
      */
     boolean updateDailyDietRecord(int uid);
+
+    /**
+     * @param date 日期
+     * @param uid  用户id
+     * @return 是否成功
+     */
+    boolean updateDailyDietRecord(Date date, int uid);
 
     /**
      * 统计饮食成分记录
