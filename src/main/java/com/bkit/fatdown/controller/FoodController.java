@@ -66,60 +66,60 @@ public class FoodController {
         return CommonResultDTO.success(recommendList);
     }
 
-//    @ApiOperation("添加食物推荐信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/foodRecommend", method = RequestMethod.POST)
-//    public CommonResultDTO addFoodRecommend(@RequestParam String foodName, @RequestParam Integer foodType) {
-//        if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
-//            return CommonResultDTO.validateFailed("foodName/foodType无效");
-//        }
-//
-//        TbFoodRecommend recommend = new TbFoodRecommend();
-//        recommend.setFoodName(foodName);
-//        recommend.setFoodType(foodType);
-//
-//        if (recommendService.insert(recommend)) {
-//            return CommonResultDTO.success();
-//        }
-//
-//        return CommonResultDTO.failed("添加食物推荐失败");
-//    }
+    @ApiOperation("添加食物推荐信息")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecommend", method = RequestMethod.POST)
+    public CommonResultDTO addFoodRecommend(@RequestParam String foodName, @RequestParam Integer foodType) {
+        if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("foodName/foodType无效");
+        }
 
-//    @ApiOperation("删除食物推荐信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.DELETE)
-//    public CommonResultDTO deleteFoodRecommend(@PathVariable Integer id) {
-//        if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
-//            return CommonResultDTO.validateFailed("id无效");
-//        }
-//
-//        if (recommendService.delete(id)) {
-//            return CommonResultDTO.success();
-//        }
-//
-//        return CommonResultDTO.failed("删除食物推荐失败");
-//    }
-//
-//    @ApiOperation("更新食物推荐信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.PUT)
-//    public CommonResultDTO updateFoodRecommend(@PathVariable Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
-//        if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST
-//                || id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
-//            return CommonResultDTO.validateFailed("id/foodName/foodType无效");
-//        }
-//
-//        TbFoodRecommend recommend = new TbFoodRecommend();
-//        recommend.setFoodName(foodName);
-//        recommend.setFoodType(foodType);
-//        recommend.setId(id);
-//
-//        if (recommendService.update(recommend)) {
-//            return CommonResultDTO.success();
-//        }
-//
-//        return CommonResultDTO.failed("更新食物推荐失败");
-//    }
+        TbFoodRecommend recommend = new TbFoodRecommend();
+        recommend.setFoodName(foodName);
+        recommend.setFoodType(foodType);
+
+        if (recommendService.insert(recommend)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed("添加食物推荐失败");
+    }
+
+    @ApiOperation("删除食物推荐信息")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteFoodRecommend(@PathVariable Integer id) {
+        if (id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("id无效");
+        }
+
+        if (recommendService.delete(id)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed("删除食物推荐失败");
+    }
+
+    @ApiOperation("更新食物推荐信息")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateFoodRecommend(@PathVariable Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
+        if (foodName.isEmpty() || recommendTypeService.countType(foodType) == DATA_NOT_EXIST
+                || id == null || recommendService.countFoodRecommend(id) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("id/foodName/foodType无效");
+        }
+
+        TbFoodRecommend recommend = new TbFoodRecommend();
+        recommend.setFoodName(foodName);
+        recommend.setFoodType(foodType);
+        recommend.setId(id);
+
+        if (recommendService.update(recommend)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed("更新食物推荐失败");
+    }
 
     @ApiOperation("获取食物推荐信息")
     @CrossOrigin
@@ -183,16 +183,16 @@ public class FoodController {
         return CommonResultDTO.success(recordList);
     }
 
-//    @ApiOperation("获取所有推荐菜式类型")
-//    @CrossOrigin
-//    @RequestMapping(value = "/recommendTypes", method = RequestMethod.GET)
-//    public CommonResultDTO<List<TbFoodRecommendType>> listAllRecommendType() {
-//        List<TbFoodRecommendType> typeList = recommendTypeService.listAllType();
-//        if (typeList.size() == 0) {
-//            return CommonResultDTO.failed("暂无数据");
-//        }
-//        return CommonResultDTO.success(typeList);
-//    }
+    @ApiOperation("获取所有推荐菜式类型")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendTypes", method = RequestMethod.GET)
+    public CommonResultDTO<List<TbFoodRecommendType>> listAllRecommendType() {
+        List<TbFoodRecommendType> typeList = recommendTypeService.listAllType();
+        if (typeList.size() == 0) {
+            return CommonResultDTO.failed("暂无数据");
+        }
+        return CommonResultDTO.success(typeList);
+    }
 
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
@@ -209,54 +209,54 @@ public class FoodController {
         return CommonResultDTO.success(typeInfo);
     }
 
-//    @ApiOperation("删除推荐菜式类型信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.DELETE)
-//    public CommonResultDTO deleteRecommendType(@PathVariable int id) {
-//        if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
-//            return CommonResultDTO.validateFailed("类型不存在");
-//        }
-//
-//        if (recommendTypeService.delete(id)) {
-//            return CommonResultDTO.success();
-//        }
-//        return CommonResultDTO.failed("类型删除失败");
-//    }
-//
-//    @ApiOperation("添加推荐菜式类型信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/recommendType", method = RequestMethod.POST)
-//    public CommonResultDTO addRecommendType(@RequestParam String typeName) {
-//        if (typeName.isEmpty()) {
-//            return CommonResultDTO.validateFailed("菜式类型名称不能为空");
-//        }
-//
-//        TbFoodRecommendType recommendType = new TbFoodRecommendType();
-//        recommendType.setTypeName(typeName);
-//
-//        if (recommendTypeService.insert(recommendType)) {
-//            return CommonResultDTO.success();
-//        }
-//        return CommonResultDTO.failed("类型添加失败");
-//    }
-//
-//    @ApiOperation("更新推荐菜式类型信息")
-//    @CrossOrigin
-//    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.PUT)
-//    public CommonResultDTO updateRecommendType(@RequestParam String typeName, @PathVariable Integer id) {
-//        if (typeName.isEmpty() || id == null) {
-//            return CommonResultDTO.validateFailed("菜式类型名称或id不能为空");
-//        }
-//
-//        TbFoodRecommendType recommendType = new TbFoodRecommendType();
-//        recommendType.setTypeName(typeName);
-//        recommendType.setId(id);
-//
-//        if (recommendTypeService.update(recommendType)) {
-//            return CommonResultDTO.success();
-//        }
-//        return CommonResultDTO.failed("类型更新失败");
-//    }
+    @ApiOperation("删除推荐菜式类型信息")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteRecommendType(@PathVariable int id) {
+        if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("类型不存在");
+        }
+
+        if (recommendTypeService.delete(id)) {
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed("类型删除失败");
+    }
+
+    @ApiOperation("添加推荐菜式类型信息")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendType", method = RequestMethod.POST)
+    public CommonResultDTO addRecommendType(@RequestParam String typeName) {
+        if (typeName.isEmpty()) {
+            return CommonResultDTO.validateFailed("菜式类型名称不能为空");
+        }
+
+        TbFoodRecommendType recommendType = new TbFoodRecommendType();
+        recommendType.setTypeName(typeName);
+
+        if (recommendTypeService.insert(recommendType)) {
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed("类型添加失败");
+    }
+
+    @ApiOperation("更新推荐菜式类型信息")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateRecommendType(@RequestParam String typeName, @PathVariable Integer id) {
+        if (typeName.isEmpty() || id == null) {
+            return CommonResultDTO.validateFailed("菜式类型名称或id不能为空");
+        }
+
+        TbFoodRecommendType recommendType = new TbFoodRecommendType();
+        recommendType.setTypeName(typeName);
+        recommendType.setId(id);
+
+        if (recommendTypeService.update(recommendType)) {
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed("类型更新失败");
+    }
 
     @ApiOperation("获取用餐菜式信息")
     @CrossOrigin
