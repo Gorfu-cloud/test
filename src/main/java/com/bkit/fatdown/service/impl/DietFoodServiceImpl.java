@@ -214,11 +214,17 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
         // 记录为1时，直接返回
         if (recordList.size() == 1) {
-            return generateDietRecord(recordList.get(0).getFoodId(), recordList.get(0).getEatPer());
+            int foodId = recordList.get(0).getFoodId();
+            double eatPer = recordList.get(0).getEatPer();
+            logger.info("recordList size: 1, and foodId:{} and eatPer:{} ", foodId, eatPer);
+            return generateDietRecord(foodId, eatPer);
         }
 
         for (TbFoodRecord record : recordList) {
-            TbDietRecord temp = generateDietRecord(record.getFoodId(), record.getEatPer());
+            int foodId = record.getFoodId();
+            double eatPer = record.getEatPer();
+            logger.info("recordList size: {}, and foodId:{} and eatPer:{} ", recordList.size(), foodId, eatPer);
+            TbDietRecord temp = generateDietRecord(foodId, eatPer);
             target = mergeDietRecord(target, temp);
         }
 
@@ -350,6 +356,9 @@ public class DietFoodServiceImpl implements IDietFoodService {
             for (Map.Entry<Integer, Double> entry : map.entrySet()) {
                 // 计算根据每一百克，计算对应的元素含量
                 TbElementBasic elementBasic = elementBasicService.getElementBasic(entry.getKey());
+                logger.info("elementBasic , id:{} and type:{} and goodProtein: {} and animalFat: {}",
+                        elementBasic.getId(), elementBasic.getType(), elementBasic.getGoodProtein(), elementBasic.getAnimalFat());
+
                 double elementPer = entry.getValue() / FOOD_GRAM_BASE;
                 // 能量摄入
                 energy += (elementPer) * elementBasic.getEnergy();
@@ -387,6 +396,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 }
                 // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
                 if (elementBasic.getType() != FOOD_DEFAULT_TYPE) {
+                    logger.info("add structType, type : {} and set:{}",elementBasic.getType(),structType.toString());
                     structType.add(elementBasic.getType());
                 }
                 // 统计每次食物种类
@@ -595,11 +605,17 @@ public class DietFoodServiceImpl implements IDietFoodService {
         // 设置每天评价需要数据
         setDaily(record, energy, fat, protein, carbs, fiber, goodProtein, animalFat, structType,
                 proteinSet, stapleFoodSet, fruitVegetableSet, beansSet, nutsSet);
+        logger.info("setDaily record , energy {}, fat {}, protein {}, carbs {}, fiber {}, goodProtein {}, animalFat {}, " +
+                        "structType {},proteinSet {}, stapleFoodSet {}, fruitVegetableSet {}, beansSet {}, nutsSet {}",
+                energy, fat, protein, carbs, fiber, goodProtein, animalFat, structType.toString(), proteinSet.toString(),
+                stapleFoodSet.toString(), fruitVegetableSet.toString(), beansSet.toString(), nutsSet.toString());
         // 设置维生素数据
         setVitamin(record, vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
+        logger.info("set vitamin, v-A {},v-B1 {},v-B2 {},v-B3 {},v-C {},v-E {}",
+                vitaminA, vitaminB1, vitaminB2, vitaminB3, vitaminC, vitaminE);
         // 设置矿物质数据
         setMinerals(record, ca, p, k, mg, fe, zn, se, cu, na, mn);
-        System.out.println("energy"+record.getEnergy());
+        logger.info("set minerals, ca {},p {},k {},mg {},fe {},zn {},se {},cu {},na {},mn {}", ca, p, k, mg, fe, zn, se, cu, na, mn);
         return record;
     }
 

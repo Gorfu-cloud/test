@@ -279,20 +279,19 @@ public class DietController {
 
             int type = DateUtils.getMealType(inputDate);
 
-            // 更新每餐饮食成分记录
-            if (dietRecordService.updateDietRecord(inputDate, uid, type)) {
-                logger.info("update diet_record success, date:{} and uid: {} and type :{}", date, uid, type);
-            } else {
-                logger.error("update diet_record fail, date:{} and uid: {} and type :{}", date, uid, type);
-            }
-            // 更新每天用餐成分总量记录
-            if (dietRecordService.updateDailyDietRecord(inputDate, uid)) {
-                logger.info("update daily dietRecord success, date:{} and uid: {} ", date, uid);
-            } else {
-                logger.error("update daily dietRecord fail, date:{} and uid: {} ", date, uid);
-            }
-
             if (foodService.insert(foodRecord)) {
+                // 更新每餐饮食成分记录
+                if (dietRecordService.updateDietRecord(inputDate, uid, type)) {
+                    logger.info("update diet_record success, date:{} and uid: {} and type :{}", date, uid, type);
+                } else {
+                    logger.error("update diet_record fail, date:{} and uid: {} and type :{}", date, uid, type);
+                }
+                // 更新每天用餐成分总量记录
+                if (dietRecordService.updateDailyDietRecord(inputDate, uid)) {
+                    logger.info("update daily dietRecord success, date:{} and uid: {} ", date, uid);
+                } else {
+                    logger.error("update daily dietRecord fail, date:{} and uid: {} ", date, uid);
+                }
                 return CommonResultDTO.success();
             }
             return CommonResultDTO.failed("创建饮食记录失败");

@@ -121,20 +121,19 @@ public class PictureController {
             foodRecord.setFoodQuantity(gram);
             foodRecord.setImgUrl(imgUrl);
 
-            // 更新每餐饮食成分记录
-            if (dietRecordService.updateDietRecord(uid)) {
-                logger.info("update diet_record success, uid: {}", uid);
-            } else {
-                logger.error("update diet_record fail, uid: {}", uid);
-            }
-            // 更新每天用餐成分总量记录
-            if (dietRecordService.updateDailyDietRecord(uid)) {
-                logger.info("update daily dietRecord success, uid: {}", uid);
-            } else {
-                logger.error("update daily dietRecord fail, uid: {}", uid);
-            }
-
             if (foodService.insert(foodRecord)) {
+                // 更新每餐饮食成分记录
+                if (dietRecordService.updateDietRecord(uid)) {
+                    logger.info("update diet_record success, uid: {}", uid);
+                } else {
+                    logger.error("update diet_record fail, uid: {}", uid);
+                }
+                // 更新每天用餐成分总量记录
+                if (dietRecordService.updateDailyDietRecord(uid)) {
+                    logger.info("update daily dietRecord success, uid: {}", uid);
+                } else {
+                    logger.error("update daily dietRecord fail, uid: {}", uid);
+                }
                 return CommonResultDTO.success();
             }
             return CommonResultDTO.failed("创建饮食记录失败");
