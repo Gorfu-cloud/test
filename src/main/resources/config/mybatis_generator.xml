@@ -60,8 +60,8 @@
         <!--        <table tableName="tb_diet_picture" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--                        <table tableName="tb_diet_user_standard" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                               enableSelectByExample="true"-->
         <!--                               enableUpdateByExample="true"/>-->
@@ -79,8 +79,8 @@
         <!--                <table tableName="tb_diet_weekly_report" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--菜式推荐-->
-<!--                <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--                <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"-->
@@ -93,22 +93,22 @@
         <!--饮食模块 结束-->
         <!--反馈模块 开始-->
         <!--常见问题部分-->
-<!--        <table tableName="tb_common_question" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_common_question_instance" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;反馈部分&ndash;&gt;-->
-<!--        <table tableName="tb_feedback_info" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_feedback_reply" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_feedback_type" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_common_question" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_common_question_instance" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        &lt;!&ndash;反馈部分&ndash;&gt;-->
+        <!--        <table tableName="tb_feedback_info" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_feedback_reply" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_feedback_type" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true"-->
+        <!--               enableUpdateByExample="true"/>-->
         <!--反馈模块 结束-->
 
         <!--测试模块 开始-->
@@ -133,8 +133,6 @@
         <!--分享模块 结束-->
 
         <!--用户模块 开始-->
-        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
         <!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"-->
@@ -168,5 +166,18 @@
         <!--                <table tableName="tb_task_list" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--任务模块 结束-->
+
+        <!-- 后台管理模块 开始 -->
+        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_admin_menu" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_admin_menu_role" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_admin_permission_role" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_admin_role" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <!-- 后台管理模块 结束 -->
     </context>
 </generatorConfiguration>

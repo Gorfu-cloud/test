@@ -31,6 +31,12 @@ public interface IAdminService {
     TbAdmin get(int id);
 
     /**
+     * @param userName 用户名
+     * @return 是否成功
+     */
+    TbAdmin get(String userName);
+
+    /**
      * @param id id
      * @return 是否成功
      */
@@ -50,10 +56,17 @@ public interface IAdminService {
     int count(String name, String password);
 
     /**
+     * @param name     名称
+     * @return 记录数
+     */
+    int count(String name);
+
+    /**
      * @param userName 用户名
      * @param password 密码
      * @param status   状态
      * @return
      */
     int count(String userName, String password, Integer status);
+
 }

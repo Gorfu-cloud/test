@@ -4,6 +4,9 @@ import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbAdminExample;
 import com.bkit.fatdown.mappers.TbAdminMapper;
 import com.bkit.fatdown.service.IAdminService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +21,7 @@ import java.util.Date;
  * @version: 1.0
  */
 @Service
-public class AdminServiceImpl implements IAdminService {
+public class AdminServiceImpl implements IAdminService, UserDetailsService {
 
     @Resource
     private TbAdminMapper adminMapper;
@@ -44,6 +47,18 @@ public class AdminServiceImpl implements IAdminService {
     public boolean update(TbAdmin admin) {
         admin.setGmtModified(new Date());
         return adminMapper.updateByPrimaryKeySelective(admin) > 0;
+    }
+
+    /**
+     * @param userName 用户名
+     * @return 是否成功
+     */
+    @Override
+    public TbAdmin get(String userName) {
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andUserNameEqualTo(userName);
+        return adminMapper.selectByExample(example).get(0);
     }
 
     /**
@@ -77,6 +92,18 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
+     * @param name 名称
+     * @return 记录数
+     */
+    @Override
+    public int count(String name) {
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andUserNameEqualTo(name);
+        return (int) adminMapper.countByExample(example);
+    }
+
+    /**
      * @param name     名称
      * @param password 密码
      * @return 记录数
@@ -104,5 +131,22 @@ public class AdminServiceImpl implements IAdminService {
                 .andPasswordEqualTo(password)
                 .andStatusEqualTo(status);
         return (int) adminMapper.countByExample(example);
+    }
+
+    /**
+     * 执行登录的过程中，这个方法将根据用户名去查找用户，
+     * 如果用户不存在，则抛出 UsernameNotFoundException 异常，
+     * 否则直接将查到的Admin返回。
+     *
+     * @param s 用户名
+     * @return 用户信息
+     * @throws UsernameNotFoundException 用户不存在
+     */
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        if (count(s) == 0) {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
+        return get(s);
     }
 }
