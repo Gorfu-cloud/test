@@ -38,7 +38,6 @@ public class AdminMenuServiceImpl implements IAdminMenuService {
      */
     @Override
     public List<TbAdminMenu> listByAdminId(int adminId) {
-
         return null;
     }
 

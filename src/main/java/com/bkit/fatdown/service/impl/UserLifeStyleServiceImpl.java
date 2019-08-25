@@ -5,6 +5,7 @@ import com.bkit.fatdown.entity.TbUserLifeStyleExample;
 import com.bkit.fatdown.mappers.TbUserLifeStyleMapper;
 import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.utils.DateUtils;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,6 +54,17 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
     @Override
     public TbUserLifeStyle getById(int id) {
         return userLifeStyleMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<TbUserLifeStyle> list(int uid, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        TbUserLifeStyleExample example = new TbUserLifeStyleExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid);
+        example.setOrderByClause("gmt_modified desc");
+
+        return userLifeStyleMapper.selectByExample(example);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
@@ -64,6 +65,49 @@ public class FoodController {
         }
 
         return CommonResultDTO.success(recommendList);
+    }
+
+    @ApiOperation("分页：获取指定类型推荐菜式")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecommends/{foodType}/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecommendByPage(@PathVariable Integer foodType, @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
+        if (foodType == null || recommendTypeService.countType(foodType) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("foodType参数错误");
+        }
+
+        List<TbFoodRecommend> recommendList = recommendService.listFoodRecommend(foodType, pageNum, pageSize);
+
+        if (recommendList.size() == DATA_NOT_EXIST) {
+            return CommonResultDTO.failed("查找失败");
+        }
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(recommendList));
+    }
+
+    @ApiOperation("分页：查找指定名称、类型推荐菜式（名称可不传，所有类型：0）")
+    @CrossOrigin
+    @RequestMapping(value = "/foodRecommend/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecommendLikeName(@RequestParam(required = false) String foodName, @RequestParam Integer foodType,
+                                                     @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
+        logger.info("search: foodName:{} ,foodType:{}, pageNum:{}, pageSize:{}", foodName, foodType, pageNum, pageSize);
+        if (foodType == null || pageSize == null || pageNum == null) {
+            return CommonResultDTO.validateFailed("foodType、pageSize、pageNum参数为空");
+        }
+
+        List<TbFoodRecommend> recommendList;
+
+        // 查找所有食物推荐信息
+        if (foodType == 0 && foodName == null) {
+            recommendList = recommendService.listFoodRecommend(pageNum, pageSize);
+        } else {
+            recommendList = recommendService.listFoodRecommend(foodName, foodType, pageNum, pageSize);
+        }
+
+        if (recommendList.size() == DATA_NOT_EXIST) {
+            return CommonResultDTO.failed("查找失败");
+        }
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(recommendList));
     }
 
     @ApiOperation("添加食物推荐信息")
@@ -194,6 +238,24 @@ public class FoodController {
         return CommonResultDTO.success(typeList);
     }
 
+    @ApiOperation("分页：获取所有推荐菜式类型")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendTypes/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO<CommonPageDTO> listAllRecommendTypeByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        List<TbFoodRecommendType> typeList = recommendTypeService.listAllType(pageNum, pageSize);
+        return CommonResultDTO.success(CommonPageDTO.restPage(typeList));
+    }
+
+    @ApiOperation("分页：查找推荐菜式类型")
+    @CrossOrigin
+    @RequestMapping(value = "recommendType/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listRecommendTypeByPage(@RequestParam(required = false) String typeName,
+                                                   @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        List<TbFoodRecommendType> typeList = recommendTypeService.listType(typeName, pageNum, pageSize);
+        return CommonResultDTO.success(CommonPageDTO.restPage(typeList));
+    }
+
+
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
     @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.GET)
@@ -257,6 +319,7 @@ public class FoodController {
         }
         return CommonResultDTO.failed("类型更新失败");
     }
+
 
     @ApiOperation("获取用餐菜式信息")
     @CrossOrigin

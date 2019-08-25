@@ -1,11 +1,10 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendType;
 import com.bkit.fatdown.entity.TbFoodRecommendTypeExample;
 import com.bkit.fatdown.mappers.TbFoodRecommendTypeMapper;
-import com.bkit.fatdown.service.IFoodRecommendRecordService;
 import com.bkit.fatdown.service.IFoodRecommendTypeService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -65,6 +64,12 @@ public class FoodRecommendTypeServiceImpl implements IFoodRecommendTypeService {
         return recommendTypeMapper.deleteByPrimaryKey(id) > 0;
     }
 
+    @Override
+    public List<TbFoodRecommendType> listAllType(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return recommendTypeMapper.selectByExample(new TbFoodRecommendTypeExample());
+    }
+
     /**
      * 获取所有食物推荐类型
      *
@@ -72,8 +77,7 @@ public class FoodRecommendTypeServiceImpl implements IFoodRecommendTypeService {
      */
     @Override
     public List<TbFoodRecommendType> listAllType() {
-        TbFoodRecommendTypeExample example = new TbFoodRecommendTypeExample();
-        return recommendTypeMapper.selectByExample(example);
+        return recommendTypeMapper.selectByExample(new TbFoodRecommendTypeExample());
     }
 
     /**
@@ -85,6 +89,27 @@ public class FoodRecommendTypeServiceImpl implements IFoodRecommendTypeService {
     @Override
     public TbFoodRecommendType getTypeInfo(int id) {
         return recommendTypeMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 查找类型
+     *
+     * @param typeName 类型名称
+     * @param pageNum  页数
+     * @param pageSize 每页数目
+     * @return 类型列表
+     */
+    @Override
+    public List<TbFoodRecommendType> listType(String typeName, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbFoodRecommendTypeExample example = new TbFoodRecommendTypeExample();
+        TbFoodRecommendTypeExample.Criteria criteria = example.createCriteria();
+
+        if (typeName != null) {
+            criteria.andTypeNameLike("%" + typeName + "%");
+        }
+
+        return recommendTypeMapper.selectByExample(example);
     }
 
     /**

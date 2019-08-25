@@ -79,12 +79,12 @@
         <!--                <table tableName="tb_diet_weekly_report" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--菜式推荐-->
-        <!--                <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+                        <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"
+                               enableSelectByExample="true" enableUpdateByExample="true"/>
+                <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true" enableUpdateByExample="true"/>
+                <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true" enableUpdateByExample="true"/>
         <!--零食部分-->
         <!--        <table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--        enableUpdateByExample="true"/>-->
@@ -168,16 +168,16 @@
         <!--任务模块 结束-->
 
         <!-- 后台管理模块 开始 -->
-        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_admin_menu" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_admin_menu_role" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_admin_permission_role" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_admin_role" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+<!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_admin_menu" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_admin_menu_role" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_admin_permission_role" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+<!--        <table tableName="tb_admin_role" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!-- 后台管理模块 结束 -->
     </context>
 </generatorConfiguration>

@@ -4,9 +4,9 @@ import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbAdminExample;
 import com.bkit.fatdown.mappers.TbAdminMapper;
 import com.bkit.fatdown.service.IAdminService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,7 +21,8 @@ import java.util.Date;
  * @version: 1.0
  */
 @Service
-public class AdminServiceImpl implements IAdminService, UserDetailsService {
+public class AdminServiceImpl implements IAdminService{
+//public class AdminServiceImpl implements IAdminService, UserDetailsService {
 
     @Resource
     private TbAdminMapper adminMapper;
@@ -133,20 +134,20 @@ public class AdminServiceImpl implements IAdminService, UserDetailsService {
         return (int) adminMapper.countByExample(example);
     }
 
-    /**
-     * 执行登录的过程中，这个方法将根据用户名去查找用户，
-     * 如果用户不存在，则抛出 UsernameNotFoundException 异常，
-     * 否则直接将查到的Admin返回。
-     *
-     * @param s 用户名
-     * @return 用户信息
-     * @throws UsernameNotFoundException 用户不存在
-     */
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        if (count(s) == 0) {
-            throw new UsernameNotFoundException("用户名不存在");
-        }
-        return get(s);
-    }
+//    /**
+//     * 执行登录的过程中，这个方法将根据用户名去查找用户，
+//     * 如果用户不存在，则抛出 UsernameNotFoundException 异常，
+//     * 否则直接将查到的Admin返回。
+//     *
+//     * @param s 用户名
+//     * @return 用户信息
+//     * @throws UsernameNotFoundException 用户不存在
+//     */
+//    @Override
+//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//        if (count(s) == 0) {
+//            throw new UsernameNotFoundException("用户名不存在");
+//        }
+//        return get(s);
+//    }
 }

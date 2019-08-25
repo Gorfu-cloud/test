@@ -48,6 +48,26 @@ public interface IFoodRecommendService {
     List<TbFoodRecommend> listFoodRecommend(int foodType);
 
     /**
+     * 通过类型，查找推荐菜式
+     *
+     * @param pageNum  页号
+     * @param pageSize 每页数目
+     * @return 返回菜式列表
+     */
+    List<TbFoodRecommend> listFoodRecommend(Integer pageNum, Integer pageSize);
+
+    /**
+     * 模糊查询菜式关键词信息
+     *
+     * @param keyName  菜式关键词
+     * @param foodType 类型
+     * @param pageNum  页数
+     * @param pageSize 每页数目
+     * @return 菜式推荐
+     */
+    List<TbFoodRecommend> listFoodRecommend(String keyName, Integer foodType, Integer pageNum, Integer pageSize);
+
+    /**
      * 通过id查找推荐菜式
      *
      * @param id 推荐菜式id
@@ -62,4 +82,12 @@ public interface IFoodRecommendService {
      * @return 返回结果
      */
     int countFoodRecommend(int id);
+
+    /**
+     * @param foodType 食物类型
+     * @param pageNum  页号
+     * @param pageSize 每页数目
+     * @return 食物类型
+     */
+    List<TbFoodRecommend> listFoodRecommend(int foodType, Integer pageNum, Integer pageSize);
 }

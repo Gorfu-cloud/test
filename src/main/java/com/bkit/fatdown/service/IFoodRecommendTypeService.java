@@ -44,6 +44,8 @@ public interface IFoodRecommendTypeService {
      */
     List<TbFoodRecommendType> listAllType();
 
+    List<TbFoodRecommendType> listAllType(Integer pageNum, Integer pageSize);
+
     /**
      * 获取类型信息
      *
@@ -59,4 +61,14 @@ public interface IFoodRecommendTypeService {
      * @return 记录数
      */
     int countType(int id);
+
+    /**
+     * 查找类型
+     *
+     * @param typeName 类型名称
+     * @param pageNum  页数
+     * @param pageSize 每页数目
+     * @return 类型列表
+     */
+    List<TbFoodRecommendType> listType(String typeName, Integer pageNum, Integer pageSize);
 }

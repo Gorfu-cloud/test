@@ -28,6 +28,8 @@ public interface IUserLifeStyleService {
 
     boolean update(TbUserLifeStyle userLifeStyle);
 
+    List<TbUserLifeStyle> list(int uid,Integer pageSize,Integer pageNum);
+
     /**
      * 根据日期和uid查找是否存在隐私记录
      *
