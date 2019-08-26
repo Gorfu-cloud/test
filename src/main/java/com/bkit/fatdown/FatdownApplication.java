@@ -1,11 +1,9 @@
 package com.bkit.fatdown;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @file: FatdownApplication
@@ -15,9 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @modified:
  * @version: 2.0.6
  */
-
-@EnableSwagger2
-@MapperScan("com.bkit.fatdown.mappers")
 @SpringBootApplication
 public class FatdownApplication extends SpringBootServletInitializer {
 

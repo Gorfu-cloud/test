@@ -8,17 +8,28 @@
     <classPathEntry
             location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>
 
-    <context id="context" targetRuntime="MyBatis3">
+    <context id="context" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!--生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!--生成一个toString方法-->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <commentGenerator>
-            <property name="suppressAllComments" value="false"/>
+            <!--是否去除生成的注释： true 是， false 否-->
+            <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
         </commentGenerator>
 
         <!-- 数据库的相关配置 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health" userId="root"
-                        password="bk_28135"/>
-
+                        password="bk_28135">
+            <!--解决mysql驱动升级到8.0后不生成部分代码问题-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
@@ -79,12 +90,12 @@
         <!--                <table tableName="tb_diet_weekly_report" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--菜式推荐-->
-                        <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"
-                               enableSelectByExample="true" enableUpdateByExample="true"/>
-                <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"
-                       enableSelectByExample="true" enableUpdateByExample="true"/>
-                <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"
-                       enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true"/>
         <!--零食部分-->
         <!--        <table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--        enableUpdateByExample="true"/>-->
@@ -168,16 +179,16 @@
         <!--任务模块 结束-->
 
         <!-- 后台管理模块 开始 -->
-<!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_admin_menu" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_admin_menu_role" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_admin_permission_role" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
-<!--        <table tableName="tb_admin_role" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_admin" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_admin_menu" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_admin_menu_role" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_admin_permission_role" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
+        <!--        <table tableName="tb_admin_role" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!-- 后台管理模块 结束 -->
     </context>
 </generatorConfiguration>
