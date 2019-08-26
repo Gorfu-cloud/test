@@ -1,5 +1,7 @@
 package com.bkit.fatdown.config;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -34,6 +36,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
      * 服务器路径
      */
     private static final String SERVICE_URL = "https://sunnyqcloud.com/fatdown";
+
     /**
      * @description: 配置swagger文档
      * @params: null
@@ -48,6 +51,10 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 .select()
                 // 设置扫描基础包
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
+                // 扫描使用Api注解的控制器
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                // 扫描使用ApiOperation注解的方法
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -70,6 +77,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 .description("创建日期:2019年7月11日,修改日期:2019年8月07日")
                 // 创建路径
                 .termsOfServiceUrl(SERVICE_URL)
+                .contact("<a href=\"https://yujian95.cn/about/\">YuJian</a>")
                 .version("2.1.5")
                 .build();
     }
