@@ -390,4 +390,5 @@ public class FoodController {
 
         return CommonResultDTO.success(recommendTypeDTOList);
     }
+
 }

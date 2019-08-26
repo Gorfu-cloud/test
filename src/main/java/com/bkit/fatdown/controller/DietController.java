@@ -299,23 +299,6 @@ public class DietController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
-
-    private void updateDietRecord(int uid, Date date) {
-        int type = DateUtils.getMealType(date);
-        // 更新每餐饮食成分记录
-        if (dietRecordService.updateDietRecord(date, uid, type)) {
-            logger.info("update diet_record success, date:{} and uid: {} and type :{}", date, uid, type);
-        } else {
-            logger.error("update diet_record fail, date:{} and uid: {} and type :{}", date, uid, type);
-        }
-        // 更新每天用餐成分总量记录
-        if (dietRecordService.updateDailyDietRecord(date, uid)) {
-            logger.info("update daily dietRecord success, date:{} and uid: {} ", date, uid);
-        } else {
-            logger.error("update daily dietRecord fail, date:{} and uid: {} ", date, uid);
-        }
-    }
-
     @ApiOperation("更新饮食记录")
     @CrossOrigin
     @RequestMapping(value = "/record/update/{uid}/{date}", method = RequestMethod.GET)
@@ -331,6 +314,22 @@ public class DietController {
             return CommonResultDTO.success();
         } else {
             return CommonResultDTO.failed();
+        }
+    }
+
+    private void updateDietRecord(int uid, Date date) {
+        int type = DateUtils.getMealType(date);
+        // 更新每餐饮食成分记录
+        if (dietRecordService.updateDietRecord(date, uid, type)) {
+            logger.info("update diet_record success, date:{} and uid: {} and type :{}", date, uid, type);
+        } else {
+            logger.error("update diet_record fail, date:{} and uid: {} and type :{}", date, uid, type);
+        }
+        // 更新每天用餐成分总量记录
+        if (dietRecordService.updateDailyDietRecord(date, uid)) {
+            logger.info("update daily dietRecord success, date:{} and uid: {} ", date, uid);
+        } else {
+            logger.error("update daily dietRecord fail, date:{} and uid: {} ", date, uid);
         }
     }
 }

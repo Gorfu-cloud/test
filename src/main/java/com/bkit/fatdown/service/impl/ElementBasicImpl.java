@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.entity.TbElementBasicExample;
 import com.bkit.fatdown.mappers.TbElementBasicMapper;
 import com.bkit.fatdown.service.IElementBasicService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -70,6 +71,30 @@ public class ElementBasicImpl implements IElementBasicService {
     @Override
     public TbElementBasic getElementBasic(int id) {
         return elementBasicMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * @param keyword  元素关键词
+     * @param type     类型
+     * @param pageNum  页数
+     * @param pageSize 每页数目
+     * @return 成分列表
+     */
+    @Override
+    public List<TbElementBasic> listByPage(String keyword, Integer type, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbElementBasicExample example = new TbElementBasicExample();
+        TbElementBasicExample.Criteria criteria = example.createCriteria();
+
+        if (keyword != null) {
+            criteria.andNameLike("%" + keyword + "%");
+        }
+
+        if (type != 0) {
+            criteria.andTypeEqualTo(type);
+        }
+
+        return elementBasicMapper.selectByExample(example);
     }
 
     /**

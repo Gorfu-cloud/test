@@ -2,7 +2,6 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.entity.TbElementBasic;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -54,6 +53,15 @@ public interface IElementBasicService {
      * @return
      */
     List<TbElementBasic> listElementBasic(int type);
+
+    /**
+     * @param keyword 元素关键词
+     * @param type     类型
+     * @param pageNum  页数
+     * @param pageSize 每页数目
+     * @return 成分列表
+     */
+    List<TbElementBasic> listByPage(String keyword, Integer type, Integer pageNum, Integer pageSize);
 
     /**
      * 获取元素
