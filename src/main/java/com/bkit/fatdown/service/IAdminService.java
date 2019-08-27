@@ -2,6 +2,8 @@ package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbPermission;
+import com.bkit.fatdown.entity.TbRole;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -95,4 +97,26 @@ public interface IAdminService {
      * 获取用户所有权限（包括角色权限和+-权限）
      */
     List<TbPermission> getPermissionList(Integer adminId);
+
+    /**
+     * 刷新token的功能
+     * @param oldToken 旧的token
+     */
+    String refreshToken(String oldToken);
+
+    /**
+     * 修改用户角色关系
+     * @param adminId 管理id
+     * @param roleIdList 角色id列表
+     * @return
+     */
+    @Transactional
+    int updateRole(Integer adminId, List<Integer> roleIdList);
+
+    /**
+     * 获取用户对应角色
+     * @param adminId 用户id
+     * @return
+     */
+    List<TbRole> listRoleList(Integer adminId);
 }

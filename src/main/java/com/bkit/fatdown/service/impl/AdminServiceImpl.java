@@ -2,6 +2,7 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbAdminMapper;
+import com.bkit.fatdown.mappers.TbAdminRoleRelationMapper;
 import com.bkit.fatdown.mappers.dao.AdminRoleRelationDao;
 import com.bkit.fatdown.service.IAdminService;
 import com.bkit.fatdown.utils.JwtTokenUtil;
@@ -17,10 +18,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @file: AdminServiceImpl
@@ -45,6 +49,8 @@ public class AdminServiceImpl implements IAdminService {
     private TbAdminMapper adminMapper;
     @Resource
     private AdminRoleRelationDao adminRoleRelationDao;
+    @Resource
+    private TbAdminRoleRelationMapper adminRoleRelationMapper;
 
     /**
      * @param admin 管理员
@@ -223,6 +229,59 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
+     * 刷新token的功能
+     *
+     * @param oldToken 旧的token
+     */
+    @Override
+    public String refreshToken(String oldToken) {
+        String token = oldToken.substring(tokenHead.length());
+        if (jwtTokenUtil.canRefresh(token)) {
+            return jwtTokenUtil.refreshToken(token);
+        }
+        return null;
+    }
+
+    /**
+     * 修改用户角色关系
+     *
+     * @param adminId    管理id
+     * @param roleIdList 角色id列表
+     * @return
+     */
+    @Override
+    public int updateRole(Integer adminId, List<Integer> roleIdList) {
+        int count = roleIdList == null ? 0 : roleIdList.size();
+        //先删除原来的关系
+        TbAdminRoleRelationExample adminRoleRelationExample = new TbAdminRoleRelationExample();
+        adminRoleRelationExample.createCriteria().andAdminIdEqualTo(adminId);
+        adminRoleRelationMapper.deleteByExample(adminRoleRelationExample);
+        //建立新关系
+        if (!CollectionUtils.isEmpty(roleIdList)) {
+            List<TbAdminRoleRelation> list = new ArrayList<>();
+            for (Integer roleId : roleIdList) {
+                TbAdminRoleRelation roleRelation = new TbAdminRoleRelation();
+                roleRelation.setAdminId(adminId);
+                roleRelation.setAdminRoleId(roleId);
+                list.add(roleRelation);
+            }
+            adminRoleRelationDao.insertList(list);
+        }
+        return count;
+    }
+
+    /**
+     * 获取用户对应角色
+     *
+     * @param adminId 用户id
+     * @return
+     */
+    @Override
+    public List<TbRole> listRoleList(Integer adminId) {
+        return adminRoleRelationDao.getRoleList(adminId);
+    }
+
+    /**
      * 获取用户所有权限（包括角色权限和+-权限）
      *
      * @param adminId
@@ -230,5 +289,19 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public List<TbPermission> getPermissionList(Integer adminId) {
         return adminRoleRelationDao.getPermissionList(adminId);
+    }
+
+    /**
+     * 将+-权限关系转化为对象
+     */
+    private List<TbAdminPermissionRelation> convert(Integer adminId,Integer type,List<Integer> permissionIdList) {
+        List<TbAdminPermissionRelation> relationList = permissionIdList.stream().map(permissionId -> {
+            TbAdminPermissionRelation relation = new TbAdminPermissionRelation();
+            relation.setAdminId(adminId);
+            relation.setType(type);
+            relation.setPermissionId(permissionId);
+            return relation;
+        }).collect(Collectors.toList());
+        return relationList;
     }
 }

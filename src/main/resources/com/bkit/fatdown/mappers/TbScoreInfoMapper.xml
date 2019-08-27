@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bkit.fatdown.mappers.TbScoreInfoMapper">
+  <resultMap id="BaseResultMap" type="com.bkit.fatdown.entity.TbScoreInfo">
+    <id column="user" jdbcType="INTEGER" property="user" />
+    <result column="diet" jdbcType="DOUBLE" property="diet" />
+    <result column="sport" jdbcType="DOUBLE" property="sport" />
+    <result column="learn" jdbcType="DOUBLE" property="learn" />
+    <result column="test" jdbcType="DOUBLE" property="test" />
+    <result column="active" jdbcType="DOUBLE" property="active" />
+    <result column="share" jdbcType="DOUBLE" property="share" />
+    <result column="total" jdbcType="DOUBLE" property="total" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    user, diet, sport, learn, test, active, share, total
+  </sql>
+  <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbScoreInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_score_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_score_info
+    where user = #{user,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_score_info
+    where user = #{user,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bkit.fatdown.entity.TbScoreInfoExample">
+    delete from tb_score_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bkit.fatdown.entity.TbScoreInfo">
+    insert into tb_score_info (user, diet, sport, 
+      learn, test, active, share, 
+      total)
+    values (#{user,jdbcType=INTEGER}, #{diet,jdbcType=DOUBLE}, #{sport,jdbcType=DOUBLE}, 
+      #{learn,jdbcType=DOUBLE}, #{test,jdbcType=DOUBLE}, #{active,jdbcType=DOUBLE}, #{share,jdbcType=DOUBLE}, 
+      #{total,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbScoreInfo">
+    insert into tb_score_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        user,
+      </if>
+      <if test="diet != null">
+        diet,
+      </if>
+      <if test="sport != null">
+        sport,
+      </if>
+      <if test="learn != null">
+        learn,
+      </if>
+      <if test="test != null">
+        test,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+      <if test="share != null">
+        share,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user != null">
+        #{user,jdbcType=INTEGER},
+      </if>
+      <if test="diet != null">
+        #{diet,jdbcType=DOUBLE},
+      </if>
+      <if test="sport != null">
+        #{sport,jdbcType=DOUBLE},
+      </if>
+      <if test="learn != null">
+        #{learn,jdbcType=DOUBLE},
+      </if>
+      <if test="test != null">
+        #{test,jdbcType=DOUBLE},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=DOUBLE},
+      </if>
+      <if test="share != null">
+        #{share,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bkit.fatdown.entity.TbScoreInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_score_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_score_info
+    <set>
+      <if test="record.user != null">
+        user = #{record.user,jdbcType=INTEGER},
+      </if>
+      <if test="record.diet != null">
+        diet = #{record.diet,jdbcType=DOUBLE},
+      </if>
+      <if test="record.sport != null">
+        sport = #{record.sport,jdbcType=DOUBLE},
+      </if>
+      <if test="record.learn != null">
+        learn = #{record.learn,jdbcType=DOUBLE},
+      </if>
+      <if test="record.test != null">
+        test = #{record.test,jdbcType=DOUBLE},
+      </if>
+      <if test="record.active != null">
+        active = #{record.active,jdbcType=DOUBLE},
+      </if>
+      <if test="record.share != null">
+        share = #{record.share,jdbcType=DOUBLE},
+      </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_score_info
+    set user = #{record.user,jdbcType=INTEGER},
+      diet = #{record.diet,jdbcType=DOUBLE},
+      sport = #{record.sport,jdbcType=DOUBLE},
+      learn = #{record.learn,jdbcType=DOUBLE},
+      test = #{record.test,jdbcType=DOUBLE},
+      active = #{record.active,jdbcType=DOUBLE},
+      share = #{record.share,jdbcType=DOUBLE},
+      total = #{record.total,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bkit.fatdown.entity.TbScoreInfo">
+    update tb_score_info
+    <set>
+      <if test="diet != null">
+        diet = #{diet,jdbcType=DOUBLE},
+      </if>
+      <if test="sport != null">
+        sport = #{sport,jdbcType=DOUBLE},
+      </if>
+      <if test="learn != null">
+        learn = #{learn,jdbcType=DOUBLE},
+      </if>
+      <if test="test != null">
+        test = #{test,jdbcType=DOUBLE},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=DOUBLE},
+      </if>
+      <if test="share != null">
+        share = #{share,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where user = #{user,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bkit.fatdown.entity.TbScoreInfo">
+    update tb_score_info
+    set diet = #{diet,jdbcType=DOUBLE},
+      sport = #{sport,jdbcType=DOUBLE},
+      learn = #{learn,jdbcType=DOUBLE},
+      test = #{test,jdbcType=DOUBLE},
+      active = #{active,jdbcType=DOUBLE},
+      share = #{share,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE}
+    where user = #{user,jdbcType=INTEGER}
+  </update>
+</mapper>
