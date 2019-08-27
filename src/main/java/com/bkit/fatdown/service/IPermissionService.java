@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.PermissionNode;
 import com.bkit.fatdown.entity.TbPermission;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public interface IPermissionService {
     boolean update(TbPermission permission);
 
     /**
+     * @param permission 权限
+     * @return
+     */
+    boolean update(Integer id,TbPermission permission);
+
+    /**
      * @param id 编号
      * @return
      */
@@ -43,4 +50,21 @@ public interface IPermissionService {
      * @return
      */
     List<TbPermission> list(int adminId);
+
+    /**
+     * 批量删除权限
+     * @param idList 权限id
+     * @return
+     */
+    int delete(List<Integer> idList);
+
+    /**
+     * 以层级结构返回所有权限
+     */
+    List<PermissionNode> treeList();
+
+    /**
+     * 获取所有权限
+     */
+    List<TbPermission> list();
 }

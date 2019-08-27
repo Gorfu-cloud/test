@@ -119,4 +119,13 @@ public interface IAdminService {
      * @return
      */
     List<TbRole> listRoleList(Integer adminId);
+
+    /**
+     * 修改用户的+-权限
+     * @param adminId 用户id
+     * @param permissionIdList 权限列表
+     * @return
+     */
+    @Transactional
+    int updatePermission(Integer adminId, List<Integer> permissionIdList);
 }

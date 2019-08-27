@@ -3,6 +3,7 @@ package com.bkit.fatdown.controller;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
+import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IElementBasicService;
 import com.bkit.fatdown.service.IFoodBasicService;
@@ -46,7 +47,7 @@ public class ElementController {
         return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100));
     }
 
-    @ApiOperation("分页：查找指定所有元素成分（名称可空、所有类型：0）")
+    @ApiOperation("分页：查找名称,指定所有元素成分（名称可空、所有类型：0）")
     @CrossOrigin
     @RequestMapping(value = "/basic/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listElementInfo(@RequestParam(required = false) String name, @RequestParam Integer type,
@@ -58,13 +59,64 @@ public class ElementController {
         return CommonResultDTO.success(CommonPageDTO.restPage(elementBasicService.listByPage(name, type, pageNum, pageSize)));
     }
 
-    @ApiOperation("通过id查找成分所含元素")
+    @ApiOperation("添加成分所含元素")
     @CrossOrigin
-    @RequestMapping(value = "/basic/{id}", method = RequestMethod.GET)
-    public CommonResultDTO getElementInfo(@PathVariable Integer id) {
+    @RequestMapping(value = "/basic", method = RequestMethod.POST)
+    public CommonResultDTO addElementBasic(@RequestBody TbElementBasic elementBasic) {
+        if (elementBasic.getType() == null || elementBasic.getName() == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (elementBasicService.insert(elementBasic)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("通过id,删除成分所含元素")
+    @CrossOrigin
+    @RequestMapping(value = "/basic/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteElementBasic(@PathVariable Integer id) {
         if (id == null) {
             return CommonResultDTO.validateFailed();
         }
-        return CommonResultDTO.success(elementBasicService.getElementBasic(id));
+
+        if (elementBasicService.delete(id)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
     }
+
+    @ApiOperation("更新成分所含元素")
+    @CrossOrigin
+    @RequestMapping(value = "/basic", method = RequestMethod.PUT)
+    public CommonResultDTO updateElementBasic(@RequestBody TbElementBasic elementBasic) {
+        if (elementBasic.getType() == null || elementBasic.getName() == null || elementBasic.getId() == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (elementBasicService.update(elementBasic)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("通过id,获取成分所含元素")
+    @CrossOrigin
+    @RequestMapping(value = "/basic/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getElementBasic(@PathVariable Integer id) {
+        if (id == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbElementBasic elementBasic = elementBasicService.getElementBasic(id);
+        if (elementBasic == null) {
+            return CommonResultDTO.failed();
+        }
+        return CommonResultDTO.success(elementBasic);
+    }
+
 }

@@ -2,10 +2,13 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbAdminMapper;
+import com.bkit.fatdown.mappers.TbAdminPermissionRelationMapper;
 import com.bkit.fatdown.mappers.TbAdminRoleRelationMapper;
+import com.bkit.fatdown.mappers.dao.AdminPermissionRelationDao;
 import com.bkit.fatdown.mappers.dao.AdminRoleRelationDao;
 import com.bkit.fatdown.service.IAdminService;
 import com.bkit.fatdown.utils.JwtTokenUtil;
+import jdk.nashorn.internal.ir.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +54,10 @@ public class AdminServiceImpl implements IAdminService {
     private AdminRoleRelationDao adminRoleRelationDao;
     @Resource
     private TbAdminRoleRelationMapper adminRoleRelationMapper;
+    @Resource
+    private TbAdminPermissionRelationMapper permissionRelationMapper;
+    @Reference
+    private AdminPermissionRelationDao adminPermissionRelationDao;
 
     /**
      * @param admin 管理员
@@ -303,5 +310,35 @@ public class AdminServiceImpl implements IAdminService {
             return relation;
         }).collect(Collectors.toList());
         return relationList;
+    }
+
+    /**
+     * 修改用户的+-权限
+     *
+     * @param adminId          用户id
+     * @param permissionIdList 权限列表
+     * @return
+     */
+    @Override
+    public int updatePermission(Integer adminId, List<Integer> permissionIdList) {
+        //删除原所有权限关系
+        TbAdminPermissionRelationExample relationExample = new TbAdminPermissionRelationExample();
+        relationExample.createCriteria().andAdminIdEqualTo(adminId);
+        permissionRelationMapper.deleteByExample(relationExample);
+        //获取用户所有角色权限
+        List<TbPermission> permissionList = adminRoleRelationDao.getRolePermissionList(adminId);
+        List<Integer> rolePermissionList = permissionList.stream().map(TbPermission::getId).collect(Collectors.toList());
+        if (!CollectionUtils.isEmpty(permissionIdList)) {
+            List<TbAdminPermissionRelation> relationList = new ArrayList<>();
+            //筛选出+权限
+            List<Integer> addPermissionIdList = permissionIdList.stream().filter(permissionId -> !rolePermissionList.contains(permissionId)).collect(Collectors.toList());
+            //筛选出-权限
+            List<Integer> subPermissionIdList = rolePermissionList.stream().filter(permissionId -> !permissionIdList.contains(permissionId)).collect(Collectors.toList());
+            //插入+-权限关系
+            relationList.addAll(convert(adminId,1,addPermissionIdList));
+            relationList.addAll(convert(adminId,-1,subPermissionIdList));
+            return adminPermissionRelationDao.insertList(relationList);
+        }
+        return 0;
     }
 }
