@@ -8,14 +8,16 @@
     <!--    <classPathEntry-->
     <!--            location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>-->
     <classPathEntry location="E:\IdeaProject\FatDown\src\main\resources\config\mysql-connector-java-5.1.46.jar"/>
-
-    <context id="context" targetRuntime="MyBatis3" defaultModelType="flat">
+    <context id="context" targetRuntime="MyBatis3">
+<!--        <property name="beginningDelimiter" value="`"/>-->
+<!--        <property name="endingDelimiter" value="`"/>-->
         <property name="javaFileEncoding" value="UTF-8"/>
         <!-- 为模型生成序列化方法-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <!-- 为生成的Java模型创建一个toString方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--可以自定义生成model的代码注释-->
+<!--        <commentGenerator type="com.bkit.fatdown.utils.mbg.CommentGenerator">-->
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
@@ -39,7 +41,7 @@
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.bkit.fatdown.entity"
                             targetProject="E:\IdeaProject\FatDown\src\main\java">
-<!--                            targetProject="/home/yujian/Project/fatdown/src/main/java">-->
+            <!--                            targetProject="/home/yujian/Project/fatdown/src/main/java">-->
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -47,14 +49,14 @@
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.bkit.fatdown.mappers"
                          targetProject="E:\IdeaProject\FatDown\src\main\resources">
-<!--                         targetProject="/home/yujian/Project/fatdown/src/main/resources">-->
+            <!--                         targetProject="/home/yujian/Project/fatdown/src/main/resources">-->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- Mapper 接口文件的位置 -->
         <javaClientGenerator targetPackage="com.bkit.fatdown.mappers"
                              targetProject="E:\IdeaProject\FatDown\src\main\java" type="XMLMAPPER">
-<!--                             targetProject="/home/yujian/Project/fatdown/src/main/java" type="XMLMAPPER">-->
+            <!--                             targetProject="/home/yujian/Project/fatdown/src/main/java" type="XMLMAPPER">-->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!--积分模块 开始-->
@@ -95,12 +97,18 @@
         <!--                <table tableName="tb_diet_weekly_report" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--菜式推荐-->
-        <table tableName="tb_food_recommend_record" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
-        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true"/>
+        <table tableName="%" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+<!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
         <!--零食部分-->
         <!--        <table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--        enableUpdateByExample="true"/>-->

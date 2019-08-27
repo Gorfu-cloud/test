@@ -1,16 +1,26 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.entity.TbAdmin;
-import com.bkit.fatdown.entity.TbAdminExample;
+import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbAdminMapper;
+import com.bkit.fatdown.mappers.dao.AdminRoleRelationDao;
 import com.bkit.fatdown.service.IAdminService;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.bkit.fatdown.utils.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @file: AdminServiceImpl
@@ -21,11 +31,20 @@ import java.util.Date;
  * @version: 1.0
  */
 @Service
-public class AdminServiceImpl implements IAdminService{
-//public class AdminServiceImpl implements IAdminService, UserDetailsService {
-
+public class AdminServiceImpl implements IAdminService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
+    @Resource
+    private UserDetailsService userDetailsService;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+    @Resource
+    private PasswordEncoder passwordEncoder;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
     @Resource
     private TbAdminMapper adminMapper;
+    @Resource
+    private AdminRoleRelationDao adminRoleRelationDao;
 
     /**
      * @param admin 管理员
@@ -134,20 +153,82 @@ public class AdminServiceImpl implements IAdminService{
         return (int) adminMapper.countByExample(example);
     }
 
-//    /**
-//     * 执行登录的过程中，这个方法将根据用户名去查找用户，
-//     * 如果用户不存在，则抛出 UsernameNotFoundException 异常，
-//     * 否则直接将查到的Admin返回。
-//     *
-//     * @param s 用户名
-//     * @return 用户信息
-//     * @throws UsernameNotFoundException 用户不存在
-//     */
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//        if (count(s) == 0) {
-//            throw new UsernameNotFoundException("用户名不存在");
-//        }
-//        return get(s);
-//    }
+    /**
+     * 根据用户名获取后台管理员
+     *
+     * @param username
+     */
+    @Override
+    public TbAdmin getAdminByUsername(String username) {
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria().andUserNameEqualTo(username);
+        List<TbAdmin> adminList = adminMapper.selectByExample(example);
+        if (adminList != null && adminList.size() > 0) {
+            return adminList.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 注册功能
+     *
+     * @param adminParam
+     * @return
+     */
+    @Override
+    public TbAdmin register(TbAdmin adminParam) {
+        TbAdmin umsAdmin = new TbAdmin();
+        BeanUtils.copyProperties(adminParam, umsAdmin);
+        umsAdmin.setGmtCreate(new Date());
+        umsAdmin.setStatus(1);
+
+        //查询是否有相同用户名的用户
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria().andUserNameEqualTo(umsAdmin.getUserName());
+        List<TbAdmin> umsAdminList = adminMapper.selectByExample(example);
+        if (umsAdminList.size() > 0) {
+            return null;
+        }
+
+        //将密码进行加密操作
+        String encodePassword = passwordEncoder.encode(umsAdmin.getPassword());
+        umsAdmin.setPassword(encodePassword);
+        adminMapper.insert(umsAdmin);
+        return umsAdmin;
+    }
+
+    /**
+     * 登录功能
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 生成的JWT的token
+     */
+    @Override
+    public String login(String username, String password) {
+        String token = null;
+        try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+                throw new BadCredentialsException("密码不正确");
+            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            token = jwtTokenUtil.generateToken(userDetails);
+        } catch (AuthenticationException e) {
+            LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+        return token;
+    }
+
+    /**
+     * 获取用户所有权限（包括角色权限和+-权限）
+     *
+     * @param adminId
+     */
+    @Override
+    public List<TbPermission> getPermissionList(Integer adminId) {
+        return adminRoleRelationDao.getPermissionList(adminId);
+    }
 }

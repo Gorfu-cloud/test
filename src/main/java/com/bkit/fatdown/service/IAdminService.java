@@ -1,6 +1,9 @@
 package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.entity.TbAdmin;
+import com.bkit.fatdown.entity.TbPermission;
+
+import java.util.List;
 
 /**
  * @file: IAdminService
@@ -69,4 +72,27 @@ public interface IAdminService {
      */
     int count(String userName, String password, Integer status);
 
+    /**
+     * 根据用户名获取后台管理员
+     */
+    TbAdmin getAdminByUsername(String username);
+
+    /**
+     * 注册功能
+     * @return
+     */
+    TbAdmin register(TbAdmin adminParam);
+
+    /**
+     * 登录功能
+     * @param username 用户名
+     * @param password 密码
+     * @return 生成的JWT的token
+     */
+    String login(String username, String password);
+
+    /**
+     * 获取用户所有权限（包括角色权限和+-权限）
+     */
+    List<TbPermission> getPermissionList(Integer adminId);
 }

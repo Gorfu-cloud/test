@@ -77,7 +77,6 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 .description("创建日期:2019年7月11日,修改日期:2019年8月07日")
                 // 创建路径
                 .termsOfServiceUrl(SERVICE_URL)
-                .contact("<a href=\"https://yujian95.cn/about/\">YuJian</a>")
                 .version("2.1.5")
                 .build();
     }
