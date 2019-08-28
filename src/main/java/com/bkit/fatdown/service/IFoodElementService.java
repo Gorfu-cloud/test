@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.food.FoodElementDTO;
 import com.bkit.fatdown.entity.TbFoodElementRelation;
 
 import java.util.HashMap;
@@ -56,10 +57,31 @@ public interface IFoodElementService {
     List<Integer> listElementId(int foodId);
 
     /**
+     * 获取菜式组成
+     *
+     * @param foodId 食物id
+     * @return
+     */
+    List<TbFoodElementRelation> listByFoodId(int foodId);
+
+    /**
      * 获取食物组成id
      *
      * @param foodId
      * @return
      */
     HashMap<Integer, Double> getElementNameAndGram(int foodId);
+
+    /**
+     * @param relationId 记录id
+     * @return
+     */
+    Integer count(int relationId);
+
+    /**
+     * 获取菜式成分列表
+     * @param foodId 菜式id
+     * @return
+     */
+    List<FoodElementDTO> listFoodElement(Integer foodId);
 }

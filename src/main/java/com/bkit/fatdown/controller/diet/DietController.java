@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller;
+package com.bkit.fatdown.controller.diet;
 
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietUserStandard;

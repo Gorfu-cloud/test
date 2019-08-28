@@ -1,8 +1,11 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.food.FoodElementDTO;
+import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.entity.TbFoodElementRelation;
 import com.bkit.fatdown.entity.TbFoodElementRelationExample;
 import com.bkit.fatdown.mappers.TbFoodElementRelationMapper;
+import com.bkit.fatdown.service.IElementBasicService;
 import com.bkit.fatdown.service.IFoodElementService;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,12 @@ public class FoodElementServiceImpl implements IFoodElementService {
 
     @Resource
     private TbFoodElementRelationMapper relationMapper;
+
+    @Resource
+    private IFoodElementService foodElementService;
+
+    @Resource
+    private IElementBasicService elementBasicService;
 
     /**
      * 创建关系
@@ -75,6 +84,55 @@ public class FoodElementServiceImpl implements IFoodElementService {
     }
 
     /**
+     * 获取菜式成分列表
+     *
+     * @param foodId 菜式id
+     * @return
+     */
+    @Override
+    public List<FoodElementDTO> listFoodElement(Integer foodId) {
+
+        List<TbFoodElementRelation> relationList = foodElementService.listByFoodId(foodId);
+
+        if (relationList.size() ==0) {
+            return null;
+        }
+
+        List<FoodElementDTO> elementList = new ArrayList<>();
+        FoodElementDTO element;
+
+        for (TbFoodElementRelation relation : relationList) {
+            Integer elementId = relation.getElement();
+            Double gram = relation.getGram();
+            TbElementBasic elementBasic = elementBasicService.getElementBasic(elementId);
+
+            element = new FoodElementDTO();
+            element.setRelationId(relation.getId());
+            element.setElementId(elementId);
+            element.setUpdateDate(relation.getGmtModified());
+            element.setElementName(elementBasic.getName());
+            element.setGram(gram);
+            element.setEnergy(gram / 100 * elementBasic.getEnergy());
+
+            elementList.add(element);
+        }
+        return elementList;
+    }
+
+    /**
+     * @param relationId 记录id
+     * @return
+     */
+    @Override
+    public Integer count(int relationId) {
+        TbFoodElementRelationExample example = new TbFoodElementRelationExample();
+        example.createCriteria()
+                .andIdEqualTo(relationId);
+
+        return relationMapper.countByExample(example);
+    }
+
+    /**
      * 获取食物组成元素名称和种类
      *
      * @param foodId
@@ -93,6 +151,20 @@ public class FoodElementServiceImpl implements IFoodElementService {
         }
 
         return map;
+    }
+
+    /**
+     * 获取菜式组成
+     *
+     * @param foodId 食物id
+     * @return
+     */
+    @Override
+    public List<TbFoodElementRelation> listByFoodId(int foodId) {
+        TbFoodElementRelationExample example = new TbFoodElementRelationExample();
+        example.createCriteria()
+                .andFoodEqualTo(foodId);
+        return relationMapper.selectByExample(example);
     }
 
     /**

@@ -1,8 +1,11 @@
-package com.bkit.fatdown.controller;
+package com.bkit.fatdown.controller.food;
+
+import java.util.ArrayList;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
+import com.bkit.fatdown.dto.food.RecommendFoodDTO;
 import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
@@ -29,7 +32,7 @@ import java.util.*;
 @Api(value = "/food", tags = "菜式推荐模块")
 @RestController
 @RequestMapping("/food")
-public class FoodController {
+public class RecommendController {
 
     @Resource
     private IUserBasicInfoService basicInfoService;
@@ -48,9 +51,9 @@ public class FoodController {
 
     private static final int DATA_NOT_EXIST = 0;
 
-    private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RecommendController.class);
 
-    @ApiOperation("获取指定类型推荐菜式")
+    @ApiOperation("指定类型,获取推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommends/{foodType}", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommend(@PathVariable Integer foodType) {
@@ -67,7 +70,7 @@ public class FoodController {
         return CommonResultDTO.success(recommendList);
     }
 
-    @ApiOperation("分页：获取指定类型推荐菜式")
+    @ApiOperation("分页：指定类型,获取推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommends/{foodType}/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommendByPage(@PathVariable Integer foodType, @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
@@ -88,7 +91,7 @@ public class FoodController {
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecommendLikeName(@RequestParam(required = false) String foodName, @RequestParam Integer foodType,
-                                                     @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
+                                                                                      @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
         logger.info("search: foodName:{} ,foodType:{}, pageNum:{}, pageSize:{}", foodName, foodType, pageNum, pageSize);
         if (foodType == null || pageSize == null || pageNum == null) {
             return CommonResultDTO.validateFailed("foodType、pageSize、pageNum参数为空");
@@ -107,10 +110,10 @@ public class FoodController {
             return CommonResultDTO.failed("查找失败");
         }
 
-        return CommonResultDTO.success(CommonPageDTO.restPage(recommendList));
+        return CommonResultDTO.success(CommonPageDTO.restPage(transfer(recommendList)));
     }
 
-    @ApiOperation("添加食物推荐信息")
+    @ApiOperation("添加推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend", method = RequestMethod.POST)
     public CommonResultDTO addFoodRecommend(@RequestParam String foodName, @RequestParam Integer foodType) {
@@ -129,7 +132,7 @@ public class FoodController {
         return CommonResultDTO.failed("添加食物推荐失败");
     }
 
-    @ApiOperation("删除食物推荐信息")
+    @ApiOperation("删除推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteFoodRecommend(@PathVariable Integer id) {
@@ -144,7 +147,7 @@ public class FoodController {
         return CommonResultDTO.failed("删除食物推荐失败");
     }
 
-    @ApiOperation("更新食物推荐信息")
+    @ApiOperation("更新推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.PUT)
     public CommonResultDTO updateFoodRecommend(@PathVariable Integer id, @RequestParam String foodName, @RequestParam Integer foodType) {
@@ -165,7 +168,7 @@ public class FoodController {
         return CommonResultDTO.failed("更新食物推荐失败");
     }
 
-    @ApiOperation("获取食物推荐信息")
+    @ApiOperation("获取推荐菜式")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{id}", method = RequestMethod.GET)
     public CommonResultDTO getFoodRecommend(@PathVariable Integer id) {
@@ -391,4 +394,19 @@ public class FoodController {
         return CommonResultDTO.success(recommendTypeDTOList);
     }
 
+    private List<RecommendFoodDTO> transfer(List<TbFoodRecommend> list) {
+        List<RecommendFoodDTO> result = new ArrayList<>();
+
+        RecommendFoodDTO foodDTO;
+        for (TbFoodRecommend recommend : list) {
+            foodDTO = new RecommendFoodDTO();
+            foodDTO.setId(recommend.getId());
+            foodDTO.setFoodName(recommend.getFoodName());
+            foodDTO.setTotal(recommend.getTotal());
+            foodDTO.setTypeName(recommendTypeService.getTypeInfo(recommend.getFoodType()).getTypeName());
+            foodDTO.setUpdateDate(recommend.getGmtModified());
+            result.add(foodDTO);
+        }
+        return result;
+    }
 }

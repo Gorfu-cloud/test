@@ -11,7 +11,6 @@ import java.util.TreeSet;
  * @modified:
  * @version: 1.0
  */
-
 public class ElementTotalDTO {
     /**
      * 是否存在该菜式拆解:0存在，1不存在，默认存在
