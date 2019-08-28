@@ -110,7 +110,7 @@ public class RecommendController {
             return CommonResultDTO.failed("查找失败");
         }
 
-        return CommonResultDTO.success(CommonPageDTO.restPage(transfer(recommendList)));
+        return CommonResultDTO.success(CommonPageDTO.restPage(recommendList));
     }
 
     @ApiOperation("添加推荐菜式")
@@ -392,21 +392,5 @@ public class RecommendController {
         recommendTypeDTO3.setFoodList(foodInfoDTOS3);
 
         return CommonResultDTO.success(recommendTypeDTOList);
-    }
-
-    private List<RecommendFoodDTO> transfer(List<TbFoodRecommend> list) {
-        List<RecommendFoodDTO> result = new ArrayList<>();
-
-        RecommendFoodDTO foodDTO;
-        for (TbFoodRecommend recommend : list) {
-            foodDTO = new RecommendFoodDTO();
-            foodDTO.setId(recommend.getId());
-            foodDTO.setFoodName(recommend.getFoodName());
-            foodDTO.setTotal(recommend.getTotal());
-            foodDTO.setTypeName(recommendTypeService.getTypeInfo(recommend.getFoodType()).getTypeName());
-            foodDTO.setUpdateDate(recommend.getGmtModified());
-            result.add(foodDTO);
-        }
-        return result;
     }
 }

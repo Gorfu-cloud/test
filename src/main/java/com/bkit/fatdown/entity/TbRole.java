@@ -10,6 +10,8 @@ public class TbRole implements Serializable {
 
     private String chineseName;
 
+    private Integer status;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -40,6 +42,14 @@ public class TbRole implements Serializable {
         this.chineseName = chineseName == null ? null : chineseName.trim();
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -65,6 +75,7 @@ public class TbRole implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", chineseName=").append(chineseName);
+        sb.append(", status=").append(status);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

@@ -235,6 +235,126 @@ public class TbFoodRecommendTypeExample {
             return (Criteria) this;
         }
 
+        public Criteria andTotalIsNull() {
+            addCriterion("total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalIsNotNull() {
+            addCriterion("total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalEqualTo(Integer value) {
+            addCriterion("total =", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotEqualTo(Integer value) {
+            addCriterion("total <>", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalGreaterThan(Integer value) {
+            addCriterion("total >", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("total >=", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalLessThan(Integer value) {
+            addCriterion("total <", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("total <=", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalIn(List<Integer> values) {
+            addCriterion("total in", values, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotIn(List<Integer> values) {
+            addCriterion("total not in", values, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBetween(Integer value1, Integer value2) {
+            addCriterion("total between", value1, value2, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("total not between", value1, value2, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointIsNull() {
+            addCriterion("hot_point is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointIsNotNull() {
+            addCriterion("hot_point is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointEqualTo(Integer value) {
+            addCriterion("hot_point =", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointNotEqualTo(Integer value) {
+            addCriterion("hot_point <>", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointGreaterThan(Integer value) {
+            addCriterion("hot_point >", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hot_point >=", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointLessThan(Integer value) {
+            addCriterion("hot_point <", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointLessThanOrEqualTo(Integer value) {
+            addCriterion("hot_point <=", value, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointIn(List<Integer> values) {
+            addCriterion("hot_point in", values, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointNotIn(List<Integer> values) {
+            addCriterion("hot_point not in", values, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointBetween(Integer value1, Integer value2) {
+            addCriterion("hot_point between", value1, value2, "hotPoint");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotPointNotBetween(Integer value1, Integer value2) {
+            addCriterion("hot_point not between", value1, value2, "hotPoint");
+            return (Criteria) this;
+        }
+
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;

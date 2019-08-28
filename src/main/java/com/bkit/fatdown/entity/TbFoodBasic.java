@@ -14,6 +14,8 @@ public class TbFoodBasic implements Serializable {
 
     private Double quantity;
 
+    private Integer total;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -60,6 +62,14 @@ public class TbFoodBasic implements Serializable {
         this.quantity = quantity;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -87,6 +97,7 @@ public class TbFoodBasic implements Serializable {
         sb.append(", type=").append(type);
         sb.append(", flag=").append(flag);
         sb.append(", quantity=").append(quantity);
+        sb.append(", total=").append(total);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

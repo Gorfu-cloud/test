@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodBasicExample;
 import com.bkit.fatdown.mappers.TbFoodBasicMapper;
 import com.bkit.fatdown.service.IFoodBasicService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -120,6 +121,33 @@ public class FoodBasicServiceImpl implements IFoodBasicService {
         TbFoodBasicExample example = new TbFoodBasicExample();
         example.createCriteria()
                 .andFoodNameEqualTo(foodName);
+        return foodBasicMapper.selectByExample(example);
+    }
+
+    /**
+     * @param foodName 食物名
+     * @param pageNum  页号
+     * @param pageSize 页数
+     * @return
+     */
+    @Override
+    public List<TbFoodBasic> listByPage(String foodName, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbFoodBasicExample example = new TbFoodBasicExample();
+        example.createCriteria()
+                .andFoodNameLike("%" + foodName + "%");
+        return foodBasicMapper.selectByExample(example);
+    }
+
+    /**
+     * @param pageNum  页号
+     * @param pageSize 页数
+     * @return
+     */
+    @Override
+    public List<TbFoodBasic> listByPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbFoodBasicExample example = new TbFoodBasicExample();
         return foodBasicMapper.selectByExample(example);
     }
 }

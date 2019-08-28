@@ -55,6 +55,23 @@ public interface IFoodBasicService {
     List<TbFoodBasic> listByName(String foodName);
 
     /**
+     *
+     * @param foodName 食物名
+     * @param pageNum 页号
+     * @param pageSize 页数
+     * @return
+     */
+    List<TbFoodBasic> listByPage(String foodName,Integer pageNum,Integer pageSize);
+
+    /**
+     *
+     * @param pageNum 页号
+     * @param pageSize 页数
+     * @return
+     */
+    List<TbFoodBasic> listByPage(Integer pageNum,Integer pageSize);
+
+    /**
      * 创建新记录并返回id
      *
      * @param foodBasic

@@ -20,9 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @file: ElementController
@@ -45,9 +43,6 @@ public class ElementController {
 
     @Resource
     private IElementBasicService elementBasicService;
-
-    @Resource
-    private IFoodElementService foodElementService;
 
     private static final int DATA_NOT_EXIST = 0;
 
@@ -132,83 +127,4 @@ public class ElementController {
         }
         return CommonResultDTO.success(elementBasic);
     }
-
-    @ApiOperation("获取菜式成分")
-    @CrossOrigin
-    @RequestMapping(value = "/relation/{foodId}", method = RequestMethod.GET)
-    public CommonResultDTO listElementRelation(@PathVariable Integer foodId) {
-        if (foodId == null || foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST) {
-            return CommonResultDTO.validateFailed();
-        }
-
-        List<FoodElementDTO> elementList = foodElementService.listFoodElement(foodId);
-
-        if (elementList.size() == DATA_NOT_EXIST){
-            return CommonResultDTO.failed();
-        }
-
-        return CommonResultDTO.success(elementList);
-    }
-
-    @ApiOperation("添加菜式成分")
-    @CrossOrigin
-    @RequestMapping(value = "/relation", method = RequestMethod.POST)
-    public CommonResultDTO addElementRelation(@RequestBody ElementRelationDTO relationDTO) {
-        if (relationDTO.getElementId() == null || relationDTO.getFoodId() == null || relationDTO.getGram() == null) {
-            return CommonResultDTO.validateFailed();
-        }
-
-        TbFoodElementRelation relation = new TbFoodElementRelation();
-        relation.setElement(relationDTO.getElementId());
-        relation.setFood(relationDTO.getFoodId());
-        relation.setGram(relationDTO.getGram());
-
-        if (foodElementService.insert(relation)){
-            return CommonResultDTO.success();
-        }
-
-        return CommonResultDTO.failed();
-    }
-
-    @ApiOperation("更新菜式成分")
-    @CrossOrigin
-    @RequestMapping(value = "/relation/{relationId}", method = RequestMethod.PUT)
-    public CommonResultDTO updateElementRelation(@PathVariable Integer relationId,@RequestBody ElementRelationDTO relationDTO) {
-        if (relationId==null||relationDTO.getElementId() == null || relationDTO.getFoodId() == null || relationDTO.getGram() == null) {
-            return CommonResultDTO.validateFailed();
-        }
-
-        TbFoodElementRelation relation = new TbFoodElementRelation();
-        relation.setId(relationId);
-        relation.setElement(relationDTO.getElementId());
-        relation.setFood(relationDTO.getFoodId());
-        relation.setGram(relationDTO.getGram());
-
-        if (foodElementService.update(relation)){
-            return CommonResultDTO.success();
-        }
-
-        return CommonResultDTO.failed();
-    }
-
-    @ApiOperation("删除菜式成分")
-    @CrossOrigin
-    @RequestMapping(value = "/relation/{relationId}", method = RequestMethod.DELETE)
-    public CommonResultDTO deleteElementRelation(@PathVariable Integer relationId) {
-        if (relationId==null||foodElementService.count(relationId)==DATA_NOT_EXIST){
-            return CommonResultDTO.validateFailed();
-        }
-
-        if (foodElementService.delete(relationId)){
-            return CommonResultDTO.success();
-        }
-
-        return CommonResultDTO.failed();
-    }
-
-//    public CommonResultDTO addFoodBasic(){    }
-//    public CommonResultDTO updateFoodBasic(){}
-//    public CommonResultDTO deleteFoodBasic(){}
-//    public CommonResultDTO getFoodBasic(){}
-//    public CommonResultDTO listFoodBasic(){}
 }
