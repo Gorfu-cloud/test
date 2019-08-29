@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbFeedbackReply;
 import com.bkit.fatdown.entity.TbFeedbackReplyExample;
 import com.bkit.fatdown.mappers.TbFeedbackReplyMapper;
 import com.bkit.fatdown.service.IFeedbackReplyService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -76,6 +77,23 @@ public class FeedbackReplyServiceImpl implements IFeedbackReplyService {
         example.createCriteria()
                 .andInfoIdEqualTo(infoId);
         return replyMapper.selectByExample(example).get(0);
+    }
+
+    @Override
+    public List<TbFeedbackReply> list(String adminName, Date startDate, Date endDate, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        TbFeedbackReplyExample example = new TbFeedbackReplyExample();
+        example.setOrderByClause("gmt_create desc");
+        TbFeedbackReplyExample.Criteria criteria = example.createCriteria();
+
+        if (adminName!=null){
+            criteria.andAdminNameLike("%"+adminName+"%");
+        }
+
+        if (startDate != null&&endDate!=null){
+            criteria.andGmtCreateBetween(startDate,endDate);
+        }
+        return replyMapper.selectByExample(example);
     }
 
     /**

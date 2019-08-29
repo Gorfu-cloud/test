@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller;
+package com.bkit.fatdown.controller.feedback;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
@@ -116,7 +116,7 @@ public class CommonController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("更新问题类型")
+    @ApiOperation("更新问题类型,(map中选填,title,status")
     @CrossOrigin
     @RequestMapping(value = "/questionType/{typeId}", method = RequestMethod.PUT)
     public CommonResultDTO updateQuestionType(@PathVariable Integer typeId, @RequestBody HashMap<String, String> map) {
@@ -221,24 +221,34 @@ public class CommonController {
         return CommonResultDTO.failed();
     }
 
-//    @ApiOperation("更新问题实例说明")
-//    @CrossOrigin
-//    @RequestMapping(value = "/question", method = RequestMethod.PUT)
-//    public CommonResultDTO updateQuestionInstance(@RequestBody HashMap) {
-//        if (title.isEmpty() || content.isEmpty() || status > 1 || status < 0) {
-//            return CommonResultDTO.validateFailed();
-//        }
-//
-//        TbCommonQuestionInstance questionInstance =new TbCommonQuestionInstance();
-//        questionInstance.setTitle(title);
-//        questionInstance.setContent(content);
-//        questionInstance.setStatus(status);
-//
-//        if (questionInstanceService.insert(questionInstance)){
-//            return CommonResultDTO.success();
-//        }
-//
-//        return CommonResultDTO.failed();
-//    }
+    @ApiOperation("更新问题实例说明,(map 中选填 title,status,content)")
+    @CrossOrigin
+    @RequestMapping(value = "/question/{instanceId}", method = RequestMethod.PUT)
+    public CommonResultDTO updateQuestionInstance(@PathVariable Integer instanceId,@RequestBody HashMap<String,String> map) {
+        if (instanceId==null||map == null){
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbCommonQuestionInstance instance = new TbCommonQuestionInstance();
+        instance.setId(instanceId);
+
+        if (map.containsKey("title")){
+            instance.setTitle(map.get("title"));
+        }
+
+        if (map.containsKey("content")){
+            instance.setContent(map.get("content"));
+        }
+
+        if (map.containsKey("status")){
+            instance.setStatus(Integer.valueOf(map.get("status")));
+        }
+
+        if (questionInstanceService.update(instance)){
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
 
 }

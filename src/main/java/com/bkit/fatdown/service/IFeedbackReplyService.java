@@ -1,5 +1,7 @@
 package com.bkit.fatdown.service;
 
+import java.util.Date;
+
 import com.bkit.fatdown.entity.TbFeedbackReply;
 
 import java.util.List;
@@ -48,6 +50,8 @@ public interface IFeedbackReplyService {
      * @return 反馈列表
      */
     List<TbFeedbackReply> list();
+
+    List<TbFeedbackReply> list(String adminName, Date startDate, Date endDate, Integer pageNum, Integer pageSize);
 
     /**
      * @param replyId 回复id

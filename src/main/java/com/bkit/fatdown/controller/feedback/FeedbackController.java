@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller;
+package com.bkit.fatdown.controller.feedback;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
@@ -270,7 +270,6 @@ public class FeedbackController {
         return CommonResultDTO.failed();
     }
 
-
     @ApiOperation("更新反馈回复信息评价（map中填写，evaluation: 0，未评价，1有帮助，2没帮助")
     @CrossOrigin
     @RequestMapping(value = "/reply/evaluation/{replyId}", method = RequestMethod.PUT)
@@ -294,6 +293,21 @@ public class FeedbackController {
         }
 
         return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("分页,获取反馈回复信息")
+    @CrossOrigin
+    @RequestMapping(value = "/replys/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listReplyByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
+                                           @RequestParam(required = false) String adminName, @RequestParam(required = false) Date startTime,
+                                           @RequestParam(required = false) Date endTime) {
+        if (pageNum == null || pageSize == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbFeedbackReply> list = replyService.list(adminName, startTime, endTime, pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }
 
     @ApiOperation("获取反馈回复信息，通过replyId")
