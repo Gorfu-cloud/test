@@ -80,6 +80,31 @@ public class FeedbackInfoServiceImpl implements IFeedbackInfoService {
     }
 
     /**
+     *
+     * @param uid 管理员名称
+     * @param typeId 类型
+     * @param status 状态 -1 所有, 0 打开, 1 关闭
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public List<TbFeedbackInfo> listFeedbackInfoByPage(Integer uid, Integer typeId, Integer status, Integer pageNum, Integer pageSize) {
+        TbFeedbackInfoExample example = new TbFeedbackInfoExample();
+
+        TbFeedbackInfoExample.Criteria criteria = example.createCriteria();
+
+        if (uid != null){
+            criteria.andUserIdEqualTo(uid);
+        }
+
+//        if ()
+
+        // 检索text类型字段
+        return infoMapper.selectByExample(example);
+    }
+
+    /**
      * @param uid 用户id
      * @return 记录数
      */

@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.feedback.FeedbackInfoDTO;
 import com.bkit.fatdown.entity.TbFeedbackInfo;
@@ -135,7 +136,7 @@ public class FeedbackController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("查看用户反馈列表")
+    @ApiOperation("用户查看反馈列表")
     @CrossOrigin
     @RequestMapping(value = "/info/{uid}", method = RequestMethod.GET)
     public CommonResultDTO<List<FeedbackInfoDTO>> listInfoByUid(@PathVariable Integer uid) {
@@ -157,6 +158,40 @@ public class FeedbackController {
 
         return CommonResultDTO.success(dtos);
     }
+
+    @ApiOperation("查看用户反馈详情")
+    @CrossOrigin
+    @RequestMapping(value = "/infos/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listInfoByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam(required = false) Integer uid,
+                                          @RequestParam Integer typeId, @RequestParam Integer status) {
+        if (pageNum == null || pageSize == null || typeId == null || status == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbFeedbackInfo> list = infoService.listFeedbackInfoByPage(uid, typeId, status, pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(list));
+    }
+
+    @ApiOperation("更新用户反馈详情状态")
+    @CrossOrigin
+    @RequestMapping(value = "/info/details/{infoId}/{status}", method = RequestMethod.PUT)
+    public CommonResultDTO<FeedbackInfoDTO> updateInfoStatus(@PathVariable Integer infoId, @PathVariable Integer status) {
+        if (infoId == null || infoService.countById(infoId) == 0 || status == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFeedbackInfo info = new TbFeedbackInfo();
+        info.setId(infoId);
+        info.setStatus(status);
+
+        if (infoService.update(info)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
 
     @ApiOperation("查看用户反馈详情")
     @CrossOrigin
@@ -182,20 +217,17 @@ public class FeedbackController {
     @ApiOperation("添加反馈回复信息")
     @CrossOrigin
     @RequestMapping(value = "/reply/{infoId}", method = RequestMethod.POST)
-    public CommonResultDTO addReply(@PathVariable Integer infoId, @RequestParam String content, @RequestParam Integer status) {
-        if (infoService.countById(infoId) == DATA_NOT_EXIST || content.isEmpty() || status < 0 || status > 2) {
+    public CommonResultDTO addReply(@PathVariable Integer infoId, @RequestParam String content, @RequestParam String adminName) {
+        if (infoService.countById(infoId) == DATA_NOT_EXIST || content.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
 
         TbFeedbackReply reply = new TbFeedbackReply();
         reply.setInfoId(infoId);
         reply.setContent(content);
+        reply.setAdminName(adminName);
 
-        TbFeedbackInfo info = new TbFeedbackInfo();
-        info.setId(infoId);
-        info.setStatus(status);
-
-        if (replyService.insert(reply) && infoService.update(info)) {
+        if (replyService.insert(reply)) {
             return CommonResultDTO.success();
         }
 
@@ -216,6 +248,28 @@ public class FeedbackController {
 
         return CommonResultDTO.failed();
     }
+
+    @ApiOperation("更新反馈回复信息内容（map中填写，content")
+    @CrossOrigin
+    @RequestMapping(value = "/reply/content/{replyId}", method = RequestMethod.PUT)
+    public CommonResultDTO updateReplyContent(@PathVariable Integer replyId, @RequestBody HashMap<String, String> map) {
+        if (!map.containsKey("content") || replyService.count(replyId) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        String content = map.get("content");
+
+        TbFeedbackReply reply = new TbFeedbackReply();
+        reply.setId(replyId);
+        reply.setContent(content);
+
+        if (replyService.update(reply)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
 
     @ApiOperation("更新反馈回复信息评价（map中填写，evaluation: 0，未评价，1有帮助，2没帮助")
     @CrossOrigin
@@ -338,7 +392,7 @@ public class FeedbackController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("获取反馈类型")
+    @ApiOperation("获取反馈类型信息")
     @CrossOrigin
     @RequestMapping(value = "/type/{typeId}", method = RequestMethod.GET)
     public CommonResultDTO<TbFeedbackType> getReplyType(@PathVariable Integer typeId) {
@@ -355,6 +409,7 @@ public class FeedbackController {
         return CommonResultDTO.success(type);
     }
 
+
     @ApiOperation("获取所有反馈类型")
     @CrossOrigin
     @RequestMapping(value = "/types", method = RequestMethod.GET)
@@ -367,6 +422,25 @@ public class FeedbackController {
         }
 
         return CommonResultDTO.success(typeList);
+    }
+
+    @ApiOperation("分页: 查找反馈类型")
+    @CrossOrigin
+    @RequestMapping(value = "/types/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listReplyTypeByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
+                                               @RequestParam(required = false) String typeName, @RequestParam Integer status) {
+
+        if (pageNum == null || pageSize == null || status == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbFeedbackType> typeList = typeService.listByPage(typeName, status, pageNum, pageSize);
+
+        if (typeList == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(typeList));
     }
 
     @ApiOperation("获取反馈类型（已编辑）")

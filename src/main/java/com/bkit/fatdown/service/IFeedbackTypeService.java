@@ -45,6 +45,16 @@ public interface IFeedbackTypeService {
     List<TbFeedbackType> list();
 
     /**
+     * @return 所有类型
+     */
+    List<TbFeedbackType> listByPage(Integer pageNo, Integer pageSize);
+
+    /**
+     * @return 所有类型
+     */
+    List<TbFeedbackType> listByPage(String name, Integer status, Integer pageNo, Integer pageSize);
+
+    /**
      * @param status 类型状态
      * @return 指定状态类型
      */

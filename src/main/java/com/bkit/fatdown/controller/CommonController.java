@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbCommonQuestion;
 import com.bkit.fatdown.entity.TbCommonQuestionInstance;
@@ -61,6 +62,20 @@ public class CommonController {
             return CommonResultDTO.failed();
         }
         return CommonResultDTO.success(instanceList);
+    }
+
+    @ApiOperation("分页: 获取问题实例列表")
+    @CrossOrigin
+    @RequestMapping(value = "/questions/{typeId}/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listQuestionInstanceByPage(@PathVariable Integer typeId, @PathVariable Integer pageNum,
+                                                      @PathVariable Integer pageSize) {
+        if (questionInstanceService.count(typeId) == DATA_NO_EXIST) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbCommonQuestionInstance> instanceList = questionInstanceService.listCommonQuestionInstanceByPage(typeId, pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(instanceList));
     }
 
     @ApiOperation("添加问题类型")
@@ -142,6 +157,26 @@ public class CommonController {
             return CommonResultDTO.failed();
         }
         return CommonResultDTO.success(questionList);
+    }
+
+    @ApiOperation("分页: 获取所有问题类型列表")
+    @CrossOrigin
+    @RequestMapping(value = "/questionTypes/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listCommonQuestionByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
+                                                    @RequestParam(required = false) String title, @RequestParam Integer status) {
+        if (pageNum == null || pageSize == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbCommonQuestion> questionList;
+
+        if (title == null) {
+            questionList = commonQuestionService.listCommonQuestion(pageNum, pageSize, status);
+        } else {
+            questionList = commonQuestionService.listCommonQuestion(title, pageNum, pageSize, status);
+        }
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(questionList));
     }
 
     @ApiOperation("对问题说明帮助进行评价（map中填写，evaluation: 0未评价，1有帮助，2无帮助")

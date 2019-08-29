@@ -45,6 +45,17 @@ public interface IFeedbackInfoService {
     List<TbFeedbackInfo> listFeedbackInfo(int uid);
 
     /**
+     * 分页获取反馈信息
+     * @param uid 管理员名称
+     * @param typeId 类型
+     * @param status 状态 -1 所有, 0 打开, 1 关闭
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    List<TbFeedbackInfo> listFeedbackInfoByPage(Integer uid,Integer typeId,Integer status,Integer pageNum,Integer pageSize);
+
+    /**
      * @param uid 用户id
      * @return 记录数
      */

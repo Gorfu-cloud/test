@@ -43,6 +43,12 @@ public interface ICommonQuestionService {
      */
     List<TbCommonQuestion> listCommonQuestion(int status);
 
+    List<TbCommonQuestion> listCommonQuestion(Integer pageNum, Integer pageSize, int status);
+
+    List<TbCommonQuestion> listCommonQuestion(String title,Integer pageNum, Integer pageSize, int status);
+
+    List<TbCommonQuestion> listCommonQuestion(Integer pageNum, Integer pageSize);
+
     /**
      * @return 所有问题类型
      */

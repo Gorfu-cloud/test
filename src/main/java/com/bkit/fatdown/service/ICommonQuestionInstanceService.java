@@ -44,6 +44,12 @@ public interface ICommonQuestionInstanceService {
     List<TbCommonQuestionInstance> listCommonQuestionInstance(int questionId);
 
     /**
+     * @param questionId 类型id
+     * @return 常见问题列表
+     */
+    List<TbCommonQuestionInstance> listCommonQuestionInstanceByPage(int questionId,Integer pageNum,Integer pageSize);
+
+    /**
      * @param questionId 问题实例类型
      * @param status     状态
      * @return 相对状态问题实例类型

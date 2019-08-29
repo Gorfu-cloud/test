@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbCommonQuestionInstance;
 import com.bkit.fatdown.entity.TbCommonQuestionInstanceExample;
 import com.bkit.fatdown.mappers.TbCommonQuestionInstanceMapper;
 import com.bkit.fatdown.service.ICommonQuestionInstanceService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -79,6 +80,22 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
         example.setOrderByClause("useful_total desc");
         example.createCriteria()
                 .andStatusEqualTo(status)
+                .andQuestionIdEqualTo(questionId);
+        return questionInstanceMapper.selectByExampleWithBLOBs(example);
+    }
+
+    /**
+     * @param questionId 类型id
+     * @param pageNum
+     * @param pageSize
+     * @return 常见问题列表
+     */
+    @Override
+    public List<TbCommonQuestionInstance> listCommonQuestionInstanceByPage(int questionId, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbCommonQuestionInstanceExample example = new TbCommonQuestionInstanceExample();
+        example.setOrderByClause("useful_total desc");
+        example.createCriteria()
                 .andQuestionIdEqualTo(questionId);
         return questionInstanceMapper.selectByExampleWithBLOBs(example);
     }

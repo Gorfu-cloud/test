@@ -12,6 +12,8 @@ public class TbFeedbackReply implements Serializable {
 
     private Integer helpful;
 
+    private String adminName;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -50,6 +52,14 @@ public class TbFeedbackReply implements Serializable {
         this.helpful = helpful;
     }
 
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName == null ? null : adminName.trim();
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -76,6 +86,7 @@ public class TbFeedbackReply implements Serializable {
         sb.append(", infoId=").append(infoId);
         sb.append(", content=").append(content);
         sb.append(", helpful=").append(helpful);
+        sb.append(", adminName=").append(adminName);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

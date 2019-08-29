@@ -22,19 +22,16 @@ public class FoodBasicDTO implements Serializable {
 
     private Double quantity;
 
-    private Date gmtModified;
-
     private static final long serialVersionUID = 1L;
 
-    public FoodBasicDTO(String foodName, String type, Integer flag, Double quantity, Date gmtModified) {
+    public FoodBasicDTO() {
+    }
+
+    public FoodBasicDTO(String foodName, String type, Integer flag, Double quantity) {
         this.foodName = foodName;
         this.type = type;
         this.flag = flag;
         this.quantity = quantity;
-        this.gmtModified = gmtModified;
-    }
-
-    public FoodBasicDTO() {
     }
 
     public String getFoodName() {
@@ -67,14 +64,6 @@ public class FoodBasicDTO implements Serializable {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
     }
 
     public static long getSerialVersionUID() {

@@ -355,6 +355,76 @@ public class TbFeedbackReplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdminNameIsNull() {
+            addCriterion("admin_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameIsNotNull() {
+            addCriterion("admin_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameEqualTo(String value) {
+            addCriterion("admin_name =", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameNotEqualTo(String value) {
+            addCriterion("admin_name <>", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameGreaterThan(String value) {
+            addCriterion("admin_name >", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameGreaterThanOrEqualTo(String value) {
+            addCriterion("admin_name >=", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameLessThan(String value) {
+            addCriterion("admin_name <", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameLessThanOrEqualTo(String value) {
+            addCriterion("admin_name <=", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameLike(String value) {
+            addCriterion("admin_name like", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameNotLike(String value) {
+            addCriterion("admin_name not like", value, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameIn(List<String> values) {
+            addCriterion("admin_name in", values, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameNotIn(List<String> values) {
+            addCriterion("admin_name not in", values, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameBetween(String value1, String value2) {
+            addCriterion("admin_name between", value1, value2, "adminName");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminNameNotBetween(String value1, String value2) {
+            addCriterion("admin_name not between", value1, value2, "adminName");
+            return (Criteria) this;
+        }
+
         public Criteria andGmtCreateIsNull() {
             addCriterion("gmt_create is null");
             return (Criteria) this;

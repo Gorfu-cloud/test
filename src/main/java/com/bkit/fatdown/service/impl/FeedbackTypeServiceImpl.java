@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbFeedbackType;
 import com.bkit.fatdown.entity.TbFeedbackTypeExample;
 import com.bkit.fatdown.mappers.TbFeedbackTypeMapper;
 import com.bkit.fatdown.service.IFeedbackTypeService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -64,6 +65,43 @@ public class FeedbackTypeServiceImpl implements IFeedbackTypeService {
     @Override
     public TbFeedbackType get(int typeId) {
         return typeMapper.selectByPrimaryKey(typeId);
+    }
+
+    /**
+     * @param name
+     * @param status
+     * @param pageNo
+     * @param pageSize
+     * @return 所有类型
+     */
+    @Override
+    public List<TbFeedbackType> listByPage(String name, Integer status, Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        TbFeedbackTypeExample example = new TbFeedbackTypeExample();
+        example.setOrderByClause("total desc");
+        TbFeedbackTypeExample.Criteria criteria = example.createCriteria();
+
+        if (name != null) {
+            criteria.andTypeNameLike("%" + name + "%");
+        }
+
+        if (status == 0 || status == 1) {
+            criteria.andStatusEqualTo(status);
+        }
+        return typeMapper.selectByExample(example);
+    }
+
+    /**
+     * @param pageNo
+     * @param pageSize
+     * @return 所有类型
+     */
+    @Override
+    public List<TbFeedbackType> listByPage(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        TbFeedbackTypeExample example = new TbFeedbackTypeExample();
+        example.setOrderByClause("total desc");
+        return typeMapper.selectByExample(example);
     }
 
     /**

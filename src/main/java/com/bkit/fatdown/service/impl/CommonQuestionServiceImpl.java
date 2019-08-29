@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbCommonQuestion;
 import com.bkit.fatdown.entity.TbCommonQuestionExample;
 import com.bkit.fatdown.mappers.TbCommonQuestionMapper;
 import com.bkit.fatdown.service.ICommonQuestionService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +75,41 @@ public class CommonQuestionServiceImpl implements ICommonQuestionService {
     public List<TbCommonQuestion> listCommonQuestion() {
         TbCommonQuestionExample example = new TbCommonQuestionExample();
         example.setOrderByClause("views_total desc");
+        return commonQuestionMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<TbCommonQuestion> listCommonQuestion(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return commonQuestionMapper.selectByExample(new TbCommonQuestionExample());
+    }
+
+    @Override
+    public List<TbCommonQuestion> listCommonQuestion(String title, Integer pageNum, Integer pageSize, int status) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbCommonQuestionExample example = new TbCommonQuestionExample();
+        example.setOrderByClause("views_total desc");
+        TbCommonQuestionExample.Criteria criteria = example.createCriteria();
+        if (status != -1) {
+            criteria.andStatusEqualTo(status);
+        }
+        if (title != null) {
+            criteria.andTitleLike("%" + title + "%");
+        }
+
+        return commonQuestionMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<TbCommonQuestion> listCommonQuestion(Integer pageNum, Integer pageSize, int status) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbCommonQuestionExample example = new TbCommonQuestionExample();
+        example.setOrderByClause("views_total desc");
+        if (status != -1) {
+            example.createCriteria()
+                    .andStatusEqualTo(status);
+        }
+
         return commonQuestionMapper.selectByExample(example);
     }
 
