@@ -11,6 +11,7 @@ import com.bkit.fatdown.service.IFeedbackReplyService;
 import com.bkit.fatdown.service.IFeedbackTypeService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.utils.DataTransferUtils;
+import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.FtpUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -299,13 +300,18 @@ public class FeedbackController {
     @CrossOrigin
     @RequestMapping(value = "/replys/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listReplyByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
-                                           @RequestParam(required = false) String adminName, @RequestParam(required = false) Date startTime,
-                                           @RequestParam(required = false) Date endTime) {
+                                           @RequestParam(required = false) String adminName, @RequestParam(required = false) String startTime,
+                                           @RequestParam(required = false) String endTime) {
         if (pageNum == null || pageSize == null) {
             return CommonResultDTO.validateFailed();
         }
 
-        List<TbFeedbackReply> list = replyService.list(adminName, startTime, endTime, pageNum, pageSize);
+        if (startTime == null || endTime == null) {
+            return CommonResultDTO.success(CommonPageDTO.restPage(replyService.list(adminName, pageNum, pageSize)));
+        }
+
+        List<TbFeedbackReply> list = replyService.list(adminName, DateUtils.string2Date(startTime),
+                DateUtils.string2Date(endTime), pageNum, pageSize);
 
         return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }

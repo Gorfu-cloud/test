@@ -2,6 +2,8 @@ package com.bkit.fatdown.controller.diet;
 
 import com.bkit.fatdown.dto.*;
 import com.bkit.fatdown.dto.diet.*;
+import com.bkit.fatdown.entity.TbDietMealReport;
+import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
 import io.swagger.annotations.Api;
@@ -31,6 +33,9 @@ public class ReportController {
 
     @Resource
     private IDietReportService reportService;
+
+    @Resource
+    private IDietFoodService foodService;
 
     @Resource
     private IDietRecordService dietRecordService;
@@ -249,5 +254,26 @@ public class ReportController {
         }
 
         return CommonResultDTO.success(dietRecordService.countWeeklyDietRecord(inputDate, uid) >= WEEKLY_REPORT_MIN_TOTAL);
+    }
+
+
+    @ApiOperation("根据饮食记录获取对应的报告")
+    @CrossOrigin
+    @RequestMapping(value = "/meal/{recordId}", method = RequestMethod.GET)
+    public CommonResultDTO getMealsReportByType(@PathVariable Integer recordId) {
+        if (recordId == null || foodService.count(recordId) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFoodRecord foodRecord = foodService.getFoodRecord(recordId);
+
+        int type = DateUtils.getMealType(foodRecord.getGmtCreate());
+        DietMealReport report = reportService.generateMealReport(foodRecord.getGmtCreate(), foodRecord.getUserId(), type);
+
+        if (report == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(report);
     }
 }

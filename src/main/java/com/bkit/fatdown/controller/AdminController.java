@@ -36,22 +36,6 @@ public class AdminController {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
-    private static final Integer OPEN_STATUS = 1;
-
-//    @ApiOperation("管理员登陆校验")
-//    @CrossOrigin
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public CommonResultDTO login(@RequestParam String userName, @RequestParam String password) {
-//        if (userName.isEmpty() || password.isEmpty()) {
-//            return CommonResultDTO.validateFailed();
-//        }
-//
-//        if (adminService.count(userName, password, OPEN_STATUS) == 0) {
-//            return CommonResultDTO.failed();
-//        }
-//        return CommonResultDTO.success();
-//    }
-
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody

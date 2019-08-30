@@ -53,6 +53,8 @@ public interface IFeedbackReplyService {
 
     List<TbFeedbackReply> list(String adminName, Date startDate, Date endDate, Integer pageNum, Integer pageSize);
 
+    List<TbFeedbackReply> list(String adminName, Integer pageNum, Integer pageSize);
+
     /**
      * @param replyId 回复id
      * @return 记录数

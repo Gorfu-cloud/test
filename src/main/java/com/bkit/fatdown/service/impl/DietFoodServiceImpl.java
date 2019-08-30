@@ -8,6 +8,7 @@ import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.MathUtils;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -113,6 +114,11 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 .andUserIdEqualTo(uid)
                 .andImgUrlEqualTo(url);
         return foodRecordMapper.deleteByExample(example) > 0;
+    }
+
+    @Override
+    public boolean delete(int recordId) {
+        return foodRecordMapper.deleteByPrimaryKey(recordId) > 0;
     }
 
     /**
@@ -266,6 +272,44 @@ public class DietFoodServiceImpl implements IDietFoodService {
         return foodRecordMapper.updateByPrimaryKeySelective(foodRecord) > 0;
     }
 
+    @Override
+    public List<TbFoodRecord> listFoodRecord(Integer uid, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.setOrderByClause("gmt_create desc");
+        TbFoodRecordExample.Criteria criteria = example.createCriteria();
+        if (uid != null) {
+            criteria.andUserIdEqualTo(uid);
+        }
+        return foodRecordMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<TbFoodRecord> listFoodRecord(Integer uid, Date startDate, Date endDate, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.setOrderByClause("gmt_create desc");
+        TbFoodRecordExample.Criteria criteria = example.createCriteria();
+
+        if (uid != null) {
+            criteria.andUserIdEqualTo(uid);
+        }
+        if (startDate != null && endDate != null) {
+            criteria.andGmtCreateBetween(startDate, endDate);
+        }
+
+        return foodRecordMapper.selectByExample(example);
+    }
+
+    @Override
+    public Integer count(int id) {
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.createCriteria()
+                .andIdEqualTo(id);
+
+        return (int) foodRecordMapper.countByExample(example);
+    }
+
     /**
      * 返回菜式列表
      *
@@ -302,6 +346,44 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
         }
 
+        return foodRecordList;
+    }
+
+    /**
+     * 返回菜式列表
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type, Integer pageNum, Integer pageSize) {
+        List<TbFoodRecord> foodRecordList = new ArrayList<>();
+        switch (type) {
+            case BREAKFAST:
+                foodRecordList = listFoodRecord(uid, DateUtils.getBreakfastStartTime(date), DateUtils.getBreakfastEndTime(date), pageNum, pageSize);
+                break;
+            case LUNCH:
+                foodRecordList = listFoodRecord(uid, DateUtils.getLunchStartTime(date), DateUtils.getLunchEndTime(date), pageNum, pageSize);
+                break;
+            case DINNER:
+                foodRecordList = listFoodRecord(uid, DateUtils.getDinnerStartTime(date), DateUtils.getDinnerEndTime(date), pageNum, pageSize);
+                break;
+            case DAILY:
+                foodRecordList = listFoodRecord(uid, DateUtils.getDateStart(date), DateUtils.getDateEnd(date), pageNum, pageSize);
+                break;
+            case WEEKLY:
+                foodRecordList = listFoodRecord(uid, DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), pageNum, pageSize);
+                break;
+            case MONTH:
+                foodRecordList = listFoodRecord(uid, DateUtils.getMonthStartDate(date), DateUtils.getMonthStartDate(date), pageNum, pageSize);
+                break;
+            default:
+                logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
+        }
         return foodRecordList;
     }
 
@@ -396,7 +478,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 }
                 // 组成元素结构类型：1,蛋白质， 2主食， 3,蔬菜水果， 4,坚果， 5豆类
                 if (elementBasic.getType() != FOOD_DEFAULT_TYPE) {
-                    logger.info("add structType, type : {} and set:{}",elementBasic.getType(),structType.toString());
+                    logger.info("add structType, type : {} and set:{}", elementBasic.getType(), structType.toString());
                     structType.add(elementBasic.getType());
                 }
                 // 统计每次食物种类
@@ -503,6 +585,17 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     private List<TbFoodRecord> listFoodRecord(int uid, Date start, Date end) {
+        TbFoodRecordExample example = new TbFoodRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(start, end);
+
+        return foodRecordMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<TbFoodRecord> listFoodRecord(int uid, Date start, Date end, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
         TbFoodRecordExample example = new TbFoodRecordExample();
         example.createCriteria()
                 .andUserIdEqualTo(uid)

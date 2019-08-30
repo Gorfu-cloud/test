@@ -1,6 +1,8 @@
 package com.bkit.fatdown.controller.diet;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +31,7 @@ import java.util.Map;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/diet", tags = "饮食标准模块")
+@Api(value = "/diet", tags = "饮食信息模块")
 @RestController
 @RequestMapping("/diet")
 public class DietController {
@@ -197,7 +200,6 @@ public class DietController {
         System.out.println(inputDate);
         String empty = "msg", urlOfString = "url", flagOfExist = "flag";
 
-
         // 获取上传结果
         Map<String, Object> result = pictureService.upload(picture, uid, inputDate);
 
@@ -318,31 +320,128 @@ public class DietController {
         }
     }
 
+    @ApiOperation("分页:获取饮食记录")
+    @CrossOrigin
+    @RequestMapping(value = "/records/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecordByPage(@RequestParam(required = false) Integer uid, @RequestParam(required = false) String startDate,
+                                                @RequestParam(required = false) String endDate, @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        if (pageNum == null || pageSize == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (startDate == null || endDate == null) {
+            return CommonResultDTO.success(CommonPageDTO.restPage(foodService.listFoodRecord(uid, pageNum, pageSize)));
+        }
+
+        List<TbFoodRecord> list = foodService.listFoodRecord(uid, DateUtils.string2Date(startDate), DateUtils.string2Date(endDate), pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(list));
+    }
+
     @ApiOperation("获取饮食记录")
     @CrossOrigin
-    @RequestMapping(value = "/records/{userName}/{dietType}/{startDate}/{endDate}", method = RequestMethod.GET)
-    public CommonResultDTO listFoodRecord(@PathVariable String userName, @PathVariable Integer dietType,
-                                          @PathVariable String startDate, @PathVariable String endDate) {
-        if (userName == null || dietType==null|| startDate == null || endDate == null){
+    @RequestMapping(value = "/record/{recordId}", method = RequestMethod.GET)
+    public CommonResultDTO getFoodRecord(@PathVariable Integer recordId) {
+        if (recordId == null || foodService.count(recordId) == 0) {
             return CommonResultDTO.validateFailed();
+        }
+
+        TbFoodRecord foodRecord = foodService.getFoodRecord(recordId);
+
+        if (foodRecord == null) {
+            return CommonResultDTO.failed();
+        }
+        return CommonResultDTO.success(foodRecord);
+    }
+
+    @ApiOperation("分页: 查看当餐相关饮食记录")
+    @CrossOrigin
+    @RequestMapping(value = "/records/meals/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listFoodRecordByPage(@RequestParam Integer recordId, @PathVariable Integer pageNum,
+                                                @PathVariable Integer pageSize) {
+        if (recordId == null || foodService.count(recordId) == 0 || pageNum == null || pageSize == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFoodRecord foodRecord = foodService.getFoodRecord(recordId);
+        if (foodRecord == null) {
+            return CommonResultDTO.failed();
+        }
+
+        // 用餐类型
+        Integer type = DateUtils.getMealType(foodRecord.getGmtCreate());
+        List<TbFoodRecord> list = foodService.listFoodRecord(foodRecord.getUserId(), foodRecord.getGmtCreate(), type, pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(list));
+    }
+
+    @ApiOperation("根据FoodRecord,获取摄入成分")
+    @CrossOrigin
+    @RequestMapping(value = "/record/dietRecord/{recordId}", method = RequestMethod.GET)
+    public CommonResultDTO getDietRecordByRecord(@PathVariable Integer recordId) {
+        if (recordId == null || foodService.count(recordId) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFoodRecord foodRecord = foodService.getFoodRecord(recordId);
+        if (foodRecord == null) {
+            return CommonResultDTO.failed();
+        }
+
+        // 用餐类型
+        int type = DateUtils.getMealType(foodRecord.getGmtCreate());
+
+        TbDietRecord record = dietRecordService.getDietRecord(foodRecord.getGmtCreate(), foodRecord.getUserId(), type);
+
+        if (record == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(record);
+    }
+
+    @ApiOperation("通过ID,更新饮食记录,(map中选填,foodId,eatPer,foodQuantity")
+    @CrossOrigin
+    @RequestMapping(value = "/record/{recordId}", method = RequestMethod.PUT)
+    public CommonResultDTO updateFoodRecord(@PathVariable Integer recordId, @RequestBody HashMap<String, String> map) {
+        if (recordId == null || foodService.count(recordId) == 0 || map.isEmpty()) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbFoodRecord foodRecord = new TbFoodRecord();
+        foodRecord.setId(recordId);
+
+        if (map.containsKey("foodId")) {
+            foodRecord.setFoodId(Integer.valueOf(map.get("foodId")));
+        }
+
+        if (map.containsKey("eatPer")) {
+            foodRecord.setEatPer(Double.valueOf(Integer.valueOf(map.get("eatPer"))));
+        }
+
+        if (map.containsKey("foodQuantity")) {
+            foodRecord.setFoodQuantity(Double.valueOf(map.get("foodQuantity")));
+        }
+
+        if (foodService.updateFoodRecord(foodRecord)) {
+            return CommonResultDTO.success();
         }
 
         return CommonResultDTO.failed();
     }
 
-    private void updateDietRecord(int uid, Date date) {
-        int type = DateUtils.getMealType(date);
-        // 更新每餐饮食成分记录
-        if (dietRecordService.updateDietRecord(date, uid, type)) {
-            logger.info("update diet_record success, date:{} and uid: {} and type :{}", date, uid, type);
-        } else {
-            logger.error("update diet_record fail, date:{} and uid: {} and type :{}", date, uid, type);
+    @ApiOperation("删除饮食记录")
+    @CrossOrigin
+    @RequestMapping(value = "/record/{recordId}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteFoodRecord(@PathVariable Integer recordId) {
+        if (recordId == null || foodService.count(recordId) == 0) {
+            return CommonResultDTO.validateFailed();
         }
-        // 更新每天用餐成分总量记录
-        if (dietRecordService.updateDailyDietRecord(date, uid)) {
-            logger.info("update daily dietRecord success, date:{} and uid: {} ", date, uid);
-        } else {
-            logger.error("update daily dietRecord fail, date:{} and uid: {} ", date, uid);
+
+        if (foodService.delete(recordId)) {
+            return CommonResultDTO.success();
         }
+
+        return CommonResultDTO.failed();
     }
 }

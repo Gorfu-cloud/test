@@ -35,6 +35,9 @@ public interface IDietFoodService {
      */
     TbFoodRecord getFoodRecord(int id);
 
+
+    boolean delete(int recordId);
+
     /**
      * 删除饮食记录
      *
@@ -108,6 +111,23 @@ public interface IDietFoodService {
     List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type);
 
     /**
+     * 返回菜式列表
+     *
+     * @param uid
+     * @param date
+     * @param type
+     * @return
+     */
+    List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type,Integer pageNum,Integer pageSize);
+
+    Integer count(int id);
+
+    List<TbFoodRecord> listFoodRecord(Integer uid, Date startDate, Date endDate, Integer pageNum, Integer pageSize);
+
+    List<TbFoodRecord> listFoodRecord(Integer uid, Integer pageNum, Integer pageSize);
+
+
+    /**
      * 更新饮食食物信息
      *
      * @param foodRecord 饮食食物信息
@@ -131,6 +151,8 @@ public interface IDietFoodService {
      * @return 食物元素总和
      */
     TbDietRecord getDietRecordTotal(List<TbFoodRecord> recordList);
+
+    List<TbFoodRecord> listFoodRecord(int uid, Date start, Date end, Integer pageNum, Integer pageSize);
 
     TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp);
 }

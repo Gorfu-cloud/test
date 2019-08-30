@@ -56,7 +56,7 @@ public class ElementController {
         return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100));
     }
 
-    @ApiOperation("分页：查找名称,指定所有元素成分（名称可空、所有类型：0）")
+    @ApiOperation("分页：查找名称,指定元素成分（名称可空、所有类型：0）")
     @CrossOrigin
     @RequestMapping(value = "/basic/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listElementInfo(@RequestParam(required = false) String name, @RequestParam Integer type,

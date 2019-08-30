@@ -80,6 +80,19 @@ public class FeedbackReplyServiceImpl implements IFeedbackReplyService {
     }
 
     @Override
+    public List<TbFeedbackReply> list(String adminName, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        TbFeedbackReplyExample example = new TbFeedbackReplyExample();
+        example.setOrderByClause("gmt_create desc");
+        TbFeedbackReplyExample.Criteria criteria = example.createCriteria();
+
+        if (adminName!=null){
+            criteria.andAdminNameLike("%"+adminName+"%");
+        }
+        return replyMapper.selectByExample(example);
+    }
+
+    @Override
     public List<TbFeedbackReply> list(String adminName, Date startDate, Date endDate, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         TbFeedbackReplyExample example = new TbFeedbackReplyExample();
