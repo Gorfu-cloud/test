@@ -5,11 +5,10 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietPicture;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
-import com.bkit.fatdown.service.IDietFoodService;
-import com.bkit.fatdown.service.IDietRecordService;
-import com.bkit.fatdown.service.IFoodBasicService;
-import com.bkit.fatdown.service.IPictureService;
+import com.bkit.fatdown.entity.TbPictureType;
+import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.utils.IDUtils;
 import com.bkit.fatdown.utils.RecogniseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +47,9 @@ public class PictureController {
 
     @Resource
     private IDietFoodService foodService;
+
+    @Resource
+    IPictureTypeService pictureTypeService;
 
     private static final int DATA_NOT_EXIST = 0;
 
@@ -140,8 +142,6 @@ public class PictureController {
         }
         return CommonResultDTO.validateFailed("参数错误");
     }
-
-
 
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
@@ -246,4 +246,47 @@ public class PictureController {
         return CommonResultDTO.failed();
     }
 
+
+    @ApiOperation("上传图片(重量训练资料）")
+    @CrossOrigin
+    @RequestMapping(value = "/upload/data/{typeId}", method = RequestMethod.POST)
+    public CommonResultDTO uploadPictureData(@RequestParam MultipartFile picture, @PathVariable Integer typeId, @RequestParam Integer uid) {
+        if (pictureTypeService.count(typeId) == DATA_NOT_EXIST || picture == null || typeId == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (pictureService.uploadDir(picture, uid, typeId)) {
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("获取上传图片文件夹编号")
+    @CrossOrigin
+    @RequestMapping(value = "/upload/data/dir", method = RequestMethod.GET)
+    public CommonResultDTO getPictureType(@RequestParam String foodName, @RequestParam HashMap<String, Double> map) {
+        if (foodName.isEmpty() || map.isEmpty()) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        String typeName = IDUtils.getImageDirName(foodName, map);
+
+        // 不存在
+        if (pictureTypeService.count(typeName) == DATA_NOT_EXIST) {
+            TbPictureType type = new TbPictureType();
+            type.setTypeName(typeName);
+            if (!pictureTypeService.insert(type)) {
+                return CommonResultDTO.failed();
+            }
+        }
+
+        Integer typeId = pictureTypeService.search(typeName);
+
+        if (typeId == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(typeId);
+    }
 }

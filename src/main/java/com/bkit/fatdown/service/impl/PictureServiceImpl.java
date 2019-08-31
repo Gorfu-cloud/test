@@ -2,12 +2,16 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.entity.TbDietPicture;
 import com.bkit.fatdown.entity.TbDietPictureExample;
+import com.bkit.fatdown.entity.TbPictureType;
 import com.bkit.fatdown.mappers.TbDietPictureMapper;
 import com.bkit.fatdown.service.IPictureService;
+import com.bkit.fatdown.service.IPictureTypeService;
 import com.bkit.fatdown.utils.DateUtils;
 import com.bkit.fatdown.utils.FtpUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -26,12 +30,45 @@ import java.util.Map;
  */
 
 @Service
+@Transactional
 public class PictureServiceImpl implements IPictureService {
 
-    private static Logger logger = Logger.getLogger(PictureServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
     @Resource
     private TbDietPictureMapper pictureMapper;
+    @Resource
+    private IPictureTypeService typeService;
+
+    @Override
+    public boolean uploadDir(MultipartFile uploadFile, int uid, int typeId) {
+        logger.info("开始上传图片：" + uid + " " + uploadFile.getOriginalFilename() + " " + uploadFile.getSize());
+        if (uploadFile.isEmpty()) {
+            logger.error("upload picture is empty, typeId: {} and uid: {}", typeId, uid);
+            return false;
+        }
+
+        TbPictureType type = typeService.get(typeId);
+        String dirName = type.getTypeName();
+
+        Map<String, String> uploadPictureResult = FtpUtils.uploadPicture2Dir(uploadFile, dirName);
+
+        // 上传图片成功
+        if ("true".equals(uploadPictureResult.get("flag"))) {
+            TbDietPicture picture = new TbDietPicture();
+            picture.setUrl(uploadPictureResult.get("imgUrl"));
+            picture.setUserId(uid);
+            picture.setTypeId(typeId);
+            picture.setGmtCreate(new Date());
+            picture.setGmtModified(new Date());
+            // 添加记录
+            return pictureMapper.insertSelective(picture) > 0;
+        } else {
+            // 上传图片失败
+            logger.error("upload picture fail");
+            return false;
+        }
+    }
 
     /**
      * 上传图片

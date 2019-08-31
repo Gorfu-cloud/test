@@ -1,5 +1,7 @@
 package com.bkit.fatdown.utils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -11,7 +13,7 @@ import java.util.Random;
  * @version: 1.0
  */
 
-class IDUtils {
+public class IDUtils {
 
     private static final String STRING_FORMAT = "%03d";
 
@@ -33,5 +35,16 @@ class IDUtils {
 
         // 如果不足三位随机数前面补0
         return millis + String.format(STRING_FORMAT, suffix);
+    }
+
+    public static String getImageDirName(String foodName, HashMap<String, Double> elementMap) {
+        StringBuilder imgDir = new StringBuilder();
+        imgDir.append(foodName).append("/");
+
+        for (Map.Entry<String, Double> entry : elementMap.entrySet()) {
+            imgDir.append(entry.getKey()).append("_").append(entry.getValue()).append("_");
+        }
+
+        return imgDir.toString();
     }
 }

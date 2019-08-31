@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bkit.fatdown.mappers.TbDietPictureMapper">
-  <resultMap id="BaseResultMap" type="com.bkit.fatdown.entity.TbDietPicture">
+<mapper namespace="com.bkit.fatdown.mappers.TbPictureTypeMapper">
+  <resultMap id="BaseResultMap" type="com.bkit.fatdown.entity.TbPictureType">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
@@ -68,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, url, user_id, type_id, gmt_create, gmt_modified
+    id, type_name, status, gmt_create, gmt_modified
   </sql>
-  <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbDietPictureExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbPictureTypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_diet_picture
+    from tb_picture_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,41 +86,36 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tb_diet_picture
+    from tb_picture_type
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_diet_picture
+    delete from tb_picture_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.bkit.fatdown.entity.TbDietPictureExample">
-    delete from tb_diet_picture
+  <delete id="deleteByExample" parameterType="com.bkit.fatdown.entity.TbPictureTypeExample">
+    delete from tb_picture_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.bkit.fatdown.entity.TbDietPicture">
-    insert into tb_diet_picture (id, url, user_id, 
-      type_id, gmt_create, gmt_modified
-      )
-    values (#{id,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{typeId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.bkit.fatdown.entity.TbPictureType">
+    insert into tb_picture_type (id, type_name, status, 
+      gmt_create, gmt_modified)
+    values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbDietPicture">
-    insert into tb_diet_picture
+  <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbPictureType">
+    insert into tb_picture_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="url != null">
-        url,
+      <if test="typeName != null">
+        type_name,
       </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="typeId != null">
-        type_id,
+      <if test="status != null">
+        status,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -134,14 +128,11 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="url != null">
-        #{url,jdbcType=VARCHAR},
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="typeId != null">
-        #{typeId,jdbcType=INTEGER},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -151,26 +142,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.bkit.fatdown.entity.TbDietPictureExample" resultType="java.lang.Long">
-    select count(*) from tb_diet_picture
+  <select id="countByExample" parameterType="com.bkit.fatdown.entity.TbPictureTypeExample" resultType="java.lang.Long">
+    select count(*) from tb_picture_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_diet_picture
+    update tb_picture_type
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
+      <if test="record.typeName != null">
+        type_name = #{record.typeName,jdbcType=VARCHAR},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.typeId != null">
-        type_id = #{record.typeId,jdbcType=INTEGER},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
@@ -184,28 +172,24 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_diet_picture
+    update tb_picture_type
     set id = #{record.id,jdbcType=INTEGER},
-      url = #{record.url,jdbcType=VARCHAR},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      type_id = #{record.typeId,jdbcType=INTEGER},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bkit.fatdown.entity.TbDietPicture">
-    update tb_diet_picture
+  <update id="updateByPrimaryKeySelective" parameterType="com.bkit.fatdown.entity.TbPictureType">
+    update tb_picture_type
     <set>
-      <if test="url != null">
-        url = #{url,jdbcType=VARCHAR},
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="typeId != null">
-        type_id = #{typeId,jdbcType=INTEGER},
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -216,11 +200,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bkit.fatdown.entity.TbDietPicture">
-    update tb_diet_picture
-    set url = #{url,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
-      type_id = #{typeId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.bkit.fatdown.entity.TbPictureType">
+    update tb_picture_type
+    set type_name = #{typeName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

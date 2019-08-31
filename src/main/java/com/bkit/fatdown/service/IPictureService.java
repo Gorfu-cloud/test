@@ -28,6 +28,8 @@ public interface IPictureService {
      */
     Map<String, Object> upload(MultipartFile uploadFile, int uid, Date date);
 
+    boolean uploadDir(MultipartFile uploadFile, int uid, int typeId);
+
     /**
      * 通过日期时间获取，早餐：0->10,午餐：10->15,晚餐：15->24
      *
@@ -83,4 +85,6 @@ public interface IPictureService {
      * @return 饮食图片
      */
     TbDietPicture getPicture(Integer uid, String url);
+
+
 }

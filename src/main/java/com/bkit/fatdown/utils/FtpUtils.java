@@ -140,4 +140,39 @@ public class FtpUtils {
         map.put("flag", Boolean.toString(result));
         return map;
     }
+
+    /**
+     * 上传图片到云数据库
+     *
+     * @param uploadFile 上传图片
+     * @return imgUrl：图片路径，flag：是否上传成功（true、false）
+     */
+    public static Map<String, String> uploadPicture2Dir(MultipartFile uploadFile, String dirName) {
+        logger.info("上传图片开始");
+        //图片上传 http://image.sunnyqcloud.com/pictures/4/2019/07/22/1563806098299320.jpg
+        String imagePath = "/"+dirName;
+        Map<String, String> map = new HashMap<>(3);
+        //取原始文件名
+        String oldPictureName = uploadFile.getOriginalFilename();
+        //生成新文件名
+        String newPictureName = IDUtils.getImageName();
+        //得到文件的后缀名称
+        assert oldPictureName != null;
+        String postfix = oldPictureName.substring(oldPictureName.lastIndexOf("."));
+        //构建出一个新的文件名
+        newPictureName = newPictureName + postfix;
+
+        boolean result = false;
+        try {
+            result = uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASE_PATH,
+                    imagePath, newPictureName, uploadFile.getInputStream());
+            String imgUrl = IMAGE_BASE_URL_HTTP + imagePath + "/" + newPictureName;
+            map.put("imgUrl", imgUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("上传图片到云数据库失败" + e);
+        }
+        map.put("flag", Boolean.toString(result));
+        return map;
+    }
 }

@@ -3,14 +3,12 @@ package com.bkit.fatdown.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TbDietPicture implements Serializable {
+public class TbPictureType implements Serializable {
     private Integer id;
 
-    private String url;
+    private String typeName;
 
-    private Integer userId;
-
-    private Integer typeId;
+    private Integer status;
 
     private Date gmtCreate;
 
@@ -26,28 +24,20 @@ public class TbDietPicture implements Serializable {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+    public void setTypeName(String typeName) {
+        this.typeName = typeName == null ? null : typeName.trim();
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getGmtCreate() {
@@ -73,9 +63,8 @@ public class TbDietPicture implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", url=").append(url);
-        sb.append(", userId=").append(userId);
-        sb.append(", typeId=").append(typeId);
+        sb.append(", typeName=").append(typeName);
+        sb.append(", status=").append(status);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);
