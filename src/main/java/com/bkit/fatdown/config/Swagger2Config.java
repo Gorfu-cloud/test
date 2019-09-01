@@ -119,7 +119,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
         //设置需要登录认证的路径
         List<SecurityContext> result = new ArrayList<>();
         // TODO 测试 2019年8月27日15点36分,-> 权限测试
-        result.add(getContextByPath("/admin/.*"));
+        result.add(getContextByPath("/food/.*"));
         return result;
     }
 

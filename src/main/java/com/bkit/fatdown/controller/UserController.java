@@ -12,6 +12,7 @@ import com.bkit.fatdown.utils.DataTransferUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -179,13 +180,13 @@ public class UserController {
     @ApiOperation("通过UID获取用户所有生活习惯")
     @CrossOrigin
     @RequestMapping(value = "/listLifeStyle", method = RequestMethod.GET)
-    public CommonResultDTO listLifeStyleByUid(@RequestBody HashMap<String, Integer> map) {
-        if (map.containsKey("uid")) {
-            int uid = map.get("uid");
-            if (userLifeStyleService.countByUid(uid) > 0) {
-                return CommonResultDTO.success(userLifeStyleService.listByUid(uid));
-            }
+    @PreAuthorize("hasAnyAuthority('user:lifeStyle:read')")
+    public CommonResultDTO listLifeStyleByUid(@RequestParam Integer uid) {
+
+        if (userLifeStyleService.countByUid(uid) > 0) {
+            return CommonResultDTO.success(userLifeStyleService.listByUid(uid));
         }
+
         return CommonResultDTO.validateFailed();
     }
 

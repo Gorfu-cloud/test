@@ -1,14 +1,13 @@
 package com.bkit.fatdown.controller.food;
 
-import java.util.ArrayList;
-
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
-import com.bkit.fatdown.dto.food.RecommendFoodDTO;
 import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
-import com.bkit.fatdown.entity.*;
+import com.bkit.fatdown.entity.TbFoodRecommend;
+import com.bkit.fatdown.entity.TbFoodRecommendRecord;
+import com.bkit.fatdown.entity.TbFoodRecommendType;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
@@ -16,10 +15,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @file: FoodController
@@ -90,6 +92,7 @@ public class RecommendController {
     @ApiOperation("分页：查找指定名称、类型推荐菜式（名称可不传，所有类型：0）")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('food:recommend:read')")
     public CommonResultDTO listFoodRecommendLikeName(@RequestParam(required = false) String foodName, @RequestParam Integer foodType,
                                                                                       @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
         logger.info("search: foodName:{} ,foodType:{}, pageNum:{}, pageSize:{}", foodName, foodType, pageNum, pageSize);
@@ -244,6 +247,7 @@ public class RecommendController {
     @ApiOperation("分页：获取所有推荐菜式类型")
     @CrossOrigin
     @RequestMapping(value = "/recommendTypes/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('food:recommend:type:read')")
     public CommonResultDTO<CommonPageDTO> listAllRecommendTypeByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         List<TbFoodRecommendType> typeList = recommendTypeService.listAllType(pageNum, pageSize);
         return CommonResultDTO.success(CommonPageDTO.restPage(typeList));
