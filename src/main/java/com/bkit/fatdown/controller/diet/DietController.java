@@ -323,7 +323,7 @@ public class DietController {
     @ApiOperation("分页:获取饮食记录")
     @CrossOrigin
     @RequestMapping(value = "/records/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO listFoodRecordByPage(@RequestParam(required = false) Integer uid, @RequestParam(required = false) String startDate,
+    public CommonResultDTO listFoodRecordBySearch(@RequestParam(required = false) Integer uid, @RequestParam(required = false) String startDate,
                                                 @RequestParam(required = false) String endDate, @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         if (pageNum == null || pageSize == null) {
             return CommonResultDTO.validateFailed();
