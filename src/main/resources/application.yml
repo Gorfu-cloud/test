@@ -1,0 +1,67 @@
+# mysql 配置
+spring:
+  datasource:
+    url: dbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health?serverTimezone=PRC&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: bk_28135
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    tomcat:
+      max-active: 20
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+
+  servlet:
+    multipart:
+      # 最大支持文件大小
+      max-file-size: 10MB
+
+  redis:
+    # Redis服务器地址
+    host: 134.175.135.105
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器连接端口
+    port: 6379
+    password: baokang
+    # 连接超时时间（毫秒）
+    timeout: 10000ms
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 1024
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 10000ms
+        # 连接池中的最大空闲连接
+        max-idle: 200
+        # 连接池中的最小空闲连接
+        min-idle: 0
+
+mybatis:
+  # mybatis pageHelper
+  config-location: classpath:/config/SqlMapConfig.xml
+
+server:
+  port: 8088
+  servlet:
+    context-path: /fatdown
+
+# 自定义 JWT key
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT加解密使用的密钥
+  secret: CChlGPaXjNSitt1wdUBQ0LXDfduI2mFZ
+  # JWT的超期限时间(60*60*24)
+  expiration: 604800
+  # JWT负载中拿到开头
+  tokenHead: Bearer
+
+# 自定义redis key
+redis:
+  key:
+    prefix:
+      authCode: "portal:authCode:"
+    expire:
+      authCode: 120 # 验证码超期时间
