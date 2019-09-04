@@ -5,7 +5,7 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserPrivacyInfoMapper;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
 import com.bkit.fatdown.utils.DateUtils;
-import com.bkit.fatdown.utils.MathUtils;
+import com.bkit.fatdown.component.ReportHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -64,7 +64,7 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
 
         // 计算BMI值
         if (privacyInfo.getHeight() != null && privacyInfo.getWeight() != null) {
-            privacyInfo.setBmi(MathUtils.getBMI(privacyInfo.getHeight(), privacyInfo.getWeight()));
+            privacyInfo.setBmi(ReportHelper.getBMI(privacyInfo.getHeight(), privacyInfo.getWeight()));
         }
 
         // 设置更新日期

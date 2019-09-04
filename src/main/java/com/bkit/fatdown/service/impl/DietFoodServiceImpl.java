@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
@@ -7,7 +8,6 @@ import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.*;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
-import com.bkit.fatdown.utils.MathUtils;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -186,7 +186,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
         TbUserPrivacyInfo privacyInfo = privacyInfoService.listByUid(uid).get(0);
         TbUserBasicInfo basicInfo = userBasicInfoService.getById(uid);
 
-        return updateDietStandard(MathUtils.getDietUserStandard(basicInfo, privacyInfo, userLifeStyle));
+        return updateDietStandard(ReportHelper.getDietUserStandard(basicInfo, privacyInfo, userLifeStyle));
     }
 
     /**

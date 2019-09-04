@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 
 /**
- * @file: MathUtilsTest
+ * @file: ReportHelperTest
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description:
  * @date: Created in 7/26/19  11:36 PM
@@ -17,10 +17,10 @@ import static org.junit.Assert.*;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MathUtilsTest {
+public class ReportHelperTest {
 
     @Test
     public void getDailyEnergy() {
-//        assertEquals(1300, (double) MathUtils.getDailyEnergy(105, 170, 180), 0.0);
+//        assertEquals(1300, (double) ReportHelper.getDailyEnergy(105, 170, 180), 0.0);
     }
 }

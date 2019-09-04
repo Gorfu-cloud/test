@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.dto.diet.common.Evaluation;
 import com.bkit.fatdown.dto.diet.common.NutrientsEvaluation;
@@ -12,7 +13,6 @@ import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.utils.DataTransferUtils;
 import com.bkit.fatdown.utils.DateUtils;
-import com.bkit.fatdown.utils.MathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -76,7 +76,7 @@ public class DietReportServiceImpl implements IDietReportService {
         // 用户饮食标准
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
         // 生成每天评价报告
-        DietDailyReport report = MathUtils.getDietDailyReport(userStandard, record);
+        DietDailyReport report = ReportHelper.getDietDailyReport(userStandard, record);
 
         // 已经过了用餐时间，储存饮食记录
         if (isFinishMeal(date, DAILY)) {
@@ -128,12 +128,12 @@ public class DietReportServiceImpl implements IDietReportService {
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
-        DietWeeklyReport report = MathUtils.getDietWeeklyReport(userStandard, record, reportList);
+        DietWeeklyReport report = ReportHelper.getDietWeeklyReport(userStandard, record, reportList);
 
         // 营养素评价统计
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
         nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
-        nutrientsEvaluation.setScore(MathUtils.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
+        nutrientsEvaluation.setScore(ReportHelper.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
 
         // 早午晚餐能量评价统计
@@ -360,7 +360,7 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, GOOD);
         ordinaryTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, BAD);
 
-        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, 0);
+        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, 0);
 
         return new Evaluation(excellentTotal, goodTotal, ordinaryTotal, score);
     }
@@ -546,7 +546,7 @@ public class DietReportServiceImpl implements IDietReportService {
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
         // 获取用户用餐标准
-        DietMealReport report = MathUtils.getDietMealReport(userStandard, record, type);
+        DietMealReport report = ReportHelper.getDietMealReport(userStandard, record, type);
 
         // 已经过了用餐时间，记录用餐记录
         if (isFinishMeal(date, type)) {
@@ -604,7 +604,7 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
 
-        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
@@ -615,7 +615,7 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
 
-        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
@@ -626,7 +626,7 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countColEvaluation(uid, startDate, endDate, BAD);
 
-        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
@@ -637,7 +637,7 @@ public class DietReportServiceImpl implements IDietReportService {
         goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
 
-        double score = MathUtils.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }

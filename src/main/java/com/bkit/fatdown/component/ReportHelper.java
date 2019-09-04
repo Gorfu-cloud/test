@@ -1,16 +1,17 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.component;
 
-import com.bkit.fatdown.dto.diet.*;
-import com.bkit.fatdown.dto.diet.common.EnergyEvaluation;
-import com.bkit.fatdown.dto.diet.common.SpeciesEvaluation;
-import com.bkit.fatdown.dto.diet.common.TotalEvaluation;
-import com.bkit.fatdown.dto.diet.common.WeeklyNutrientsEvaluation;
+import com.bkit.fatdown.dto.diet.DietDailyReport;
+import com.bkit.fatdown.dto.diet.DietMealReport;
+import com.bkit.fatdown.dto.diet.DietMonthReport;
+import com.bkit.fatdown.dto.diet.DietWeeklyReport;
+import com.bkit.fatdown.dto.diet.common.*;
 import com.bkit.fatdown.entity.*;
+import com.bkit.fatdown.utils.DataTransferUtils;
 
 import java.util.*;
 
 /**
- * @file: MathUtils
+ * @file: ReportHelper
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: 公式计算工具类
  * @date: Created in 2019/7/16 14:38
@@ -18,7 +19,7 @@ import java.util.*;
  * @version: 1.0
  */
 
-public class MathUtils {
+public class ReportHelper {
     /**
      * 评价类型：0早餐，1午餐，2晚餐，3加餐，4每天，5每周，6每月
      */
@@ -98,7 +99,7 @@ public class MathUtils {
     private static final ArrayList<Integer> STRUCTURE_DAILY = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
 
     /**
-     * 营养素评价
+     * 每天营养素评价
      */
     private static final Double DAILY_PROTEIN_MORE = 0.35;
     private static final Double DAILY_PROTEIN_LITTLE = 0.25;
@@ -118,12 +119,88 @@ public class MathUtils {
     private static final Double ANIMAL_FAT_GOOD = 0.50;
     private static final Double ANIMAL_FAT_BAD = 0.60;
 
-
     private static final Integer PROTEIN_ENERGY_OF_1G = 9;
     private static final Integer FAT_ENERGY_OF_1G = 9;
     private static final Integer COL_ENERGY_OF_1G = 9;
 
     private static final Integer PER_BASE = 100;
+
+    /**
+     * 每天矿物质评价,单位 mg
+     */
+    private static final Integer DAILY_CA_GOOD_UP = 1000;
+    private static final Integer DAILY_CA_GOOD_DOWN = 600;
+    private static final Integer DAILY_CA_BAD_UP = 1500;
+    private static final Integer DAILY_CA_BAD_DOWN = 400;
+
+    private static final Integer DAILY_P_GOOD_UP = 900;
+    private static final Integer DAILY_P_GOOD_DOWN = 500;
+    private static final Integer DAILY_P_BAD_UP = 2000;
+    private static final Integer DAILY_P_BAD_DOWN = 200;
+
+    private static final Integer DAILY_K_GOOD_UP = 2300;
+    private static final Integer DAILY_K_GOOD_DOWN = 1700;
+    private static final Integer DAILY_K_BAD_UP = 3000;
+    private static final Integer DAILY_K_BAD_DOWN = 1000;
+
+    private static final Integer DAILY_MG_GOOD_UP = 400;
+    private static final Integer DAILY_MG_GOOD_DOWN = 300;
+    private static final Integer DAILY_MG_BAD_UP = 600;
+    private static final Integer DAILY_MG_BAD_DOWN = 150;
+
+    private static final Integer DAILY_FE_GOOD_UP = 25;
+    private static final Integer DAILY_FE_GOOD_DOWN = 10;
+    private static final Integer DAILY_FE_BAD_UP = 40;
+    private static final Integer DAILY_FE_BAD_DOWN = 5;
+
+    private static final Integer DAILY_ZN_GOOD_UP = 20;
+    private static final Integer DAILY_ZN_GOOD_DOWN = 10;
+    private static final Integer DAILY_ZN_BAD_UP = 30;
+    private static final Integer DAILY_ZN_BAD_DOWN = 5;
+
+    // Se单位是 ug
+    private static final Integer DAILY_SE_GOOD_UP = 75;
+    private static final Integer DAILY_SE_GOOD_DOWN = 40;
+    private static final Integer DAILY_SE_BAD_UP = 120;
+    private static final Integer DAILY_SE_BAD_DOWN = 15;
+
+    private static final Double DAILY_CU_GOOD_UP = 3.0;
+    private static final Double DAILY_CU_GOOD_DOWN = 1.0;
+    private static final Double DAILY_CU_BAD_UP = 5.0;
+    private static final Double DAILY_Cu_BAD_DOWN = 0.5;
+
+    /**
+     * 每天维生素摄入标准
+     */
+    private static final Double DAILY_VITAMIN_A_GOOD_UP = 900.0;
+    private static final Double DAILY_VITAMIN_A_GOOD_DOWN = 600.0;
+    private static final Double DAILY_VITAMIN_A_BAD_UP = 1500.0;
+    private static final Double DAILY_VITAMIN_A_BAD_DOWN = 300.0;
+
+    private static final Double DAILY_VITAMIN_B1_GOOD_UP = 1.5;
+    private static final Double DAILY_VITAMIN_B1_GOOD_DOWN = 1.2;
+    private static final Double DAILY_VITAMIN_B1_BAD_UP = 1.8;
+    private static final Double DAILY_VITAMIN_B1_BAD_DOWN = 0.9;
+
+    private static final Double DAILY_VITAMIN_B2_GOOD_UP = 1.5;
+    private static final Double DAILY_VITAMIN_B2_GOOD_DOWN = 1.1;
+    private static final Double DAILY_VITAMIN_B2_BAD_UP = 1.8;
+    private static final Double DAILY_VITAMIN_B2_BAD_DOWN = 0.8;
+
+    private static final Double DAILY_VITAMIN_B3_GOOD_UP = 1.5;
+    private static final Double DAILY_VITAMIN_B3_GOOD_DOWN = 1.2;
+    private static final Double DAILY_VITAMIN_B3_BAD_UP = 1.8;
+    private static final Double DAILY_VITAMIN_B3_BAD_DOWN = 0.9;
+
+    private static final Double DAILY_VITAMIN_C_GOOD_UP = 150.0;
+    private static final Double DAILY_VITAMIN_C_GOOD_DOWN = 80.0;
+    private static final Double DAILY_VITAMIN_C_BAD_UP = 300.0;
+    private static final Double DAILY_VITAMIN_C_BAD_DOWN = 40.0;
+
+    private static final Double DAILY_VITAMIN_E_GOOD_UP = 30.0;
+    private static final Double DAILY_VITAMIN_E_GOOD_DOWN = 10.0;
+    private static final Double DAILY_VITAMIN_E_BAD_UP = 100.0;
+    private static final Double DAILY_VITAMIN_E_BAD_DOWN = 5.0;
 
     /**
      * 周种类均衡评价
@@ -143,11 +220,33 @@ public class MathUtils {
     private static final Integer WEEKLY_TOTAL_GOOD = 25;
     private static final Integer WEEKLY_TOTAL_BAD = 18;
 
+    /**
+     * 月种类均衡评价
+     */
+    private static final Integer MONTH_PROTEIN_GOOD = 7;
+    private static final Integer MONTH_PROTEIN_BAD = 5;
+
+    private static final Integer MONTH_STAPLE_FOOD_GOOD = 4;
+    private static final Integer MONTH_STAPLE_FOOD_BAD = 3;
+
+    private static final Integer MONTH_FRUIT_VEGETABLE_GOOD = 14;
+    private static final Integer MONTH_FRUIT_VEGETABLE_BAD = 10;
+
+    private static final Integer MONTH_NUT_BEAN_GOOD = 5;
+    private static final Integer MONTH_NUT_BEAN_BAD = 4;
+
+    private static final Integer MONTH_TOTAL_GOOD = 30;
+    private static final Integer MONTH_TOTAL_BAD = 23;
+
     private static final int WEEKLY_EXCELLENT_SCORE = 20;
     private static final int WEEKLY_GOOD_SCORE = 15;
     private static final int WEEKLY_ORDINARY_SCORE = 10;
     private static final int WEEKLY_BAD_SCORE = 0;
 
+    private static final int MONTH_EXCELLENT_SCORE = 4;
+    private static final int MONTH_GOOD_SCORE = 3;
+    private static final int MONTH_ORDINARY_SCORE = 2;
+    private static final int MONTH_BAD_SCORE = 0;
 
     /**
      * BMI=体重（千克）/（身高（米）*身高（米））
@@ -267,6 +366,26 @@ public class MathUtils {
         setWeeklyNutrientEvaluation(weeklyReport.getWeeklyNutrientsEvaluation(), dietRecord);
 
         return weeklyReport;
+    }
+
+    public static DietMonthReport getDietMonthReport(TbDietUserStandard userStandard, TbDietRecord dietRecord, List<TbDietDailyReport> dailyReportList, List<TbDietRecord> recordList) {
+        DietMonthReport monthReport = new DietMonthReport();
+
+        double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy()) + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
+
+        // 每天能量评价统计
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard);
+        monthReport.setEnergyEvaluation(energyEvaluation);
+
+        setSpeciesEvaluation(monthReport.getSpeciesEvaluation(), dietRecord, MONTH_TOTAL_GOOD, MONTH_TOTAL_BAD, MONTH_PROTEIN_GOOD, MONTH_PROTEIN_BAD,
+                MONTH_STAPLE_FOOD_GOOD, MONTH_STAPLE_FOOD_BAD, MONTH_FRUIT_VEGETABLE_GOOD, MONTH_FRUIT_VEGETABLE_BAD, MONTH_NUT_BEAN_GOOD, MONTH_NUT_BEAN_BAD);
+
+        // 设置优质蛋白和动物性脂肪
+        setWeeklyNutrientEvaluation(monthReport.getWeeklyNutrientsEvaluation(), dietRecord);
+
+        setVitaminEvaluation(monthReport.getVitaminEvaluation(), recordList);
+
+        return monthReport;
     }
 
     /**
@@ -405,9 +524,9 @@ public class MathUtils {
     }
 
     private static void setSpeciesScore(SpeciesEvaluation evaluation) {
-        double score = MathUtils.getWeeklyScore(evaluation.getBeanNutSpecies()) + MathUtils.getWeeklyScore(evaluation.getFruitVegetableSpecies())
-                + MathUtils.getWeeklyScore(evaluation.getProteinSpecies()) + MathUtils.getWeeklyScore(evaluation.getStapleFoodSpecies())
-                + MathUtils.getWeeklyScore(evaluation.getTotalSpecies());
+        double score = ReportHelper.getWeeklyScore(evaluation.getBeanNutSpecies()) + ReportHelper.getWeeklyScore(evaluation.getFruitVegetableSpecies())
+                + ReportHelper.getWeeklyScore(evaluation.getProteinSpecies()) + ReportHelper.getWeeklyScore(evaluation.getStapleFoodSpecies())
+                + ReportHelper.getWeeklyScore(evaluation.getTotalSpecies());
         evaluation.setScore(score);
     }
 
@@ -422,6 +541,7 @@ public class MathUtils {
             evaluation.setEvaluation(EXCELLENT);
         }
     }
+
 
     /**
      * 设置每天营养素评价
@@ -576,6 +696,153 @@ public class MathUtils {
         }
         dailyReport.setFibrinPer(fiber);
     }
+
+    /**
+     * 维生素评价
+     * @param evaluation 维生素评价
+     * @param recordList 每天饮食记录
+     */
+    private static void setVitaminEvaluation(VitaminEvaluation evaluation, List<TbDietRecord> recordList) {
+        setVitaminAEvaluation(evaluation.getA(), recordList);
+        setVitaminB1Evaluation(evaluation.getB1(), recordList);
+        setVitaminB2Evaluation(evaluation.getB2(), recordList);
+        setVitaminB3Evaluation(evaluation.getB3(), recordList);
+        setVitaminCEvaluation(evaluation.getC(), recordList);
+        setVitaminEEvaluation(evaluation.getE(), recordList);
+    }
+
+    private static void setVitaminAEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminA(), DAILY_VITAMIN_A_BAD_UP, DAILY_VITAMIN_A_BAD_DOWN,
+                    DAILY_VITAMIN_A_GOOD_UP, DAILY_VITAMIN_A_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setVitaminB1Evaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminB1(), DAILY_VITAMIN_B1_BAD_UP, DAILY_VITAMIN_B1_BAD_DOWN,
+                    DAILY_VITAMIN_B1_GOOD_UP, DAILY_VITAMIN_B1_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setVitaminB2Evaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminB2(), DAILY_VITAMIN_B2_BAD_UP, DAILY_VITAMIN_B2_BAD_DOWN,
+                    DAILY_VITAMIN_B2_GOOD_UP, DAILY_VITAMIN_B2_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setVitaminB3Evaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        Integer good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminB3(), DAILY_VITAMIN_B3_BAD_UP, DAILY_VITAMIN_B3_BAD_DOWN,
+                    DAILY_VITAMIN_B3_GOOD_UP, DAILY_VITAMIN_B3_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setVitaminCEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminC(), DAILY_VITAMIN_C_BAD_UP, DAILY_VITAMIN_C_BAD_DOWN,
+                    DAILY_VITAMIN_C_GOOD_UP, DAILY_VITAMIN_C_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setVitaminEEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getVitaminE(), DAILY_VITAMIN_E_BAD_UP, DAILY_VITAMIN_E_BAD_DOWN,
+                    DAILY_VITAMIN_E_GOOD_UP, DAILY_VITAMIN_E_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    // 判断优良差
+    private static int evaluation(double inputValue, double badUpper, double badLower, double goodUpper, double goodLower) {
+        if (inputValue > badUpper || inputValue < badLower) {
+            return BAD;
+        } else if (inputValue > goodUpper || inputValue < goodLower) {
+            return GOOD;
+        } else {
+            return EXCELLENT;
+        }
+    }
+
+//    private static void
 
     /**
      * 获取身高计算出的基础能量

@@ -1,10 +1,10 @@
 package com.bkit.fatdown.utils;
 
+import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.diet.*;
 import com.bkit.fatdown.dto.diet.common.*;
 import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
-import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -577,11 +577,11 @@ public class DataTransferUtils {
         // 优质蛋白，动物性脂肪
         report.setGoodProteinEvaluation(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getEvaluation());
         report.setGoodProteinPer(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein().getTotal());
-        report.setGoodProteinScore(MathUtils.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein()));
+        report.setGoodProteinScore(ReportHelper.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getGoodProtein()));
 
         report.setAnimalFatEvaluation(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation());
         report.setAnimalFatPer(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat().getTotal());
-        report.setAnimalFatScore(MathUtils.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat()));
+        report.setAnimalFatScore(ReportHelper.getWeeklyScore(dietReport.getWeeklyNutrientsEvaluation().getAnimalFat()));
 
         return report;
     }
