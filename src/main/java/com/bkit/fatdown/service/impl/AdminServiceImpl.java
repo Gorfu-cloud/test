@@ -7,7 +7,7 @@ import com.bkit.fatdown.mappers.TbAdminRoleRelationMapper;
 import com.bkit.fatdown.mappers.dao.AdminPermissionRelationDao;
 import com.bkit.fatdown.mappers.dao.AdminRoleRelationDao;
 import com.bkit.fatdown.service.IAdminService;
-import com.bkit.fatdown.utils.JwtTokenUtil;
+import com.bkit.fatdown.common.power.JwtTokenUtil;
 import jdk.nashorn.internal.ir.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

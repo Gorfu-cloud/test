@@ -5,7 +5,7 @@ import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.utils.WeappUtil;
+import com.bkit.fatdown.common.utils.WxUtil;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +86,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
 
     @Override
     public TbUserBasicInfo login(String code) {
-        JSONObject jsonObject = JSONObject.parseObject(WeappUtil.getSessionKeyOrOpenId(code));
+        JSONObject jsonObject = JSONObject.parseObject(WxUtil.getSessionKeyOrOpenId(code));
         String openId = jsonObject.getString("openid");
 
         // 用户不存在时,创建用户

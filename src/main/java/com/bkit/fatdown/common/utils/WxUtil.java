@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 /**
  * @file: WxappUtil
@@ -9,7 +9,7 @@ package com.bkit.fatdown.utils;
  * @version: 1.0
  */
 
-public class WeappUtil {
+public class WxUtil {
     /**
      * 微信小程序登录,session请求路径
      */
@@ -37,7 +37,7 @@ public class WeappUtil {
         String params = "appid=" + APP_ID + "&secret=" + APP_SECRET + "&js_code=" + code
                 + "&grant_type=" + GRANT_TYPE;
         // 发送post请求读取调用微信 https://api.weixin.qq.com/sns/jscode2session 接口获取openid用户唯一标识
-        return HttpRequestUtil.sendGet(REQUEST_URL, params);
+        return HttpUtil.sendGet(REQUEST_URL, params);
     }
 }
 

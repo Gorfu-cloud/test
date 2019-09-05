@@ -1,10 +1,8 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import com.bkit.fatdown.dto.food.ElementBasicDTO;
-import com.bkit.fatdown.dto.food.ElementRelationDTO;
 import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.service.IElementBasicService;
-import com.bkit.fatdown.service.IFoodElementService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
@@ -12,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-
-import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

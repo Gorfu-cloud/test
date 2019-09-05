@@ -6,7 +6,7 @@ import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.mappers.TbDietRecordMapper;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IDietRecordService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

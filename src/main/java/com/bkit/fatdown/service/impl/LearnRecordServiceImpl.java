@@ -4,7 +4,7 @@ import com.bkit.fatdown.entity.TbLearnRecord;
 import com.bkit.fatdown.entity.TbLearnRecordExample;
 import com.bkit.fatdown.mappers.TbLearnRecordMapper;
 import com.bkit.fatdown.service.ILearnRecordService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

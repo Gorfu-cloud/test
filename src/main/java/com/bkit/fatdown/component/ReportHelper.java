@@ -6,7 +6,7 @@ import com.bkit.fatdown.dto.diet.DietMonthReport;
 import com.bkit.fatdown.dto.diet.DietWeeklyReport;
 import com.bkit.fatdown.dto.diet.common.*;
 import com.bkit.fatdown.entity.*;
-import com.bkit.fatdown.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 
 import java.util.*;
 

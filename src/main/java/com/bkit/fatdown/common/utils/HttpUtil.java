@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,17 +6,17 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * @file: HttpRequestUtil
+ * @file: HttpUtil
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: Http工具类
  * @date: Created in 2019/7/12  13:18
  * @modified:
  * @version: 1.0
  */
-public class HttpRequestUtil {
+public class HttpUtil {
 
     /**
-     * @description: //TODO
+     * @description: 发起http链接
      * @params:
      * @return:
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -26,7 +26,6 @@ public class HttpRequestUtil {
     public static String sendPost(String url, String param) {
         return sendGet(url, param);
     }
-
 
     /**
      * @description: 发起http链接
@@ -73,4 +72,6 @@ public class HttpRequestUtil {
         }
         return result;
     }
+
+
 }

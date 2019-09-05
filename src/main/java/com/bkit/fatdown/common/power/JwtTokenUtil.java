@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.power;
 
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;

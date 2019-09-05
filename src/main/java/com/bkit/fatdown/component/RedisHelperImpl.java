@@ -1,21 +1,24 @@
-package com.bkit.fatdown.service.impl;
+package com.bkit.fatdown.component;
 
 import com.bkit.fatdown.service.IRedisService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
- * @file: RedisServiceImpl
+ * @file: RedisHelper
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
  * @description: redis操作Service的实现类
  * @date: Created in 9/4/19  11:27 PM
  * @modified:
  * @version: 1.0
  */
-@Service
-public class RedisServiceImpl implements IRedisService {
+@Component
+public class RedisHelperImpl implements IRedisService {
 
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     /**
@@ -26,7 +29,7 @@ public class RedisServiceImpl implements IRedisService {
      */
     @Override
     public void set(String key, String value) {
-
+        stringRedisTemplate.opsForValue().set(key, value);
     }
 
     /**
@@ -37,7 +40,7 @@ public class RedisServiceImpl implements IRedisService {
      */
     @Override
     public String get(String key) {
-        return null;
+        return stringRedisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -49,7 +52,7 @@ public class RedisServiceImpl implements IRedisService {
      */
     @Override
     public boolean expire(String key, long expire) {
-        return false;
+        return stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS);
     }
 
     /**
@@ -59,7 +62,7 @@ public class RedisServiceImpl implements IRedisService {
      */
     @Override
     public void remove(String key) {
-
+        stringRedisTemplate.delete(key);
     }
 
     /**
@@ -71,6 +74,6 @@ public class RedisServiceImpl implements IRedisService {
      */
     @Override
     public Long increment(String key, long delta) {
-        return null;
+        return stringRedisTemplate.opsForValue().increment(key, delta);
     }
 }

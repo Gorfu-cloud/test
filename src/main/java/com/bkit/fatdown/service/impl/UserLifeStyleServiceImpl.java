@@ -4,7 +4,7 @@ import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserLifeStyleExample;
 import com.bkit.fatdown.mappers.TbUserLifeStyleMapper;
 import com.bkit.fatdown.service.IUserLifeStyleService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 

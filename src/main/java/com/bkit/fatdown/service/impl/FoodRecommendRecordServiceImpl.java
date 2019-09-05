@@ -4,7 +4,7 @@ import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

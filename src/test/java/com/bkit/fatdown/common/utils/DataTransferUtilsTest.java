@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

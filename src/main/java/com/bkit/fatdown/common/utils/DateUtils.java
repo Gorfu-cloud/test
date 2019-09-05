@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;

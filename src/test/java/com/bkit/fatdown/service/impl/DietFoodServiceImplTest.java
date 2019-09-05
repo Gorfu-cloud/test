@@ -2,7 +2,7 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.TbFoodRecord;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

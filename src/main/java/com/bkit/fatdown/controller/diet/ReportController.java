@@ -2,10 +2,9 @@ package com.bkit.fatdown.controller.diet;
 
 import com.bkit.fatdown.dto.*;
 import com.bkit.fatdown.dto.diet.*;
-import com.bkit.fatdown.entity.TbDietMealReport;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.*;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

@@ -105,13 +105,6 @@
             <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
-
-<!--        &lt;!&ndash; 微信小程序要添加的依赖 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.bouncycastle</groupId>-->
-<!--            <artifactId>bcprov-jdk15on</artifactId>-->
-<!--            <version>1.55</version>-->
-<!--        </dependency>-->
         <!-- 本地导入到maven中jar  -->
         <dependency>
             <groupId>com.alibaba</groupId>

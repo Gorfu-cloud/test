@@ -1,7 +1,7 @@
 package com.bkit.fatdown.dto.feedback;
 
 import com.bkit.fatdown.entity.TbFeedbackInfo;
-import com.bkit.fatdown.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;

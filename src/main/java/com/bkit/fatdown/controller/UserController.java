@@ -8,7 +8,7 @@ import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserLifeStyleService;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
-import com.bkit.fatdown.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;

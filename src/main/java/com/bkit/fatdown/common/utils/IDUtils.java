@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -7,7 +7,7 @@ import com.bkit.fatdown.entity.TbTaskRecord;
 import com.bkit.fatdown.service.ITaskListService;
 import com.bkit.fatdown.service.ITaskRecordService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

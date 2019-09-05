@@ -7,7 +7,7 @@ import com.bkit.fatdown.entity.TbQuestionBasicExample;
 import com.bkit.fatdown.mappers.TbPaperBasicMapper;
 import com.bkit.fatdown.mappers.TbQuestionBasicMapper;
 import com.bkit.fatdown.service.ITestPaperService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

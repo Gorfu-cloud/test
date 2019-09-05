@@ -4,7 +4,7 @@ import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserPrivacyInfoMapper;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
-import com.bkit.fatdown.utils.DateUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
 import org.springframework.stereotype.Service;
 

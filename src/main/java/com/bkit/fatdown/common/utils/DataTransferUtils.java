@@ -1,4 +1,4 @@
-package com.bkit.fatdown.utils;
+package com.bkit.fatdown.common.utils;
 
 import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.dto.CommonPageDTO;
