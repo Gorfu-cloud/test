@@ -10,14 +10,14 @@ package com.bkit.fatdown.dto.diet.common;
  */
 
 public class MineralEvaluation {
-    private TotalEvaluation ca;
-    private TotalEvaluation p;
-    private TotalEvaluation k;
-    private TotalEvaluation mg;
-    private TotalEvaluation fe;
-    private TotalEvaluation zn;
-    private TotalEvaluation se;
-    private TotalEvaluation cu;
+    private Evaluation ca;
+    private Evaluation p;
+    private Evaluation k;
+    private Evaluation mg;
+    private Evaluation fe;
+    private Evaluation zn;
+    private Evaluation se;
+    private Evaluation cu;
     private double score;
 
     public MineralEvaluation() {
@@ -25,77 +25,77 @@ public class MineralEvaluation {
     }
 
     private void init() {
-        this.ca = new TotalEvaluation();
-        this.p = new TotalEvaluation();
-        this.k = new TotalEvaluation();
-        this.mg = new TotalEvaluation();
-        this.fe = new TotalEvaluation();
-        this.zn = new TotalEvaluation();
-        this.se = new TotalEvaluation();
-        this.cu = new TotalEvaluation();
+        this.ca = new Evaluation();
+        this.p = new Evaluation();
+        this.k = new Evaluation();
+        this.mg = new Evaluation();
+        this.fe = new Evaluation();
+        this.zn = new Evaluation();
+        this.se = new Evaluation();
+        this.cu = new Evaluation();
     }
 
-    public TotalEvaluation getCa() {
+    public Evaluation getCa() {
         return ca;
     }
 
-    public void setCa(TotalEvaluation ca) {
+    public void setCa(Evaluation ca) {
         this.ca = ca;
     }
 
-    public TotalEvaluation getP() {
+    public Evaluation getP() {
         return p;
     }
 
-    public void setP(TotalEvaluation p) {
+    public void setP(Evaluation p) {
         this.p = p;
     }
 
-    public TotalEvaluation getK() {
+    public Evaluation getK() {
         return k;
     }
 
-    public void setK(TotalEvaluation k) {
+    public void setK(Evaluation k) {
         this.k = k;
     }
 
-    public TotalEvaluation getMg() {
+    public Evaluation getMg() {
         return mg;
     }
 
-    public void setMg(TotalEvaluation mg) {
+    public void setMg(Evaluation mg) {
         this.mg = mg;
     }
 
-    public TotalEvaluation getFe() {
+    public Evaluation getFe() {
         return fe;
     }
 
-    public void setFe(TotalEvaluation fe) {
+    public void setFe(Evaluation fe) {
         this.fe = fe;
     }
 
-    public TotalEvaluation getZn() {
+    public Evaluation getZn() {
         return zn;
     }
 
-    public void setZn(TotalEvaluation zn) {
+    public void setZn(Evaluation zn) {
         this.zn = zn;
     }
 
-    public TotalEvaluation getSe() {
+    public Evaluation getSe() {
         return se;
     }
 
-    public void setSe(TotalEvaluation se) {
+    public void setSe(Evaluation se) {
         this.se = se;
     }
 
-    public TotalEvaluation getCu() {
+    public Evaluation getCu() {
         return cu;
     }
 
-    public void setCu(TotalEvaluation cu) {
+    public void setCu(Evaluation cu) {
         this.cu = cu;
     }
 

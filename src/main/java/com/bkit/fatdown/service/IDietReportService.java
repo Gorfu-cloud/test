@@ -48,6 +48,16 @@ public interface IDietReportService {
     DietWeeklyReport generateWeeklyReport(Date date, Integer uid);
 
     /**
+     * 生成每月饮食评价
+     *
+     * @param date 当月日期（1～31）
+     * @param uid  用户id
+     * @return 每周饮食评价
+     */
+    DietMonthReport generateMonthReport(Date date, Integer uid);
+
+
+    /**
      * 保存每餐饮食报告
      *
      * @param report 饮食报告

@@ -232,10 +232,11 @@ public class ReportController {
         // 存在报告记录，直接返回记录
 
         // 生成每月报告记录
+        DietMonthReport report = reportService.generateMonthReport(inputDate,uid);
 
         // 如果报告为空，返回错误
 
-        return CommonResultDTO.success(new DietMonthReport());
+        return CommonResultDTO.success(report);
     }
 
     @ApiOperation("查看每周评价报告是否存在")

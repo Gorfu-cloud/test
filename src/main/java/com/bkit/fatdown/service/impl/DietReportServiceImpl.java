@@ -756,6 +756,70 @@ public class DietReportServiceImpl implements IDietReportService {
     }
 
     /**
+     * 生成每月饮食评价
+     *
+     * @param date 当月日期（1～31）
+     * @param uid  用户id
+     * @return 每周饮食评价
+     */
+    @Override
+    public DietMonthReport generateMonthReport(Date date, Integer uid) {
+        // 获取菜式id列表
+        List<Integer> foodIdList = listFoodId(foodService.listFoodRecord(uid, date, MONTH));
+
+        Date startDate = DateUtils.getMonthStartDate(date);
+        Date endDate = DateUtils.getNextMonthStartDate(date);
+
+        // 获取每天元素总量
+        List<TbDietRecord> recordList = dietRecordService.listDietMealRecord(startDate, endDate, uid, DAILY);
+
+        // 获取每天饮食记录总量
+        TbDietRecord record = foodService.getDietRecord(recordList);
+
+        List<TbDietDailyReport> reportList = listDietDailyReport(startDate, endDate, uid);
+
+        TbDietUserStandard userStandard = foodService.getDietStandard(uid);
+
+        DietMonthReport report = ReportHelper.getDietMonthReport(userStandard,record,reportList,recordList);
+
+        // 营养素评价统计
+        WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        nutrientsEvaluation.setScore(ReportHelper.getMonthScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
+        report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
+
+        // 早午晚餐能量评价统计
+        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
+        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
+        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER));
+
+//        // 储存报告
+//        if (isFinishMeal(date, MONTH)) {
+//            TbDietWeeklyReport weeklyReport = DataTransferUtils.transferWeeklyReport(report);
+//
+//            weeklyReport.setUserId(uid);
+//            weeklyReport.setGmtModified(new Date());
+//            boolean result;
+//            if (countWeeklyReport(date, uid) == 0) {
+//                weeklyReport.setGmtCreate(date);
+//                result = insert(weeklyReport);
+//            } else {
+//                int id = getWeeklyReportId(date, uid);
+//                weeklyReport.setId(id);
+//                result = update(weeklyReport);
+//            }
+//
+//            if (result) {
+//                logger.info("tb_diet_weekly_report insert or update success, date:{} and uid:{} ", date, uid);
+//            } else {
+//                logger.error("tb_diet_weekly_report insert or update fail, date:{} and uid:{}", date, uid);
+//            }
+//        }
+
+        return report;
+    }
+
+    /**
      * 获取报告id
      *
      * @param date 报告日期

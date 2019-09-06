@@ -167,7 +167,7 @@ public class ReportHelper {
     private static final Double DAILY_CU_GOOD_UP = 3.0;
     private static final Double DAILY_CU_GOOD_DOWN = 1.0;
     private static final Double DAILY_CU_BAD_UP = 5.0;
-    private static final Double DAILY_Cu_BAD_DOWN = 0.5;
+    private static final Double DAILY_CU_BAD_DOWN = 0.5;
 
     /**
      * 每天维生素摄入标准
@@ -384,6 +384,8 @@ public class ReportHelper {
         setWeeklyNutrientEvaluation(monthReport.getWeeklyNutrientsEvaluation(), dietRecord);
 
         setVitaminEvaluation(monthReport.getVitaminEvaluation(), recordList);
+
+        setMineralsEvaluation(monthReport.getMineralEvaluation(),recordList);
 
         return monthReport;
     }
@@ -831,6 +833,178 @@ public class ReportHelper {
         evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
     }
 
+
+    private static void setMineralsEvaluation(MineralEvaluation evaluation, List<TbDietRecord> recordList){
+        setCaEvaluation(evaluation.getCa(),recordList);
+        setFeEvaluation(evaluation.getFe(),recordList);
+        setMgEvaluation(evaluation.getMg(),recordList);
+        setKEvaluation(evaluation.getK(),recordList);
+        setCuEvaluation(evaluation.getCu(),recordList);
+        setSeEvaluation(evaluation.getSe(),recordList);
+        setZnEvaluation(evaluation.getZn(),recordList);
+        setPEvaluation(evaluation.getP(),recordList);
+    }
+
+    private static void setCaEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getCa(), DAILY_CA_BAD_UP, DAILY_CA_BAD_DOWN,
+                    DAILY_CA_GOOD_UP, DAILY_CA_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setKEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getK(), DAILY_K_BAD_UP, DAILY_K_BAD_DOWN,
+                    DAILY_K_GOOD_UP, DAILY_K_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setSeEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getSe(), DAILY_SE_BAD_UP, DAILY_SE_BAD_DOWN,
+                    DAILY_SE_GOOD_UP, DAILY_SE_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setFeEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getFe(), DAILY_FE_BAD_UP, DAILY_FE_BAD_DOWN,
+                    DAILY_FE_GOOD_UP, DAILY_FE_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setMgEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getMg(), DAILY_MG_BAD_UP, DAILY_MG_BAD_DOWN,
+                    DAILY_MG_GOOD_UP, DAILY_MG_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setPEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getP(), DAILY_P_BAD_UP, DAILY_P_BAD_DOWN,
+                    DAILY_P_GOOD_UP, DAILY_P_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setZnEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getZn(), DAILY_ZN_BAD_UP, DAILY_ZN_BAD_DOWN,
+                    DAILY_ZN_GOOD_UP, DAILY_ZN_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
+    private static void setCuEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
+        int good = 0, excellent = 0, bad = 0;
+
+        for (TbDietRecord record : recordList) {
+            int evaluationResult = evaluation(record.getCu(), DAILY_CU_BAD_UP, DAILY_CU_BAD_DOWN,
+                    DAILY_CU_GOOD_UP, DAILY_CU_GOOD_DOWN);
+            if (evaluationResult == BAD) {
+                bad += 1;
+            } else if (evaluationResult == GOOD) {
+                good += 1;
+            } else {
+                excellent += 1;
+            }
+        }
+        evaluation.setExcellent(excellent);
+        evaluation.setGood(good);
+        evaluation.setOrdinary(bad);
+        evaluation.setScore(getScore(excellent, good, 0, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE, MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE));
+    }
+
     // 判断优良差
     private static int evaluation(double inputValue, double badUpper, double badLower, double goodUpper, double goodLower) {
         if (inputValue > badUpper || inputValue < badLower) {
@@ -907,11 +1081,6 @@ public class ReportHelper {
                 WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
     }
 
-    public static Double getWeeklyScore(TotalEvaluation evaluation) {
-        return getScore(evaluation, WEEKLY_EXCELLENT_SCORE, WEEKLY_GOOD_SCORE,
-                WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
-    }
-
     private static Double getScore(int excellent, int good, int ordinary, int bad, int excellentScore,
                                    int goodScore, int ordinaryScore, int badScore) {
         return (double) (excellent * excellentScore + good * goodScore + ordinary * ordinaryScore + bad * badScore);
@@ -942,4 +1111,26 @@ public class ReportHelper {
 
         return total / size;
     }
+
+    public static Double getWeeklyScore(TotalEvaluation evaluation) {
+        return getScore(evaluation, WEEKLY_EXCELLENT_SCORE, WEEKLY_GOOD_SCORE,
+                WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
+    }
+
+    public static Double getMonthScore(TotalEvaluation evaluation) {
+        return getScore(evaluation, MONTH_EXCELLENT_SCORE,  MONTH_GOOD_SCORE,
+                MONTH_ORDINARY_SCORE,  MONTH_BAD_SCORE);
+    }
+
+    public static double getMonthScore(WeeklyNutrientsEvaluation nutrientsEvaluation, double size) {
+        double total;
+        int dayCount = 25;
+        // 均衡比例，优质蛋白，动物性脂肪 × size
+        total = getMonthScore(nutrientsEvaluation.getAnimalFat()) * dayCount + getMonthScore(nutrientsEvaluation.getGoodProtein()) * dayCount
+                + nutrientsEvaluation.getCarbs().getScore() + nutrientsEvaluation.getFat().getScore() + nutrientsEvaluation.getProtein().getScore()
+                + nutrientsEvaluation.getFibrin().getScore();
+
+        return total / size;
+    }
+
 }
