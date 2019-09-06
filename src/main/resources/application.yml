@@ -1,7 +1,7 @@
 # mysql 配置
 spring:
   datasource:
-    url: dbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health?serverTimezone=PRC&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health?serverTimezone=PRC&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: bk_28135
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -100,14 +100,14 @@
 <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="tb_diet_picture" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true">
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        </table>
-        <table tableName="tb_picture_type" enableCountByExample="true" enableDeleteByExample="true"
-               enableSelectByExample="true" enableUpdateByExample="true">
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        </table>
+<!--        <table tableName="tb_diet_picture" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+<!--        </table>-->
+<!--        <table tableName="tb_picture_type" enableCountByExample="true" enableDeleteByExample="true"-->
+<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+<!--        </table>-->
 <!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
 <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
@@ -166,9 +166,9 @@
         <!--用户模块 开始-->
         <!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
-        <!--        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true"-->
-        <!--               enableUpdateByExample="true"/>-->
+                <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"
+                       enableSelectByExample="true"
+                       enableUpdateByExample="true"/>
         <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
