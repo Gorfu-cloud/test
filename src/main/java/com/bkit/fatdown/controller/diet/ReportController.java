@@ -225,9 +225,9 @@ public class ReportController {
         Date inputDate = DateUtils.string2Date(date);
 
         // 少于65次报告，无法生成数据
-        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
-            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
-        }
+//        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
+//            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
+//        }
 
         // 存在报告记录，直接返回记录
 
