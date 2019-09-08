@@ -1,7 +1,12 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
-import com.bkit.fatdown.dto.diet.*;
+import com.bkit.fatdown.dto.diet.DietDailyReport;
+import com.bkit.fatdown.dto.diet.DietMealReport;
+import com.bkit.fatdown.dto.diet.DietMonthReport;
+import com.bkit.fatdown.dto.diet.DietWeeklyReport;
 import com.bkit.fatdown.dto.diet.common.Evaluation;
 import com.bkit.fatdown.dto.diet.common.NutrientsEvaluation;
 import com.bkit.fatdown.dto.diet.common.WeeklyNutrientsEvaluation;
@@ -11,8 +16,6 @@ import com.bkit.fatdown.mappers.TbDietMealReportMapper;
 import com.bkit.fatdown.mappers.TbDietWeeklyReportMapper;
 import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
-import com.bkit.fatdown.common.utils.DataTransferUtils;
-import com.bkit.fatdown.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,6 +66,9 @@ public class DietReportServiceImpl implements IDietReportService {
     private static final Integer BAD = 2;
 
     private static final double WEEKLY_NUTRIENT_SIZE = 6;
+
+    private static final String WEEKLY_NAME = "weekly";
+    private static final String MONTH_NAME = "month";
 
     /**
      * @param date 报告日期
@@ -132,14 +138,14 @@ public class DietReportServiceImpl implements IDietReportService {
 
         // 营养素评价统计
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
-        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate,WEEKLY_NAME));
         nutrientsEvaluation.setScore(ReportHelper.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
 
         // 早午晚餐能量评价统计
-        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
-        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
-        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER));
+        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST, WEEKLY_NAME));
+        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH, WEEKLY_NAME));
+        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER, WEEKLY_NAME));
 
         // 储存报告
         if (isFinishMeal(date, WEEKLY)) {
@@ -350,17 +356,24 @@ public class DietReportServiceImpl implements IDietReportService {
      * @param startDate 开始日期
      * @param endDate   结束日期
      * @param type      用餐类型：0,早餐，1午餐，2晚餐
+     * @param name      早午晚餐
      * @return 返回值
      */
     @Override
-    public Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type) {
+    public Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type, String name) {
         int excellentTotal, goodTotal, ordinaryTotal;
 
         excellentTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, EXCELLENT);
         goodTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, GOOD);
         ordinaryTotal = countMealEnergyEvaluation(uid, startDate, endDate, type, BAD);
 
-        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, 0);
+        double score = 0;
+
+        if ("weekly".equals(name)) {
+            score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, 0);
+        } else {
+            score = ReportHelper.getMonthScore(excellentTotal, goodTotal, ordinaryTotal, 0);
+        }
 
         return new Evaluation(excellentTotal, goodTotal, ordinaryTotal, score);
     }
@@ -409,6 +422,27 @@ public class DietReportServiceImpl implements IDietReportService {
                 .andGmtCreateBetween(startDate, endDate)
                 .andFibrinEvaluationEqualTo(level);
         return (int) dailyReportMapper.countByExample(example);
+    }
+
+    /**
+     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
+     *
+     * @param uid       用户编号
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param name      周或月评价标准
+     * @return 返回值
+     */
+    @Override
+    public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate, String name) {
+        Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
+
+        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate,name);
+        fatEvaluation = countFatEvaluation(uid, startDate, endDate,name);
+        colEvaluation = countColEvaluation(uid, startDate, endDate,name);
+        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate,name);
+
+        return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
     }
 
     /**
@@ -578,66 +612,66 @@ public class DietReportServiceImpl implements IDietReportService {
         return foodIdList;
     }
 
-    /**
-     * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
-     *
-     * @param uid       用户编号
-     * @param startDate 开始日期
-     * @param endDate   结束日期
-     * @return 返回值
-     */
-    @Override
-    public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate) {
-        Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
-
-        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate);
-        fatEvaluation = countFatEvaluation(uid, startDate, endDate);
-        colEvaluation = countColEvaluation(uid, startDate, endDate);
-        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate);
-
-        return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
-    }
-
-    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate) {
+    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate,String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countProteinEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countProteinEvaluation(uid, startDate, endDate, BAD);
 
-        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score;
+        if (WEEKLY_NAME.equals(name)) {
+            score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        }else {
+            score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
+        }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate) {
+    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate,String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countFatEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFatEvaluation(uid, startDate, endDate, BAD);
 
-        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score;
+        if (WEEKLY_NAME.equals(name)) {
+            score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        }else {
+            score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
+        }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate) {
+    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate,String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countColEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countColEvaluation(uid, startDate, endDate, BAD);
 
-        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score;
+        if (WEEKLY_NAME.equals(name)) {
+            score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        }else {
+            score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
+        }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate) {
+    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate,String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countFibrinEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
         badTotal = countFibrinEvaluation(uid, startDate, endDate, BAD);
 
-        double score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        double score;
+        if (WEEKLY_NAME.equals(name)) {
+            score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
+        }else {
+            score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
+        }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
@@ -784,14 +818,14 @@ public class DietReportServiceImpl implements IDietReportService {
 
         // 营养素评价统计
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
-        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate));
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate,MONTH_NAME));
         nutrientsEvaluation.setScore(ReportHelper.getMonthScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
 
         // 早午晚餐能量评价统计
-        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST));
-        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH));
-        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER));
+        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST,MONTH_NAME));
+        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH,MONTH_NAME));
+        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER,MONTH_NAME));
 
 //        // 储存报告
 //        if (isFinishMeal(date, MONTH)) {
