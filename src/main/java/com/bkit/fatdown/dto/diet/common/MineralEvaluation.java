@@ -106,4 +106,13 @@ public class MineralEvaluation {
     public void setScore(double score) {
         this.score = score;
     }
+
+    /**
+     * 生成平均分
+     */
+    public void generateScore() {
+        double total = this.k.getScore() + this.fe.getScore() + this.se.getScore() + this.cu.getScore()
+                + this.p.getScore() + this.mg.getScore() + this.ca.getScore() + this.zn.getScore();
+        this.score = total / 8.0;
+    }
 }

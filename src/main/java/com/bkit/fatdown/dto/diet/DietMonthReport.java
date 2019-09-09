@@ -15,7 +15,6 @@ import com.bkit.fatdown.dto.diet.common.VitaminEvaluation;
 public class DietMonthReport extends DietWeeklyReport {
     private MineralEvaluation mineralEvaluation;
     private VitaminEvaluation vitaminEvaluation;
-    private FibrinEvaluation fibrinEvaluation;
 
     public DietMonthReport() {
         super();
@@ -27,7 +26,6 @@ public class DietMonthReport extends DietWeeklyReport {
         super.init();
         this.mineralEvaluation = new MineralEvaluation();
         this.vitaminEvaluation = new VitaminEvaluation();
-        this.fibrinEvaluation = new FibrinEvaluation();
     }
 
     public MineralEvaluation getMineralEvaluation() {
@@ -44,13 +42,5 @@ public class DietMonthReport extends DietWeeklyReport {
 
     public void setVitaminEvaluation(VitaminEvaluation vitaminEvaluation) {
         this.vitaminEvaluation = vitaminEvaluation;
-    }
-
-    public FibrinEvaluation getFibrinEvaluation() {
-        return fibrinEvaluation;
-    }
-
-    public void setFibrinEvaluation(FibrinEvaluation fibrinEvaluation) {
-        this.fibrinEvaluation = fibrinEvaluation;
     }
 }

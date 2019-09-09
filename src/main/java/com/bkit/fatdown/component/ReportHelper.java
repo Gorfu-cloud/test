@@ -243,9 +243,9 @@ public class ReportHelper {
     private static final int WEEKLY_ORDINARY_SCORE = 10;
     private static final int WEEKLY_BAD_SCORE = 0;
 
-    private static final int MONTH_EXCELLENT_SCORE = 4;
-    private static final int MONTH_GOOD_SCORE = 3;
-    private static final int MONTH_ORDINARY_SCORE = 2;
+    private static final int MONTH_EXCELLENT_SCORE = 5;
+    private static final int MONTH_GOOD_SCORE = 4;
+    private static final int MONTH_ORDINARY_SCORE = 3;
     private static final int MONTH_BAD_SCORE = 0;
 
     /**
@@ -357,7 +357,7 @@ public class ReportHelper {
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
                 + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
         // 每天能量评价统计
-        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard);
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard,"weekly");
         weeklyReport.setEnergyEvaluation(energyEvaluation);
         // 种类均衡评价
         setSpeciesEvaluation(weeklyReport.getSpeciesEvaluation(), dietRecord, WEEKLY_TOTAL_GOOD, WEEKLY_TOTAL_BAD, WEEKLY_PROTEIN_GOOD, WEEKLY_PROTEIN_BAD,
@@ -374,7 +374,7 @@ public class ReportHelper {
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy()) + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
 
         // 每天能量评价统计
-        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard);
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard,"month");
         monthReport.setEnergyEvaluation(energyEvaluation);
 
         setSpeciesEvaluation(monthReport.getSpeciesEvaluation(), dietRecord, MONTH_TOTAL_GOOD, MONTH_TOTAL_BAD, MONTH_PROTEIN_GOOD, MONTH_PROTEIN_BAD,
@@ -397,7 +397,7 @@ public class ReportHelper {
      * @param energyStandard 能量标准
      * @return 能量评价
      */
-    private static EnergyEvaluation setEnergyEvaluation(List<TbDietDailyReport> reportList, double energyStandard) {
+    private static EnergyEvaluation setEnergyEvaluation(List<TbDietDailyReport> reportList, double energyStandard,String type) {
         int excellentTotal = 0, goodTotal = 0, ordinaryTotal = 0, badTotal = 0;
 
         for (TbDietDailyReport report : reportList) {
@@ -413,7 +413,12 @@ public class ReportHelper {
             }
         }
 
-        double score = getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
+        double score =0;
+        if ("weekly".equals(type)) {
+            score = getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
+        }else {
+            score = getMonthScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
+        }
 
         return new EnergyEvaluation(excellentTotal, goodTotal, ordinaryTotal, badTotal, score);
     }
@@ -711,6 +716,8 @@ public class ReportHelper {
         setVitaminB3Evaluation(evaluation.getB3(), recordList);
         setVitaminCEvaluation(evaluation.getC(), recordList);
         setVitaminEEvaluation(evaluation.getE(), recordList);
+        // 生成平均分
+        evaluation.generateScore();
     }
 
     private static void setVitaminAEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
@@ -843,6 +850,8 @@ public class ReportHelper {
         setSeEvaluation(evaluation.getSe(),recordList);
         setZnEvaluation(evaluation.getZn(),recordList);
         setPEvaluation(evaluation.getP(),recordList);
+        // 生成平均分
+        evaluation.generateScore();
     }
 
     private static void setCaEvaluation(Evaluation evaluation, List<TbDietRecord> recordList) {
@@ -1081,6 +1090,11 @@ public class ReportHelper {
                 WEEKLY_ORDINARY_SCORE, WEEKLY_BAD_SCORE);
     }
 
+    public static Double getMonthScore(int excellent, int good, int ordinary, int bad) {
+        return getScore(excellent, good, ordinary, bad, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE,
+                MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE);
+    }
+
     private static Double getScore(int excellent, int good, int ordinary, int bad, int excellentScore,
                                    int goodScore, int ordinaryScore, int badScore) {
         return (double) (excellent * excellentScore + good * goodScore + ordinary * ordinaryScore + bad * badScore);
@@ -1124,7 +1138,7 @@ public class ReportHelper {
 
     public static double getMonthScore(WeeklyNutrientsEvaluation nutrientsEvaluation, double size) {
         double total;
-        int dayCount = 25;
+        int dayCount = 20;
         // 均衡比例，优质蛋白，动物性脂肪 × size
         total = getMonthScore(nutrientsEvaluation.getAnimalFat()) * dayCount + getMonthScore(nutrientsEvaluation.getGoodProtein()) * dayCount
                 + nutrientsEvaluation.getCarbs().getScore() + nutrientsEvaluation.getFat().getScore() + nutrientsEvaluation.getProtein().getScore()

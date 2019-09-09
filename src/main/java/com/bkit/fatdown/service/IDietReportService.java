@@ -174,9 +174,10 @@ public interface IDietReportService {
      * @param startDate 开始日期
      * @param endDate   结束日期
      * @param type      用餐类型：0,早餐，1午餐，2晚餐
+     * @param name  早午晚餐
      * @return 返回值
      */
-    Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type);
+    Evaluation countMealEnergyEvaluation(int uid, Date startDate, Date endDate, int type,String name);
 
     /**
      * 获取每种类型，营养素评价，报告 优 良 一般 的统计情况
@@ -184,9 +185,10 @@ public interface IDietReportService {
      * @param uid       用户编号
      * @param startDate 开始日期
      * @param endDate   结束日期
+     * @param name 周或月评价标准
      * @return 返回值
      */
-    NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate);
+    NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate,String name);
 
     /**
      * 保存每日评价

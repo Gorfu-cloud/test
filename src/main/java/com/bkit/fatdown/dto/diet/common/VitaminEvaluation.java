@@ -17,6 +17,15 @@ public class VitaminEvaluation {
     private Evaluation e;
     private double score;
 
+    /**
+     * 生成平均分
+     */
+    public void generateScore() {
+        double total = this.a.getScore() + this.b1.getScore() + this.b2.getScore()
+                + this.b3.getScore() + this.c.getScore() + this.e.getScore();
+        this.score = total / 6.0;
+    }
+
     public VitaminEvaluation() {
         init();
     }
