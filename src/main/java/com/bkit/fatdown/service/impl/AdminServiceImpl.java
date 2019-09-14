@@ -302,14 +302,13 @@ public class AdminServiceImpl implements IAdminService {
      * 将+-权限关系转化为对象
      */
     private List<TbAdminPermissionRelation> convert(Integer adminId,Integer type,List<Integer> permissionIdList) {
-        List<TbAdminPermissionRelation> relationList = permissionIdList.stream().map(permissionId -> {
+        return permissionIdList.stream().map(permissionId -> {
             TbAdminPermissionRelation relation = new TbAdminPermissionRelation();
             relation.setAdminId(adminId);
             relation.setType(type);
             relation.setPermissionId(permissionId);
             return relation;
         }).collect(Collectors.toList());
-        return relationList;
     }
 
     /**

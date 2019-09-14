@@ -5,8 +5,8 @@
     <insert id="insertList">
         INSERT INTO tb_role_permission_relation (role_id, permission_id) VALUES
         <foreach collection="list" separator="," item="item" index="index">
-            (#{item.roleId,jdbcType=BIGINT},
-            #{item.permissionId,jdbcType=BIGINT})
+            (#{item.roleId,jdbcType=INTEGER},
+            #{item.permissionId,jdbcType=INTEGER})
         </foreach>
     </insert>
     <select id="getPermissionList" resultMap="com.bkit.fatdown.mappers.TbPermissionMapper.BaseResultMap">

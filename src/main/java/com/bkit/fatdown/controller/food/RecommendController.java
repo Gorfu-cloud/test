@@ -266,6 +266,7 @@ public class RecommendController {
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
     @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('food:recommend:read')")
     public CommonResultDTO<TbFoodRecommendType> getRecommendTypeInfo(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");

@@ -28,6 +28,11 @@ public class AdminUserDetails implements UserDetails {
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.out.println(permissionList.stream()
+                .filter(permission -> permission.getValue()!=null)
+                .map(permission ->new SimpleGrantedAuthority(permission.getValue()))
+                .collect(Collectors.toList()));
+
         //返回当前用户的权限
         return permissionList.stream()
                 .filter(permission -> permission.getValue()!=null)

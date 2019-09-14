@@ -5,8 +5,8 @@
     <insert id="insertList">
         INSERT INTO tb_admin_permission_relation (admin_id, permission_id, type) VALUES
         <foreach collection="list" separator="," item="item" index="index">
-            (#{item.adminId,jdbcType=BIGINT},
-            #{item.permissionId,jdbcType=BIGINT},
+            (#{item.adminId,jdbcType=INTEGER},
+            #{item.permissionId,jdbcType=INTEGER},
             #{item.type,jdbcType=INTEGER})
         </foreach>
     </insert>

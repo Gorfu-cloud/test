@@ -27,5 +27,5 @@ public interface RolePermissionRelationDao {
      * @param roleId 角色id
      * @return
      */
-    List<TbPermission> getPermissionList(@Param("roleId") Long roleId);
+    List<TbPermission> getPermissionList(@Param("roleId") Integer roleId);
 }

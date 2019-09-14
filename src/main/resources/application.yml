@@ -5,12 +5,13 @@ spring:
     username: root
     password: bk_28135
     driver-class-name: com.mysql.cj.jdbc.Driver
-
     tomcat:
       max-active: 20
       max-idle: 8
       min-idle: 8
       initial-size: 10
+    hikari:
+      max-lifetime: 1200000
 
   servlet:
     multipart:
