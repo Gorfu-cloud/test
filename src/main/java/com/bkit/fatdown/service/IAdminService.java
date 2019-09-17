@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.AdminParam;
 import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbPermission;
 import com.bkit.fatdown.entity.TbRole;
@@ -18,75 +19,22 @@ import java.util.List;
 
 public interface IAdminService {
     /**
-     * @param admin 管理员
-     * @return 是否成功
-     */
-    boolean insert(TbAdmin admin);
-
-    /**
-     * @param admin 管理员
-     * @return 是否成功
-     */
-    boolean update(TbAdmin admin);
-
-    /**
-     * @param id id
-     * @return 是否成功
-     */
-    TbAdmin get(int id);
-
-    /**
-     * @param userName 用户名
-     * @return 是否成功
-     */
-    TbAdmin get(String userName);
-
-    /**
-     * @param id id
-     * @return 是否成功
-     */
-    boolean delete(int id);
-
-    /**
-     * @param id id
-     * @return 记录数
-     */
-    int count(int id);
-
-    /**
-     * @param name     名称
-     * @param password 密码
-     * @return 记录数
-     */
-    int count(String name, String password);
-
-    /**
-     * @param name     名称
-     * @return 记录数
-     */
-    int count(String name);
-
-    /**
-     * @param userName 用户名
-     * @param password 密码
-     * @param status   状态
-     * @return
-     */
-    int count(String userName, String password, Integer status);
-
-    /**
      * 根据用户名获取后台管理员
+     * @param username 用户名
+     * @return 管理员信息
      */
     TbAdmin getAdminByUsername(String username);
 
     /**
      * 注册功能
-     * @return
+     *
+     * @return 用户信息
      */
-    TbAdmin register(TbAdmin adminParam);
+    TbAdmin register(AdminParam adminParam);
 
     /**
      * 登录功能
+     *
      * @param username 用户名
      * @param password 密码
      * @return 生成的JWT的token
@@ -94,38 +42,75 @@ public interface IAdminService {
     String login(String username, String password);
 
     /**
-     * 获取用户所有权限（包括角色权限和+-权限）
-     */
-    List<TbPermission> getPermissionList(Integer adminId);
-
-    /**
-     * 刷新token的功能
-     * @param oldToken 旧的token
+     * 刷新token
+     * @param oldToken 原来的token
+     * @return 新token
      */
     String refreshToken(String oldToken);
 
     /**
+     * 获取用户信息
+     * @param id id
+     * @return 是否成功
+     */
+    TbAdmin get(int id);
+
+    /**
+     * 根据用户名或昵称分页查询用户
+     * @param name 用户名称
+     * @param pageSize 页数
+     * @param pageNum 页号
+     */
+    List<TbAdmin> list(String name, Integer pageSize, Integer pageNum);
+
+    /**
+     * 更新信息
+     * @param id    管理员编号
+     * @param admin 管理员
+     * @return 是否成功
+     */
+    int update(Integer id, TbAdmin admin);
+
+    /**
+     * 删除用户
+     * @param id id
+     * @return 是否成功
+     */
+    int delete(int id);
+
+    /**
      * 修改用户角色关系
-     * @param adminId 管理id
+     *
+     * @param adminId    管理id
      * @param roleIdList 角色id列表
-     * @return
+     * @return 成功记录
      */
     @Transactional
     int updateRole(Integer adminId, List<Integer> roleIdList);
 
     /**
      * 获取用户对应角色
+     *
      * @param adminId 用户id
-     * @return
+     * @return 成功记录
      */
-    List<TbRole> listRoleList(Integer adminId);
+    List<TbRole> getRoleList(Integer adminId);
 
     /**
      * 修改用户的+-权限
-     * @param adminId 用户id
+     *
+     * @param adminId          用户id
      * @param permissionIdList 权限列表
-     * @return
+     * @return 成功记录
      */
     @Transactional
     int updatePermission(Integer adminId, List<Integer> permissionIdList);
+
+
+    /**
+     * 获取用户所有权限（包括角色权限和+-权限）
+     * @param adminId 管理员编号
+     * @return 权限列表
+     */
+    List<TbPermission> getPermissionList(Integer adminId);
 }

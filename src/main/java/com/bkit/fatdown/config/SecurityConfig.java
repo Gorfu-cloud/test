@@ -75,13 +75,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS)
                 .permitAll()
 
-                //测试时全部运行访问
-                .antMatchers("/**")
-                .permitAll()
+                //测试时全部运行访问,注释后放开权限验证
+//                .antMatchers("/**")
+//                .permitAll()
 
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest()
                 .authenticated();
+
         // 禁用缓存
         httpSecurity.headers().cacheControl();
         // 添加JWT filter
@@ -108,7 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
         return username -> {
-           TbAdmin admin = adminService.getAdminByUsername(username);
+            TbAdmin admin = adminService.getAdminByUsername(username);
             if (admin != null) {
                 List<TbPermission> permissionList = adminService.getPermissionList(admin.getId());
                 return new AdminUserDetails(admin, permissionList);

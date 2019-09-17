@@ -247,7 +247,7 @@ public class RecommendController {
     @ApiOperation("分页：获取所有推荐菜式类型")
     @CrossOrigin
     @RequestMapping(value = "/recommendTypes/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyAuthority('food:recommend:type:read')")
+//    @PreAuthorize("hasAnyAuthority('food:recommend:type:read')")
     public CommonResultDTO<CommonPageDTO> listAllRecommendTypeByPage(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         List<TbFoodRecommendType> typeList = recommendTypeService.listAllType(pageNum, pageSize);
         return CommonResultDTO.success(CommonPageDTO.restPage(typeList));

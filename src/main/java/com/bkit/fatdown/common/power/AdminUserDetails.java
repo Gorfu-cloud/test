@@ -26,17 +26,16 @@ public class AdminUserDetails implements UserDetails {
         this.admin = admin;
         this.permissionList = permissionList;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        System.out.println(permissionList.stream()
-                .filter(permission -> permission.getValue()!=null)
-                .map(permission ->new SimpleGrantedAuthority(permission.getValue()))
-                .collect(Collectors.toList()));
-
         //返回当前用户的权限
         return permissionList.stream()
-                .filter(permission -> permission.getValue()!=null)
-                .map(permission ->new SimpleGrantedAuthority(permission.getValue()))
+                // 过滤调权限值为空的情况。
+                // 注意权限值为“ "的情况会报错 A granted authority textual representation is required
+                // 这是因为SimpleGrantAuthority（String role）为空。
+                .filter(permission -> permission.getValue() != null)
+                .map(permission -> new SimpleGrantedAuthority(permission.getValue()))
                 .collect(Collectors.toList());
     }
 

@@ -7,8 +7,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
-
 /**
  * @file: AdminRoleRelationDaoTest
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
@@ -23,7 +21,7 @@ public class AdminRoleRelationDaoTest {
     @Resource
     AdminRoleRelationDao roleRelationDao;
 
-    private final Integer adminId =4;
+    private final Integer adminId = 5;
 
     @Test
     public void insertList() {
