@@ -90,7 +90,8 @@ public class ElementBasicImpl implements IElementBasicService {
             criteria.andNameLike("%" + keyword + "%");
         }
 
-        if (type != 0) {
+        // 查找所有类型 -1
+        if (type != -1) {
             criteria.andTypeEqualTo(type);
         }
 

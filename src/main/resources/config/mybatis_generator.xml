@@ -5,9 +5,9 @@
 <generatorConfiguration>
 
     <!-- 本地数据库驱动程序jar包的全路径 -->
-<!--        <classPathEntry-->
-<!--                location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>-->
-    <classPathEntry location="E:\IdeaProject\FatDown\src\main\resources\config\mysql-connector-java-5.1.46.jar"/>
+        <classPathEntry
+                location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>
+<!--    <classPathEntry location="E:\IdeaProject\FatDown\src\main\resources\config\mysql-connector-java-5.1.46.jar"/>-->
     <context id="context" targetRuntime="MyBatis3">
 <!--        <property name="beginningDelimiter" value="`"/>-->
 <!--        <property name="endingDelimiter" value="`"/>-->
@@ -39,23 +39,23 @@
 
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.bkit.fatdown.entity"
-                            targetProject="E:\IdeaProject\FatDown\src\main\java">
-            <!--                                    targetProject="/home/yujian/Project/fatdown/src/main/java">-->
+                            targetProject="/home/yujian/Project/fatdown/src/main/java">
+            <!--                            targetProject="E:\IdeaProject\FatDown\src\main\java">-->
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.bkit.fatdown.mappers"
-                                 targetProject="E:\IdeaProject\FatDown\src\main\resources">
-<!--        targetProject="/home/yujian/Project/fatdown/src/main/resources">-->
+                         targetProject="/home/yujian/Project/fatdown/src/main/resources">
+            <!--                                 targetProject="E:\IdeaProject\FatDown\src\main\resources">-->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
         <!-- Mapper 接口文件的位置 -->
         <javaClientGenerator targetPackage="com.bkit.fatdown.mappers"
-                                     targetProject="E:\IdeaProject\FatDown\src\main\java" type="XMLMAPPER">
-<!--            targetProject="/home/yujian/Project/fatdown/src/main/java" type="XMLMAPPER">-->
+                             targetProject="/home/yujian/Project/fatdown/src/main/java" type="XMLMAPPER">
+            <!--                                     targetProject="E:\IdeaProject\FatDown\src\main\java" type="XMLMAPPER">-->
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!--积分模块 开始-->
@@ -166,7 +166,7 @@
         <!--用户模块 开始-->
         <!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
-                <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"
+                <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"
                        enableSelectByExample="true"
                        enableUpdateByExample="true"/>
         <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true"-->

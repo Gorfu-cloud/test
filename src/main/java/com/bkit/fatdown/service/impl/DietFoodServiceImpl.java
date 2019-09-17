@@ -295,7 +295,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
             criteria.andUserIdEqualTo(uid);
         }
         if (startDate != null && endDate != null) {
-            criteria.andGmtCreateBetween(startDate, endDate);
+            criteria.andGmtCreateBetween(DateUtils.getDateStart(startDate), DateUtils.getDateEnd(endDate));
         }
 
         return foodRecordMapper.selectByExample(example);

@@ -16,6 +16,8 @@ public class TbFoodRecord implements Serializable {
 
     private Double foodQuantity;
 
+    private Integer status;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -70,6 +72,14 @@ public class TbFoodRecord implements Serializable {
         this.foodQuantity = foodQuantity;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -98,6 +108,7 @@ public class TbFoodRecord implements Serializable {
         sb.append(", foodId=").append(foodId);
         sb.append(", eatPer=").append(eatPer);
         sb.append(", foodQuantity=").append(foodQuantity);
+        sb.append(", status=").append(status);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

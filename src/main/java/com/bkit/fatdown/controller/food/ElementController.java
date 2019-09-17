@@ -1,26 +1,17 @@
 package com.bkit.fatdown.controller.food;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.food.ElementRelationDTO;
-import com.bkit.fatdown.dto.food.FoodElementDTO;
-import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbElementBasic;
-import com.bkit.fatdown.entity.TbFoodElementRelation;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IElementBasicService;
 import com.bkit.fatdown.service.IFoodBasicService;
-import com.bkit.fatdown.service.IFoodElementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @file: ElementController
@@ -56,7 +47,7 @@ public class ElementController {
         return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100));
     }
 
-    @ApiOperation("分页：查找名称,指定元素成分（名称可空、所有类型：0）")
+    @ApiOperation("分页：查找名称,指定元素成分（名称可空、所有类型：-1）")
     @CrossOrigin
     @RequestMapping(value = "/basic/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listElementInfo(@RequestParam(required = false) String name, @RequestParam Integer type,

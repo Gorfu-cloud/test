@@ -8,6 +8,7 @@
     <result column="food_id" jdbcType="INTEGER" property="foodId" />
     <result column="eat_per" jdbcType="DOUBLE" property="eatPer" />
     <result column="food_quantity" jdbcType="DOUBLE" property="foodQuantity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, img_url, user_id, food_id, eat_per, food_quantity, gmt_create, gmt_modified
+    id, img_url, user_id, food_id, eat_per, food_quantity, status, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbFoodRecordExample" resultMap="BaseResultMap">
     select
@@ -103,22 +104,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.bkit.fatdown.entity.TbFoodRecord">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_food_record (img_url, user_id, food_id, 
-      eat_per, food_quantity, gmt_create, 
-      gmt_modified)
-    values (#{imgUrl,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{foodId,jdbcType=INTEGER}, 
-      #{eatPer,jdbcType=DOUBLE}, #{foodQuantity,jdbcType=DOUBLE}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP})
+    insert into tb_food_record (id, img_url, user_id, 
+      food_id, eat_per, food_quantity, 
+      status, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=INTEGER}, #{imgUrl,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{foodId,jdbcType=INTEGER}, #{eatPer,jdbcType=DOUBLE}, #{foodQuantity,jdbcType=DOUBLE}, 
+      #{status,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbFoodRecord">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tb_food_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="imgUrl != null">
         img_url,
       </if>
@@ -134,6 +134,9 @@
       <if test="foodQuantity != null">
         food_quantity,
       </if>
+      <if test="status != null">
+        status,
+      </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
@@ -142,6 +145,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="imgUrl != null">
         #{imgUrl,jdbcType=VARCHAR},
       </if>
@@ -156,6 +162,9 @@
       </if>
       <if test="foodQuantity != null">
         #{foodQuantity,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -192,6 +201,9 @@
       <if test="record.foodQuantity != null">
         food_quantity = #{record.foodQuantity,jdbcType=DOUBLE},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -211,6 +223,7 @@
       food_id = #{record.foodId,jdbcType=INTEGER},
       eat_per = #{record.eatPer,jdbcType=DOUBLE},
       food_quantity = #{record.foodQuantity,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -235,6 +248,9 @@
       <if test="foodQuantity != null">
         food_quantity = #{foodQuantity,jdbcType=DOUBLE},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -251,6 +267,7 @@
       food_id = #{foodId,jdbcType=INTEGER},
       eat_per = #{eatPer,jdbcType=DOUBLE},
       food_quantity = #{foodQuantity,jdbcType=DOUBLE},
+      status = #{status,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
