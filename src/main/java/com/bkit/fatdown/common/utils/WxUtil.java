@@ -17,11 +17,11 @@ public class WxUtil {
     /**
      * 小程序appid
      */
-    private static final String APP_ID = "wx4243a0b576e90fd9";
+    private static final String APP_ID = "wxb4d6a676f74115d7";
     /**
      * 小程序会话密钥
      */
-    private static final String APP_SECRET = "126bf51300a399ff588ced60caa0ee57";
+    private static final String APP_SECRET = "038f53335163a62c1141344671c752a6";
     /**
      * 默认登录类型
      */
