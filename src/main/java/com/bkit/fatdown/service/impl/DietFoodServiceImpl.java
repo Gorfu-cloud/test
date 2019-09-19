@@ -669,14 +669,14 @@ public class DietFoodServiceImpl implements IDietFoodService {
         mealEvaluation.setEnergyEvaluation(report.getEnergyEvaluation());
         mealEvaluation.setStructureEvaluation(report.getStructureEvaluation());
 
-        HashMap<String,Object> map = new HashMap<>(10);
+        HashMap<String, ElementInfo> map = new HashMap<>(10);
 
-        TbDietRecord record1 ;
+        TbDietRecord record1;
         for (TbFoodRecord foodRecord : recordList) {
-            record1 = generateDietRecord(foodRecord.getFoodId(),foodRecord.getEatPer());
+            record1 = generateDietRecord(foodRecord.getFoodId(), foodRecord.getEatPer());
             ElementInfo info = new ElementInfo();
             // 复制 record 中的属性
-            BeanUtils.copyProperties(record1,info);
+            BeanUtils.copyProperties(record1, info);
 
             info.setBeansSet(DataTransferUtils.str2Set(record1.getBeansSet()));
             info.setFruitVegetableSet(DataTransferUtils.str2Set(record1.getFruitVegetableSet()));
@@ -685,8 +685,10 @@ public class DietFoodServiceImpl implements IDietFoodService {
             info.setNutsSet(DataTransferUtils.str2Set(record1.getNutsSet()));
             info.setStructureSet(DataTransferUtils.str2Set(record1.getStructureSet()));
 
-            map.put(foodBasicService.getFoodBasic(foodRecord.getFoodId()).getFoodName(),info);
+            map.put(foodBasicService.getFoodBasic(foodRecord.getFoodId()).getFoodName(), info);
         }
+
+        mealEvaluation.setElementList(map);
 
         return mealEvaluation;
     }

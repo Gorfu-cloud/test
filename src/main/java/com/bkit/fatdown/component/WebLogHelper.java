@@ -94,7 +94,7 @@ public class WebLogHelper {
      * 根据方法和传入的参数获取请求参数
      *
      * @param method 方法
-     * @param args 传入参数
+     * @param args   传入参数
      * @return 请求参数
      */
     private Object getParameter(Method method, Object[] args) {
