@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.PermissionNode;
+import com.bkit.fatdown.dto.power.PermissionNode;
 import com.bkit.fatdown.entity.TbPermission;
 
 import java.util.List;

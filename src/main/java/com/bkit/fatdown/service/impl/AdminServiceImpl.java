@@ -1,7 +1,7 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.common.power.JwtTokenUtil;
-import com.bkit.fatdown.dto.AdminParam;
+import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbAdminMapper;
 import com.bkit.fatdown.mappers.TbAdminPermissionRelationMapper;

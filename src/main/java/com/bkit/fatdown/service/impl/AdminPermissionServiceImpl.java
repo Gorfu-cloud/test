@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
-import com.bkit.fatdown.dto.PermissionNode;
+import com.bkit.fatdown.dto.power.PermissionNode;
 import com.bkit.fatdown.entity.TbPermission;
 import com.bkit.fatdown.entity.TbPermissionExample;
 import com.bkit.fatdown.mappers.TbPermissionMapper;

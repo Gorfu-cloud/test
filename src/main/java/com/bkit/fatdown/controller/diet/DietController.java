@@ -2,6 +2,7 @@ package com.bkit.fatdown.controller.diet;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.MealEvaluationDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodBasic;
@@ -322,7 +323,7 @@ public class DietController {
     @CrossOrigin
     @RequestMapping(value = "/records/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO listFoodRecordBySearch(@RequestParam(required = false) Integer uid, @RequestParam(required = false) String startDate,
-                                                @RequestParam(required = false) String endDate, @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+                                                  @RequestParam(required = false) String endDate, @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
         if (pageNum == null || pageSize == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -373,6 +374,23 @@ public class DietController {
         return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }
 
+    @ApiOperation("根据recordId，获取当餐 能量摄入分配")
+    @CrossOrigin
+    @RequestMapping(value = "/record/meals/{recordId}", method = RequestMethod.GET)
+    public CommonResultDTO listEnergyByRecordId(@PathVariable Integer recordId) {
+        if (recordId == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        MealEvaluationDTO mealEvaluationDTO = foodService.getEvaluationByRecordId(recordId);
+
+        if (mealEvaluationDTO==null){
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(mealEvaluationDTO);
+    }
+
     @ApiOperation("根据FoodRecord,获取摄入成分")
     @CrossOrigin
     @RequestMapping(value = "/record/dietRecord/{recordId}", method = RequestMethod.GET)
@@ -398,7 +416,7 @@ public class DietController {
         return CommonResultDTO.success(record);
     }
 
-    @ApiOperation("通过ID,更新饮食记录,(map中选填,foodId,eatPer,foodQuantity")
+    @ApiOperation("通过ID,更新饮食记录,(map中选填,foodId,eatPer,foodQuantity,status)")
     @CrossOrigin
     @RequestMapping(value = "/record/{recordId}", method = RequestMethod.PUT)
     public CommonResultDTO updateFoodRecord(@PathVariable Integer recordId, @RequestBody HashMap<String, String> map) {
@@ -419,6 +437,10 @@ public class DietController {
 
         if (map.containsKey("foodQuantity")) {
             foodRecord.setFoodQuantity(Double.valueOf(map.get("foodQuantity")));
+        }
+
+        if (map.containsKey("status")){
+            foodRecord.setStatus(Integer.parseInt(map.get("status")));
         }
 
         if (foodService.updateFoodRecord(foodRecord)) {

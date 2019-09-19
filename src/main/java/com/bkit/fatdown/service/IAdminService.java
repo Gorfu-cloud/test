@@ -1,6 +1,6 @@
 package com.bkit.fatdown.service;
 
-import com.bkit.fatdown.dto.AdminParam;
+import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbPermission;
 import com.bkit.fatdown.entity.TbRole;

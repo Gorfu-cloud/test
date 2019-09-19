@@ -1,20 +1,24 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
+import com.bkit.fatdown.dto.ElementInfo;
+import com.bkit.fatdown.dto.MealEvaluationDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
 import com.bkit.fatdown.mappers.TbFoodRecordMapper;
 import com.bkit.fatdown.service.*;
-import com.bkit.fatdown.common.utils.DataTransferUtils;
-import com.bkit.fatdown.common.utils.DateUtils;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+
 
 /**
  * @file: DietFoodServiceImpl
@@ -51,6 +55,9 @@ public class DietFoodServiceImpl implements IDietFoodService {
 
     @Resource
     private IFoodElementService foodElementService;
+
+    @Resource
+    private IDietReportService reportService;
 
     private static final Logger logger = LoggerFactory.getLogger(DietFoodServiceImpl.class);
 
@@ -625,6 +632,63 @@ public class DietFoodServiceImpl implements IDietFoodService {
         }
 
         return foodRecordInfoDTOList;
+    }
+
+    /**
+     * 获取饮食评价
+     *
+     * @param recordId 用餐记录
+     * @return 当餐饮食能量分配情况
+     */
+    @Override
+    public MealEvaluationDTO getEvaluationByRecordId(Integer recordId) {
+        TbFoodRecord record = getFoodRecord(recordId);
+
+        if (record == null) {
+            return null;
+        }
+
+        int type = DateUtils.getMealType(record.getGmtCreate());
+        Integer uid = record.getUserId();
+        Date date = record.getGmtCreate();
+
+        List<TbFoodRecord> recordList = listFoodRecord(uid, date, type);
+
+        if (recordList.size() == 0) {
+            return null;
+        }
+
+        TbDietMealReport report = reportService.getDietMealReport(date, type, uid);
+
+        if (report == null) {
+            return null;
+        }
+
+        MealEvaluationDTO mealEvaluation = new MealEvaluationDTO();
+
+        mealEvaluation.setEnergyEvaluation(report.getEnergyEvaluation());
+        mealEvaluation.setStructureEvaluation(report.getStructureEvaluation());
+
+        HashMap<String,Object> map = new HashMap<>(10);
+
+        TbDietRecord record1 ;
+        for (TbFoodRecord foodRecord : recordList) {
+            record1 = generateDietRecord(foodRecord.getFoodId(),foodRecord.getEatPer());
+            ElementInfo info = new ElementInfo();
+            // 复制 record 中的属性
+            BeanUtils.copyProperties(record1,info);
+
+            info.setBeansSet(DataTransferUtils.str2Set(record1.getBeansSet()));
+            info.setFruitVegetableSet(DataTransferUtils.str2Set(record1.getFruitVegetableSet()));
+            info.setStapleFoodSet(DataTransferUtils.str2Set(record1.getStapleFoodSet()));
+            info.setProteinSet(DataTransferUtils.str2Set(record1.getProteinSet()));
+            info.setNutsSet(DataTransferUtils.str2Set(record1.getNutsSet()));
+            info.setStructureSet(DataTransferUtils.str2Set(record1.getStructureSet()));
+
+            map.put(foodBasicService.getFoodBasic(foodRecord.getFoodId()).getFoodName(),info);
+        }
+
+        return mealEvaluation;
     }
 
     /**

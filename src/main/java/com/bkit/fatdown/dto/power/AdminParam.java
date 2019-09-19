@@ -1,28 +1,30 @@
-package com.bkit.fatdown.dto;
-
-import io.swagger.annotations.ApiModel;
+package com.bkit.fatdown.dto.power;
 
 import java.io.Serializable;
 
 /**
- * @file: AdminLoginInfoDTO
+ * @file: AdminParam
  * @author: <a href="https://yujian95.cn/about/">YuJian</a>
- * @description: 用户登陆信息
- * @date: Created in 8/17/19  3:45 PM
+ * @description: 管理员注册信息
+ * @date: Created in 9/17/19  7:15 PM
  * @modified:
  * @version: 1.0
  */
-@ApiModel
-public class AdminLoginInfoDTO implements Serializable {
+
+public class AdminParam implements Serializable {
     private String userName;
+
     private String password;
 
-    public AdminLoginInfoDTO() {
+    private String nickName;
+
+    public AdminParam() {
     }
 
-    public AdminLoginInfoDTO(String userName, String password) {
+    public AdminParam(String userName, String password, String nickName) {
         this.userName = userName;
         this.password = password;
+        this.nickName = nickName;
     }
 
     public String getUserName() {
@@ -41,11 +43,20 @@ public class AdminLoginInfoDTO implements Serializable {
         this.password = password;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     @Override
     public String toString() {
-        return "AdminLoginInfoDTO{" +
+        return "AdminParam{" +
                 "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", nickName='" + nickName + '\'' +
                 '}';
     }
 }

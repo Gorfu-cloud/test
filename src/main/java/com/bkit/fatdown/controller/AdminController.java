@@ -1,7 +1,7 @@
 package com.bkit.fatdown.controller;
 
-import com.bkit.fatdown.dto.AdminLoginInfoDTO;
-import com.bkit.fatdown.dto.AdminParam;
+import com.bkit.fatdown.dto.power.AdminLoginInfoDTO;
+import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbAdmin;
 import com.bkit.fatdown.entity.TbPermission;
@@ -73,7 +73,7 @@ public class AdminController {
             return CommonResultDTO.failed();
         }
 
-        Map<String, String> tokenMap = new HashMap<>();
+        Map<String, String> tokenMap = new HashMap<>(2);
         tokenMap.put("token", refreshToken);
         tokenMap.put("tokenHead", tokenHead);
         return CommonResultDTO.success(tokenMap);
