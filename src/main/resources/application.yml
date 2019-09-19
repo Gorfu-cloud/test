@@ -42,6 +42,9 @@ spring:
 mybatis:
   # mybatis pageHelper
   config-location: classpath:/config/SqlMapConfig.xml
+#  mapper-locations:
+#    - classpath: mappers/*.xml
+#    - classpath: com/**/mappers/*.xml
 
 server:
   port: 8088

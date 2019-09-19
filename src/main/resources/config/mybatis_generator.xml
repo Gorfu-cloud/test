@@ -3,15 +3,18 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-
+    <!-- 导入数据库配置 -->
+    <properties resource="database.properties"/>
     <!-- 本地数据库驱动程序jar包的全路径 -->
-        <classPathEntry
-                location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>
-<!--    <classPathEntry location="E:\IdeaProject\FatDown\src\main\resources\config\mysql-connector-java-5.1.46.jar"/>-->
+    <classPathEntry
+            location="/home/yujian/Project/fatdown/src/main/resources/config/mysql-connector-java-5.1.46.jar"/>
+    <!--    <classPathEntry location="E:\IdeaProject\FatDown\src\main\resources\config\mysql-connector-java-5.1.46.jar"/>-->
     <context id="context" targetRuntime="MyBatis3">
-<!--        <property name="beginningDelimiter" value="`"/>-->
-<!--        <property name="endingDelimiter" value="`"/>-->
+        <!--        <property name="beginningDelimiter" value="`"/>-->
+        <!--        <property name="endingDelimiter" value="`"/>-->
         <property name="javaFileEncoding" value="UTF-8"/>
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!-- 为模型生成序列化方法-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <!-- 为生成的Java模型创建一个toString方法 -->
@@ -25,10 +28,10 @@
         </commentGenerator>
 
         <!-- 数据库的相关配置 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://cdb-bksn3kkl.gz.tencentcdb.com:10050/health"
-                        userId="root"
-                        password="bk_28135">
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connection}"
+                        userId="{jdbc.userId}"
+                        password="{jdbc.password}">
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
@@ -96,26 +99,26 @@
         <!--                <table tableName="tb_diet_weekly_report" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true" enableUpdateByExample="true"/>-->
         <!--菜式推荐-->
-<!--        <table tableName="%" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--        </table>-->
-<!--        <table tableName="tb_diet_picture" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
-<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
-<!--        </table>-->
-<!--        <table tableName="tb_picture_type" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
-<!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
-<!--        </table>-->
-<!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--        </table>-->
-<!--        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true" enableUpdateByExample="true">-->
-<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-<!--        </table>-->
+        <!--        <table tableName="%" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+        <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="tb_diet_picture" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+        <!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="tb_picture_type" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+        <!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="tb_food_recommend" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+        <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--        </table>-->
+        <!--        <table tableName="tb_food_recommend_type" enableCountByExample="true" enableDeleteByExample="true"-->
+        <!--               enableSelectByExample="true" enableUpdateByExample="true">-->
+        <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--        </table>-->
         <!--零食部分-->
         <!--        <table tableName="tb_snack_basic" enableCountByExample="true" enableDeleteByExample="true" enableSelectByExample="true"-->
         <!--        enableUpdateByExample="true"/>-->
@@ -166,9 +169,9 @@
         <!--用户模块 开始-->
         <!--                <table tableName="tb_user_privacy_info" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--                       enableSelectByExample="true" enableUpdateByExample="true"/>-->
-                <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"
-                       enableSelectByExample="true"
-                       enableUpdateByExample="true"/>
+        <table tableName="tb_food_record" enableCountByExample="true" enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--        <table tableName="tb_user_life_style" enableCountByExample="true" enableDeleteByExample="true"-->
         <!--               enableSelectByExample="true"-->
         <!--               enableUpdateByExample="true"/>-->
