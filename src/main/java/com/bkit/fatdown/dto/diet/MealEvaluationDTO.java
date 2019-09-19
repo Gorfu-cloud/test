@@ -1,4 +1,4 @@
-package com.bkit.fatdown.dto;
+package com.bkit.fatdown.dto.diet;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

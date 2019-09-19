@@ -57,4 +57,12 @@ public class TimelineController {
 
         return CommonResultDTO.success(map);
     }
+
+    public CommonResultDTO getMonthEnergy(){
+        return null;
+    }
+
+    public CommonResultDTO getMonthEnergyEvaluation(){
+        return null;
+    }
 }

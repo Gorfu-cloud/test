@@ -2,7 +2,7 @@ package com.bkit.fatdown.controller.diet;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
-import com.bkit.fatdown.dto.MealEvaluationDTO;
+import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodBasic;
@@ -377,7 +377,7 @@ public class DietController {
     @ApiOperation("根据recordId，获取当餐 能量摄入分配")
     @CrossOrigin
     @RequestMapping(value = "/record/meals/{recordId}", method = RequestMethod.GET)
-    public CommonResultDTO listEnergyByRecordId(@PathVariable Integer recordId) {
+    public CommonResultDTO<MealEvaluationDTO> getMealsElementRecordId(@PathVariable Integer recordId) {
         if (recordId == null) {
             return CommonResultDTO.validateFailed();
         }
