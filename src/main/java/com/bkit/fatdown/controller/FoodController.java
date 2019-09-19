@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller.food;
+package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
@@ -28,7 +28,7 @@ import java.util.List;
 @Api(value = "/food", tags = "菜式信息模块")
 @RestController
 @RequestMapping("/food/basic")
-public class BasicController {
+public class FoodController {
 
     @Resource
     private IFoodBasicService foodBasicService;

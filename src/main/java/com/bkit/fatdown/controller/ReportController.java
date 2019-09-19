@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller.diet;
+package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.*;
 import com.bkit.fatdown.dto.diet.*;

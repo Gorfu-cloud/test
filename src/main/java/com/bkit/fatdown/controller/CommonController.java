@@ -1,4 +1,4 @@
-package com.bkit.fatdown.controller.feedback;
+package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
