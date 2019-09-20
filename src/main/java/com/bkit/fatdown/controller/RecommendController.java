@@ -15,7 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -92,7 +92,7 @@ public class RecommendController {
     @ApiOperation("分页：查找指定名称、类型推荐菜式（名称可不传，所有类型：0）")
     @CrossOrigin
     @RequestMapping(value = "/foodRecommend/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    @PreAuthorize("hasAnyAuthority('food:recommend:read')")
+//    @PreAuthorize("hasAnyAuthority('food:recommend:read')")
     public CommonResultDTO listFoodRecommendLikeName(@RequestParam(required = false) String foodName, @RequestParam Integer foodType,
                                                      @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
         logger.info("search: foodName:{} ,foodType:{}, pageNum:{}, pageSize:{}", foodName, foodType, pageNum, pageSize);
@@ -266,7 +266,7 @@ public class RecommendController {
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
     @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('food:recommend:read')")
+//    @PreAuthorize("hasAuthority('food:recommend:read')")
     public CommonResultDTO<TbFoodRecommendType> getRecommendTypeInfo(@PathVariable int id) {
         if (recommendTypeService.countType(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("类型不存在");
