@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
@@ -8,7 +9,6 @@ import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.service.*;
-import com.bkit.fatdown.common.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -384,7 +384,7 @@ public class DietController {
 
         MealEvaluationDTO mealEvaluationDTO = foodService.getEvaluationByRecordId(recordId);
 
-        if (mealEvaluationDTO==null){
+        if (mealEvaluationDTO == null) {
             return CommonResultDTO.failed();
         }
 
@@ -416,31 +416,28 @@ public class DietController {
         return CommonResultDTO.success(record);
     }
 
-    @ApiOperation("通过ID,更新饮食记录,(map中选填,foodId,eatPer,foodQuantity,status)")
+    @ApiOperation("通过ID,更新饮食记录")
     @CrossOrigin
-    @RequestMapping(value = "/record/{recordId}", method = RequestMethod.PUT)
-    public CommonResultDTO updateFoodRecord(@PathVariable Integer recordId, @RequestBody HashMap<String, String> map) {
-        if (recordId == null || foodService.count(recordId) == 0 || map.isEmpty()) {
+    @RequestMapping(value = "/record/update/{recordId}", method = RequestMethod.GET)
+    public CommonResultDTO updateFoodRecord(@PathVariable Integer recordId, @RequestParam(required = false) Integer eatPer,
+                                            @RequestParam(required = false) Integer status, @RequestParam(required = false) Double foodQuantity) {
+        if (recordId == null || foodService.count(recordId) == 0) {
             return CommonResultDTO.validateFailed();
         }
 
         TbFoodRecord foodRecord = new TbFoodRecord();
         foodRecord.setId(recordId);
 
-        if (map.containsKey("foodId")) {
-            foodRecord.setFoodId(Integer.valueOf(map.get("foodId")));
+        if (eatPer != null) {
+            foodRecord.setEatPer(eatPer / 100.0);
         }
 
-        if (map.containsKey("eatPer")) {
-            foodRecord.setEatPer(Double.valueOf(Integer.valueOf(map.get("eatPer"))));
+        if (foodQuantity != null) {
+            foodRecord.setFoodQuantity(foodQuantity);
         }
 
-        if (map.containsKey("foodQuantity")) {
-            foodRecord.setFoodQuantity(Double.valueOf(map.get("foodQuantity")));
-        }
-
-        if (map.containsKey("status")){
-            foodRecord.setStatus(Integer.parseInt(map.get("status")));
+        if (status != null) {
+            foodRecord.setStatus(status);
         }
 
         if (foodService.updateFoodRecord(foodRecord)) {

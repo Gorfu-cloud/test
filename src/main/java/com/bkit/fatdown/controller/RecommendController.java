@@ -1,5 +1,7 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.common.utils.DataTransferUtils;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
@@ -9,8 +11,6 @@ import com.bkit.fatdown.entity.TbFoodRecommend;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendType;
 import com.bkit.fatdown.service.*;
-import com.bkit.fatdown.common.utils.DataTransferUtils;
-import com.bkit.fatdown.common.utils.DateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class RecommendController {
     @RequestMapping(value = "/foodRecommend/{pageNum}/{pageSize}", method = RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('food:recommend:read')")
     public CommonResultDTO listFoodRecommendLikeName(@RequestParam(required = false) String foodName, @RequestParam Integer foodType,
-                                                                                      @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
+                                                     @PathVariable Integer pageSize, @PathVariable Integer pageNum) {
         logger.info("search: foodName:{} ,foodType:{}, pageNum:{}, pageSize:{}", foodName, foodType, pageNum, pageSize);
         if (foodType == null || pageSize == null || pageNum == null) {
             return CommonResultDTO.validateFailed("foodType、pageSize、pageNum参数为空");
@@ -195,7 +195,7 @@ public class RecommendController {
                                                   @RequestParam String date, @RequestParam Integer foodType) {
         if (date == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
                 || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
-            return CommonResultDTO.validateFailed("uid/recommendId 错误");
+            return CommonResultDTO.validateFailed("uid/foodId 错误");
         }
 
         Date inputDate = DateUtils.string2Date(date);
@@ -353,6 +353,23 @@ public class RecommendController {
     public CommonResultDTO<List<RecommendTypeDTO>> listRecommendType(@PathVariable Integer uid, @RequestParam String date,
                                                                      @RequestParam Integer type) {
 
+        Date inputDate = DateUtils.string2Date(date);
+
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null || recommendRecordService.countFoodRecommendRecordByDate(uid, inputDate, type) == DATA_NOT_EXIST) {
+            return CommonResultDTO.validateFailed("uid/date参数错误");
+        }
+
+        // 获取选择记录
+        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate);
+
+        if (recordList.size() == DATA_NOT_EXIST) {
+            return CommonResultDTO.failed("记录不存在");
+        }
+
+//        return CommonResultDTO.success(recordList);
+
+//        TbDietWeeklyReport report =
+
         List<RecommendTypeDTO> recommendTypeDTOList = new ArrayList<>();
 
         RecommendTypeDTO recommendTypeDTO1 = new RecommendTypeDTO();
@@ -397,5 +414,26 @@ public class RecommendController {
         recommendTypeDTO3.setFoodList(foodInfoDTOS3);
 
         return CommonResultDTO.success(recommendTypeDTOList);
+    }
+
+    @ApiOperation("获取每周周菜式推荐情况")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendInfo/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyRecommend(@PathVariable Integer uid, @RequestParam String date) {
+
+        Date inputDate = DateUtils.string2Date(date);
+
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || inputDate == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        return null;
+    }
+
+    @ApiOperation("获取每周周菜式推荐情况")
+    @CrossOrigin
+    @RequestMapping(value = "/recommendInfo/month/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyRecommend(@PathVariable Integer uid, @RequestParam String date) {
+        return null;
     }
 }

@@ -1147,4 +1147,5 @@ public class ReportHelper {
         return total / size;
     }
 
+
 }

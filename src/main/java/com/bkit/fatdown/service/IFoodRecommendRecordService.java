@@ -81,7 +81,9 @@ public interface IFoodRecommendRecordService {
      *
      * @param uid  用户id
      * @param date 记录日期
+     * @param reportType 报告类型
      * @return 记录数
      */
-    int countFoodRecommendRecordByDate(int uid, Date date);
+    int countFoodRecommendRecordByDate(int uid, Date date,Integer reportType);
+
 }

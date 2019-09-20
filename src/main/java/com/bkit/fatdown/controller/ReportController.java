@@ -224,17 +224,20 @@ public class ReportController {
 
         Date inputDate = DateUtils.string2Date(date);
 
-        // 少于65次报告，无法生成数据
-//        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
-//            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
-//        }
+        //  少于65次报告，无法生成数据
+        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
+            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
+        }
 
         // 存在报告记录，直接返回记录
 
         // 生成每月报告记录
-        DietMonthReport report = reportService.generateMonthReport(inputDate,uid);
+        DietMonthReport report = reportService.generateMonthReport(inputDate, uid);
 
         // 如果报告为空，返回错误
+        if(report==null){
+            return CommonResultDTO.failed();
+        }
 
         return CommonResultDTO.success(report);
     }

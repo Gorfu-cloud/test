@@ -1,10 +1,12 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.utils.DateUtils;
+import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
+import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
-import com.bkit.fatdown.common.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +25,9 @@ import java.util.List;
 public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordService {
     @Resource
     private TbFoodRecommendRecordMapper recordMapper;
+
+    @Resource
+    private IDietReportService reportService;
 
     /**
      * 创建推荐菜式记录
@@ -85,13 +90,19 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     /**
      * 获取某天，推荐菜式记录数
      *
-     * @param uid  用户id
-     * @param date 记录日期
+     * @param uid        用户id
+     * @param date       记录日期
+     * @param reportType 报告类型
      * @return 记录数
      */
     @Override
-    public int countFoodRecommendRecordByDate(int uid, Date date) {
-        return listFoodRecommendRecord(uid, date).size();
+    public int countFoodRecommendRecordByDate(int uid, Date date, Integer reportType) {
+        TbFoodRecommendRecordExample example = new TbFoodRecommendRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date))
+                .andReportTypeEqualTo(reportType);
+        return (int) recordMapper.countByExample(example);
     }
 
     /**
@@ -147,5 +158,32 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         return recordMapper.selectByExample(example);
     }
 
+    public void getWeeklyRecommend(Date date, Integer uid) {
 
+        // 获取每日报告
+        List<TbDietDailyReport> reportList = reportService.listDietDailyReport(DateUtils.getCurrentWeekStart(date),
+                DateUtils.getCurrentWeekEnd(date), uid);
+
+        // 主要营养素
+        double fatTotal = 0;
+        double proteinTotal = 0;
+        double colTotal = 0;
+        double fibrinTotal = 0;
+
+        for (TbDietDailyReport report : reportList) {
+            fatTotal += report.getFatPer();
+            proteinTotal += report.getProteinPer();
+            colTotal += report.getColPer();
+            fibrinTotal += report.getFibrinPer();
+        }
+
+        int size = reportList.size();
+
+        double fatPer = fatTotal / size;
+        double proteinPer = proteinTotal / size;
+        double colPer = colTotal / size;
+        double fibrinPer = fibrinTotal / size;
+
+
+    }
 }
