@@ -78,6 +78,8 @@ public interface IFoodElementService {
      */
     Integer count(int relationId);
 
+    Integer countFoodId(int foodId);
+
     /**
      * 获取菜式成分列表
      * @param foodId 菜式id

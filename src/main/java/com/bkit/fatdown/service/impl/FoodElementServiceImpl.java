@@ -119,6 +119,14 @@ public class FoodElementServiceImpl implements IFoodElementService {
         return elementList;
     }
 
+    @Override
+    public Integer countFoodId(int foodId) {
+        TbFoodElementRelationExample example = new TbFoodElementRelationExample();
+        example.createCriteria()
+                .andFoodEqualTo(foodId);
+        return relationMapper.countByExample(example);
+    }
+
     /**
      * @param relationId 记录id
      * @return
