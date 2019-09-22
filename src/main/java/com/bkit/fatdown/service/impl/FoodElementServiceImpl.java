@@ -120,11 +120,11 @@ public class FoodElementServiceImpl implements IFoodElementService {
     }
 
     @Override
-    public Integer countFoodId(int foodId) {
+    public int countFoodId(int foodId) {
         TbFoodElementRelationExample example = new TbFoodElementRelationExample();
         example.createCriteria()
                 .andFoodEqualTo(foodId);
-        return relationMapper.countByExample(example);
+        return (int)relationMapper.countByExample(example);
     }
 
     /**
