@@ -3,6 +3,7 @@ package com.bkit.fatdown.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
+import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.common.utils.WxUtil;

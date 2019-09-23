@@ -189,9 +189,13 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Override
     public boolean updateDietStandardByUid(int uid) {
         // 获取用户习惯，隐私信息，基础信息。
-        TbUserLifeStyle userLifeStyle = userLifeStyleService.listByUid(uid).get(0);
-        TbUserPrivacyInfo privacyInfo = privacyInfoService.listByUid(uid).get(0);
+        TbUserLifeStyle userLifeStyle = userLifeStyleService.getNewByUid(uid);
+        TbUserPrivacyInfo privacyInfo = privacyInfoService.getNewByUid(uid);
         TbUserBasicInfo basicInfo = userBasicInfoService.getById(uid);
+
+        if (userLifeStyle == null || privacyInfo == null) {
+            return false;
+        }
 
         return updateDietStandard(ReportHelper.getDietUserStandard(basicInfo, privacyInfo, userLifeStyle));
     }

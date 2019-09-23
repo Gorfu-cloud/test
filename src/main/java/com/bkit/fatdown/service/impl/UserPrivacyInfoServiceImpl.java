@@ -1,11 +1,11 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.utils.DateUtils;
+import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.entity.TbUserPrivacyInfo;
 import com.bkit.fatdown.entity.TbUserPrivacyInfoExample;
 import com.bkit.fatdown.mappers.TbUserPrivacyInfoMapper;
 import com.bkit.fatdown.service.IUserPrivacyInfoService;
-import com.bkit.fatdown.common.utils.DateUtils;
-import com.bkit.fatdown.component.ReportHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -81,6 +81,15 @@ public class UserPrivacyInfoServiceImpl implements IUserPrivacyInfoService {
         // 按创建日期降序（从近到远）
         userPrivacyInfoExample.setOrderByClause("gmt_create desc");
         return userPrivacyInfoMapper.selectByExample(userPrivacyInfoExample);
+    }
+
+    @Override
+    public TbUserPrivacyInfo getNewByUid(int uid) {
+        if (listByUid(uid).isEmpty()) {
+            return null;
+        }
+
+        return listByUid(uid).get(0);
     }
 
     @Override

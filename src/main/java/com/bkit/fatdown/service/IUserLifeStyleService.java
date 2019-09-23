@@ -20,6 +20,8 @@ public interface IUserLifeStyleService {
 
     List<TbUserLifeStyle> listByUid(int uid);
 
+   TbUserLifeStyle getNewByUid(int uid);
+
     TbUserLifeStyle getById(int id);
 
     boolean delete(int id);

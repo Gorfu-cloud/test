@@ -1,10 +1,10 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.entity.TbUserLifeStyleExample;
 import com.bkit.fatdown.mappers.TbUserLifeStyleMapper;
 import com.bkit.fatdown.service.IUserLifeStyleService;
-import com.bkit.fatdown.common.utils.DateUtils;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +39,16 @@ public class UserLifeStyleServiceImpl implements IUserLifeStyleService {
     public boolean delete(int id) {
         int num = userLifeStyleMapper.deleteByPrimaryKey(id);
         return num > 0;
+    }
+
+    @Override
+    public TbUserLifeStyle getNewByUid(int uid) {
+        List<TbUserLifeStyle> list = listByUid(uid);
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list.get(0);
     }
 
     @Override

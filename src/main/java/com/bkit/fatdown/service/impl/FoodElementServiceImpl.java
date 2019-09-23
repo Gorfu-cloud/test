@@ -124,7 +124,7 @@ public class FoodElementServiceImpl implements IFoodElementService {
         TbFoodElementRelationExample example = new TbFoodElementRelationExample();
         example.createCriteria()
                 .andFoodEqualTo(foodId);
-        return (int)relationMapper.countByExample(example);
+        return relationMapper.countByExample(example);
     }
 
     /**
@@ -136,7 +136,7 @@ public class FoodElementServiceImpl implements IFoodElementService {
         TbFoodElementRelationExample example = new TbFoodElementRelationExample();
         example.createCriteria()
                 .andIdEqualTo(relationId);
-        return (int)relationMapper.countByExample(example);
+        return relationMapper.countByExample(example);
     }
 
     /**

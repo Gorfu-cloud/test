@@ -24,6 +24,8 @@ public interface IUserPrivacyInfoService {
 
     List<TbUserPrivacyInfo> listByUid(int uid);
 
+    TbUserPrivacyInfo getNewByUid(int uid);
+
     List<TbUserPrivacyInfo> listBetweenDate(int uid, Date starDate, Date endDate);
 
     TbUserPrivacyInfo getById(int id);

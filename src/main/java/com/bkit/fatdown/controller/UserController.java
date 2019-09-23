@@ -137,7 +137,7 @@ public class UserController {
         }
 
         if (privacyInfoService.listByUid(uid).size() > 0) {
-            TbUserPrivacyInfo privacyInfo = privacyInfoService.listByUid(uid).get(0);
+            TbUserPrivacyInfo privacyInfo = privacyInfoService.getNewByUid(uid);
             // 判断结果是否为空
             if (privacyInfo != null) {
                 return CommonResultDTO.success(privacyInfo);
@@ -174,7 +174,12 @@ public class UserController {
         if (uid == null || userLifeStyleService.countByUid(uid) == 0) {
             return CommonResultDTO.validateFailed();
         }
-        return CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
+
+        if (userLifeStyleService.getNewByUid(uid)==null){
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(userLifeStyleService.getNewByUid(uid));
     }
 
     @ApiOperation("通过UID获取用户所有生活习惯")
@@ -223,7 +228,7 @@ public class UserController {
     @RequestMapping(value = "/getLifeStyleDetail/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getLifeStyleDetail(@PathVariable Integer uid) {
         if (userLifeStyleService.countByUid(uid) > 0) {
-            CommonResultDTO.success(userLifeStyleService.listByUid(uid).get(0));
+            CommonResultDTO.success(userLifeStyleService.getNewByUid(uid));
         }
         return CommonResultDTO.validateFailed();
     }
