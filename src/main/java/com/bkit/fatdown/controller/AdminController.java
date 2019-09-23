@@ -52,8 +52,13 @@ public class AdminController {
     @ApiOperation(value = "登录以后返回token")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @CrossOrigin
-    public CommonResultDTO login(@RequestBody AdminLoginInfoDTO adminInfo) {
-        String token = adminService.login(adminInfo.getUserName(), adminInfo.getPassword());
+    public CommonResultDTO login(@RequestParam String userName,@RequestParam String password) {
+
+        if (userName.isEmpty()||password.isEmpty()){
+            return CommonResultDTO.validateFailed();
+        }
+
+        String token = adminService.login(userName, password);
         if (token == null) {
             return CommonResultDTO.validateFailed("用户名或密码错误");
         }
