@@ -89,6 +89,16 @@ public class AdminController {
         return CommonResultDTO.success();
     }
 
+    @ApiOperation("给用户分配角色")
+    @RequestMapping(value = "/role/update",method = RequestMethod.POST)
+    public CommonResultDTO updateRole(@RequestParam Integer adminId,@RequestParam List<Integer> roleIds){
+        int count = adminService.updateRole(adminId,roleIds);
+        if (count>=0){
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed();
+    }
+
     @ApiOperation("获取指定用户的角色")
     @RequestMapping(value = "/role/{adminId}", method = RequestMethod.GET)
     public CommonResultDTO<List<TbRole>> getRoleList(@PathVariable Integer adminId) {
