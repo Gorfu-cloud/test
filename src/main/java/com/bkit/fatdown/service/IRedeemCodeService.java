@@ -1,0 +1,69 @@
+package com.bkit.fatdown.service;
+
+import com.bkit.fatdown.dto.RedeemCodeDTO;
+import com.bkit.fatdown.entity.TbRedeemCode;
+
+import java.util.List;
+
+/**
+ * @file: IRedeemCodeService
+ * @author: <a href="https://yujian95.cn/about/">YuJian</a>
+ * @description: 兑换码
+ * @date: Created in 2019/9/25 15:27
+ * @modified:
+ * @version: 1.0
+ */
+
+public interface IRedeemCodeService {
+    /**
+     * 创建
+     * @param params 创建
+     * @return 是否成功
+     */
+    boolean insert( RedeemCodeDTO params);
+
+    /**
+     * 删除
+     * @param id 编号
+     * @return 是否成功
+     */
+    boolean delete(Long id);
+
+    /**
+     * 更新
+     * @param id 编号
+     * @param params 兑换码
+     * @return 是否成功
+     */
+    boolean update(Long id, RedeemCodeDTO params);
+
+    /**
+     * 获取存在数目
+     * @param code 兑换码
+     * @return 是否成功
+     */
+    boolean count(String code);
+
+    /**
+     * 判断是否存在
+     * @param id 编号
+     * @return 是否存在
+     */
+    boolean count(long id);
+
+    /**
+     * 核查存在?
+     * @param code 兑换码
+     * @return 是否成功
+     */
+    boolean check(String code);
+
+    /**
+     * 分页 查看兑换码
+     * @param type 类型
+     * @param pageNum 分页
+     * @param pageSize 页数
+     * @return 列表
+     */
+    List<TbRedeemCode> list(String type, Integer pageNum, Integer pageSize);
+}

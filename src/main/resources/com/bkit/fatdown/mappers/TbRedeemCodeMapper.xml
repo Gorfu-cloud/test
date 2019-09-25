@@ -8,6 +8,7 @@
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="type_id" jdbcType="BIGINT" property="typeId" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="total" jdbcType="BIGINT" property="total" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, info, type, type_id, status, gmt_create, gmt_modified
+    id, code, info, type, type_id, status, total, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbRedeemCodeExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,12 @@
   <insert id="insert" parameterType="com.bkit.fatdown.entity.TbRedeemCode">
     insert into tb_redeem_code (id, code, info, 
       type, type_id, status, 
-      gmt_create, gmt_modified)
+      total, gmt_create, gmt_modified
+      )
     values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{typeId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+      #{total,jdbcType=BIGINT}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbRedeemCode">
     insert into tb_redeem_code
@@ -130,6 +133,9 @@
       </if>
       <if test="status != null">
         status,
+      </if>
+      <if test="total != null">
+        total,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -156,6 +162,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=BIGINT},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -192,6 +201,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=BIGINT},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -211,6 +223,7 @@
       type = #{record.type,jdbcType=VARCHAR},
       type_id = #{record.typeId,jdbcType=BIGINT},
       status = #{record.status,jdbcType=INTEGER},
+      total = #{record.total,jdbcType=BIGINT},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -235,6 +248,9 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
+      <if test="total != null">
+        total = #{total,jdbcType=BIGINT},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -251,6 +267,7 @@
       type = #{type,jdbcType=VARCHAR},
       type_id = #{typeId,jdbcType=BIGINT},
       status = #{status,jdbcType=INTEGER},
+      total = #{total,jdbcType=BIGINT},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

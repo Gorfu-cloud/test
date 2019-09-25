@@ -16,6 +16,8 @@ public class TbRedeemCode implements Serializable {
 
     private Integer status;
 
+    private Long total;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -70,6 +72,14 @@ public class TbRedeemCode implements Serializable {
         this.status = status;
     }
 
+    public Long getTotal() {
+        return total;
+    }
+
+    public void setTotal(Long total) {
+        this.total = total;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -98,6 +108,7 @@ public class TbRedeemCode implements Serializable {
         sb.append(", type=").append(type);
         sb.append(", typeId=").append(typeId);
         sb.append(", status=").append(status);
+        sb.append(", total=").append(total);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

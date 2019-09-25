@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @version: 1.0
  */
 
-@Configuration
-@EnableScheduling
+//@Configuration
+//@EnableScheduling
 public class SpringTaskConfig {
 }
