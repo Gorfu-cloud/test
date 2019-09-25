@@ -82,6 +82,38 @@ public class RedeemCodeImpl implements IRedeemCodeService {
     }
 
     /**
+     * 获取信息
+     *
+     * @param id 测试码编号
+     * @return 测试码信息
+     */
+    @Override
+    public TbRedeemCode get(Long id) {
+        return codeMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 获取测试码信息
+     *
+     * @param code 测试码
+     * @return 测试码信息
+     */
+    @Override
+    public TbRedeemCode get(String code) {
+       TbRedeemCodeExample example = new TbRedeemCodeExample();
+       example.createCriteria()
+               .andCodeEqualTo(code);
+
+       List<TbRedeemCode> list= codeMapper.selectByExample(example);
+
+       if (list.size()==0){
+           return null;
+       }
+
+       return list.get(0);
+    }
+
+    /**
      * 判断是否存在
      *
      * @param id 编号

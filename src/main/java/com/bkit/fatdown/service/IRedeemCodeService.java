@@ -38,6 +38,20 @@ public interface IRedeemCodeService {
     boolean update(Long id, RedeemCodeDTO params);
 
     /**
+     * 获取信息
+     * @param id 测试码编号
+     * @return 测试码信息
+     */
+    TbRedeemCode get(Long id);
+
+    /**
+     * 获取测试码信息
+     * @param code 测试码
+     * @return 测试码信息
+     */
+    TbRedeemCode get(String code);
+
+    /**
      * 获取存在数目
      * @param code 兑换码
      * @return 是否成功

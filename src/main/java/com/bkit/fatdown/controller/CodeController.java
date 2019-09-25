@@ -3,6 +3,7 @@ package com.bkit.fatdown.controller;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.RedeemCodeDTO;
+import com.bkit.fatdown.entity.TbRedeemCode;
 import com.bkit.fatdown.service.IRedeemCodeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,15 +30,15 @@ public class CodeController {
     @Resource
     private IRedeemCodeService codeService;
 
-    @ApiOperation("校验测试码")
+    @ApiOperation("校验测试码,并返回信息")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public CommonResultDTO checking(@RequestParam String code) {
-        if (code == null || code.isEmpty()||code.length()!=TEST_CODE_LENGTH) {
+        if (code == null || code.isEmpty() || code.length() != TEST_CODE_LENGTH) {
             return CommonResultDTO.validateFailed();
         }
 
         if (codeService.check(code)) {
-            return CommonResultDTO.success();
+            return CommonResultDTO.success(codeService.get(code).getInfo());
         }
 
         return CommonResultDTO.failed();
@@ -71,11 +72,27 @@ public class CodeController {
         return CommonResultDTO.failed();
     }
 
+    @ApiOperation("获取测试码信息")
+    @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
+    public CommonResultDTO get(@PathVariable Long id) {
+        if (id == null || !codeService.count(id)) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbRedeemCode code = codeService.get(id);
+
+        if (code == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(code);
+    }
+
     @ApiOperation("搜索测试码")
     @RequestMapping(value = "/test/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO search(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
                                   @RequestParam(required = false) String type) {
-        if (pageNum == null || pageSize == null || pageNum <0||pageSize<0){
+        if (pageNum == null || pageSize == null || pageNum < 0 || pageSize < 0) {
             return CommonResultDTO.validateFailed();
         }
 
