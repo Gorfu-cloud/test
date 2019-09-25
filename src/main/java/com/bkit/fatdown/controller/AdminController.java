@@ -182,11 +182,24 @@ public class AdminController {
         return CommonResultDTO.failed();
     }
 
+    @ApiOperation("重置密码")
+    @RequestMapping(value = "/info/password/{adminId}",method = RequestMethod.PUT)
+    public CommonResultDTO updatePassword(@PathVariable Integer adminId,@RequestParam String password){
+        if (adminId==null||adminService.count(adminId)==0||password.isEmpty()){
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (adminService.updatePassword(adminId,password)){
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed();
+    }
+
     @ApiOperation("根据用户名或姓名分页获取用户列表")
     @RequestMapping(value = "/info/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name, @PathVariable Integer pageNum,
+    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name,@RequestParam Integer status, @PathVariable Integer pageNum,
                                            @PathVariable Integer pageSize) {
-        List<TbAdmin> adminList = adminService.list(name, pageNum, pageSize);
+        List<TbAdmin> adminList = adminService.list(name,status, pageNum, pageSize);
         return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
     }
 }

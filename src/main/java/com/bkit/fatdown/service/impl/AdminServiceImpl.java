@@ -177,10 +177,13 @@ public class AdminServiceImpl implements IAdminService {
      * @param pageNum  页号
      */
     @Override
-    public List<TbAdmin> list(String name, Integer pageSize, Integer pageNum) {
+    public List<TbAdmin> list(String name,Integer status, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         TbAdminExample example = new TbAdminExample();
         TbAdminExample.Criteria criteria = example.createCriteria();
+        if (status != null&&status!=-1){
+            criteria.andStatusEqualTo(status);
+        }
         if (!StringUtils.isEmpty(name)) {
             criteria.andUserNameLike("%" + name + "%");
             example.or(example.createCriteria().andNickNameLike("%" + name + "%"));

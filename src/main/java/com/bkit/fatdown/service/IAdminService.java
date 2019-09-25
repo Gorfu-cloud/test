@@ -61,7 +61,7 @@ public interface IAdminService {
      * @param pageSize 页数
      * @param pageNum 页号
      */
-    List<TbAdmin> list(String name, Integer pageSize, Integer pageNum);
+    List<TbAdmin> list(String name, Integer status, Integer pageSize, Integer pageNum);
 
     /**
      * 更新信息
