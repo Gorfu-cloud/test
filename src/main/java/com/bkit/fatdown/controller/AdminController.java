@@ -50,7 +50,7 @@ public class AdminController {
     }
 
     @ApiOperation(value = "登录以后返回token")
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     @CrossOrigin
     public CommonResultDTO login(@RequestParam String userName,@RequestParam String password) {
 
