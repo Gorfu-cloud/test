@@ -1,6 +1,6 @@
 package com.bkit.fatdown.controller;
 
-import com.bkit.fatdown.dto.power.AdminLoginInfoDTO;
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbAdmin;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
 @Api(value = "/admin", tags = "管理相关模块")
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
     @Resource
@@ -39,7 +41,6 @@ public class AdminController {
     private String tokenHead;
 
     @ApiOperation(value = "用户注册")
-    @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public CommonResultDTO<TbAdmin> register(@RequestBody AdminParam adminParam) {
         TbAdmin admin = adminService.register(adminParam);
@@ -51,7 +52,6 @@ public class AdminController {
 
     @ApiOperation(value = "登录以后返回token")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @CrossOrigin
     public CommonResultDTO login(@RequestParam String userName,@RequestParam String password) {
 
         if (userName.isEmpty()||password.isEmpty()){
@@ -70,7 +70,6 @@ public class AdminController {
 
     @ApiOperation("刷新Token")
     @RequestMapping(value = "/token/refresh",method = RequestMethod.GET)
-    @CrossOrigin
     public CommonResultDTO refreshToken(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         String refreshToken = adminService.refreshToken(token);
@@ -86,14 +85,12 @@ public class AdminController {
 
     @ApiOperation("登出功能")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @CrossOrigin
     public CommonResultDTO logout() {
         return CommonResultDTO.success();
     }
 
     @ApiOperation("获取指定用户的角色")
     @RequestMapping(value = "/role/{adminId}", method = RequestMethod.GET)
-    @CrossOrigin
     public CommonResultDTO<List<TbRole>> getRoleList(@PathVariable Integer adminId) {
         List<TbRole> roleList = adminService.getRoleList(adminId);
         return CommonResultDTO.success(roleList);
@@ -101,9 +98,7 @@ public class AdminController {
 
     @ApiOperation("给用户分配+-权限")
     @RequestMapping(value = "/permission/update", method = RequestMethod.POST)
-    @CrossOrigin
-    public CommonResultDTO updatePermission(@RequestParam Integer adminId,
-                                                                @RequestParam("permissionIds") List<Integer> permissionIds) {
+    public CommonResultDTO updatePermission(@RequestParam Integer adminId,@RequestParam("permissionIds") List<Integer> permissionIds) {
         int count = adminService.updatePermission(adminId, permissionIds);
         if (count > 0) {
             return CommonResultDTO.success(count);
@@ -113,9 +108,75 @@ public class AdminController {
 
     @ApiOperation("获取用户所有权限（包括+ -权限）")
     @RequestMapping(value = "/permission/{adminId}", method = RequestMethod.GET)
-    @CrossOrigin
     public CommonResultDTO<List<TbPermission>> getPermissionList(@PathVariable Integer adminId) {
         List<TbPermission> permissionList = adminService.getPermissionList(adminId);
         return CommonResultDTO.success(permissionList);
+    }
+
+    @ApiOperation("获取当前登陆用户信息")
+    @RequestMapping(value = "/info",method = RequestMethod.GET)
+    public CommonResultDTO getAdminInfo(Principal principal){
+        String userName = principal.getName();
+        TbAdmin admin = adminService.getAdminByUsername(userName);
+
+        Map<String,Object> data = new HashMap<>(3);
+
+        data.put("userName",admin.getUserName());
+        data.put("roles",getRoleList(admin.getId()));
+        data.put("nickName",admin.getNickName());
+        return CommonResultDTO.success(data);
+    }
+
+    @ApiOperation("更新管理员信息")
+    @RequestMapping(value = "/info/{id}",method = RequestMethod.PUT)
+    public CommonResultDTO updateAdminInfo(@PathVariable Integer id,@RequestBody AdminParam param){
+        if (adminService.count(id)==0||param==null){
+            return CommonResultDTO.validateFailed();
+        }
+
+        int count = adminService.update(id, param);
+
+        if (count>0){
+            return CommonResultDTO.success(count);
+        }
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("获取管理员信息")
+    @RequestMapping(value = "/info/{id}",method = RequestMethod.GET)
+    public CommonResultDTO getAdminInfo(@PathVariable Integer id){
+        if (adminService.count(id)==0){
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbAdmin admin = adminService.get(id);
+
+        if (admin==null){
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(admin);
+    }
+
+    @ApiOperation("删除管理员信息")
+    @RequestMapping(value = "/info/{id}",method = RequestMethod.DELETE)
+    public CommonResultDTO deleteAdminInfo(@PathVariable Integer id){
+        if (adminService.count(id)==0){
+            return CommonResultDTO.validateFailed();
+        }
+
+        if (adminService.delete(id)>0){
+            return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("根据用户名或姓名分页获取用户列表")
+    @RequestMapping(value = "/info/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name, @PathVariable Integer pageNum,
+                                           @PathVariable Integer pageSize) {
+        List<TbAdmin> adminList = adminService.list(name, pageNum, pageSize);
+        return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
     }
 }

@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -99,7 +100,7 @@ public class AdminServiceImpl implements IAdminService {
         BeanUtils.copyProperties(adminParam, admin);
         admin.setGmtCreate(new Date());
         admin.setGmtModified(new Date());
-        admin.setStatus(1);
+
         //查询是否有相同用户名的用户
         TbAdminExample example = new TbAdminExample();
         example.createCriteria().andUserNameEqualTo(admin.getUserName());
@@ -188,18 +189,55 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
+     * 更新密码
+     *
+     * @param id       用户id
+     * @param password 用户密码
+     * @return 结构
+     */
+    @Override
+    public boolean updatePassword(Integer id, String password) {
+        TbAdmin admin = new TbAdmin();
+        admin.setId(id);
+
+        String encodePassword = passwordEncoder.encode(admin.getPassword());
+        admin.setPassword(encodePassword);
+        return adminMapper.updateByPrimaryKeySelective(admin)>0;
+    }
+
+    /**
      * 更新信息
      *
      * @param id    管理员编号
-     * @param admin 管理员
+     * @param param 管理员
      * @return 是否成功
      */
     @Override
-    public int update(Integer id, TbAdmin admin) {
+    public int update(Integer id, AdminParam param) {
+        TbAdmin admin = new TbAdmin();
+        BeanUtils.copyProperties(param, admin);
         admin.setId(id);
+
         //密码已经加密处理，需要单独修改
         admin.setPassword(null);
         return adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+
+
+    /**
+     * 统计用户
+     *
+     * @param id id
+     * @return 用户个数
+     */
+    @Override
+    public int count(int id) {
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andIdEqualTo(id);
+
+        return (int) adminMapper.countByExample(example);
     }
 
     /**

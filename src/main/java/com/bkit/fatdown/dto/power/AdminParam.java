@@ -18,13 +18,19 @@ public class AdminParam implements Serializable {
 
     private String nickName;
 
+    private Integer status;
+
+    private Integer power;
+
     public AdminParam() {
     }
 
-    public AdminParam(String userName, String password, String nickName) {
+    public AdminParam(String userName, String password, String nickName, Integer status, Integer power) {
         this.userName = userName;
         this.password = password;
         this.nickName = nickName;
+        this.status = status;
+        this.power = power;
     }
 
     public String getUserName() {
@@ -51,12 +57,30 @@ public class AdminParam implements Serializable {
         this.nickName = nickName;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getPower() {
+        return power;
+    }
+
+    public void setPower(Integer power) {
+        this.power = power;
+    }
+
     @Override
     public String toString() {
         return "AdminParam{" +
                 "userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ", status=" + status +
+                ", power=" + power +
                 '}';
     }
 }

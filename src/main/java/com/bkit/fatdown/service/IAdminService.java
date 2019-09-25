@@ -69,7 +69,15 @@ public interface IAdminService {
      * @param admin 管理员
      * @return 是否成功
      */
-    int update(Integer id, TbAdmin admin);
+    int update(Integer id, AdminParam admin);
+
+    /**
+     * 更新密码
+     * @param id 用户id
+     * @param password 用户密码
+     * @return 结构
+     */
+    boolean updatePassword(Integer id,String password);
 
     /**
      * 删除用户
@@ -77,6 +85,12 @@ public interface IAdminService {
      * @return 是否成功
      */
     int delete(int id);
+    /**
+     * 统计用户
+     * @param id id
+     * @return 用户个数
+     */
+    int count(int id);
 
     /**
      * 修改用户角色关系
