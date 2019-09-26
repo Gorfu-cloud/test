@@ -116,7 +116,7 @@ public class CodeController {
 
     @ApiOperation("批量修改测试码状态")
     @RequestMapping(value = "/test/status", method = RequestMethod.PUT)
-    public CommonResultDTO updateStatus(@RequestParam List<Long> idList, @RequestParam Integer status) {
+    public CommonResultDTO updateStatusByList(@RequestParam List<Long> idList, @RequestParam Integer status) {
         if (status > 1 || status < 0 || idList == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -132,7 +132,7 @@ public class CodeController {
 
     @ApiOperation("批量删除测试码")
     @RequestMapping(value = "/test/list", method = RequestMethod.DELETE)
-    public CommonResultDTO delete(@RequestParam List<Long> idList) {
+    public CommonResultDTO deleteByList(@RequestParam List<Long> idList) {
         if (idList == null) {
             return CommonResultDTO.validateFailed();
         }
