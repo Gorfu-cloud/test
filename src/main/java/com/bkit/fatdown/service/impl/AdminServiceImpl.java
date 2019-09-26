@@ -177,10 +177,13 @@ public class AdminServiceImpl implements IAdminService {
      * @param pageNum  页号
      */
     @Override
-    public List<TbAdmin> list(String name, Integer pageSize, Integer pageNum) {
+    public List<TbAdmin> list(String name,Integer status, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         TbAdminExample example = new TbAdminExample();
         TbAdminExample.Criteria criteria = example.createCriteria();
+        if (status != null&&status!=-1){
+            criteria.andStatusEqualTo(status);
+        }
         if (!StringUtils.isEmpty(name)) {
             criteria.andUserNameLike("%" + name + "%");
             example.or(example.createCriteria().andNickNameLike("%" + name + "%"));
@@ -271,7 +274,7 @@ public class AdminServiceImpl implements IAdminService {
             for (Integer roleId : roleIds) {
                 TbAdminRoleRelation roleRelation = new TbAdminRoleRelation();
                 roleRelation.setAdminId(adminId);
-                roleRelation.setAdminRoleId(roleId);
+                roleRelation.setRoleId(roleId);
                 list.add(roleRelation);
             }
             adminRoleRelationDao.insertList(list);
@@ -325,6 +328,45 @@ public class AdminServiceImpl implements IAdminService {
             return adminPermissionRelationDao.insertList(relationList);
         }
         return 0;
+    }
+
+    /**
+     * 设置一组用户角色
+     *
+     * @param adminIdList 用户列表
+     * @param roleIdList  角色列表
+     * @return 成功次数
+     */
+    @Override
+    public int updateRole(List<Integer> adminIdList, List<Integer> roleIdList) {
+        int count = 0;
+        if (adminIdList.isEmpty()){
+            return count;
+        }
+
+        for (Integer adminId : adminIdList) {
+            count += updateRole(adminId,roleIdList);
+        }
+        return count;
+    }
+
+    /**
+     * 更新状态
+     *
+     * @param ids    编号列表
+     * @param status 状态码
+     * @return 结果数
+     */
+    @Override
+    public int updateStatus(List<Integer> ids, Integer status) {
+        TbAdmin admin = new TbAdmin();
+        admin.setStatus(status);
+
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andIdIn(ids);
+
+        return adminMapper.updateByExampleSelective(admin,example);
     }
 
     /**

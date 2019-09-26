@@ -61,7 +61,7 @@ public interface IAdminService {
      * @param pageSize 页数
      * @param pageNum 页号
      */
-    List<TbAdmin> list(String name, Integer pageSize, Integer pageNum);
+    List<TbAdmin> list(String name, Integer status, Integer pageSize, Integer pageNum);
 
     /**
      * 更新信息
@@ -127,4 +127,20 @@ public interface IAdminService {
      * @return 权限列表
      */
     List<TbPermission> getPermissionList(Integer adminId);
+
+    /**
+     * 更新状态
+     * @param ids 编号列表
+     * @param status 状态码
+     * @return 结果数
+     */
+    int updateStatus(List<Integer> ids,Integer status);
+
+    /**
+     * 设置一组用户角色
+     * @param adminIdList 用户列表
+     * @param roleIdList 角色列表
+     * @return 成功次数
+     */
+    int updateRole(List<Integer> adminIdList,List<Integer> roleIdList);
 }
