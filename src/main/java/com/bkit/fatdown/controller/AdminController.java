@@ -195,13 +195,13 @@ public class AdminController {
     }
 
     @ApiOperation("修改密码")
-    @RequestMapping(value = "/info/password",method = RequestMethod.PUT)
-    public CommonResultDTO updatePassword(@RequestParam String userName,@RequestParam String oldPassword,@RequestParam String password){
-        if (userName.isEmpty()||password.isEmpty()||oldPassword.isEmpty()){
+    @RequestMapping(value = "/info/password/{adminId}",method = RequestMethod.PUT)
+    public CommonResultDTO updatePassword(@PathVariable Integer adminId,@RequestParam String password){
+        if (adminService.count(adminId)==0||password.isEmpty()){
             return CommonResultDTO.validateFailed();
         }
 
-        if (adminService.updatePassword(userName, oldPassword, password)){
+        if (adminService.updatePassword(adminId, password)){
             return CommonResultDTO.success();
         }
         return CommonResultDTO.failed();
