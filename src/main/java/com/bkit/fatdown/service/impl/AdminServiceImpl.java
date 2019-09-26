@@ -274,7 +274,7 @@ public class AdminServiceImpl implements IAdminService {
             for (Integer roleId : roleIds) {
                 TbAdminRoleRelation roleRelation = new TbAdminRoleRelation();
                 roleRelation.setAdminId(adminId);
-                roleRelation.setAdminRoleId(roleId);
+                roleRelation.setRoleId(roleId);
                 list.add(roleRelation);
             }
             adminRoleRelationDao.insertList(list);
@@ -328,6 +328,26 @@ public class AdminServiceImpl implements IAdminService {
             return adminPermissionRelationDao.insertList(relationList);
         }
         return 0;
+    }
+
+    /**
+     * 设置一组用户角色
+     *
+     * @param adminIdList 用户列表
+     * @param roleIdList  角色列表
+     * @return 成功次数
+     */
+    @Override
+    public int updateRole(List<Integer> adminIdList, List<Integer> roleIdList) {
+        int count = 0;
+        if (adminIdList.isEmpty()){
+            return count;
+        }
+
+        for (Integer adminId : adminIdList) {
+            count += updateRole(adminId,roleIdList);
+        }
+        return count;
     }
 
     /**

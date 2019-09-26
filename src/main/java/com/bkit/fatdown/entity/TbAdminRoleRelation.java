@@ -8,7 +8,7 @@ public class TbAdminRoleRelation implements Serializable {
 
     private Integer adminId;
 
-    private Integer adminRoleId;
+    private Integer roleId;
 
     private Date gmtCreate;
 
@@ -32,12 +32,12 @@ public class TbAdminRoleRelation implements Serializable {
         this.adminId = adminId;
     }
 
-    public Integer getAdminRoleId() {
-        return adminRoleId;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setAdminRoleId(Integer adminRoleId) {
-        this.adminRoleId = adminRoleId;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public Date getGmtCreate() {
@@ -64,7 +64,7 @@ public class TbAdminRoleRelation implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", adminId=").append(adminId);
-        sb.append(", adminRoleId=").append(adminRoleId);
+        sb.append(", roleId=").append(roleId);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);

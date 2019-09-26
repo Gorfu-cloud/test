@@ -135,4 +135,12 @@ public interface IAdminService {
      * @return 结果数
      */
     int updateStatus(List<Integer> ids,Integer status);
+
+    /**
+     * 设置一组用户角色
+     * @param adminIdList 用户列表
+     * @param roleIdList 角色列表
+     * @return 成功次数
+     */
+    int updateRole(List<Integer> adminIdList,List<Integer> roleIdList);
 }
