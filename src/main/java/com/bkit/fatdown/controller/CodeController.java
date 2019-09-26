@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @file: CodeController
@@ -108,6 +109,38 @@ public class CodeController {
 
         if (codeService.update(id, param)) {
             return CommonResultDTO.success();
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("批量修改测试码状态")
+    @RequestMapping(value = "/test/status", method = RequestMethod.PUT)
+    public CommonResultDTO updateStatus(@RequestParam List<Long> idList, @RequestParam Integer status) {
+        if (status > 1 || status < 0 || idList == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        int count = codeService.updateStatus(idList, status);
+
+        if (count>=0){
+            return CommonResultDTO.success(count);
+        }
+
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("批量删除测试码")
+    @RequestMapping(value = "/test/list", method = RequestMethod.DELETE)
+    public CommonResultDTO delete(@RequestParam List<Long> idList) {
+        if (idList == null) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        int count = codeService.delete(idList);
+
+        if (count>=0){
+            return CommonResultDTO.success(count);
         }
 
         return CommonResultDTO.failed();

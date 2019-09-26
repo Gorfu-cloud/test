@@ -158,6 +158,48 @@ public class RedeemCodeImpl implements IRedeemCodeService {
     }
 
     /**
+     * 批量更新状态
+     *
+     * @param idList 列表
+     * @param status 状态
+     * @return 修改记录数
+     */
+    @Override
+    public int updateStatus(List<Long> idList, Integer status) {
+        if (idList.isEmpty()) {
+            return 0;
+        }
+
+        TbRedeemCode code= new TbRedeemCode();
+        code.setStatus(status);
+
+        TbRedeemCodeExample example = new TbRedeemCodeExample();
+        example.createCriteria()
+                .andIdIn(idList);
+
+        return codeMapper.updateByExampleSelective(code,example);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param idList 列表
+     * @return 删除记录数
+     */
+    @Override
+    public int delete(List<Long> idList) {
+        if (idList.isEmpty()){
+            return 0;
+        }
+
+        TbRedeemCodeExample example = new TbRedeemCodeExample();
+        example.createCriteria()
+                .andIdIn(idList);
+
+        return codeMapper.deleteByExample(example);
+    }
+
+    /**
      * 分页 查看兑换码
      *
      * @param type     类型
@@ -169,6 +211,8 @@ public class RedeemCodeImpl implements IRedeemCodeService {
     public List<TbRedeemCode> list(String type, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TbRedeemCodeExample example = new TbRedeemCodeExample();
+        // 倒序输出
+        example.setOrderByClause("gmt_create desc");
 
         if (type != null) {
             example.createCriteria()
@@ -178,7 +222,11 @@ public class RedeemCodeImpl implements IRedeemCodeService {
         return codeMapper.selectByExample(example);
     }
 
-    // 生成随机码
+    /**
+     * 生成字母与数字的随机码
+     * @param length 随机码长度
+     * @return 随机码
+     */
     private String generateCode(int length) {
         String codes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRESTUVWXYZ0123456789";
         Random random = new Random();
