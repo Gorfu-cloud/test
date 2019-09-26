@@ -40,6 +40,8 @@ public class AdminController {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
+    private static final String DEFAULT_PASSWORD = "123456";
+
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public CommonResultDTO<TbAdmin> register(@RequestBody AdminParam adminParam) {
@@ -192,15 +194,27 @@ public class AdminController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("重置密码")
-    @RequestMapping(value = "/info/password/{adminId}",method = RequestMethod.PUT)
-    public CommonResultDTO updatePassword(@PathVariable Integer adminId,@RequestParam String password){
-        if (adminId==null||adminService.count(adminId)==0||password.isEmpty()){
+    @ApiOperation("修改密码")
+    @RequestMapping(value = "/info/password",method = RequestMethod.PUT)
+    public CommonResultDTO updatePassword(@RequestParam String userName,@RequestParam String oldPassword,@RequestParam String password){
+        if (userName.isEmpty()||password.isEmpty()||oldPassword.isEmpty()){
             return CommonResultDTO.validateFailed();
         }
 
-        if (adminService.updatePassword(adminId,password)){
+        if (adminService.updatePassword(userName, oldPassword, password)){
             return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("重置密码，默认123456")
+    @RequestMapping(value = "/info/password/reset/{adminId}",method = RequestMethod.PUT)
+    public CommonResultDTO resetPassword(@PathVariable Integer adminId){
+        if (adminId==null||adminService.count(adminId)==0){
+            return CommonResultDTO.validateFailed();
+        }
+        if (adminService.updatePassword(adminId,DEFAULT_PASSWORD)){
+            return CommonResultDTO.success(DEFAULT_PASSWORD);
         }
         return CommonResultDTO.failed();
     }

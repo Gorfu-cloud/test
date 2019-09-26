@@ -203,9 +203,32 @@ public class AdminServiceImpl implements IAdminService {
         TbAdmin admin = new TbAdmin();
         admin.setId(id);
 
+        String encodePassword = passwordEncoder.encode(password);
+        admin.setPassword(encodePassword);
+
+        return adminMapper.updateByPrimaryKeySelective(admin)>0;
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param oldPassword 原来密码
+     * @param password    用户密码
+     * @return 结构
+     */
+    @Override
+    public boolean updatePassword(String userName, String oldPassword, String password) {
+        TbAdmin admin = new TbAdmin();
+
         String encodePassword = passwordEncoder.encode(admin.getPassword());
         admin.setPassword(encodePassword);
-        return adminMapper.updateByPrimaryKeySelective(admin)>0;
+
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andUserNameEqualTo(userName)
+                .andPasswordEqualTo(passwordEncoder.encode(oldPassword));
+
+        return adminMapper.updateByExampleSelective(admin,example)>0;
     }
 
     /**
