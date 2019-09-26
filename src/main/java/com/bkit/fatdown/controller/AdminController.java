@@ -103,7 +103,7 @@ public class AdminController {
 
     @ApiOperation("给一组用户分配角色")
     @RequestMapping(value = "/role/update/list",method = RequestMethod.POST)
-    public CommonResultDTO updateRole(@RequestParam List<Integer> adminIdList,@RequestParam List<Integer> roleIds){
+    public CommonResultDTO updateRoleByList(@RequestParam List<Integer> adminIdList,@RequestParam List<Integer> roleIds){
         int count = adminService.updateRole(adminIdList,roleIds);
         if (count>=0){
             return CommonResultDTO.success(count);
@@ -166,7 +166,7 @@ public class AdminController {
 
     @ApiOperation("获取管理员信息")
     @RequestMapping(value = "/info/{id}",method = RequestMethod.GET)
-    public CommonResultDTO getAdminInfo(@PathVariable Integer id){
+    public CommonResultDTO getAdminInfoById(@PathVariable Integer id){
         if (adminService.count(id)==0){
             return CommonResultDTO.validateFailed();
         }
