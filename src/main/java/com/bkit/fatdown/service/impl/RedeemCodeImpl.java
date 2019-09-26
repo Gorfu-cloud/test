@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.TbRedeemCodeExample;
 import com.bkit.fatdown.mappers.TbRedeemCodeMapper;
 import com.bkit.fatdown.service.IRedeemCodeService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -172,6 +173,7 @@ public class RedeemCodeImpl implements IRedeemCodeService {
 
         TbRedeemCode code= new TbRedeemCode();
         code.setStatus(status);
+        code.setGmtModified(new Date());
 
         TbRedeemCodeExample example = new TbRedeemCodeExample();
         example.createCriteria()
@@ -202,21 +204,27 @@ public class RedeemCodeImpl implements IRedeemCodeService {
     /**
      * 分页 查看兑换码
      *
-     * @param type     类型
      * @param pageNum  分页
      * @param pageSize 页数
      * @return 列表
      */
     @Override
-    public List<TbRedeemCode> list(String type, Integer pageNum, Integer pageSize) {
+    public List<TbRedeemCode> list(String keyword, Integer status, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TbRedeemCodeExample example = new TbRedeemCodeExample();
         // 倒序输出
         example.setOrderByClause("gmt_create desc");
 
-        if (type != null) {
-            example.createCriteria()
-                    .andTypeLike("%" + type + "%");
+        TbRedeemCodeExample.Criteria criteria = example.createCriteria();
+
+        if (status != null&& status!=-1){
+            criteria.andStatusEqualTo(status);
+        }
+
+        if (!StringUtil.isEmpty(keyword)) {
+            criteria.andTypeLike("%" + keyword + "%");
+            example.or(example.createCriteria().andInfoLike("%"+keyword+"%"));
+            example.or(example.createCriteria().andCodeLike("%" + keyword + "%"));
         }
 
         return codeMapper.selectByExample(example);

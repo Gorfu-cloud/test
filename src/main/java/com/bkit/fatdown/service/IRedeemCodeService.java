@@ -83,12 +83,12 @@ public interface IRedeemCodeService {
     /**
      * 分页 查看兑换码
      *
-     * @param type     类型
+     * @param keyword     类型
      * @param pageNum  分页
      * @param pageSize 页数
      * @return 列表
      */
-    List<TbRedeemCode> list(String type, Integer pageNum, Integer pageSize);
+    List<TbRedeemCode> list(String keyword, Integer status,Integer pageNum, Integer pageSize);
 
     /**
      * 批量更新状态

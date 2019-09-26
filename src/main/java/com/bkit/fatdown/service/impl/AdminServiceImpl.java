@@ -64,7 +64,7 @@ public class AdminServiceImpl implements IAdminService {
     private AdminRoleRelationDao adminRoleRelationDao;
     @Resource
     private TbAdminPermissionRelationMapper adminPermissionRelationMapper;
-    @Reference
+    @Resource
     private AdminPermissionRelationDao adminPermissionRelationDao;
 
     /**
@@ -202,6 +202,7 @@ public class AdminServiceImpl implements IAdminService {
     public boolean updatePassword(Integer id, String password) {
         TbAdmin admin = new TbAdmin();
         admin.setId(id);
+        admin.setGmtModified(new Date());
 
         String encodePassword = passwordEncoder.encode(password);
         admin.setPassword(encodePassword);
@@ -221,7 +222,7 @@ public class AdminServiceImpl implements IAdminService {
         TbAdmin admin = new TbAdmin();
         BeanUtils.copyProperties(param, admin);
         admin.setId(id);
-
+        admin.setGmtModified(new Date());
         //密码已经加密处理，需要单独修改
         admin.setPassword(null);
         return adminMapper.updateByPrimaryKeySelective(admin);

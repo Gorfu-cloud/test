@@ -92,12 +92,12 @@ public class CodeController {
     @ApiOperation("搜索测试码")
     @RequestMapping(value = "/test/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO search(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
-                                  @RequestParam(required = false) String type) {
+            @RequestParam Integer status, @RequestParam(required = false) String keyword) {
         if (pageNum == null || pageSize == null || pageNum < 0 || pageSize < 0) {
             return CommonResultDTO.validateFailed();
         }
 
-        return CommonResultDTO.success(CommonPageDTO.restPage(codeService.list(type, pageNum, pageSize)));
+        return CommonResultDTO.success(CommonPageDTO.restPage(codeService.list(keyword,status, pageNum, pageSize)));
     }
 
     @ApiOperation("更新测试码")
