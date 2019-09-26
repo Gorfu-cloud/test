@@ -197,9 +197,25 @@ public class AdminController {
 
     @ApiOperation("根据用户名或姓名分页获取用户列表")
     @RequestMapping(value = "/info/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name,@RequestParam Integer status, @PathVariable Integer pageNum,
-                                           @PathVariable Integer pageSize) {
+    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name,@RequestParam Integer status,
+                                           @PathVariable Integer pageNum,@PathVariable Integer pageSize) {
         List<TbAdmin> adminList = adminService.list(name,status, pageNum, pageSize);
         return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
+    }
+
+    @ApiOperation("设置一组账号状态")
+    @RequestMapping(value = "/info/status",method = RequestMethod.PUT)
+    public CommonResultDTO updateStatus(@RequestParam List<Integer> adminIds,@RequestParam Integer status){
+        if (adminIds.isEmpty()||status>1||status<0){
+            return CommonResultDTO.validateFailed();
+        }
+
+        int count = adminService.updateStatus(adminIds,status);
+
+        if (count>0){
+            return CommonResultDTO.success(count);
+        }
+
+        return CommonResultDTO.failed();
     }
 }

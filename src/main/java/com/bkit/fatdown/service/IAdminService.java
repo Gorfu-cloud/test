@@ -127,4 +127,12 @@ public interface IAdminService {
      * @return 权限列表
      */
     List<TbPermission> getPermissionList(Integer adminId);
+
+    /**
+     * 更新状态
+     * @param ids 编号列表
+     * @param status 状态码
+     * @return 结果数
+     */
+    int updateStatus(List<Integer> ids,Integer status);
 }

@@ -331,6 +331,25 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
+     * 更新状态
+     *
+     * @param ids    编号列表
+     * @param status 状态码
+     * @return 结果数
+     */
+    @Override
+    public int updateStatus(List<Integer> ids, Integer status) {
+        TbAdmin admin = new TbAdmin();
+        admin.setStatus(status);
+
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andIdIn(ids);
+
+        return adminMapper.updateByExampleSelective(admin,example);
+    }
+
+    /**
      * 获取用户所有权限（包括角色权限和+-权限）
      *
      * @param adminId 管理员编号
