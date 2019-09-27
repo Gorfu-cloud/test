@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
+import com.bkit.fatdown.dto.power.AdminLoginInfoDTO;
 import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbAdmin;
@@ -53,9 +54,10 @@ public class AdminController {
     }
 
     @ApiOperation(value = "登录以后返回token")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public CommonResultDTO login(@RequestParam String userName,@RequestParam String password) {
-
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public CommonResultDTO login(@RequestBody AdminLoginInfoDTO loginInfoDTO) {
+        String userName = loginInfoDTO.getUsername();
+        String password = loginInfoDTO.getPassword();
         if (userName.isEmpty()||password.isEmpty()){
             return CommonResultDTO.validateFailed();
         }

@@ -14,23 +14,23 @@ import java.io.Serializable;
  */
 @ApiModel
 public class AdminLoginInfoDTO implements Serializable {
-    private String userName;
+    private String username;
     private String password;
 
     public AdminLoginInfoDTO() {
     }
 
     public AdminLoginInfoDTO(String userName, String password) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -44,7 +44,7 @@ public class AdminLoginInfoDTO implements Serializable {
     @Override
     public String toString() {
         return "AdminLoginInfoDTO{" +
-                "userName='" + userName + '\'' +
+                "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

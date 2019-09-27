@@ -64,6 +64,19 @@ public class CommonController {
         return CommonResultDTO.success(instanceList);
     }
 
+    @ApiOperation("删除问题实例")
+    @CrossOrigin
+    @RequestMapping(value = "/question/{questionId}",method = RequestMethod.DELETE)
+    public CommonResultDTO deleteInstance(@PathVariable Integer questionId){
+        if (questionInstanceService.count(questionId)==0){
+            return CommonResultDTO.validateFailed();
+        }
+        if (questionInstanceService.delete(questionId)){
+            return CommonResultDTO.success();
+        }
+        return CommonResultDTO.failed();
+    }
+
     @ApiOperation("分页: 获取问题实例列表")
     @CrossOrigin
     @RequestMapping(value = "/questions/{typeId}/{pageNum}/{pageSize}", method = RequestMethod.GET)
