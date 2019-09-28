@@ -58,7 +58,7 @@ public class AdminController {
     public CommonResultDTO login(@RequestBody AdminLoginInfoDTO loginInfoDTO) {
         String userName = loginInfoDTO.getUsername();
         String password = loginInfoDTO.getPassword();
-        if (userName.isEmpty()||password.isEmpty()){
+        if (userName.isEmpty() || password.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
 
@@ -73,11 +73,11 @@ public class AdminController {
     }
 
     @ApiOperation("刷新Token")
-    @RequestMapping(value = "/token/refresh",method = RequestMethod.GET)
-    public CommonResultDTO refreshToken(HttpServletRequest request){
+    @RequestMapping(value = "/token/refresh", method = RequestMethod.GET)
+    public CommonResultDTO refreshToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         String refreshToken = adminService.refreshToken(token);
-        if (refreshToken ==null){
+        if (refreshToken == null) {
             return CommonResultDTO.failed();
         }
 
@@ -94,20 +94,20 @@ public class AdminController {
     }
 
     @ApiOperation("给用户分配角色")
-    @RequestMapping(value = "/role/update",method = RequestMethod.POST)
-    public CommonResultDTO updateRole(@RequestParam Integer adminId,@RequestParam List<Integer> roleIds){
-        int count = adminService.updateRole(adminId,roleIds);
-        if (count>=0){
+    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
+    public CommonResultDTO updateRole(@RequestParam Integer adminId, @RequestParam List<Integer> roleIds) {
+        int count = adminService.updateRole(adminId, roleIds);
+        if (count >= 0) {
             return CommonResultDTO.success();
         }
         return CommonResultDTO.failed();
     }
 
     @ApiOperation("给一组用户分配角色")
-    @RequestMapping(value = "/role/update/list",method = RequestMethod.POST)
-    public CommonResultDTO updateRoleByList(@RequestParam List<Integer> adminIdList,@RequestParam List<Integer> roleIds){
-        int count = adminService.updateRole(adminIdList,roleIds);
-        if (count>=0){
+    @RequestMapping(value = "/role/update/list", method = RequestMethod.POST)
+    public CommonResultDTO updateRoleByList(@RequestParam List<Integer> adminIdList, @RequestParam List<Integer> roleIds) {
+        int count = adminService.updateRole(adminIdList, roleIds);
+        if (count >= 0) {
             return CommonResultDTO.success(count);
         }
         return CommonResultDTO.failed();
@@ -122,7 +122,7 @@ public class AdminController {
 
     @ApiOperation("给用户分配+-权限")
     @RequestMapping(value = "/permission/update", method = RequestMethod.POST)
-    public CommonResultDTO updatePermission(@RequestParam Integer adminId,@RequestParam("permissionIds") List<Integer> permissionIds) {
+    public CommonResultDTO updatePermission(@RequestParam Integer adminId, @RequestParam("permissionIds") List<Integer> permissionIds) {
         int count = adminService.updatePermission(adminId, permissionIds);
         if (count > 0) {
             return CommonResultDTO.success(count);
@@ -138,44 +138,44 @@ public class AdminController {
     }
 
     @ApiOperation("获取当前登陆用户信息")
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public CommonResultDTO getAdminInfo(Principal principal){
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public CommonResultDTO getAdminInfo(Principal principal) {
         String userName = principal.getName();
         TbAdmin admin = adminService.getAdminByUsername(userName);
 
-        Map<String,Object> data = new HashMap<>(3);
+        Map<String, Object> data = new HashMap<>(3);
 
-        data.put("userName",admin.getUserName());
-        data.put("roles",getRoleList(admin.getId()));
-        data.put("nickName",admin.getNickName());
+        data.put("userName", admin.getUserName());
+        data.put("roles", getRoleList(admin.getId()));
+        data.put("nickName", admin.getNickName());
         return CommonResultDTO.success(data);
     }
 
     @ApiOperation("更新管理员信息")
-    @RequestMapping(value = "/info/{id}",method = RequestMethod.PUT)
-    public CommonResultDTO updateAdminInfo(@PathVariable Integer id,@RequestBody AdminParam param){
-        if (adminService.count(id)==0||param==null){
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateAdminInfo(@PathVariable Integer id, @RequestBody AdminParam param) {
+        if (adminService.count(id) == 0 || param == null) {
             return CommonResultDTO.validateFailed();
         }
 
         int count = adminService.update(id, param);
 
-        if (count>0){
+        if (count > 0) {
             return CommonResultDTO.success(count);
         }
         return CommonResultDTO.failed();
     }
 
     @ApiOperation("获取管理员信息")
-    @RequestMapping(value = "/info/{id}",method = RequestMethod.GET)
-    public CommonResultDTO getAdminInfoById(@PathVariable Integer id){
-        if (adminService.count(id)==0){
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getAdminInfoById(@PathVariable Integer id) {
+        if (adminService.count(id) == 0) {
             return CommonResultDTO.validateFailed();
         }
 
         TbAdmin admin = adminService.get(id);
 
-        if (admin==null){
+        if (admin == null) {
             return CommonResultDTO.failed();
         }
 
@@ -183,13 +183,13 @@ public class AdminController {
     }
 
     @ApiOperation("删除管理员信息")
-    @RequestMapping(value = "/info/{id}",method = RequestMethod.DELETE)
-    public CommonResultDTO deleteAdminInfo(@PathVariable Integer id){
-        if (adminService.count(id)==0){
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.DELETE)
+    public CommonResultDTO deleteAdminInfo(@PathVariable Integer id) {
+        if (adminService.count(id) == 0) {
             return CommonResultDTO.validateFailed();
         }
 
-        if (adminService.delete(id)>0){
+        if (adminService.delete(id) > 0) {
             return CommonResultDTO.success();
         }
 
@@ -197,25 +197,25 @@ public class AdminController {
     }
 
     @ApiOperation("修改密码")
-    @RequestMapping(value = "/info/password/{adminId}",method = RequestMethod.PUT)
-    public CommonResultDTO updatePassword(@PathVariable Integer adminId,@RequestParam String password){
-        if (adminService.count(adminId)==0||password.isEmpty()){
+    @RequestMapping(value = "/info/password/{adminId}", method = RequestMethod.PUT)
+    public CommonResultDTO updatePassword(@PathVariable Integer adminId, @RequestParam String password) {
+        if (adminService.count(adminId) == 0 || password.isEmpty()) {
             return CommonResultDTO.validateFailed();
         }
 
-        if (adminService.updatePassword(adminId, password)){
+        if (adminService.updatePassword(adminId, password)) {
             return CommonResultDTO.success();
         }
         return CommonResultDTO.failed();
     }
 
     @ApiOperation("重置密码，默认123456")
-    @RequestMapping(value = "/info/password/reset/{adminId}",method = RequestMethod.PUT)
-    public CommonResultDTO resetPassword(@PathVariable Integer adminId){
-        if (adminId==null||adminService.count(adminId)==0){
+    @RequestMapping(value = "/info/password/reset/{adminId}", method = RequestMethod.PUT)
+    public CommonResultDTO resetPassword(@PathVariable Integer adminId) {
+        if (adminId == null || adminService.count(adminId) == 0) {
             return CommonResultDTO.validateFailed();
         }
-        if (adminService.updatePassword(adminId,DEFAULT_PASSWORD)){
+        if (adminService.updatePassword(adminId, DEFAULT_PASSWORD)) {
             return CommonResultDTO.success(DEFAULT_PASSWORD);
         }
         return CommonResultDTO.failed();
@@ -223,22 +223,22 @@ public class AdminController {
 
     @ApiOperation("根据用户名或姓名分页获取用户列表")
     @RequestMapping(value = "/info/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name,@RequestParam Integer status,
-                                           @PathVariable Integer pageNum,@PathVariable Integer pageSize) {
-        List<TbAdmin> adminList = adminService.list(name,status, pageNum, pageSize);
+    public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name, @RequestParam Integer status,
+                                           @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        List<TbAdmin> adminList = adminService.list(name, status, pageSize, pageNum);
         return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
     }
 
     @ApiOperation("设置一组账号状态")
-    @RequestMapping(value = "/info/status",method = RequestMethod.PUT)
-    public CommonResultDTO updateStatus(@RequestParam List<Integer> adminIds,@RequestParam Integer status){
-        if (adminIds.isEmpty()||status>1||status<0){
+    @RequestMapping(value = "/info/status", method = RequestMethod.PUT)
+    public CommonResultDTO updateStatus(@RequestParam List<Integer> adminIds, @RequestParam Integer status) {
+        if (adminIds.isEmpty() || status > 1 || status < 0) {
             return CommonResultDTO.validateFailed();
         }
 
-        int count = adminService.updateStatus(adminIds,status);
+        int count = adminService.updateStatus(adminIds, status);
 
-        if (count>0){
+        if (count > 0) {
             return CommonResultDTO.success(count);
         }
 

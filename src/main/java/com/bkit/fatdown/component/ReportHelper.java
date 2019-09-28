@@ -357,7 +357,7 @@ public class ReportHelper {
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy())
                 + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
         // 每天能量评价统计
-        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard,"weekly");
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard, "weekly");
         weeklyReport.setEnergyEvaluation(energyEvaluation);
         // 种类均衡评价
         setSpeciesEvaluation(weeklyReport.getSpeciesEvaluation(), dietRecord, WEEKLY_TOTAL_GOOD, WEEKLY_TOTAL_BAD, WEEKLY_PROTEIN_GOOD, WEEKLY_PROTEIN_BAD,
@@ -374,7 +374,7 @@ public class ReportHelper {
         double energyStandard = (userStandard.getEnergy() + userStandard.getOilEnergy()) + (userStandard.getSaltyEnergy() + userStandard.getSpicyEnergy());
 
         // 每天能量评价统计
-        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard,"month");
+        EnergyEvaluation energyEvaluation = setEnergyEvaluation(dailyReportList, energyStandard, "month");
         monthReport.setEnergyEvaluation(energyEvaluation);
 
         setSpeciesEvaluation(monthReport.getSpeciesEvaluation(), dietRecord, MONTH_TOTAL_GOOD, MONTH_TOTAL_BAD, MONTH_PROTEIN_GOOD, MONTH_PROTEIN_BAD,
@@ -385,7 +385,7 @@ public class ReportHelper {
 
         setVitaminEvaluation(monthReport.getVitaminEvaluation(), recordList);
 
-        setMineralsEvaluation(monthReport.getMineralEvaluation(),recordList);
+        setMineralsEvaluation(monthReport.getMineralEvaluation(), recordList);
 
         return monthReport;
     }
@@ -397,7 +397,7 @@ public class ReportHelper {
      * @param energyStandard 能量标准
      * @return 能量评价
      */
-    private static EnergyEvaluation setEnergyEvaluation(List<TbDietDailyReport> reportList, double energyStandard,String type) {
+    private static EnergyEvaluation setEnergyEvaluation(List<TbDietDailyReport> reportList, double energyStandard, String type) {
         int excellentTotal = 0, goodTotal = 0, ordinaryTotal = 0, badTotal = 0;
 
         for (TbDietDailyReport report : reportList) {
@@ -413,10 +413,10 @@ public class ReportHelper {
             }
         }
 
-        double score =0;
+        double score = 0;
         if ("weekly".equals(type)) {
             score = getWeeklyScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
-        }else {
+        } else {
             score = getMonthScore(excellentTotal, goodTotal, ordinaryTotal, badTotal);
         }
 
@@ -654,6 +654,39 @@ public class ReportHelper {
         dailyReport.setFatPer(fatPer * PER_BASE);
     }
 
+    // 比较标准，0 优， 1 一般 （多），2 差 （少）
+    private static int contrast(double target, double upper, double floor) {
+        if (target > upper) {
+            return 1;
+        } else if (target < floor) {
+            return 2;
+        }
+        return 0;
+    }
+
+    private static int getDailyFatEvaluation(double per) {
+        return contrast(per, DAILY_FAT_MORE, DAILY_FAT_LITTLE);
+    }
+
+    private static int getDailyProteinEvaluation(double per) {
+        return contrast(per, DAILY_PROTEIN_MORE, DAILY_PROTEIN_LITTLE);
+    }
+
+    private static int getDailyColEvaluation(double per) {
+        return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
+    }
+
+    private static int getDailyInsolubleFibrinEvaluation(double per){
+        return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
+    }
+
+    /**
+     * 获取每周缺乏情况
+     */
+    private static void getWeeklyLack(){
+
+    }
+
     /**
      * 碳水化合物评价
      *
@@ -706,6 +739,7 @@ public class ReportHelper {
 
     /**
      * 维生素评价
+     *
      * @param evaluation 维生素评价
      * @param recordList 每天饮食记录
      */
@@ -841,15 +875,15 @@ public class ReportHelper {
     }
 
 
-    private static void setMineralsEvaluation(MineralEvaluation evaluation, List<TbDietRecord> recordList){
-        setCaEvaluation(evaluation.getCa(),recordList);
-        setFeEvaluation(evaluation.getFe(),recordList);
-        setMgEvaluation(evaluation.getMg(),recordList);
-        setKEvaluation(evaluation.getK(),recordList);
-        setCuEvaluation(evaluation.getCu(),recordList);
-        setSeEvaluation(evaluation.getSe(),recordList);
-        setZnEvaluation(evaluation.getZn(),recordList);
-        setPEvaluation(evaluation.getP(),recordList);
+    private static void setMineralsEvaluation(MineralEvaluation evaluation, List<TbDietRecord> recordList) {
+        setCaEvaluation(evaluation.getCa(), recordList);
+        setFeEvaluation(evaluation.getFe(), recordList);
+        setMgEvaluation(evaluation.getMg(), recordList);
+        setKEvaluation(evaluation.getK(), recordList);
+        setCuEvaluation(evaluation.getCu(), recordList);
+        setSeEvaluation(evaluation.getSe(), recordList);
+        setZnEvaluation(evaluation.getZn(), recordList);
+        setPEvaluation(evaluation.getP(), recordList);
         // 生成平均分
         evaluation.generateScore();
     }
@@ -1132,8 +1166,8 @@ public class ReportHelper {
     }
 
     public static Double getMonthScore(TotalEvaluation evaluation) {
-        return getScore(evaluation, MONTH_EXCELLENT_SCORE,  MONTH_GOOD_SCORE,
-                MONTH_ORDINARY_SCORE,  MONTH_BAD_SCORE);
+        return getScore(evaluation, MONTH_EXCELLENT_SCORE, MONTH_GOOD_SCORE,
+                MONTH_ORDINARY_SCORE, MONTH_BAD_SCORE);
     }
 
     public static double getMonthScore(WeeklyNutrientsEvaluation nutrientsEvaluation, double size) {

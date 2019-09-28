@@ -1,9 +1,7 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.common.utils.DateUtils;
-import com.bkit.fatdown.entity.TbDietDailyReport;
-import com.bkit.fatdown.entity.TbFoodRecommendRecord;
-import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
+import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
@@ -28,6 +26,10 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
     @Resource
     private IDietReportService reportService;
+
+    @Resource
+    private DietFoodServiceImpl foodService;
+
 
     /**
      * 创建推荐菜式记录
@@ -179,11 +181,10 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
         int size = reportList.size();
 
+        // 获取下列成分的值
         double fatPer = fatTotal / size;
         double proteinPer = proteinTotal / size;
         double colPer = colTotal / size;
         double fibrinPer = fibrinTotal / size;
-
-
     }
 }
