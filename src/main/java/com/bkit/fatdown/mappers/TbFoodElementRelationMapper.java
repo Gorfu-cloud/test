@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TbFoodElementRelationMapper {
-    Integer countByExample(TbFoodElementRelationExample example);
+    long countByExample(TbFoodElementRelationExample example);
 
     int deleteByExample(TbFoodElementRelationExample example);
 

@@ -101,20 +101,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.bkit.fatdown.entity.TbFoodElementRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_food_element_relation (food, element, gram, 
-      gmt_create, gmt_modified)
-    values (#{food,jdbcType=INTEGER}, #{element,jdbcType=INTEGER}, #{gram,jdbcType=DOUBLE}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+    insert into tb_food_element_relation (id, food, element, 
+      gram, gmt_create, gmt_modified
+      )
+    values (#{id,jdbcType=INTEGER}, #{food,jdbcType=INTEGER}, #{element,jdbcType=INTEGER}, 
+      #{gram,jdbcType=DOUBLE}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbFoodElementRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tb_food_element_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="food != null">
         food,
       </if>
@@ -132,6 +131,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="food != null">
         #{food,jdbcType=INTEGER},
       </if>

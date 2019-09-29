@@ -181,7 +181,7 @@ public class FoodController {
     @CrossOrigin
     @RequestMapping(value = "/relation/{relationId}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteElementRelation(@PathVariable Integer relationId) {
-        if (relationId == null || foodElementService.count(relationId).equals(DATA_NOT_EXIST)) {
+        if (relationId == null || foodElementService.count(relationId)==DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed();
         }
 
