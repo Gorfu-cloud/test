@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
@@ -194,9 +195,7 @@ public class DietController {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed();
         }
-
-        Date inputDate = DateUtils.string2DateTime(date);
-        System.out.println(inputDate);
+        Date inputDate = DateUtil.parse(date);
         String empty = "msg", urlOfString = "url", flagOfExist = "flag";
 
         // 获取上传结果
@@ -301,6 +300,8 @@ public class DietController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
+
+
     @ApiOperation("更新饮食记录")
     @CrossOrigin
     @RequestMapping(value = "/record/update/{uid}/{date}", method = RequestMethod.GET)
@@ -374,7 +375,7 @@ public class DietController {
         return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }
 
-    @ApiOperation("根据recordId，获取当餐 能量摄入分配")
+    @ApiOperation("根据recordId，获取当餐 摄入分配")
     @CrossOrigin
     @RequestMapping(value = "/record/meals/{recordId}", method = RequestMethod.GET)
     public CommonResultDTO<MealEvaluationDTO> getMealsElementRecordId(@PathVariable Integer recordId) {
