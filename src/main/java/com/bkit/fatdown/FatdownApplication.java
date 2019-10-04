@@ -1,5 +1,6 @@
 package com.bkit.fatdown;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,6 +15,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @version: 2.0.6
  */
 @SpringBootApplication
+@Slf4j
 public class FatdownApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
