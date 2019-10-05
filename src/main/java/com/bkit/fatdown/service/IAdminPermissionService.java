@@ -43,13 +43,26 @@ public interface IAdminPermissionService {
 
     /**
      * 以层级结构返回所有权限
+     *
      * @return 以层级结构返回所有权限
      */
     List<PermissionNode> treeList();
 
     /**
      * 获取所有权限
+     *
      * @return 获取权限
      */
     List<TbPermission> list();
+
+    /**
+     * 获取所有权限
+     * @param keyWord 关键词
+     * @param type 类型：
+     * @param status 状态
+     * @param pageNum 页号
+     * @param pageSize 页大小
+     * @return 查找结果
+     */
+    List<TbPermission> list(String keyWord, int type, int status, int pageNum, int pageSize);
 }

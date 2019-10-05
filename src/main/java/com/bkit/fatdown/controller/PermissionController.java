@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.power.PermissionNode;
 import com.bkit.fatdown.dto.power.PermissionParam;
@@ -20,7 +21,7 @@ import java.util.List;
  * @modified:
  * @version: 1.0
  */
-@Api(value = "/permission",tags = "权限管理模块")
+@Api(value = "/permission", tags = "权限管理模块")
 @CrossOrigin
 @RestController
 @RequestMapping("/permission")
@@ -33,7 +34,7 @@ public class PermissionController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public CommonResultDTO create(@RequestBody PermissionParam permission) {
         int count = permissionService.insert(permission);
-        if(count>0){
+        if (count > 0) {
             return CommonResultDTO.success(count);
         }
         return CommonResultDTO.failed();
@@ -42,18 +43,30 @@ public class PermissionController {
     @ApiOperation("修改权限")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public CommonResultDTO update(@PathVariable Integer id, @RequestBody PermissionParam permission) {
-        int count = permissionService.update(id,permission);
-        if(count>0){
+        int count = permissionService.update(id, permission);
+        if (count > 0) {
             return CommonResultDTO.success(count);
         }
         return CommonResultDTO.failed();
+    }
+
+    @ApiOperation("搜索权限")
+    @RequestMapping(value = "/search/{pageNum}/{pageSize}", method = RequestMethod.GET)
+    public CommonResultDTO listByPage(@RequestParam(required = false) String keyWord, @PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam Integer status, @RequestParam Integer type) {
+        if (pageNum == null || pageSize == null || status > 2 || status < -1 || type > 3 || type < -1) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        List<TbPermission> list = permissionService.list(keyWord, type, status, pageNum, pageSize);
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }
 
     @ApiOperation("根据id批量删除权限")
     @RequestMapping(value = "/list", method = RequestMethod.DELETE)
     public CommonResultDTO delete(@RequestParam("ids") List<Integer> ids) {
         int count = permissionService.delete(ids);
-        if(count>0){
+        if (count > 0) {
             return CommonResultDTO.success(count);
         }
         return CommonResultDTO.failed();

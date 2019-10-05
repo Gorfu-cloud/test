@@ -6,6 +6,7 @@ import com.bkit.fatdown.entity.TbPermission;
 import com.bkit.fatdown.entity.TbPermissionExample;
 import com.bkit.fatdown.mappers.TbPermissionMapper;
 import com.bkit.fatdown.service.IAdminPermissionService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     @Override
     public int insert(PermissionParam param) {
         TbPermission permission = new TbPermission();
-        BeanUtils.copyProperties(param,permission);
+        BeanUtils.copyProperties(param, permission);
         permission.setGmtCreate(new Date());
         permission.setGmtModified(new Date());
         return permissionMapper.insertSelective(permission);
@@ -46,14 +47,14 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     /**
      * 修改权限
      *
-     * @param id         权限id
+     * @param id    权限id
      * @param param 权限关系
      * @return 成功记录数
      */
     @Override
     public int update(Integer id, PermissionParam param) {
         TbPermission permission = new TbPermission();
-        BeanUtils.copyProperties(param,permission);
+        BeanUtils.copyProperties(param, permission);
         permission.setId(id);
         permission.setGmtModified(new Date());
         return permissionMapper.updateByPrimaryKeySelective(permission);
@@ -67,7 +68,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
      */
     @Override
     public int delete(List<Integer> ids) {
-        TbPermissionExample example =new TbPermissionExample();
+        TbPermissionExample example = new TbPermissionExample();
         example.createCriteria()
                 .andIdIn(ids);
 
@@ -85,7 +86,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
         return permissionList.stream()
                 // 筛选父权限为0的根节点
                 .filter(permission -> permission.getPid().equals(0))
-                .map(permission -> covert(permission,permissionList)).collect(Collectors.toList());
+                .map(permission -> covert(permission, permissionList)).collect(Collectors.toList());
     }
 
     /**
@@ -102,13 +103,44 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
      * 将权限转换为带有子级的权限对象
      * 当找不到子级权限的时候map操作不会再递归调用 covert
      */
-    private PermissionNode covert(TbPermission permission,List<TbPermission> permissionList){
+    private PermissionNode covert(TbPermission permission, List<TbPermission> permissionList) {
         PermissionNode node = new PermissionNode();
-        BeanUtils.copyProperties(permission,node);
+        BeanUtils.copyProperties(permission, node);
         List<PermissionNode> children = permissionList.stream()
                 .filter(subPermission -> subPermission.getPid().equals(permission.getId()))
-                .map(subPermission -> covert(subPermission,permissionList)).collect(Collectors.toList());
+                .map(subPermission -> covert(subPermission, permissionList)).collect(Collectors.toList());
         node.setChildren(children);
         return node;
+    }
+
+    /**
+     * 获取所有权限
+     *
+     * @param keyWord  关键词
+     * @param type     类型：
+     * @param status   状态
+     * @param pageNum  页号
+     * @param pageSize 页大小
+     * @return 查找结果
+     */
+    @Override
+    public List<TbPermission> list(String keyWord, int type, int status, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+
+        TbPermissionExample example = new TbPermissionExample();
+        TbPermissionExample.Criteria criteria = example.createCriteria();
+
+        if (status != -1) {
+            criteria.andStatusEqualTo(status);
+        }
+
+        if (keyWord != null) {
+            criteria.andNameLike("%" + keyWord + "%");
+        }
+
+        if (type != -1) {
+            criteria.andTypeEqualTo(type);
+        }
+        return permissionMapper.selectByExample(example);
     }
 }
