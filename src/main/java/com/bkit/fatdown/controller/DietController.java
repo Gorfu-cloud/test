@@ -192,9 +192,10 @@ public class DietController {
     @RequestMapping(value = "/foodRecord/{uid}", method = RequestMethod.POST)
     public CommonResultDTO addFoodRecord(@PathVariable Integer uid, @RequestParam MultipartFile picture, @RequestParam Integer eatPer,
                                          @RequestParam Double gram, @RequestParam String foodName, @RequestParam String date) {
-        if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST||picture==null||date==null) {
             return CommonResultDTO.validateFailed();
         }
+        logger.info("insert foodRecord uid:{} and date:{},foodName:{} and eatPer:{} and  picture :{} gram: {}",uid,date,foodName,eatPer,picture.toString(),gram);
         Date inputDate = DateUtil.parse(date);
         String empty = "msg", urlOfString = "url", flagOfExist = "flag";
 

@@ -1,6 +1,7 @@
 package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.power.PermissionNode;
+import com.bkit.fatdown.dto.power.PermissionParam;
 import com.bkit.fatdown.entity.TbPermission;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface IAdminPermissionService {
      * @param permission 权限
      * @return 成功记录数
      */
-    int insert(TbPermission permission);
+    int insert(PermissionParam permission);
 
     /**
      * 修改权限
@@ -30,7 +31,7 @@ public interface IAdminPermissionService {
      * @param permission 权限关系
      * @return 成功记录数
      */
-    int update(Integer id, TbPermission permission);
+    int update(Integer id, PermissionParam permission);
 
     /**
      * 批量删除权限

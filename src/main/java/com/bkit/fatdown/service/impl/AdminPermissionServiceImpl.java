@@ -1,6 +1,7 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.power.PermissionNode;
+import com.bkit.fatdown.dto.power.PermissionParam;
 import com.bkit.fatdown.entity.TbPermission;
 import com.bkit.fatdown.entity.TbPermissionExample;
 import com.bkit.fatdown.mappers.TbPermissionMapper;
@@ -30,12 +31,13 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     /**
      * 添加权限
      *
-     * @param permission 权限
+     * @param param 权限
      * @return 成功记录数
      */
     @Override
-    public int insert(TbPermission permission) {
-        permission.setStatus(1);
+    public int insert(PermissionParam param) {
+        TbPermission permission = new TbPermission();
+        BeanUtils.copyProperties(param,permission);
         permission.setGmtCreate(new Date());
         permission.setGmtModified(new Date());
         return permissionMapper.insertSelective(permission);
@@ -45,11 +47,13 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
      * 修改权限
      *
      * @param id         权限id
-     * @param permission 权限关系
+     * @param param 权限关系
      * @return 成功记录数
      */
     @Override
-    public int update(Integer id, TbPermission permission) {
+    public int update(Integer id, PermissionParam param) {
+        TbPermission permission = new TbPermission();
+        BeanUtils.copyProperties(param,permission);
         permission.setId(id);
         permission.setGmtModified(new Date());
         return permissionMapper.updateByPrimaryKeySelective(permission);
@@ -79,6 +83,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     public List<PermissionNode> treeList() {
         List<TbPermission> permissionList = permissionMapper.selectByExample(new TbPermissionExample());
         return permissionList.stream()
+                // 筛选父权限为0的根节点
                 .filter(permission -> permission.getPid().equals(0))
                 .map(permission -> covert(permission,permissionList)).collect(Collectors.toList());
     }
@@ -95,7 +100,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
 
     /**
      * 将权限转换为带有子级的权限对象
-     * 当找不到子级权限的时候map操作不会再递归调用covert
+     * 当找不到子级权限的时候map操作不会再递归调用 covert
      */
     private PermissionNode covert(TbPermission permission,List<TbPermission> permissionList){
         PermissionNode node = new PermissionNode();

@@ -140,13 +140,17 @@ public class AdminController {
     @ApiOperation("获取当前登陆用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public CommonResultDTO getAdminInfo(Principal principal) {
+        if (principal==null){
+            return CommonResultDTO.validateFailed();
+        }
+
         String userName = principal.getName();
         TbAdmin admin = adminService.getAdminByUsername(userName);
 
         Map<String, Object> data = new HashMap<>(3);
 
         data.put("userName", admin.getUserName());
-        data.put("roles", getRoleList(admin.getId()));
+        data.put("roles", adminService.getRoleList(admin.getId()));
         data.put("nickName", admin.getNickName());
         return CommonResultDTO.success(data);
     }
