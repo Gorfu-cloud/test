@@ -65,4 +65,11 @@ public interface IAdminPermissionService {
      * @return 查找结果
      */
     List<TbPermission> list(String keyWord, int type, int status, int pageNum, int pageSize);
+
+    /**
+     * 通过类型获取父权限，
+     * @param type 权限类型
+     * @return 父权限列表
+     */
+    List<TbPermission> list(Integer type);
 }

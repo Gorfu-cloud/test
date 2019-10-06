@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -141,6 +142,36 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
         if (type != -1) {
             criteria.andTypeEqualTo(type);
         }
+        return permissionMapper.selectByExample(example);
+    }
+
+    /**
+     * 通过类型获取父权限，
+     *
+     * @param type 权限类型
+     * @return 父权限列表
+     */
+    @Override
+    public List<TbPermission> list(Integer type) {
+
+        // 顶级权限,无父权限，父权限为0
+        if (type == 1){
+            List<TbPermission> list = new ArrayList<>();
+
+            TbPermission permission = new TbPermission();
+            permission.setName("无父权权限");
+            permission.setId(0);
+
+            list.add(permission);
+            return list;
+        }
+
+        // 查找父权限
+        Integer pType = type -1;
+        TbPermissionExample example = new TbPermissionExample();
+        example.createCriteria()
+                .andTypeEqualTo(pType);
+
         return permissionMapper.selectByExample(example);
     }
 }

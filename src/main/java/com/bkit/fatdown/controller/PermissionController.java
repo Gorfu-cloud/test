@@ -85,4 +85,14 @@ public class PermissionController {
         List<TbPermission> permissionList = permissionService.list();
         return CommonResultDTO.success(permissionList);
     }
+
+    @ApiOperation("获取父权限列表")
+    @RequestMapping(value = "/list/{type}", method = RequestMethod.GET)
+    public CommonResultDTO<List<TbPermission>> listByType(@PathVariable Integer type) {
+        if (type < 1 || type > 3) {
+            return CommonResultDTO.validateFailed();
+        }
+        List<TbPermission> permissionList = permissionService.list(type);
+        return CommonResultDTO.success(permissionList);
+    }
 }
