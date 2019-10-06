@@ -1,15 +1,15 @@
 package com.bkit.fatdown.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bkit.fatdown.common.utils.DateUtils;
+import com.bkit.fatdown.common.utils.IDUtils;
+import com.bkit.fatdown.common.utils.RecogniseUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbDietPicture;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodRecord;
 import com.bkit.fatdown.entity.TbPictureType;
 import com.bkit.fatdown.service.*;
-import com.bkit.fatdown.common.utils.DateUtils;
-import com.bkit.fatdown.common.utils.IDUtils;
-import com.bkit.fatdown.common.utils.RecogniseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -155,6 +155,29 @@ public class PictureController {
         }
 
         return CommonResultDTO.success(jsonObject.getJSONArray(foodData));
+    }
+
+    @ApiOperation("拍照获取识别食物结果，返回对应编号")
+    @CrossOrigin
+    @RequestMapping(value = "/recognise/{num}", method = RequestMethod.POST)
+    public CommonResultDTO recogniseById(@PathVariable Integer num, @RequestParam MultipartFile file) {
+        HashMap<String, Object> map = new HashMap<>(2);
+        String foodData = "data";
+        // 解析识别返回结果数组
+        JSONObject jsonObject = RecogniseUtils.recognise(file);
+        try {
+
+
+            if (jsonObject.getJSONArray(foodData).size() == DATA_NOT_EXIST) {
+                return CommonResultDTO.validateFailed("无法识别或识别结果为空");
+            }
+
+            map.put("result", jsonObject.getJSONArray(foodData));
+        } catch (Exception e) {
+            logger.info("recogniseById error: {}",e.getMessage());
+        }
+        map.put("num", num);
+        return CommonResultDTO.success(map);
     }
 
     @ApiOperation("获取早餐饮食图库")

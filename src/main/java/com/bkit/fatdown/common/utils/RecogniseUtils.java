@@ -103,6 +103,9 @@ public class RecogniseUtils {
         }
         assert buffer != null;
         // 解析返回结果
+        if (buffer.length()==0){
+            return null;
+        }
         return JSONObject.parseObject(buffer.toString());
     }
 

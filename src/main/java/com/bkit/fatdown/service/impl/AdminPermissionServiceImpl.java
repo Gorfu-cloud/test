@@ -155,7 +155,7 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     public List<TbPermission> list(Integer type) {
 
         // 顶级权限,无父权限，父权限为0
-        if (type == 1){
+        if (type == 0){
             List<TbPermission> list = new ArrayList<>();
 
             TbPermission permission = new TbPermission();
