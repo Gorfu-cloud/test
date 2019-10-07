@@ -2,6 +2,7 @@ package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.food.ElementBasicDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.service.IDietFoodService;
@@ -62,7 +63,7 @@ public class ElementController {
     @ApiOperation("添加元素成分")
     @CrossOrigin
     @RequestMapping(value = "/basic", method = RequestMethod.POST)
-    public CommonResultDTO addElementBasic(@RequestBody TbElementBasic elementBasic) {
+    public CommonResultDTO addElementBasic(@RequestBody ElementBasicDTO elementBasic) {
         if (elementBasic.getType() == null || elementBasic.getName() == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -91,13 +92,13 @@ public class ElementController {
 
     @ApiOperation("更新元素成分")
     @CrossOrigin
-    @RequestMapping(value = "/basic", method = RequestMethod.PUT)
-    public CommonResultDTO updateElementBasic(@RequestBody TbElementBasic elementBasic) {
-        if (elementBasic.getType() == null || elementBasic.getName() == null || elementBasic.getId() == null) {
+    @RequestMapping(value = "/basic/{id}", method = RequestMethod.PUT)
+    public CommonResultDTO updateElementBasic(@RequestBody ElementBasicDTO elementBasic,@PathVariable Integer id) {
+        if (elementBasic == null||id==null) {
             return CommonResultDTO.validateFailed();
         }
 
-        if (elementBasicService.update(elementBasic)) {
+        if (elementBasicService.update(id,elementBasic)) {
             return CommonResultDTO.success();
         }
 

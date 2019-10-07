@@ -1,10 +1,12 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.food.ElementBasicDTO;
 import com.bkit.fatdown.entity.TbElementBasic;
 import com.bkit.fatdown.entity.TbElementBasicExample;
 import com.bkit.fatdown.mappers.TbElementBasicMapper;
 import com.bkit.fatdown.service.IElementBasicService;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,11 +31,13 @@ public class ElementBasicImpl implements IElementBasicService {
     /**
      * 插入新元素
      *
-     * @param elementBasic
+     * @param param
      * @return
      */
     @Override
-    public boolean insert(TbElementBasic elementBasic) {
+    public boolean insert(ElementBasicDTO param) {
+        TbElementBasic elementBasic = new TbElementBasic();
+        BeanUtils.copyProperties(param,elementBasic);
         elementBasic.setGmtCreate(new Date());
         elementBasic.setGmtModified(new Date());
         return elementBasicMapper.insertSelective(elementBasic) > 0;
@@ -53,11 +57,14 @@ public class ElementBasicImpl implements IElementBasicService {
     /**
      * 更新新元素
      *
-     * @param elementBasic
+     * @param param
      * @return
      */
     @Override
-    public boolean update(TbElementBasic elementBasic) {
+    public boolean update( Integer id,ElementBasicDTO param) {
+        TbElementBasic elementBasic = new TbElementBasic();
+        BeanUtils.copyProperties(param,elementBasic);
+        elementBasic.setId(id);
         elementBasic.setGmtModified(new Date());
         return elementBasicMapper.updateByPrimaryKeySelective(elementBasic) > 0;
     }

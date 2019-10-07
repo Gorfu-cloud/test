@@ -1,6 +1,8 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.food.ElementBasicDTO;
 import com.bkit.fatdown.entity.TbElementBasic;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public interface IElementBasicService {
      * @param elementBasic
      * @return
      */
-    boolean insert(TbElementBasic elementBasic);
+    boolean insert(ElementBasicDTO elementBasic);
 
     /**
      * 删除新元素
@@ -36,7 +38,7 @@ public interface IElementBasicService {
      * @param elementBasic
      * @return
      */
-    boolean update(TbElementBasic elementBasic);
+    boolean update(Integer id, ElementBasicDTO elementBasic);
 
     /**
      * 获取元素对象
