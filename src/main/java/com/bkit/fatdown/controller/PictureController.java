@@ -150,6 +150,10 @@ public class PictureController {
         String foodData = "data";
         // 解析识别返回结果数组
         JSONObject jsonObject = RecogniseUtils.recognise(file);
+        if (jsonObject==null){
+            return CommonResultDTO.failed("无法识别或识别结果为空");
+        }
+
         if (jsonObject.getJSONArray(foodData).size() == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("无法识别或识别结果为空");
         }

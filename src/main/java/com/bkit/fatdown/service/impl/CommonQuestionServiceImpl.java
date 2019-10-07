@@ -1,10 +1,13 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.QuestionParam;
 import com.bkit.fatdown.entity.TbCommonQuestion;
 import com.bkit.fatdown.entity.TbCommonQuestionExample;
 import com.bkit.fatdown.mappers.TbCommonQuestionMapper;
 import com.bkit.fatdown.service.ICommonQuestionService;
 import com.github.pagehelper.PageHelper;
+import io.swagger.models.auth.In;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ public class CommonQuestionServiceImpl implements ICommonQuestionService {
      */
     @Override
     public boolean insert(TbCommonQuestion commonQuestion) {
+
         if (commonQuestion.getGmtCreate() == null) {
             commonQuestion.setGmtCreate(new Date());
         }
@@ -41,11 +45,14 @@ public class CommonQuestionServiceImpl implements ICommonQuestionService {
     }
 
     /**
-     * @param commonQuestion 常见问题
+     * @param param 常见问题
      * @return 是否成功
      */
     @Override
-    public boolean update(TbCommonQuestion commonQuestion) {
+    public boolean update(Integer typeId, QuestionParam param) {
+        TbCommonQuestion commonQuestion = new TbCommonQuestion();
+        BeanUtils.copyProperties(param,commonQuestion);
+        commonQuestion.setId(typeId);
         commonQuestion.setGmtModified(new Date());
         return commonQuestionMapper.updateByPrimaryKeySelective(commonQuestion) > 0;
     }

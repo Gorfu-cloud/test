@@ -85,7 +85,6 @@ public class AdminPermissionServiceImpl implements IAdminPermissionService {
     public List<PermissionNode> treeList() {
         List<TbPermission> permissionList = permissionMapper.selectByExample(new TbPermissionExample());
         return permissionList.stream()
-                // 筛选父权限为0的根节点
                 .filter(permission -> permission.getPid().equals(0))
                 .map(permission -> covert(permission, permissionList)).collect(Collectors.toList());
     }

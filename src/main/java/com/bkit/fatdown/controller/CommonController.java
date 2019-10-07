@@ -2,6 +2,7 @@ package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.QuestionParam;
 import com.bkit.fatdown.entity.TbCommonQuestion;
 import com.bkit.fatdown.entity.TbCommonQuestionInstance;
 import com.bkit.fatdown.service.ICommonQuestionInstanceService;
@@ -33,7 +34,6 @@ public class CommonController {
 
     @Resource
     private ICommonQuestionInstanceService questionInstanceService;
-
 
     private static final Integer OPEN = 1;
     private static final Integer DATA_NO_EXIST = 0;
@@ -132,29 +132,17 @@ public class CommonController {
     @ApiOperation("更新问题类型,(map中选填,title,status")
     @CrossOrigin
     @RequestMapping(value = "/questionType/{typeId}", method = RequestMethod.PUT)
-    public CommonResultDTO updateQuestionType(@PathVariable Integer typeId, @RequestBody HashMap<String, String> map) {
+    public CommonResultDTO updateQuestionType(@PathVariable Integer typeId, @RequestBody QuestionParam param) {
 
-        if (!map.containsKey("title") || !map.containsKey("status")) {
+        if (param==null||typeId==null) {
             return CommonResultDTO.validateFailed("status/title错误");
         }
 
-        String title = map.get("title");
-        Integer status = Integer.valueOf(map.get("status"));
-
-        if (title.isEmpty() || status > 1 || status < 0) {
-            return CommonResultDTO.validateFailed("status/title错误");
-        }
-
-        if (commonQuestionService.countCommonQuestion(title) > 0 || commonQuestionService.countCommonQuestion(typeId) == DATA_NO_EXIST) {
+        if (commonQuestionService.countCommonQuestion(param.getTitle()) > 0 || commonQuestionService.countCommonQuestion(typeId) == DATA_NO_EXIST) {
             return CommonResultDTO.validateFailed("title 存在/ 问题类型不存在");
         }
 
-        TbCommonQuestion question = new TbCommonQuestion();
-        question.setTitle(title);
-        question.setStatus(status);
-        question.setId(typeId);
-
-        if (commonQuestionService.update(question)) {
+        if (commonQuestionService.update(typeId,param)) {
             return CommonResultDTO.success();
         }
 

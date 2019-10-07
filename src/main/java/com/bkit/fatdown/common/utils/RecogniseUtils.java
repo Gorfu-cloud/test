@@ -45,7 +45,7 @@ public class RecogniseUtils {
      * @author: <a href="https://yujian95.cn/about/">YuJian</a>
      * @date: 7/23/19
      */
-    public static JSONObject recognise(@RequestParam MultipartFile file) {
+    public static JSONObject recognise(MultipartFile file) {
         URL url;
         InputStream input;
         OutputStream os;
@@ -76,6 +76,7 @@ public class RecogniseUtils {
             File newFile = DataTransferUtils.multipartFile2File(file);
             files.put("file", newFile);
             writeFile(files, os);
+
             // 请求结束标志
             String endTarget = PREFIX + BOUNDARY + PREFIX + LINE_END;
             os.write(endTarget.getBytes());
@@ -101,9 +102,8 @@ public class RecogniseUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assert buffer != null;
         // 解析返回结果
-        if (buffer.length()==0){
+        if (buffer==null){
             return null;
         }
         return JSONObject.parseObject(buffer.toString());

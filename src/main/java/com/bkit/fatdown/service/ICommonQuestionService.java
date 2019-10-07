@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.QuestionParam;
 import com.bkit.fatdown.entity.TbCommonQuestion;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ICommonQuestionService {
      * @param commonQuestion 常见问题
      * @return 是否成功
      */
-    boolean update(TbCommonQuestion commonQuestion);
+    boolean update(Integer typeId,QuestionParam commonQuestion);
 
     /**
      * @param id 问题id

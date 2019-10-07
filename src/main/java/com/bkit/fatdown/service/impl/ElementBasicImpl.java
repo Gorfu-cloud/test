@@ -59,7 +59,7 @@ public class ElementBasicImpl implements IElementBasicService {
     @Override
     public boolean update(TbElementBasic elementBasic) {
         elementBasic.setGmtModified(new Date());
-        return elementBasicMapper.updateByPrimaryKey(elementBasic) > 0;
+        return elementBasicMapper.updateByPrimaryKeySelective(elementBasic) > 0;
     }
 
     /**
