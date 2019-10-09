@@ -243,6 +243,11 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public TbDietMealReport getDietMealReport(Date date, int type, int uid) {
+        List<TbDietMealReport> list = listDietMealReport(date, type, uid);
+        if (list.size()==0){
+            return null;
+        }
+
         return listDietMealReport(date, type, uid).get(0);
     }
 

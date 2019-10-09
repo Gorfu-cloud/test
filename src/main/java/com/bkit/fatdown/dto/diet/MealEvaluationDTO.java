@@ -1,10 +1,12 @@
 package com.bkit.fatdown.dto.diet;
 
+import com.bkit.fatdown.entity.TbFoodBasic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @file: MealEvaluationDTO
@@ -22,6 +24,16 @@ public class MealEvaluationDTO implements Serializable {
     private Integer structureEvaluation;
     @ApiModelProperty("菜式成分元素： 菜式名称 + 成分元素信息")
     private HashMap<String,ElementInfo> elementList;
+    @ApiModelProperty("需要拆解的菜式信息列表")
+    private List<TbFoodBasic> lackList;
+
+    public List<TbFoodBasic> getLackList() {
+        return lackList;
+    }
+
+    public void setLackList(List<TbFoodBasic> lackList) {
+        this.lackList = lackList;
+    }
 
     public MealEvaluationDTO(){
 
@@ -57,6 +69,7 @@ public class MealEvaluationDTO implements Serializable {
                 "energyEvaluation=" + energyEvaluation +
                 ", structureEvaluation=" + structureEvaluation +
                 ", elementList=" + elementList +
+                ", lackList=" + lackList +
                 '}';
     }
 }

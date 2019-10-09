@@ -333,7 +333,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Override
     public List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type) {
 
-        List<TbFoodRecord> foodRecordList = new ArrayList<>();
+        List<TbFoodRecord> foodRecordList ;
 
         switch (type) {
             case BREAKFAST:
@@ -356,6 +356,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 break;
             default:
                 logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
+                foodRecordList = null;
         }
 
         return foodRecordList;
@@ -666,20 +667,21 @@ public class DietFoodServiceImpl implements IDietFoodService {
      */
     @Override
     public MealEvaluationDTO getEvaluationByRecordId(Integer recordId) {
-        TbFoodRecord record = getFoodRecord(recordId);
+        TbFoodRecord foodRecord = getFoodRecord(recordId);
 
-        if (record == null) {
+        if (foodRecord == null) {
             return null;
         }
 
         // 获取用餐类型:早午晚餐.0 1 2
-        int type = DateUtils.getMealType(record.getGmtCreate());
-        Integer uid = record.getUserId();
-        Date date = record.getGmtCreate();
+        int type = DateUtils.getMealType(foodRecord.getGmtCreate());
+        Integer uid = foodRecord.getUserId();
+        Date date = foodRecord.getGmtCreate();
 
+        // 获取相关摄入记录
         List<TbFoodRecord> recordList = listFoodRecord(uid, date, type);
 
-        if (recordList.size() == 0) {
+        if (recordList.size() == 0|| recordList.isEmpty()) {
             return null;
         }
 
@@ -695,10 +697,21 @@ public class DietFoodServiceImpl implements IDietFoodService {
         mealEvaluation.setStructureEvaluation(report.getStructureEvaluation());
 
         HashMap<String, ElementInfo> map = new HashMap<>(10);
+        List<TbFoodBasic> lackList = new ArrayList<>();
 
         TbDietRecord record1;
-        for (TbFoodRecord foodRecord : recordList) {
-            record1 = generateDietRecord(foodRecord.getFoodId(), foodRecord.getEatPer());
+        TbFoodBasic foodBasic;
+        for (TbFoodRecord foodRecord1 : recordList) {
+            // 判断是否已经拆解了。
+           foodBasic = foodBasicService.getFoodBasic(foodRecord1.getFoodId());
+            // 未拆解
+            if (foodBasic.getFlag()==1){
+                lackList.add(foodBasic);
+                continue;
+            }
+
+            // 生成已经拆解的菜式信息
+            record1 = generateDietRecord(foodRecord1.getFoodId(), foodRecord1.getEatPer());
             ElementInfo info = new ElementInfo();
             // 复制 record 中的属性
             BeanUtils.copyProperties(record1, info);
@@ -710,11 +723,11 @@ public class DietFoodServiceImpl implements IDietFoodService {
             info.setNutsSet(DataTransferUtils.str2Set(record1.getNutsSet()));
             info.setStructureSet(DataTransferUtils.str2Set(record1.getStructureSet()));
 
-            map.put(foodBasicService.getFoodBasic(foodRecord.getFoodId()).getFoodName(), info);
+            map.put(foodBasic.getFoodName(), info);
         }
 
         mealEvaluation.setElementList(map);
-
+        mealEvaluation.setLackList(lackList);
         return mealEvaluation;
     }
 
