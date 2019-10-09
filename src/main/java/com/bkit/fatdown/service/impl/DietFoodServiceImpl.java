@@ -5,6 +5,7 @@ import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
 import com.bkit.fatdown.dto.diet.ElementInfo;
 import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
+import com.bkit.fatdown.dto.food.FoodRecordDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbDietUserStandardMapper;
@@ -371,7 +372,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
      * @return
      */
     @Override
-    public List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type, Integer pageNum, Integer pageSize) {
+    public List<FoodRecordDTO> listFoodRecord(int uid, Date date, Integer type, Integer pageNum, Integer pageSize) {
         List<TbFoodRecord> foodRecordList = new ArrayList<>();
         switch (type) {
             case BREAKFAST:
@@ -395,7 +396,26 @@ public class DietFoodServiceImpl implements IDietFoodService {
             default:
                 logger.error("DietFoodServiceImpl listFoodBasic , type out of index ,date:{} and type :{} and uid : {}", date, type, uid);
         }
-        return foodRecordList;
+        return listFoodRecordByName(foodRecordList);
+    }
+
+    private List<FoodRecordDTO> listFoodRecordByName(List<TbFoodRecord> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        List<FoodRecordDTO> result = new ArrayList<>();
+        FoodRecordDTO foodRecord;
+        for (TbFoodRecord record : list) {
+            foodRecord = new FoodRecordDTO();
+            BeanUtils.copyProperties(record, foodRecord);
+            // 获取菜式名称
+            String foodName = foodBasicService.getFoodBasic(foodRecord.getFoodId()).getFoodName();
+            foodRecord.setFoodName(foodName);
+
+            result.add(foodRecord);
+        }
+
+        return result;
     }
 
     /**
@@ -652,6 +672,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
             return null;
         }
 
+        // 获取用餐类型:早午晚餐.0 1 2
         int type = DateUtils.getMealType(record.getGmtCreate());
         Integer uid = record.getUserId();
         Date date = record.getGmtCreate();

@@ -5,6 +5,7 @@ import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
+import com.bkit.fatdown.dto.food.FoodRecordDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
 import com.bkit.fatdown.entity.TbFoodBasic;
@@ -120,73 +121,6 @@ public class DietController {
         return CommonResultDTO.failed();
     }
 
-//
-//    @ApiOperation("添加饮食记录")
-//    @CrossOrigin
-//    @RequestMapping(value = "/foodRecord/{uid}", method = RequestMethod.POST)
-//    public CommonResultDTO addFoodRecord(@PathVariable Integer uid, @RequestParam Integer eatPer, @RequestParam Double gram,
-//                                         @RequestParam String foodName, @RequestParam String date) {
-//        if (basicInfoService.countById(uid) == DATA_NOT_EXIST) {
-//            return CommonResultDTO.validateFailed();
-//        }
-//
-//        Date inputDate = DateUtils.string2DateTime(date);
-//        System.out.println(inputDate);
-//
-//        int id;
-//        // 查找食物基础信息是否存在？
-//        List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);
-//        // 菜式不在数据库中,插入新菜式记录,flag= 0 -> 已有菜式，flag= 1 -> 新菜式
-//        if (foodList.size() == DATA_NOT_EXIST) {
-//            TbFoodBasic newFoodBasic = new TbFoodBasic();
-//            newFoodBasic.setFoodName(foodName);
-//            newFoodBasic.setQuantity(gram);
-//            newFoodBasic.setType("未知");
-//            // 菜式不存在
-//            newFoodBasic.setFlag(1);
-//
-//            // 创建记录并返回创建id，id = -1 -> 插入失败
-//            id = foodBasicService.insertReturnId(newFoodBasic);
-//            if (id == -1) {
-//                return CommonResultDTO.failed("创建菜式记录失败");
-//            }
-//            // 插入饮食记录
-//            TbFoodRecord foodRecord;
-//            foodRecord = new TbFoodRecord();
-//            foodRecord.setFoodId(id);
-//            foodRecord.setUserId(uid);
-//            foodRecord.setEatPer(eatPer / 100.0);
-//            foodRecord.setFoodQuantity(gram);
-//            foodRecord.setImgUrl("");
-//            foodRecord.setGmtCreate(inputDate);
-//
-//            if (foodService.insert(foodRecord)) {
-//                return CommonResultDTO.success();
-//            }
-//            logger.info("insert foodRecord fail, uid: {}", uid);
-//            return CommonResultDTO.failed("创建饮食记录失败");
-//        }
-//
-//        // 插入饮食记录
-//        TbFoodBasic foodBasicBasic = foodList.get(0);
-//        TbFoodRecord foodRecord;
-//        foodRecord = new TbFoodRecord();
-//        foodRecord.setFoodId(foodBasicBasic.getId());
-//        foodRecord.setUserId(uid);
-//        foodRecord.setEatPer(eatPer / 100.0);
-//        foodRecord.setFoodQuantity(gram);
-//        foodRecord.setImgUrl("");
-//        foodRecord.setGmtCreate(inputDate);
-//
-//        updateDietRecord(uid, inputDate);
-//
-//        if (foodService.insert(foodRecord)) {
-//            return CommonResultDTO.success();
-//        }
-//        return CommonResultDTO.failed("创建饮食记录失败");
-//
-//    }
-
     @ApiOperation("添加饮食记录")
     @CrossOrigin
     @RequestMapping(value = "/foodRecord/{uid}", method = RequestMethod.POST)
@@ -301,8 +235,6 @@ public class DietController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
-
-
     @ApiOperation("更新饮食记录")
     @CrossOrigin
     @RequestMapping(value = "/record/update/{uid}/{date}", method = RequestMethod.GET)
@@ -371,7 +303,7 @@ public class DietController {
 
         // 用餐类型
         Integer type = DateUtils.getMealType(foodRecord.getGmtCreate());
-        List<TbFoodRecord> list = foodService.listFoodRecord(foodRecord.getUserId(), foodRecord.getGmtCreate(), type, pageNum, pageSize);
+        List<FoodRecordDTO> list = foodService.listFoodRecord(foodRecord.getUserId(), foodRecord.getGmtCreate(), type, pageNum, pageSize);
 
         return CommonResultDTO.success(CommonPageDTO.restPage(list));
     }

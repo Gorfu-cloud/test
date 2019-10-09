@@ -1,6 +1,7 @@
 package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
+import com.bkit.fatdown.dto.food.FoodRecordDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbDietUserStandard;
@@ -119,7 +120,7 @@ public interface IDietFoodService {
      * @param type
      * @return
      */
-    List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type,Integer pageNum,Integer pageSize);
+    List<FoodRecordDTO> listFoodRecord(int uid, Date date, Integer type, Integer pageNum, Integer pageSize);
 
     Integer count(int id);
 
@@ -158,9 +159,9 @@ public interface IDietFoodService {
     TbDietRecord mergeDietRecord(TbDietRecord target, TbDietRecord temp);
 
     /**
-     * 获取饮食能量分配
+     * 获取饮食分配
      * @param recordId 用餐记录
-     * @return 当餐饮食能量分配情况
+     * @return 当餐饮食分配情况
      */
     MealEvaluationDTO getEvaluationByRecordId(Integer recordId);
 }
