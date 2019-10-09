@@ -123,15 +123,11 @@ public class FoodController {
     @CrossOrigin
     @RequestMapping(value = "/relation/{foodId}", method = RequestMethod.GET)
     public CommonResultDTO listElementRelation(@PathVariable Integer foodId) {
-        if (foodId == null || foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST || foodElementService.countFoodId(foodId) == DATA_NOT_EXIST) {
+        if (foodId == null || foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST ) {
             return CommonResultDTO.validateFailed();
         }
 
         List<FoodElementDTO> elementList = foodElementService.listFoodElement(foodId);
-
-        if (elementList.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed();
-        }
 
         return CommonResultDTO.success(elementList);
     }

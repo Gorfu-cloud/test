@@ -91,10 +91,13 @@ public class FoodElementServiceImpl implements IFoodElementService {
      */
     @Override
     public List<FoodElementDTO> listFoodElement(Integer foodId) {
-
+        if (foodElementService.countFoodId(foodId)==0){
+            return null;
+        }
         List<TbFoodElementRelation> relationList = foodElementService.listByFoodId(foodId);
 
         if (relationList.size() ==0) {
+            // TODO 打点日志
             return null;
         }
 
