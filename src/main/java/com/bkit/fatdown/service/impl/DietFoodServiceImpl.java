@@ -3,6 +3,7 @@ package com.bkit.fatdown.service.impl;
 import com.bkit.fatdown.common.utils.DataTransferUtils;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
+import com.bkit.fatdown.dto.diet.DietMealReport;
 import com.bkit.fatdown.dto.diet.ElementInfo;
 import com.bkit.fatdown.dto.diet.MealEvaluationDTO;
 import com.bkit.fatdown.dto.food.FoodRecordDTO;
@@ -333,7 +334,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
     @Override
     public List<TbFoodRecord> listFoodRecord(int uid, Date date, Integer type) {
 
-        List<TbFoodRecord> foodRecordList ;
+        List<TbFoodRecord> foodRecordList;
 
         switch (type) {
             case BREAKFAST:
@@ -681,13 +682,15 @@ public class DietFoodServiceImpl implements IDietFoodService {
         // 获取相关摄入记录
         List<TbFoodRecord> recordList = listFoodRecord(uid, date, type);
 
-        if (recordList.size() == 0|| recordList.isEmpty()) {
+        if (recordList.size() == 0) {
             return null;
         }
 
-        TbDietMealReport report = reportService.getDietMealReport(date, type, uid);
+        DietMealReport report = reportService.generateMealReport(date, uid, type);
 
+        // 获取饮食报告
         if (report == null) {
+            logger.error("meal report is null, uid: {} and date: {} and type: {}", uid, date, type);
             return null;
         }
 
@@ -697,15 +700,15 @@ public class DietFoodServiceImpl implements IDietFoodService {
         mealEvaluation.setStructureEvaluation(report.getStructureEvaluation());
 
         HashMap<String, ElementInfo> map = new HashMap<>(10);
-        List<TbFoodBasic> lackList = new ArrayList<>();
+        List<TbFoodBasic> lackList = new ArrayList<>(10);
 
         TbDietRecord record1;
         TbFoodBasic foodBasic;
         for (TbFoodRecord foodRecord1 : recordList) {
+            // 获取菜式信息
+            foodBasic = foodBasicService.getFoodBasic(foodRecord1.getFoodId());
             // 判断是否已经拆解了。
-           foodBasic = foodBasicService.getFoodBasic(foodRecord1.getFoodId());
-            // 未拆解
-            if (foodBasic.getFlag()==1){
+            if (foodBasic.getFlag() == 1) {
                 lackList.add(foodBasic);
                 continue;
             }
