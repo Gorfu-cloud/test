@@ -66,12 +66,12 @@ public class CommonController {
 
     @ApiOperation("删除问题实例")
     @CrossOrigin
-    @RequestMapping(value = "/question/{questionId}",method = RequestMethod.DELETE)
-    public CommonResultDTO deleteInstance(@PathVariable Integer questionId){
-        if (questionInstanceService.count(questionId)==0){
+    @RequestMapping(value = "/question/{instanceId}",method = RequestMethod.DELETE)
+    public CommonResultDTO deleteInstance(@PathVariable Integer instanceId){
+        if (questionInstanceService.countById(instanceId)==0){
             return CommonResultDTO.validateFailed();
         }
-        if (questionInstanceService.delete(questionId)){
+        if (questionInstanceService.delete(instanceId)){
             return CommonResultDTO.success();
         }
         return CommonResultDTO.failed();

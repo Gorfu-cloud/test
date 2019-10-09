@@ -157,4 +157,5 @@ public class CommonQuestionInstanceServiceImpl implements ICommonQuestionInstanc
                 .andQuestionIdEqualTo(questionId);
         return (int) questionInstanceMapper.countByExample(example);
     }
+
 }
