@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.food.RecommendListDTO;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 
 import java.util.Date;
@@ -46,7 +47,7 @@ public interface IFoodRecommendRecordService {
      * @param date 记录日期
      * @return 推荐记录
      */
-    List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date);
+    List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date,Integer reportType);
 
     /**
      * 统计推荐菜式记录
@@ -86,4 +87,5 @@ public interface IFoodRecommendRecordService {
      */
     int countFoodRecommendRecordByDate(int uid, Date date,Integer reportType);
 
+    RecommendListDTO getWeeklyRecommend(Date date, Integer uid);
 }

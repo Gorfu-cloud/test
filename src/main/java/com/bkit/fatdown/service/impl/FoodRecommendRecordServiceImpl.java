@@ -1,13 +1,18 @@
 package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.common.utils.DateUtils;
-import com.bkit.fatdown.entity.*;
+import com.bkit.fatdown.component.ReportHelper;
+import com.bkit.fatdown.dto.food.RecommendListDTO;
+import com.bkit.fatdown.entity.TbDietDailyReport;
+import com.bkit.fatdown.entity.TbFoodRecommendRecord;
+import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -152,15 +157,24 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
      * @return 推荐记录
      */
     @Override
-    public List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date) {
+    public List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date,Integer reportType) {
         TbFoodRecommendRecordExample example = new TbFoodRecommendRecordExample();
         example.createCriteria()
                 .andUserIdEqualTo(uid)
+                .andReportTypeEqualTo(reportType)
                 .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
         return recordMapper.selectByExample(example);
     }
 
-    public void getWeeklyRecommend(Date date, Integer uid) {
+    /**
+     * 获取每周菜式推荐情况
+     *
+     * @param date 日期
+     * @param uid 用户id
+     * @return 多或少
+     */
+    @Override
+    public RecommendListDTO getWeeklyRecommend(Date date, Integer uid) {
 
         // 获取每日报告
         List<TbDietDailyReport> reportList = reportService.listDietDailyReport(DateUtils.getCurrentWeekStart(date),
@@ -186,5 +200,35 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         double proteinPer = proteinTotal / size;
         double colPer = colTotal / size;
         double fibrinPer = fibrinTotal / size;
+
+        // 判断是否符合标准
+        int[] result = ReportHelper.getDailyLackFoodRecommend(fatPer, proteinPer, colPer, fibrinPer);
+        // 偏多或者偏少
+        int more = 1;
+        int lack = 2;
+
+        List<Integer> lackList = getEqualsList(result, lack);
+        List<Integer> moreList = getEqualsList(result, more);
+
+        return new RecommendListDTO(lackList, moreList);
+    }
+
+    /**
+     * 获取相同值的下标
+     *
+     * @param result 数组
+     * @param value  相同值
+     * @return 相同值的下标
+     */
+    private List<Integer> getEqualsList(int[] result, int value) {
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i < result.length; i++) {
+            if (result[i] == value) {
+                list.add(i);
+            }
+        }
+
+        return list;
     }
 }

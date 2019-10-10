@@ -657,10 +657,13 @@ public class ReportHelper {
     // 比较标准，0 优， 1 一般 （多），2 差 （少）
     private static int contrast(double target, double upper, double floor) {
         if (target > upper) {
+            // 偏多
             return 1;
         } else if (target < floor) {
+            // 偏少
             return 2;
         }
+        // 合适
         return 0;
     }
 
@@ -680,11 +683,23 @@ public class ReportHelper {
         return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
     }
 
-    /**
-     * 获取每周缺乏情况
-     */
-    private static void getWeeklyLack(){
+    // 获取每周饮食推荐
+    public static int[] getDailyLackFoodRecommend(double fatPer,double colPer,double proteinPer,double insolubleFibrinPer){
 
+        int [] type = new int[5];
+
+        int fatType = 1;
+        int proteinType = 2;
+        int colType = 3;
+        int insolubleFibrinType = 4;
+
+
+        type[fatType] = getDailyFatEvaluation(fatPer);
+        type[colType] = getDailyColEvaluation(colPer);
+        type[proteinType] = getDailyProteinEvaluation(proteinPer);
+        type[insolubleFibrinType] = getDailyInsolubleFibrinEvaluation(insolubleFibrinPer);
+
+        return type;
     }
 
     /**

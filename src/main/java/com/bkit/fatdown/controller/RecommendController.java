@@ -1,12 +1,10 @@
 package com.bkit.fatdown.controller;
 
-import com.bkit.fatdown.common.utils.DataTransferUtils;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
-import com.bkit.fatdown.dto.food.RecommendFoodInfoDTO;
-import com.bkit.fatdown.dto.food.RecommendTypeDTO;
+import com.bkit.fatdown.dto.food.RecommendListDTO;
 import com.bkit.fatdown.entity.TbFoodRecommend;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendType;
@@ -15,13 +13,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+//import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * @file: FoodController
@@ -217,14 +215,14 @@ public class RecommendController {
     @ApiOperation("获取推荐菜式选择记录")
     @CrossOrigin
     @RequestMapping(value = "/recommendRecords", method = RequestMethod.GET)
-    public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date) {
+    public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date,@RequestParam Integer type) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
         }
 
         Date inputDate = DateUtils.string2Date(date);
 
-        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate);
+        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate,type);
 
         if (recordList.size() == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("记录不存在");
@@ -350,70 +348,26 @@ public class RecommendController {
     @ApiOperation("获取菜式推荐情况")
     @CrossOrigin
     @RequestMapping(value = "/recommendTypes/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO<List<RecommendTypeDTO>> listRecommendType(@PathVariable Integer uid, @RequestParam String date,
+    public CommonResultDTO listRecommendType(@PathVariable Integer uid, @RequestParam String date,
                                                                      @RequestParam Integer type) {
 
         Date inputDate = DateUtils.string2Date(date);
 
-        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null || recommendRecordService.countFoodRecommendRecordByDate(uid, inputDate, type) == DATA_NOT_EXIST) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null ) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
         }
 
-        // 获取选择记录
-        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate);
+        int week = 5;
 
-        if (recordList.size() == DATA_NOT_EXIST) {
-            return CommonResultDTO.failed("记录不存在");
+        RecommendListDTO recommend;
+
+        if (type== week) {
+            // 周推荐菜式
+            recommend = recommendRecordService.getWeeklyRecommend(inputDate, uid);
+            return CommonResultDTO.success(recommend);
         }
 
-//        return CommonResultDTO.success(recordList);
-
-//        TbDietWeeklyReport report =
-
-        List<RecommendTypeDTO> recommendTypeDTOList = new ArrayList<>();
-
-        RecommendTypeDTO recommendTypeDTO1 = new RecommendTypeDTO();
-        recommendTypeDTO1.setId(1);
-        recommendTypeDTO1.setStatus(0);
-        recommendTypeDTO1.setTypeName("蛋白质");
-        recommendTypeDTOList.add(recommendTypeDTO1);
-
-        RecommendTypeDTO recommendTypeDTO2 = new RecommendTypeDTO();
-        recommendTypeDTO2.setId(2);
-        recommendTypeDTO2.setStatus(0);
-        recommendTypeDTO2.setTypeName("主食");
-        recommendTypeDTOList.add(recommendTypeDTO2);
-
-        RecommendTypeDTO recommendTypeDTO3 = new RecommendTypeDTO();
-        recommendTypeDTO3.setId(3);
-        recommendTypeDTO3.setStatus(0);
-        recommendTypeDTO3.setTypeName("脂肪");
-        recommendTypeDTOList.add(recommendTypeDTO3);
-
-        List<RecommendFoodInfoDTO> foodInfoDTOS1 = new ArrayList<>();
-        List<RecommendFoodInfoDTO> foodInfoDTOS2 = new ArrayList<>();
-        List<RecommendFoodInfoDTO> foodInfoDTOS3 = new ArrayList<>();
-
-        List<TbFoodRecommend> recommendList1 = recommendService.listFoodRecommend(1);
-        for (TbFoodRecommend recommend : recommendList1) {
-            foodInfoDTOS1.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
-        }
-
-        List<TbFoodRecommend> recommendList2 = recommendService.listFoodRecommend(2);
-        for (TbFoodRecommend recommend : recommendList2) {
-            foodInfoDTOS2.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
-        }
-
-        List<TbFoodRecommend> recommendList3 = recommendService.listFoodRecommend(3);
-        for (TbFoodRecommend recommend : recommendList3) {
-            foodInfoDTOS3.add(DataTransferUtils.transferRecommendFoodInfo(recommend));
-        }
-
-        recommendTypeDTO1.setFoodList(foodInfoDTOS1);
-        recommendTypeDTO2.setFoodList(foodInfoDTOS2);
-        recommendTypeDTO3.setFoodList(foodInfoDTOS3);
-
-        return CommonResultDTO.success(recommendTypeDTOList);
+        return CommonResultDTO.failed();
     }
 
     @ApiOperation("获取每周周菜式推荐情况")
