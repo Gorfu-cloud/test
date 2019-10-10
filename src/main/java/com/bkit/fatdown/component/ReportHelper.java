@@ -549,7 +549,6 @@ public class ReportHelper {
         }
     }
 
-
     /**
      * 设置每天营养素评价
      *
@@ -682,6 +681,38 @@ public class ReportHelper {
     private static int getDailyInsolubleFibrinEvaluation(double per){
         return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
     }
+
+    private static int getDailyGoodProtein(double per){
+        return contrast(per,GOOD_PROTEIN_GOOD,GOOD_PROTEIN_BAD);
+    }
+
+    private static int getDailyAnimalFat(double per){
+        return contrast(per,ANIMAL_FAT_GOOD,ANIMAL_FAT_BAD);
+    }
+
+//    private static int getDailyVitaminA(){
+//
+//    }
+//
+//    private static int getDailyVitaminB1(){
+//
+//    }
+//
+//    private static int getDailyVitaminB2(){
+//
+//    }
+//
+//    private static int getDailyVitaminB3(){
+//
+//    }
+//
+//    private static int getDailyVitaminC(){
+//
+//    }
+//
+//    private static int getDailyVitaminE(){
+//
+//    }
 
     // 获取每周饮食推荐
     public static int[] getDailyLackFoodRecommend(double fatPer,double colPer,double proteinPer,double insolubleFibrinPer){

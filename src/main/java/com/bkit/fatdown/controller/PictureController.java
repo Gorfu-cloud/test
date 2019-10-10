@@ -161,7 +161,7 @@ public class PictureController {
         Date inputDate = DateUtil.parseDateTime(dateTime);
 
         // 获取上传结果
-        Map<String, Object> result = pictureService.upload(picture, uid, new Date());
+        Map<String, Object> result = pictureService.upload(picture, uid, inputDate);
 
         String empty = "msg";
         String urlOfString = "url";
