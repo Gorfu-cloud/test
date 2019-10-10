@@ -367,6 +367,9 @@ public class RecommendController {
             return CommonResultDTO.success(recommend);
         }
 
+        int month = 6;
+
+
         return CommonResultDTO.failed();
     }
 
@@ -384,7 +387,7 @@ public class RecommendController {
         return null;
     }
 
-    @ApiOperation("获取每周周菜式推荐情况")
+    @ApiOperation("获取每月周菜式推荐情况")
     @CrossOrigin
     @RequestMapping(value = "/recommendInfo/month/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getMonthlyRecommend(@PathVariable Integer uid, @RequestParam String date) {

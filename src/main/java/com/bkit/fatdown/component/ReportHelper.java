@@ -688,11 +688,10 @@ public class ReportHelper {
 
         int [] type = new int[5];
 
-        int fatType = 1;
-        int proteinType = 2;
-        int colType = 3;
+        int proteinType = 1;
+        int colType = 2;
+        int fatType = 3;
         int insolubleFibrinType = 4;
-
 
         type[fatType] = getDailyFatEvaluation(fatPer);
         type[colType] = getDailyColEvaluation(colPer);
