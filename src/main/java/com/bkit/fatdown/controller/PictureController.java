@@ -1,5 +1,6 @@
 package com.bkit.fatdown.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.common.utils.IDUtils;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +60,7 @@ public class PictureController {
     @ApiOperation("上传图片并保存菜式信息")
     @CrossOrigin
     @RequestMapping(value = "/upload/diet/{uid}", method = RequestMethod.POST)
+    @Transactional
     public CommonResultDTO upload(@RequestParam("picture") MultipartFile picture, @PathVariable Integer uid,
                                   @RequestParam String foodName, @RequestParam Double gram) {
         // 获取上传结果
@@ -143,6 +146,108 @@ public class PictureController {
         return CommonResultDTO.validateFailed("参数错误");
     }
 
+    @ApiOperation("上传图片并补充饮食记录")
+    @CrossOrigin
+    @RequestMapping(value = "/upload/diet/add/{uid}", method = RequestMethod.POST)
+    @Transactional
+    public CommonResultDTO uploadDietPicture(@RequestParam("picture") MultipartFile picture, @PathVariable Integer uid,
+                                  @RequestParam String foodName, @RequestParam Double gram, @RequestParam Double eatPer
+            , @RequestParam String dateTime) {
+
+        if (dateTime==null){
+            return CommonResultDTO.validateFailed();
+        }
+
+        Date inputDate = DateUtil.parseDateTime(dateTime);
+
+        // 获取上传结果
+        Map<String, Object> result = pictureService.upload(picture, uid, new Date());
+
+        String empty = "msg";
+        String urlOfString = "url";
+        String flagOfExist = "flag";
+
+        // 上传失败
+        if (result.containsKey(empty)) {
+            return CommonResultDTO.validateFailed("上传文件为空");
+        }
+
+        // 判断上传是否成功，url：图片路径，flag=0上传失败
+        if (result.containsKey(urlOfString) && result.containsKey(flagOfExist)) {
+            int id;
+            TbFoodRecord foodRecord;
+            int flag = Integer.parseInt(result.get(flagOfExist).toString());
+            String imgUrl = result.get(urlOfString).toString();
+
+            // 上传图片失败
+            if (flag == DATA_NOT_EXIST) {
+                logger.error("upload picture fail, uid:{}", uid);
+                return CommonResultDTO.failed("上传图片失败");
+            }
+
+            // 查找食物基础信息是否存在？
+            List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);
+            // 菜式不在数据库中,插入新菜式记录,flag= 0 -> 已有菜式，flag= 1 -> 新菜式
+            if (foodList.size() == DATA_NOT_EXIST) {
+                TbFoodBasic newFoodBasic = new TbFoodBasic();
+                newFoodBasic.setFoodName(foodName);
+                newFoodBasic.setQuantity(gram);
+                newFoodBasic.setType("未知");
+                // 菜式不存在
+                newFoodBasic.setFlag(1);
+
+                // 创建记录并返回创建id，id = -1 -> 插入失败
+                id = foodBasicService.insertReturnId(newFoodBasic);
+                if (id == -1) {
+                    return CommonResultDTO.failed("创建菜式记录失败");
+                }
+                // 插入饮食记录
+                foodRecord = new TbFoodRecord();
+                foodRecord.setFoodId(id);
+                foodRecord.setUserId(uid);
+                foodRecord.setFoodQuantity(gram);
+                foodRecord.setImgUrl(imgUrl);
+                foodRecord.setEatPer(eatPer/100.0);
+                foodRecord.setGmtCreate(inputDate);
+
+                if (foodService.insert(foodRecord)) {
+                    return CommonResultDTO.success();
+                }
+                logger.info("insert foodRecord fail, uid: {}", uid);
+                return CommonResultDTO.failed("补充饮食记录失败");
+            }
+
+            // 插入饮食记录
+            TbFoodBasic foodBasicBasic = foodList.get(0);
+            foodRecord = new TbFoodRecord();
+            foodRecord.setFoodId(foodBasicBasic.getId());
+            foodRecord.setUserId(uid);
+            foodRecord.setFoodQuantity(gram);
+            foodRecord.setImgUrl(imgUrl);
+            foodRecord.setEatPer(eatPer/100.0);
+            foodRecord.setGmtCreate(inputDate);
+
+            if (foodService.insert(foodRecord)) {
+                // 更新每餐饮食成分记录
+                if (dietRecordService.updateDietRecord(uid)) {
+                    logger.info("update diet_record success, uid: {}", uid);
+                } else {
+                    logger.error("update diet_record fail, uid: {}", uid);
+                }
+                // 更新每天用餐成分总量记录
+                if (dietRecordService.updateDailyDietRecord(uid)) {
+                    logger.info("update daily dietRecord success, uid: {}", uid);
+                } else {
+                    logger.error("update daily dietRecord fail, uid: {}", uid);
+                }
+                return CommonResultDTO.success();
+            }
+            return CommonResultDTO.failed("补充饮食记录失败");
+        }
+
+        return CommonResultDTO.validateFailed("参数错误");
+    }
+
     @ApiOperation("拍照获取识别食物结果")
     @CrossOrigin
     @RequestMapping(value = "/recognise", method = RequestMethod.POST)
@@ -150,7 +255,7 @@ public class PictureController {
         String foodData = "data";
         // 解析识别返回结果数组
         JSONObject jsonObject = RecogniseUtils.recognise(file);
-        if (jsonObject==null){
+        if (jsonObject == null) {
             return CommonResultDTO.failed("无法识别或识别结果为空");
         }
 
@@ -178,7 +283,7 @@ public class PictureController {
 
             map.put("result", jsonObject.getJSONArray(foodData));
         } catch (Exception e) {
-            logger.info("recogniseById error: {}",e.getMessage());
+            logger.info("recogniseById error: {}", e.getMessage());
         }
         map.put("num", num);
         return CommonResultDTO.success(map);
