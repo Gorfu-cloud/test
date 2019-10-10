@@ -4,7 +4,6 @@ import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonPageDTO;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.FoodRecordInfoDTO;
-import com.bkit.fatdown.dto.food.RecommendListDTO;
 import com.bkit.fatdown.entity.TbFoodRecommend;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendType;
@@ -260,7 +259,6 @@ public class RecommendController {
         return CommonResultDTO.success(CommonPageDTO.restPage(typeList));
     }
 
-
     @ApiOperation("查找推荐菜式类型信息")
     @CrossOrigin
     @RequestMapping(value = "/recommendType/{id}", method = RequestMethod.GET)
@@ -359,12 +357,9 @@ public class RecommendController {
 
         int week = 5;
 
-        RecommendListDTO recommend;
-
-        if (type== week) {
+        if (type == week) {
             // 周推荐菜式
-            recommend = recommendRecordService.getWeeklyRecommend(inputDate, uid);
-            return CommonResultDTO.success(recommend);
+            return CommonResultDTO.success(recommendRecordService.getWeeklyRecommend(inputDate, uid));
         }
 
         int month = 6;

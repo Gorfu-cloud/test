@@ -1,5 +1,6 @@
 package com.bkit.fatdown.dto.food;
 
+import com.bkit.fatdown.entity.TbFoodRecommend;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,31 +17,30 @@ import java.util.List;
  */
 @ApiModel
 public class RecommendTypeDTO implements Serializable {
-    @ApiModelProperty(value = "推荐食物类型种类ID", example = "1")
-    private Integer id;
+    @ApiModelProperty(value = "选择, 0 代表没有选")
+    private Integer chooseId;
     @ApiModelProperty(value = "推荐食物类型种类名称", example = "蛋白质")
     private String typeName;
     @ApiModelProperty(value = "推荐食物类型状态：0 缺乏，1 偏多", example = "0")
     private Integer status;
     @ApiModelProperty(value = "推荐食物列表")
-    private List<RecommendFoodInfoDTO> foodList;
+    private List<TbFoodRecommend> foodList;
 
     public RecommendTypeDTO() {
     }
 
-    public RecommendTypeDTO(Integer id, String typeName, Integer status, List<RecommendFoodInfoDTO> foodList) {
-        this.id = id;
+    public RecommendTypeDTO( String typeName, Integer status, List<TbFoodRecommend> foodList) {
         this.typeName = typeName;
         this.status = status;
         this.foodList = foodList;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getChooseId() {
+        return chooseId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setChooseId(Integer chooseId) {
+        this.chooseId = chooseId;
     }
 
     public String getTypeName() {
@@ -59,18 +59,17 @@ public class RecommendTypeDTO implements Serializable {
         this.status = status;
     }
 
-    public List<RecommendFoodInfoDTO> getFoodList() {
+    public List<TbFoodRecommend> getFoodList() {
         return foodList;
     }
 
-    public void setFoodList(List<RecommendFoodInfoDTO> foodList) {
+    public void setFoodList(List<TbFoodRecommend> foodList) {
         this.foodList = foodList;
     }
 
     @Override
     public String toString() {
         return "RecommendTypeDTO{" +
-                "id=" + id +
                 ", typeName='" + typeName + '\'' +
                 ", status=" + status +
                 ", foodList=" + foodList.toString() +

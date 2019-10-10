@@ -2,13 +2,16 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
-import com.bkit.fatdown.dto.food.RecommendListDTO;
+import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.TbDietDailyReport;
+import com.bkit.fatdown.entity.TbFoodRecommend;
 import com.bkit.fatdown.entity.TbFoodRecommendRecord;
 import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
+import com.bkit.fatdown.service.IFoodRecommendService;
+import com.bkit.fatdown.service.IFoodRecommendTypeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,6 +37,12 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
     @Resource
     private DietFoodServiceImpl foodService;
+
+    @Resource
+    private IFoodRecommendService recommendService;
+
+    @Resource
+    private IFoodRecommendTypeService typeService;
 
 
     /**
@@ -131,6 +140,11 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         return insert(record);
     }
 
+    @Override
+    public TbFoodRecommendRecord get(int id) {
+        return recordMapper.selectByPrimaryKey(id);
+    }
+
     /**
      * 统计推荐菜式
      *
@@ -174,7 +188,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
      * @return 多或少
      */
     @Override
-    public RecommendListDTO getWeeklyRecommend(Date date, Integer uid) {
+    public List<RecommendTypeDTO> getWeeklyRecommend(Date date, Integer uid) {
 
         // 获取每日报告
         List<TbDietDailyReport> reportList = reportService.listDietDailyReport(DateUtils.getCurrentWeekStart(date),
@@ -210,7 +224,42 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         List<Integer> lackList = getEqualsList(result, lack);
         List<Integer> moreList = getEqualsList(result, more);
 
-        return new RecommendListDTO(lackList, moreList);
+       List<RecommendTypeDTO> list  = new ArrayList<>();
+
+       list.addAll(listTypeInfo(lackList,lack,uid,date));
+       list.addAll(listTypeInfo(moreList,more,uid,date));
+
+        return list;
+    }
+
+    // 获取菜式信息与选择记录
+    private List<RecommendTypeDTO> listTypeInfo(List<Integer> list, Integer value, Integer uid, Date date){
+
+        List<RecommendTypeDTO> result = new ArrayList<>();
+
+        RecommendTypeDTO typeDTO ;
+        for (Integer type : list) {
+            typeDTO = new RecommendTypeDTO();
+            // 获取对应类型食物信息, 默认显示10条
+            List<TbFoodRecommend> foodList = recommendService.listFoodRecommend(type, 1, 10);
+            String typeName = typeService.getTypeInfo(type).getTypeName();
+            typeDTO.setFoodList(foodList);
+            typeDTO.setTypeName(typeName);
+            typeDTO.setStatus(value);
+
+            // 默认情况,0 未选
+            typeDTO.setChooseId(0);
+            // 获取选择情况
+            if (countFoodRecommendRecord(uid, date, type) > 0) {
+                int id = getFoodRecommendRecordId(uid, date, type);
+                TbFoodRecommendRecord recommendRecord = get(id);
+                typeDTO.setChooseId(recommendRecord.getFoodRecommendId());
+            }
+
+            result.add(typeDTO);
+        }
+
+        return result;
     }
 
     /**
