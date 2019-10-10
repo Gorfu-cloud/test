@@ -2,11 +2,9 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.component.ReportHelper;
+import com.bkit.fatdown.dto.diet.DietWeeklyReport;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
-import com.bkit.fatdown.entity.TbDietDailyReport;
-import com.bkit.fatdown.entity.TbFoodRecommend;
-import com.bkit.fatdown.entity.TbFoodRecommendRecord;
-import com.bkit.fatdown.entity.TbFoodRecommendRecordExample;
+import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.IFoodRecommendRecordService;
@@ -228,6 +226,23 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
        list.addAll(listTypeInfo(lackList,lack,uid,date));
        list.addAll(listTypeInfo(moreList,more,uid,date));
+
+       // 优质蛋白，动物性脂肪
+        DietWeeklyReport report =reportService.generateWeeklyReport(date, uid);
+        // 动物性脂肪
+        int animalFat =report.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation();
+        if (animalFat!=0){
+            List<Integer> integers = new ArrayList<>();
+            integers.add(8);
+            list.addAll(listTypeInfo(integers,animalFat,uid,date));
+        }
+
+        int goodProtein = report.getWeeklyNutrientsEvaluation().getGoodProtein().getEvaluation();
+        if (goodProtein!=0){
+            List<Integer> integers = new ArrayList<>();
+            integers.add(7);
+            list.addAll(listTypeInfo(integers,goodProtein,uid,date));
+        }
 
         return list;
     }
