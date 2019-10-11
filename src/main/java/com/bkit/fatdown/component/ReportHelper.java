@@ -677,46 +677,78 @@ public class ReportHelper {
         return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
     }
 
-    private static int getDailyInsolubleFibrinEvaluation(double per){
+    private static int getDailyInsolubleFibrinEvaluation(double per) {
         return contrast(per, DAILY_COL_MORE, DAILY_COL_LITTLE);
     }
 
-    private static int getDailyGoodProtein(double per){
-        return contrast(per,GOOD_PROTEIN_GOOD,GOOD_PROTEIN_BAD);
+    private static int getDailyGoodProtein(double per) {
+        return contrast(per, GOOD_PROTEIN_GOOD, GOOD_PROTEIN_BAD);
     }
 
-    private static int getDailyAnimalFat(double per){
-        return contrast(per,ANIMAL_FAT_GOOD,ANIMAL_FAT_BAD);
+    private static int getDailyAnimalFat(double per) {
+        return contrast(per, ANIMAL_FAT_GOOD, ANIMAL_FAT_BAD);
     }
 
-    private static int getDailyVitaminA(double num){
-        return contrast(num,DAILY_VITAMIN_A_GOOD_UP,DAILY_VITAMIN_A_GOOD_DOWN);
+    private static int getDailyVitaminA(double num) {
+        return contrast(num, DAILY_VITAMIN_A_GOOD_UP, DAILY_VITAMIN_A_GOOD_DOWN);
     }
 
-    private static int getDailyVitaminB1(double num){
-        return contrast(num,DAILY_VITAMIN_B1_GOOD_UP,DAILY_VITAMIN_B1_GOOD_DOWN);
+    private static int getDailyVitaminB1(double num) {
+        return contrast(num, DAILY_VITAMIN_B1_GOOD_UP, DAILY_VITAMIN_B1_GOOD_DOWN);
     }
 
-    private static int getDailyVitaminB2(double num){
-        return contrast(num,DAILY_VITAMIN_B2_GOOD_UP,DAILY_VITAMIN_B2_GOOD_DOWN);
+    private static int getDailyVitaminB2(double num) {
+        return contrast(num, DAILY_VITAMIN_B2_GOOD_UP, DAILY_VITAMIN_B2_GOOD_DOWN);
     }
 
-    private static int getDailyVitaminB3(double num){
-        return contrast(num,DAILY_VITAMIN_B3_GOOD_UP,DAILY_VITAMIN_B3_GOOD_DOWN);
+    private static int getDailyVitaminB3(double num) {
+        return contrast(num, DAILY_VITAMIN_B3_GOOD_UP, DAILY_VITAMIN_B3_GOOD_DOWN);
     }
 
-    private static int getDailyVitaminC(double num){
-        return contrast(num,DAILY_VITAMIN_C_GOOD_UP,DAILY_VITAMIN_C_GOOD_DOWN);
+    private static int getDailyVitaminC(double num) {
+        return contrast(num, DAILY_VITAMIN_C_GOOD_UP, DAILY_VITAMIN_C_GOOD_DOWN);
     }
 
-    private static int getDailyVitaminE(double num){
-        return contrast(num,DAILY_VITAMIN_E_GOOD_UP,DAILY_VITAMIN_E_GOOD_DOWN);
+    private static int getDailyVitaminE(double num) {
+        return contrast(num, DAILY_VITAMIN_E_GOOD_UP, DAILY_VITAMIN_E_GOOD_DOWN);
+    }
+
+    private static int getDailyCa(double num) {
+        return contrast(num, DAILY_CA_GOOD_UP, DAILY_CA_GOOD_DOWN);
+    }
+
+    private static int getDailyZn(double num) {
+        return contrast(num, DAILY_ZN_GOOD_UP, DAILY_ZN_GOOD_DOWN);
+    }
+
+    private static int getDailyP(double num) {
+        return contrast(num, DAILY_P_GOOD_UP, DAILY_P_GOOD_DOWN);
+    }
+
+    private static int getDailyK(double num) {
+        return contrast(num, DAILY_K_GOOD_UP, DAILY_K_GOOD_DOWN);
+    }
+
+    private static int getDailyCU(double num) {
+        return contrast(num, DAILY_CU_GOOD_UP, DAILY_CU_GOOD_DOWN);
+    }
+
+    private static int getDailySe(double num) {
+        return contrast(num, DAILY_SE_GOOD_UP, DAILY_SE_GOOD_DOWN);
+    }
+
+    private static int getDailyMg(double num) {
+        return contrast(num, DAILY_MG_GOOD_UP, DAILY_MG_GOOD_DOWN);
+    }
+
+    private static int getDailyFe(double num) {
+        return contrast(num, DAILY_FE_GOOD_UP, DAILY_FE_GOOD_DOWN);
     }
 
     // 获取每周饮食推荐
-    public static int[] getDailyLackFoodRecommend(double fatPer,double colPer,double proteinPer,double insolubleFibrinPer){
+    public static int[] getDailyLackFoodRecommend(double fatPer, double colPer, double proteinPer, double insolubleFibrinPer) {
 
-        int [] type = new int[5];
+        int[] type = new int[5];
 
         int proteinType = 1;
         int colType = 2;

@@ -34,9 +34,6 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     private IDietReportService reportService;
 
     @Resource
-    private DietFoodServiceImpl foodService;
-
-    @Resource
     private IFoodRecommendService recommendService;
 
     @Resource
