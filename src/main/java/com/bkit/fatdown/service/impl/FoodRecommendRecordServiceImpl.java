@@ -6,10 +6,7 @@ import com.bkit.fatdown.dto.diet.DietWeeklyReport;
 import com.bkit.fatdown.dto.food.RecommendTypeDTO;
 import com.bkit.fatdown.entity.*;
 import com.bkit.fatdown.mappers.TbFoodRecommendRecordMapper;
-import com.bkit.fatdown.service.IDietReportService;
-import com.bkit.fatdown.service.IFoodRecommendRecordService;
-import com.bkit.fatdown.service.IFoodRecommendService;
-import com.bkit.fatdown.service.IFoodRecommendTypeService;
+import com.bkit.fatdown.service.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,6 +35,9 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
     @Resource
     private IFoodRecommendTypeService typeService;
+
+    @Resource
+    private IDietRecordService dietRecordService;
 
 
     /**
@@ -166,7 +166,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
      * @return 推荐记录
      */
     @Override
-    public List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date,Integer reportType) {
+    public List<TbFoodRecommendRecord> listFoodRecommendRecord(int uid, Date date, Integer reportType) {
         TbFoodRecommendRecordExample example = new TbFoodRecommendRecordExample();
         example.createCriteria()
                 .andUserIdEqualTo(uid)
@@ -179,7 +179,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
      * 获取每周菜式推荐情况
      *
      * @param date 日期
-     * @param uid 用户id
+     * @param uid  用户id
      * @return 多或少
      */
     @Override
@@ -211,7 +211,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         double fibrinPer = fibrinTotal / size;
 
         // 判断是否符合标准
-        int[] result = ReportHelper.getDailyLackFoodRecommend(fatPer, proteinPer, colPer, fibrinPer);
+        List<Integer> result = ReportHelper.getDailyLackFoodRecommend(fatPer, proteinPer, colPer, fibrinPer);
         // 偏多或者偏少
         int more = 1;
         int lack = 2;
@@ -219,37 +219,37 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         List<Integer> lackList = getEqualsList(result, lack);
         List<Integer> moreList = getEqualsList(result, more);
 
-       List<RecommendTypeDTO> list  = new ArrayList<>();
+        List<RecommendTypeDTO> list = new ArrayList<>();
 
-       list.addAll(listTypeInfo(lackList,lack,uid,date));
-       list.addAll(listTypeInfo(moreList,more,uid,date));
+        list.addAll(listTypeInfo(lackList, lack, uid, date));
+        list.addAll(listTypeInfo(moreList, more, uid, date));
 
-       // 优质蛋白，动物性脂肪
-        DietWeeklyReport report =reportService.generateWeeklyReport(date, uid);
+        // 优质蛋白，动物性脂肪
+        DietWeeklyReport report = reportService.generateWeeklyReport(date, uid);
         // 动物性脂肪
-        int animalFat =report.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation();
-        if (animalFat!=0){
+        int animalFat = report.getWeeklyNutrientsEvaluation().getAnimalFat().getEvaluation();
+        if (animalFat != 0) {
             List<Integer> integers = new ArrayList<>();
             integers.add(8);
-            list.addAll(listTypeInfo(integers,animalFat,uid,date));
+            list.addAll(listTypeInfo(integers, animalFat, uid, date));
         }
 
         int goodProtein = report.getWeeklyNutrientsEvaluation().getGoodProtein().getEvaluation();
-        if (goodProtein!=0){
+        if (goodProtein != 0) {
             List<Integer> integers = new ArrayList<>();
             integers.add(7);
-            list.addAll(listTypeInfo(integers,goodProtein,uid,date));
+            list.addAll(listTypeInfo(integers, goodProtein, uid, date));
         }
 
         return list;
     }
 
     // 获取菜式信息与选择记录
-    private List<RecommendTypeDTO> listTypeInfo(List<Integer> list, Integer value, Integer uid, Date date){
+    private List<RecommendTypeDTO> listTypeInfo(List<Integer> list, Integer value, Integer uid, Date date) {
 
         List<RecommendTypeDTO> result = new ArrayList<>();
 
-        RecommendTypeDTO typeDTO ;
+        RecommendTypeDTO typeDTO;
         for (Integer type : list) {
             typeDTO = new RecommendTypeDTO();
             // 获取对应类型食物信息, 默认显示10条
@@ -275,17 +275,108 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     }
 
     /**
+     * 获取每月菜式推荐信息
+     *
+     * @param date 日期
+     * @param uid  用户编号
+     * @return 获取每月菜式推荐信息。
+     */
+    @Override
+    public List<RecommendTypeDTO> getMonthRecommend(Date date, Integer uid) {
+        // 获取一个月饮食报告
+
+        List<TbDietRecord> dietRecordList = dietRecordService.listDietMealRecord(DateUtils.getMonthStartDate(date),
+                DateUtils.getNextMonthStartDate(date), uid, 4);
+
+        double pTotal = 0;
+        double kTotal = 0;
+        double seTotal = 0;
+        double feTotal = 0;
+        double cuTotal = 0;
+        double znTotal = 0;
+        double caTotal = 0;
+        double mgTotal = 0;
+        double mnTotal = 0;
+
+        double vATotal = 0;
+        double vB1Total = 0;
+        double vB2Total = 0;
+        double vB3Total = 0;
+        double vCTotal = 0;
+        double vETotal = 0;
+
+        for (TbDietRecord record : dietRecordList) {
+            seTotal += record.getSe();
+            pTotal += record.getP();
+            feTotal += record.getFe();
+            cuTotal += record.getCu();
+            znTotal += record.getZn();
+            mgTotal += record.getMg();
+            caTotal += record.getCa();
+            mnTotal += record.getMn();
+
+            vATotal += record.getVitaminA();
+            vB1Total += record.getVitaminB1();
+            vB2Total += record.getVitaminB2();
+            vB3Total += record.getVitaminB3();
+            vCTotal += record.getVitaminC();
+            vETotal += record.getVitaminE();
+        }
+
+        int size = dietRecordList.size();
+
+        // 获取下列成分的值
+        double pPer = pTotal / size;
+        double kPer = kTotal / size;
+        double sePer = seTotal / size;
+        double fePer = feTotal / size;
+        double cuPer = cuTotal / size;
+        double znPer = znTotal / size;
+
+        double caPer = caTotal / size;
+        double mgPer = mgTotal / size;
+        double mnPer = mnTotal / size;
+
+        double vAPer = vATotal / size;
+        double vB1Per = vB1Total / size;
+        double vB2Per = vB2Total / size;
+        double vB3Per = vB3Total / size;
+        double vCPer = vCTotal / size;
+        double vEPer = vETotal / size;
+
+
+        // 判断是否符合标准
+        List<Integer> result = ReportHelper.getDailyLackFoodRecommend(vAPer, vB1Per, vB2Per, vB3Per, vCPer, vEPer, mnPer,
+                caPer, znPer, pPer, kPer, cuPer, sePer, mgPer, fePer);
+        // 偏多或者偏少
+        int more = 1;
+        int lack = 2;
+
+        List<Integer> lackList = getEqualsList(result, lack);
+        List<Integer> moreList = getEqualsList(result, more);
+
+        List<RecommendTypeDTO> list = new ArrayList<>();
+
+        list.addAll(listTypeInfo(lackList, lack, uid, date));
+        list.addAll(listTypeInfo(moreList, more, uid, date));
+
+        list.addAll(getWeeklyRecommend(date, uid));
+
+        return list;
+    }
+
+    /**
      * 获取相同值的下标
      *
      * @param result 数组
      * @param value  相同值
      * @return 相同值的下标
      */
-    private List<Integer> getEqualsList(int[] result, int value) {
+    private List<Integer> getEqualsList(List<Integer> result, int value) {
         List<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i < result.length; i++) {
-            if (result[i] == value) {
+        for (int i = 0; i < result.size(); i++) {
+            if (result.get(i) == value) {
                 list.add(i);
             }
         }

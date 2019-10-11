@@ -1,12 +1,12 @@
 package com.bkit.fatdown.component;
 
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 import com.bkit.fatdown.dto.diet.DietDailyReport;
 import com.bkit.fatdown.dto.diet.DietMealReport;
 import com.bkit.fatdown.dto.diet.DietMonthReport;
 import com.bkit.fatdown.dto.diet.DietWeeklyReport;
 import com.bkit.fatdown.dto.diet.common.*;
 import com.bkit.fatdown.entity.*;
-import com.bkit.fatdown.common.utils.DataTransferUtils;
 
 import java.util.*;
 
@@ -746,19 +746,78 @@ public class ReportHelper {
     }
 
     // 获取每周饮食推荐
-    public static int[] getDailyLackFoodRecommend(double fatPer, double colPer, double proteinPer, double insolubleFibrinPer) {
+    public static List<Integer> getDailyLackFoodRecommend(double fatPer, double colPer, double proteinPer, double insolubleFibrinPer) {
 
-        int[] type = new int[5];
+        List<Integer> type = new ArrayList<>();
 
         int proteinType = 1;
         int colType = 2;
         int fatType = 3;
         int insolubleFibrinType = 4;
 
-        type[fatType] = getDailyFatEvaluation(fatPer);
-        type[colType] = getDailyColEvaluation(colPer);
-        type[proteinType] = getDailyProteinEvaluation(proteinPer);
-        type[insolubleFibrinType] = getDailyInsolubleFibrinEvaluation(insolubleFibrinPer);
+        type.set(fatType, getDailyFatEvaluation(fatPer));
+        type.set(colType, getDailyColEvaluation(colPer));
+        type.set(proteinType, getDailyProteinEvaluation(proteinPer));
+        type.set(insolubleFibrinType, getDailyInsolubleFibrinEvaluation(insolubleFibrinPer));
+
+        return type;
+    }
+
+    private static List<Integer> listDailyLackVitamin(double vA, double vB1, double vB2, double vB3, double vC, double vE) {
+        List<Integer> type = new ArrayList<>();
+
+        int vAType = 18;
+        int vB1Type = 19;
+        int vB2Type = 20;
+        int vB3Type = 21;
+        int vCType = 22;
+        int vEType = 23;
+
+        type.set(vAType, getDailyVitaminA(vA));
+        type.set(vB1Type, getDailyVitaminB1(vB1));
+        type.set(vB2Type, getDailyVitaminB2(vB2));
+        type.set(vB3Type, getDailyVitaminA(vB3));
+        type.set(vCType, getDailyVitaminC(vC));
+        type.set(vEType, getDailyVitaminE(vE));
+
+        return type;
+
+    }
+
+    private static List<Integer> listDailyLackMiner(double mn, double ca, double zn, double p, double k, double cu, double se, double mg, double fe) {
+        List<Integer> type = new ArrayList<>();
+
+        int kType = 9;
+        int mgType = 10;
+        int feType = 11;
+        int znType = 12;
+        int seType = 13;
+        int cuType = 14;
+        int mnType = 15;
+        int caType = 16;
+        int pType = 17;
+
+        // 设置类型
+        type.set(kType, getDailyK(k));
+        type.set(mgType, getDailyK(mg));
+        type.set(caType, getDailyK(ca));
+        type.set(pType, getDailyK(p));
+        type.set(mnType, getDailyK(mn));
+        type.set(feType, getDailyK(fe));
+        type.set(cuType, getDailyK(cu));
+        type.set(seType, getDailyK(se));
+        type.set(znType, getDailyK(zn));
+
+        return type;
+    }
+
+    public static List<Integer> getDailyLackFoodRecommend(double vA, double vB1, double vB2, double vB3, double vC, double vE, double mn,
+                                                          double ca, double zn, double p, double k, double cu, double se, double mg, double fe) {
+
+        List<Integer> type = new ArrayList<>();
+
+        type.addAll(listDailyLackMiner(mn, ca, zn, p, k, cu, se, mg, fe));
+        type.addAll(listDailyLackVitamin(vA, vB1, vB2, vB3, vC, vE));
 
         return type;
     }

@@ -90,10 +90,18 @@ public interface IFoodRecommendRecordService {
     int countFoodRecommendRecordByDate(int uid, Date date,Integer reportType);
 
     /**
-     *
-     * @param date
-     * @param uid
-     * @return
+     *获取每周菜式推荐信息
+     * @param date 日期
+     * @param uid 用户编号
+     * @return 获取每周菜式推荐信息
      */
     List<RecommendTypeDTO> getWeeklyRecommend(Date date, Integer uid);
+
+    /**
+     * 获取每月菜式推荐信息
+     * @param date 日期
+     * @param uid 用户编号
+     * @return 获取每月菜式推荐信息。
+     */
+    List<RecommendTypeDTO> getMonthRecommend(Date date, Integer uid);
 }
