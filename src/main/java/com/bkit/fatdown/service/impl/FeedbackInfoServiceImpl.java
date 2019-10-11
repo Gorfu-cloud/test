@@ -4,6 +4,7 @@ import com.bkit.fatdown.entity.TbFeedbackInfo;
 import com.bkit.fatdown.entity.TbFeedbackInfoExample;
 import com.bkit.fatdown.mappers.TbFeedbackInfoMapper;
 import com.bkit.fatdown.service.IFeedbackInfoService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -89,6 +90,7 @@ public class FeedbackInfoServiceImpl implements IFeedbackInfoService {
      */
     @Override
     public List<TbFeedbackInfo> listFeedbackInfoByPage(Integer uid, Integer typeId, Integer status, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         TbFeedbackInfoExample example = new TbFeedbackInfoExample();
 
         TbFeedbackInfoExample.Criteria criteria = example.createCriteria();
