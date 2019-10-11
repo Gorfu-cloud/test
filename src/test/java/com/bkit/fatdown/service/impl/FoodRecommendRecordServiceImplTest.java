@@ -27,4 +27,11 @@ public class FoodRecommendRecordServiceImplTest {
         int uid = 65;
         System.out.println(service.getWeeklyRecommend(date,uid));
     }
+
+    @Test
+    public void getMonthRecommend() {
+        Date date = DateUtil.parseDate("2019-08-15");
+        int uid = 65;
+        System.out.println(service.getMonthRecommend(date,uid));
+    }
 }
