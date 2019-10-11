@@ -89,6 +89,8 @@ public interface IFoodRecommendRecordService {
      */
     int countFoodRecommendRecordByDate(int uid, Date date,Integer reportType);
 
+    List<RecommendTypeDTO> getDailyRecommend(Date date, Integer uid);
+
     /**
      *获取每周菜式推荐信息
      * @param date 日期

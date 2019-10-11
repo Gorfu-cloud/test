@@ -178,6 +178,20 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     }
 
     /**
+     * 获取每天菜式推荐情况
+     *
+     * @param date 日期
+     * @param uid  用户id
+     * @return 多或少
+     */
+    @Override
+    public List<RecommendTypeDTO> getDailyRecommend(Date date, Integer uid) {
+        Integer daily = 4;
+
+        return new ArrayList<>(getMainFoodRecommend(date, uid,daily));
+    }
+
+    /**
      * 获取每周菜式推荐情况
      *
      * @param date 日期
