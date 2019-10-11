@@ -214,14 +214,14 @@ public class RecommendController {
     @ApiOperation("获取推荐菜式选择记录")
     @CrossOrigin
     @RequestMapping(value = "/recommendRecords", method = RequestMethod.GET)
-    public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date,@RequestParam Integer type) {
+    public CommonResultDTO<List<TbFoodRecommendRecord>> listFoodRecommendRecord(@RequestParam int uid, @RequestParam String date, @RequestParam Integer type) {
         if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
         }
 
         Date inputDate = DateUtils.string2Date(date);
 
-        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate,type);
+        List<TbFoodRecommendRecord> recordList = recommendRecordService.listFoodRecommendRecord(uid, inputDate, type);
 
         if (recordList.size() == DATA_NOT_EXIST) {
             return CommonResultDTO.failed("记录不存在");
@@ -347,23 +347,24 @@ public class RecommendController {
     @CrossOrigin
     @RequestMapping(value = "/recommendTypes/{uid}", method = RequestMethod.GET)
     public CommonResultDTO listRecommendType(@PathVariable Integer uid, @RequestParam String date,
-                                                                     @RequestParam Integer type) {
+                                             @RequestParam Integer type) {
 
         Date inputDate = DateUtils.string2Date(date);
 
-        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null ) {
+        if (basicInfoService.countById(uid) == DATA_NOT_EXIST || date == null) {
             return CommonResultDTO.validateFailed("uid/date参数错误");
         }
 
         int week = 5;
+        int month = 6;
 
         if (type == week) {
             // 周推荐菜式
             return CommonResultDTO.success(recommendRecordService.getWeeklyRecommend(inputDate, uid));
+        } else if (type == month) {
+            // 月推荐菜式
+            return CommonResultDTO.success(recommendRecordService.getMonthRecommend(inputDate, uid));
         }
-
-        int month = 6;
-
 
         return CommonResultDTO.failed();
     }

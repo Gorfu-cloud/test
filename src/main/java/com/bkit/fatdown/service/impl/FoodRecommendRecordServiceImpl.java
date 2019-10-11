@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @file: FoodRecommendRecordServiceImpl
@@ -185,10 +186,33 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
      */
     @Override
     public List<RecommendTypeDTO> getWeeklyRecommend(Date date, Integer uid) {
+        Integer weekly = 5;
+        List<RecommendTypeDTO> list = new ArrayList<>(getMainFoodRecommend(date, uid, weekly));
+
+        // 优质蛋白，动物性脂肪
+        DietWeeklyReport report = reportService.generateWeeklyReport(date, uid);
+        list.addAll(listAnimalFatAndGoodProtein(report.getWeeklyNutrientsEvaluation(), uid, date));
+
+        return list;
+    }
+
+    private List<RecommendTypeDTO> getMainFoodRecommend(Date date, Integer uid, Integer reportType) {
+
+        List<TbDietDailyReport> reportList;
+        int weekly = 5;
+        int monthly =6;
 
         // 获取每日报告
-        List<TbDietDailyReport> reportList = reportService.listDietDailyReport(DateUtils.getCurrentWeekStart(date),
-                DateUtils.getCurrentWeekEnd(date), uid);
+        if (reportType == weekly) {
+            reportList = reportService.listDietDailyReport(DateUtils.getCurrentWeekStart(date),
+                    DateUtils.getCurrentWeekEnd(date), uid);
+        } else if (reportType == monthly){
+            reportList = reportService.listDietDailyReport(DateUtils.getMonthStartDate(date),
+                    DateUtils.getNextMonthStartDate(date), uid);
+        } else {
+            reportList = reportService.listDietDailyReport(DateUtils.getDateStart(date),
+                    DateUtils.getDateEnd(date), uid);
+        }
 
         // 主要营养素
         double fatTotal = 0;
@@ -212,7 +236,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         double fibrinPer = fibrinTotal / size;
 
         // 判断是否符合标准
-        List<Integer> result = ReportHelper.getDailyLackFoodRecommend(fatPer, proteinPer, colPer, fibrinPer);
+        Map<Integer, Integer> result = ReportHelper.getDailyLackFoodRecommend(fatPer, proteinPer, colPer, fibrinPer);
         // 偏多或者偏少
         int more = 1;
         int lack = 2;
@@ -224,17 +248,11 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
         list.addAll(listTypeInfo(lackList, lack, uid, date));
         list.addAll(listTypeInfo(moreList, more, uid, date));
-
-        // 优质蛋白，动物性脂肪
-        DietWeeklyReport report = reportService.generateWeeklyReport(date, uid);
-
-        list.addAll(listAnimalFatAndGoodProtein(report.getWeeklyNutrientsEvaluation(),uid,date));
-
         return list;
     }
 
     // 优质蛋白，动物性脂肪
-    private List<RecommendTypeDTO> listAnimalFatAndGoodProtein(WeeklyNutrientsEvaluation weeklyNutrientsEvaluation,Integer uid, Date date){
+    private List<RecommendTypeDTO> listAnimalFatAndGoodProtein(WeeklyNutrientsEvaluation weeklyNutrientsEvaluation, Integer uid, Date date) {
         List<RecommendTypeDTO> list = new ArrayList<>();
 
         int animalFat = weeklyNutrientsEvaluation.getAnimalFat().getEvaluation();
@@ -267,7 +285,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
             typeDTO.setFoodList(foodList);
             typeDTO.setTypeName(typeName);
             typeDTO.setStatus(value);
-
+            typeDTO.setTypeId(type);
             // 默认情况,0 未选
             typeDTO.setChooseId(0);
             // 获取选择情况
@@ -323,6 +341,7 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
             mgTotal += record.getMg();
             caTotal += record.getCa();
             mnTotal += record.getMn();
+            kTotal += record.getK();
 
             vATotal += record.getVitaminA();
             vB1Total += record.getVitaminB1();
@@ -355,8 +374,9 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
 
 
         // 判断是否符合标准
-        List<Integer> result = ReportHelper.getDailyLackFoodRecommend(vAPer, vB1Per, vB2Per, vB3Per, vCPer, vEPer, mnPer,
+        Map<Integer, Integer> result = ReportHelper.getDailyLackFoodRecommend(vAPer, vB1Per, vB2Per, vB3Per, vCPer, vEPer, mnPer,
                 caPer, znPer, pPer, kPer, cuPer, sePer, mgPer, fePer);
+
         // 偏多或者偏少
         int more = 1;
         int lack = 2;
@@ -364,12 +384,19 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         List<Integer> lackList = getEqualsList(result, lack);
         List<Integer> moreList = getEqualsList(result, more);
 
-        List<RecommendTypeDTO> list = new ArrayList<>();
+        List<RecommendTypeDTO> list = new ArrayList<>(30);
 
+        int monthly = 6;
+        // 添加主要营养素和优质蛋白质，动物性脂肪。
+        list.addAll(getMainFoodRecommend(date, uid,monthly));
+
+        // 优质蛋白，动物性脂肪
+        DietWeeklyReport report = reportService.generateMonthReport(date, uid);
+        list.addAll(listAnimalFatAndGoodProtein(report.getWeeklyNutrientsEvaluation(), uid, date));
+
+        // 设置月评价情况
         list.addAll(listTypeInfo(lackList, lack, uid, date));
         list.addAll(listTypeInfo(moreList, more, uid, date));
-
-        list.addAll(getWeeklyRecommend(date, uid));
 
         return list;
     }
@@ -377,16 +404,17 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     /**
      * 获取相同值的下标
      *
-     * @param result 数组
+     * @param result map
      * @param value  相同值
      * @return 相同值的下标
      */
-    private List<Integer> getEqualsList(List<Integer> result, int value) {
-        List<Integer> list = new ArrayList<>();
+    private List<Integer> getEqualsList(Map<Integer, Integer> result, int value) {
 
-        for (int i = 0; i < result.size(); i++) {
-            if (result.get(i) == value) {
-                list.add(i);
+        List<Integer> list = new ArrayList<>(30);
+
+        for (Map.Entry<Integer, Integer> entry : result.entrySet()) {
+            if (entry.getValue() == value) {
+                list.add(entry.getKey());
             }
         }
 

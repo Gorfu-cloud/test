@@ -21,6 +21,8 @@ public class RecommendTypeDTO implements Serializable {
     private Integer chooseId;
     @ApiModelProperty(value = "推荐食物类型种类名称", example = "蛋白质")
     private String typeName;
+    @ApiModelProperty(value = "推荐食物类型编号",example = "1 蛋白质")
+    private Integer typeId;
     @ApiModelProperty(value = "推荐食物类型状态：0 缺乏，1 偏多", example = "0")
     private Integer status;
     @ApiModelProperty(value = "推荐食物列表")
@@ -29,10 +31,12 @@ public class RecommendTypeDTO implements Serializable {
     public RecommendTypeDTO() {
     }
 
-    public RecommendTypeDTO( String typeName, Integer status, List<TbFoodRecommend> foodList) {
-        this.typeName = typeName;
-        this.status = status;
-        this.foodList = foodList;
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public Integer getChooseId() {
@@ -70,9 +74,11 @@ public class RecommendTypeDTO implements Serializable {
     @Override
     public String toString() {
         return "RecommendTypeDTO{" +
+                "chooseId=" + chooseId +
                 ", typeName='" + typeName + '\'' +
+                ", typeId=" + typeId +
                 ", status=" + status +
-                ", foodList=" + foodList.toString() +
+                ", foodList=" + foodList +
                 '}';
     }
 }

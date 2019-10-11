@@ -746,25 +746,25 @@ public class ReportHelper {
     }
 
     // 获取每周饮食推荐
-    public static List<Integer> getDailyLackFoodRecommend(double fatPer, double colPer, double proteinPer, double insolubleFibrinPer) {
+    public static Map<Integer,Integer> getDailyLackFoodRecommend(double fatPer, double colPer, double proteinPer, double insolubleFibrinPer) {
 
-        List<Integer> type = new ArrayList<>(30);
+        Map<Integer,Integer> type = new HashMap<>(10);
 
         int proteinType = 1;
         int colType = 2;
         int fatType = 3;
         int insolubleFibrinType = 4;
 
-        type.add(fatType, getDailyFatEvaluation(fatPer));
-        type.add(colType, getDailyColEvaluation(colPer));
-        type.add(proteinType, getDailyProteinEvaluation(proteinPer));
-        type.add(insolubleFibrinType, getDailyInsolubleFibrinEvaluation(insolubleFibrinPer));
+        type.put(fatType, getDailyFatEvaluation(fatPer));
+        type.put(colType, getDailyColEvaluation(colPer));
+        type.put(proteinType, getDailyProteinEvaluation(proteinPer));
+        type.put(insolubleFibrinType, getDailyInsolubleFibrinEvaluation(insolubleFibrinPer));
 
         return type;
     }
 
-    private static List<Integer> listDailyLackVitamin(double vA, double vB1, double vB2, double vB3, double vC, double vE) {
-        List<Integer> type = new ArrayList<>(30);
+    private static  Map<Integer,Integer> listDailyLackVitamin(double vA, double vB1, double vB2, double vB3, double vC, double vE) {
+        Map<Integer,Integer> type = new HashMap<>(15);
 
         int vAType = 18;
         int vB1Type = 19;
@@ -773,19 +773,19 @@ public class ReportHelper {
         int vCType = 22;
         int vEType = 23;
 
-        type.add(vAType, getDailyVitaminA(vA));
-        type.add(vB1Type, getDailyVitaminB1(vB1));
-        type.add(vB2Type, getDailyVitaminB2(vB2));
-        type.add(vB3Type, getDailyVitaminA(vB3));
-        type.add(vCType, getDailyVitaminC(vC));
-        type.add(vEType, getDailyVitaminE(vE));
+        type.put(vAType, getDailyVitaminA(vA));
+        type.put(vB1Type, getDailyVitaminB1(vB1));
+        type.put(vB2Type, getDailyVitaminB2(vB2));
+        type.put(vB3Type, getDailyVitaminB3(vB3));
+        type.put(vCType, getDailyVitaminC(vC));
+        type.put(vEType, getDailyVitaminE(vE));
 
         return type;
 
     }
 
-    private static List<Integer> listDailyLackMiner(double mn, double ca, double zn, double p, double k, double cu, double se, double mg, double fe) {
-        List<Integer> type = new ArrayList<>(30);
+    private static Map<Integer,Integer> listDailyLackMiner(double mn, double ca, double zn, double p, double k, double cu, double se, double mg, double fe) {
+        Map<Integer,Integer> type = new HashMap<>(15);
 
         int kType = 9;
         int mgType = 10;
@@ -793,31 +793,31 @@ public class ReportHelper {
         int znType = 12;
         int seType = 13;
         int cuType = 14;
-        int mnType = 15;
+//        int mnType = 15;
         int caType = 16;
         int pType = 17;
 
         // 设置类型
-        type.add(kType, getDailyK(k));
-        type.add(mgType, getDailyK(mg));
-        type.add(caType, getDailyK(ca));
-        type.add(pType, getDailyK(p));
-        type.add(mnType, getDailyK(mn));
-        type.add(feType, getDailyK(fe));
-        type.add(cuType, getDailyK(cu));
-        type.add(seType, getDailyK(se));
-        type.add(znType, getDailyK(zn));
+        type.put(kType, getDailyK(k));
+        type.put(mgType, getDailyMg(mg));
+        type.put(caType, getDailyCa(ca));
+        type.put(pType, getDailyP(p));
+//        type.put(mnType, getDailyM(mn));
+        type.put(feType, getDailyFe(fe));
+        type.put(cuType, getDailyCU(cu));
+        type.put(seType, getDailySe(se));
+        type.put(znType, getDailyZn(zn));
 
         return type;
     }
 
-    public static List<Integer> getDailyLackFoodRecommend(double vA, double vB1, double vB2, double vB3, double vC, double vE, double mn,
+    public static Map<Integer,Integer> getDailyLackFoodRecommend(double vA, double vB1, double vB2, double vB3, double vC, double vE, double mn,
                                                           double ca, double zn, double p, double k, double cu, double se, double mg, double fe) {
 
-        List<Integer> type = new ArrayList<>(30);
+        Map<Integer,Integer> type = new HashMap<>(15);
 
-        type.addAll(listDailyLackMiner(mn, ca, zn, p, k, cu, se, mg, fe));
-        type.addAll(listDailyLackVitamin(vA, vB1, vB2, vB3, vC, vE));
+        type.putAll(listDailyLackMiner(mn, ca, zn, p, k, cu, se, mg, fe));
+        type.putAll(listDailyLackVitamin(vA, vB1, vB2, vB3, vC, vE));
 
         return type;
     }
