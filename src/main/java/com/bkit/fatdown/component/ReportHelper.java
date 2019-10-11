@@ -537,7 +537,6 @@ public class ReportHelper {
         evaluation.setScore(score);
     }
 
-
     private static void setEvaluation(TotalEvaluation evaluation, double per, double badRationalUpper, double badRationalLower, double rationalUpper, double rationalLower) {
         evaluation.setTotal(per);
         if (per > badRationalUpper || per < badRationalLower) {
@@ -690,29 +689,29 @@ public class ReportHelper {
         return contrast(per,ANIMAL_FAT_GOOD,ANIMAL_FAT_BAD);
     }
 
-//    private static int getDailyVitaminA(){
-//
-//    }
-//
-//    private static int getDailyVitaminB1(){
-//
-//    }
-//
-//    private static int getDailyVitaminB2(){
-//
-//    }
-//
-//    private static int getDailyVitaminB3(){
-//
-//    }
-//
-//    private static int getDailyVitaminC(){
-//
-//    }
-//
-//    private static int getDailyVitaminE(){
-//
-//    }
+    private static int getDailyVitaminA(double num){
+        return contrast(num,DAILY_VITAMIN_A_GOOD_UP,DAILY_VITAMIN_A_GOOD_DOWN);
+    }
+
+    private static int getDailyVitaminB1(double num){
+        return contrast(num,DAILY_VITAMIN_B1_GOOD_UP,DAILY_VITAMIN_B1_GOOD_DOWN);
+    }
+
+    private static int getDailyVitaminB2(double num){
+        return contrast(num,DAILY_VITAMIN_B2_GOOD_UP,DAILY_VITAMIN_B2_GOOD_DOWN);
+    }
+
+    private static int getDailyVitaminB3(double num){
+        return contrast(num,DAILY_VITAMIN_B3_GOOD_UP,DAILY_VITAMIN_B3_GOOD_DOWN);
+    }
+
+    private static int getDailyVitaminC(double num){
+        return contrast(num,DAILY_VITAMIN_C_GOOD_UP,DAILY_VITAMIN_C_GOOD_DOWN);
+    }
+
+    private static int getDailyVitaminE(double num){
+        return contrast(num,DAILY_VITAMIN_E_GOOD_UP,DAILY_VITAMIN_E_GOOD_DOWN);
+    }
 
     // 获取每周饮食推荐
     public static int[] getDailyLackFoodRecommend(double fatPer,double colPer,double proteinPer,double insolubleFibrinPer){
