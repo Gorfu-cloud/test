@@ -80,10 +80,9 @@ public class FeedbackInfoServiceImpl implements IFeedbackInfoService {
     }
 
     /**
-     *
-     * @param uid 管理员名称
-     * @param typeId 类型
-     * @param status 状态 -1 所有, 0 打开, 1 关闭
+     * @param uid      管理员名称
+     * @param typeId   类型
+     * @param status   状态 -1 所有, 0 打开, 1 关闭
      * @param pageNum
      * @param pageSize
      * @return
@@ -94,14 +93,20 @@ public class FeedbackInfoServiceImpl implements IFeedbackInfoService {
 
         TbFeedbackInfoExample.Criteria criteria = example.createCriteria();
 
-        if (uid != null){
+        if (uid != null) {
             criteria.andUserIdEqualTo(uid);
         }
 
-//        if ()
+        if (typeId != -1) {
+            criteria.andTypeIdEqualTo(typeId);
+        }
+
+        if (status != -1) {
+            criteria.andStatusEqualTo(status);
+        }
 
         // 检索text类型字段
-        return infoMapper.selectByExample(example);
+        return infoMapper.selectByExampleWithBLOBs(example);
     }
 
     /**
