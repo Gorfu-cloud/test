@@ -380,7 +380,7 @@ public class FeedbackController {
         String typeName = map.get(TYPE_NAME_STR);
         Integer status = Integer.valueOf(map.get(STATUS_STR));
 
-        if (typeService.count(typeName) != DATA_NOT_EXIST || status < 0 || status > 1 || typeName.isEmpty()
+        if (status < 0 || status > 1 || typeName.isEmpty()
                 || typeService.count(typeId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed();
         }
