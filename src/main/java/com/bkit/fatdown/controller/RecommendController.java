@@ -189,7 +189,8 @@ public class RecommendController {
     @CrossOrigin
     @RequestMapping(value = "/recommendRecord/{uid}", method = RequestMethod.GET)
     public CommonResultDTO addFoodRecommendRecord(@PathVariable int uid, @RequestParam Integer foodId,
-                                                  @RequestParam String date, @RequestParam Integer foodType) {
+                                                  @RequestParam String date, @RequestParam Integer foodType,
+                                                  @RequestParam Integer reportType) {
         if (date == null || basicInfoService.countById(uid) == DATA_NOT_EXIST
                 || recommendService.countFoodRecommend(foodId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("uid/foodId 错误");
@@ -202,6 +203,7 @@ public class RecommendController {
         recommendRecord.setUserId(uid);
         recommendRecord.setFoodType(foodType);
         recommendRecord.setGmtCreate(inputDate);
+        recommendRecord.setReportType(reportType);
 
         // 更新记录，不存在时，创建新记录
         if (recommendRecordService.updateOnlyRecord(recommendRecord)) {

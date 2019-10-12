@@ -101,6 +101,25 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     }
 
     /**
+     * 获取记录id
+     *
+     * @param uid      用户id
+     * @param date     记录日期
+     * @param foodType 菜式类型
+     * @return 记录id
+     */
+    @Override
+    public int getFoodRecommendRecordId(int uid, Date date, int foodType,int reportType) {
+        TbFoodRecommendRecordExample example = new TbFoodRecommendRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andFoodTypeEqualTo(foodType)
+                .andReportTypeEqualTo(reportType)
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
+        return recordMapper.selectByExample(example).get(0).getId();
+    }
+
+    /**
      * 获取某天，推荐菜式记录数
      *
      * @param uid        用户id
@@ -118,6 +137,9 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         return (int) recordMapper.countByExample(example);
     }
 
+
+
+
     /**
      * 更新菜式，选择记录 不存在时，创建记录
      *
@@ -127,8 +149,8 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
     @Override
     public boolean updateOnlyRecord(TbFoodRecommendRecord record) {
         // 记录存在，更新记录
-        if (countFoodRecommendRecord(record.getUserId(), record.getGmtCreate(), record.getFoodType()) > 0) {
-            int id = getFoodRecommendRecordId(record.getUserId(), record.getGmtCreate(), record.getFoodType());
+        if (countFoodRecommendRecord(record.getUserId(), record.getGmtCreate(), record.getFoodType(),record.getReportType()) > 0) {
+            int id = getFoodRecommendRecordId(record.getUserId(), record.getGmtCreate(), record.getFoodType(),record.getReportType());
             record.setId(id);
             record.setGmtModified(new Date());
             return update(record);
@@ -156,6 +178,25 @@ public class FoodRecommendRecordServiceImpl implements IFoodRecommendRecordServi
         example.createCriteria()
                 .andUserIdEqualTo(uid)
                 .andFoodTypeEqualTo(foodType)
+                .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
+        return (int) recordMapper.countByExample(example);
+    }
+
+    /**
+     * 统计推荐菜式
+     *
+     * @param uid      用户id
+     * @param date     记录日期
+     * @param foodType 菜式类型
+     * @return 返回结果
+     */
+    @Override
+    public int countFoodRecommendRecord(int uid, Date date, int foodType, int reportType) {
+        TbFoodRecommendRecordExample example = new TbFoodRecommendRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andFoodTypeEqualTo(foodType)
+                .andReportTypeEqualTo(reportType)
                 .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
         return (int) recordMapper.countByExample(example);
     }

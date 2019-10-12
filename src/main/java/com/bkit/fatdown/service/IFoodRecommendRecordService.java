@@ -40,6 +40,8 @@ public interface IFoodRecommendRecordService {
      */
     boolean delete(int id);
 
+    int countFoodRecommendRecord(int uid, Date date, int foodType, int reportType);
+
     /**
      * 查找推荐菜式记录
      *
@@ -78,6 +80,8 @@ public interface IFoodRecommendRecordService {
      * @return 创建结果
      */
     boolean updateOnlyRecord(TbFoodRecommendRecord record);
+
+    int getFoodRecommendRecordId(int uid, Date date, int foodType, int reportType);
 
     /**
      * 获取某天，推荐菜式记录数
