@@ -1,12 +1,17 @@
 package com.bkit.fatdown.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.ITimelineService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,43 +31,38 @@ public class TimelineController {
     @Resource
     private ITimelineService timelineService;
 
+    @Resource
+    private IDietReportService reportService;
+
+    @ApiOperation("个人: 查看一天能量变化")
     @RequestMapping(value = "/energy/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyEnergy(@RequestParam String date, @PathVariable Integer uid) {
 
-        if (date == null || uid ==null) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(inputDate,uid)<3) {
             return CommonResultDTO.validateFailed();
         }
 
-        Map<String,Double> map = timelineService.getDailyEnergy(uid,DateUtils.string2Date(date));
-
-        if (map==null){
-            return CommonResultDTO.validateFailed();
+        Double[] energy = timelineService.getDailyEnergy(uid,inputDate);
+        Integer[] evaluation = timelineService.getDailyEnergyEvaluation(uid, inputDate);
+        if (energy == null) {
+            return CommonResultDTO.failed();
         }
+
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("energy", energy);
+        map.put("evaluation", evaluation);
 
         return CommonResultDTO.success(map);
     }
 
-    @RequestMapping(value = "/energy/evaluation/daily/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO getDailyEnergyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
 
-        if (date == null || uid ==null) {
-            return CommonResultDTO.validateFailed();
-        }
 
-        Map<String,Integer> map = timelineService.getDailyEnergyEvaluation(uid,DateUtils.string2Date(date));
-
-        if (map==null){
-            return CommonResultDTO.validateFailed();
-        }
-
-        return CommonResultDTO.success(map);
-    }
-
-    public CommonResultDTO getMonthEnergy(){
-        return null;
-    }
-
-    public CommonResultDTO getMonthEnergyEvaluation(){
-        return null;
-    }
+//    public CommonResultDTO getMonthEnergy(){
+//        return null;
+//    }
+//
+//    public CommonResultDTO getMonthEnergyEvaluation(){
+//        return null;
+//    }
 }

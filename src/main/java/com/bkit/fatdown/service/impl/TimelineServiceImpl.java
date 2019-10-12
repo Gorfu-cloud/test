@@ -31,34 +31,24 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当天三餐能量
      */
     @Override
-    public Map<String, Double> getDailyEnergy(Integer uid, Date date) {
-        Map<String, Double> map = new HashMap<>(3);
+    public Double[] getDailyEnergy(Integer uid, Date date) {
 
         if (reportService.countDietMealReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid) == 0) {
             return null;
         }
 
-        TbDietMealReport breakfast = reportService.getDietMealReport(date, 0, uid);
-        TbDietMealReport lunch = reportService.getDietMealReport(date, 1, uid);
-        TbDietMealReport dinner = reportService.getDietMealReport(date, 2, uid);
+        Double[] meals = new Double[3];
 
-        map.put("breakfast", 0.0);
-        map.put("lunch", 0.0);
-        map.put("dinner", 0.0);
+        int dinnerType = 2;
 
-        if (breakfast != null) {
-            map.put("breakfast", breakfast.getRealEnergy());
+        for (int i = 0; i <= dinnerType; i++) {
+            TbDietMealReport report = reportService.getDietMealReport(date, i, uid);
+            if (report != null) {
+                meals[i] = report.getRealEnergy();
+            }
         }
 
-        if (lunch != null) {
-            map.put("lunch", lunch.getRealEnergy());
-        }
-
-        if (dinner != null) {
-            map.put("dinner", dinner.getRealEnergy());
-        }
-
-        return map;
+        return meals;
     }
 
     /**
@@ -69,35 +59,24 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当天三餐能量评价
      */
     @Override
-    public Map<String, Integer> getDailyEnergyEvaluation(Integer uid, Date date) {
+    public Integer[] getDailyEnergyEvaluation(Integer uid, Date date) {
 
         if (reportService.countDietMealReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid) == 0) {
             return null;
         }
 
-        Map<String, Integer> map = new HashMap<>(3);
+        Integer[] evaluations = new Integer[3];
 
-        if (reportService.countDietMealReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid) == 0) {
-            return null;
+        int dinnerType = 2;
+
+        for (int i = 0; i <= dinnerType; i++) {
+            TbDietMealReport report = reportService.getDietMealReport(date, i, uid);
+            if (report != null) {
+                evaluations[i] = report.getEnergyEvaluation();
+            }
         }
 
-        TbDietMealReport breakfast = reportService.getDietMealReport(date, 0, uid);
-        TbDietMealReport lunch = reportService.getDietMealReport(date, 1, uid);
-        TbDietMealReport dinner = reportService.getDietMealReport(date, 2, uid);
-
-        if (breakfast != null) {
-            map.put("breakfast", breakfast.getEnergyEvaluation());
-        }
-
-        if (lunch != null) {
-            map.put("lunch", lunch.getEnergyEvaluation());
-        }
-
-        if (dinner != null) {
-            map.put("dinner", dinner.getEnergyEvaluation());
-        }
-
-        return map;
+        return evaluations;
     }
 
     /**
