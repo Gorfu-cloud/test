@@ -250,7 +250,7 @@ public class FeedbackController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("更新反馈回复信息内容（map中填写，content")
+    @ApiOperation("更新反馈回复,信息内容（map中填写，content")
     @CrossOrigin
     @RequestMapping(value = "/reply/content/{replyId}", method = RequestMethod.PUT)
     public CommonResultDTO updateReplyContent(@PathVariable Integer replyId, @RequestBody HashMap<String, String> map) {

@@ -23,6 +23,10 @@ public class TimelineServiceImpl implements ITimelineService {
     @Resource
     private IDietReportService reportService;
 
+    private final static Integer BREAKFAST = 0;
+    private final static Integer LUNCH = 1;
+    private final static Integer DINNER = 2;
+
     /**
      * 获取每天能量
      *
@@ -87,29 +91,19 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当周能量
      */
     @Override
-    public Map<String, List<Double>> getWeeklyEnergy(Integer uid, Date date) {
-        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid) == 0) {
-            return null;
-        }
+    public Map<String, Double[]> getWeeklyEnergy(Integer uid, Date date) {
+        Map<String, Double[]> map = new HashMap<>(3);
 
-        Map<String, List<Double>> map = new HashMap<>(3);
+        // 获取日期循环
+        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
 
-        List<Double> breakfast = new ArrayList<>(), lunch = new ArrayList<>(), dinner = new ArrayList<>();
-
-        List<TbDietMealReport> reportList = reportService.listDietMealReport(DateUtils.getCurrentWeekStart(date), DateUtils.getCurrentWeekEnd(date), uid);
-
-        for (TbDietMealReport report : reportList) {
-            int type = report.getType();
-            double energy = report.getRealEnergy();
-
-        }
-
-        if (!breakfast.isEmpty()) {
-            map.put("breakfast", breakfast);
-        }
+        map.put("breakfast", getWeeklyEnergyByType(weekStart, uid, BREAKFAST));
+        map.put("lunch", getWeeklyEnergyByType(weekStart, uid, LUNCH));
+        map.put("dinner", getWeeklyEnergyByType(weekStart, uid, DINNER));
 
         return map;
     }
+
 
     /**
      * 获取当周能量评价
@@ -119,8 +113,31 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当周能量评价
      */
     @Override
-    public Map<String, Integer> getWeeklyEnergyEvaluation(Integer uid, Date date) {
-        return null;
+    public Map<String, Integer[]> getWeeklyEnergyEvaluation(Integer uid, Date date) {
+        Map<String, Integer[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
+
+        map.put("breakfast", getWeeklyEvaluationByType(weekStart, uid, BREAKFAST));
+        map.put("lunch", getWeeklyEvaluationByType(weekStart, uid, LUNCH));
+        map.put("dinner", getWeeklyEvaluationByType(weekStart, uid, DINNER));
+
+        return map;
+    }
+
+    @Override
+    public Map<String,Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date) {
+        Map<String, Integer[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
+
+        map.put("breakfast", getWeeklyStructureEvaluationByType(weekStart, uid, BREAKFAST));
+        map.put("lunch", getWeeklyStructureEvaluationByType(weekStart, uid, LUNCH));
+        map.put("dinner", getWeeklyStructureEvaluationByType(weekStart, uid, DINNER));
+
+        return map;
     }
 
     /**
@@ -131,7 +148,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月能量
      */
     @Override
-    public Map<String, Object> getMonthEnergy(Integer uid, Date date) {
+    public Map<String, Double[]> getMonthEnergy(Integer uid, Date date) {
         return null;
     }
 
@@ -143,7 +160,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月能量评价
      */
     @Override
-    public Map<String, Integer> getMonthEnergyEvaluation(Integer uid, Date date) {
+    public Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid, Date date) {
         return null;
     }
 
@@ -157,6 +174,73 @@ public class TimelineServiceImpl implements ITimelineService {
     @Override
     public Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date) {
         return null;
+    }
+
+
+    /**
+     *
+     * @param start 每周开始第一天
+     * @param uid 用户编号
+     * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
+     * @return 一周摄入能量
+     */
+    private Double[] getWeeklyEnergyByType(Date start, Integer uid, Integer reportType) {
+
+        Double[] result = new Double[7];
+        TbDietMealReport report;
+        for (int i = 0; i < 7; i++) {
+            report = reportService.getDietMealReport(start, reportType, uid);
+            if (report != null) {
+                result[i] = report.getRealEnergy();
+            }
+            start = DateUtils.getTomorrow(start);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param start 每周开始第一天
+     * @param uid 用户编号
+     * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
+     * @return 一周饮食评价
+     */
+    private Integer[] getWeeklyEvaluationByType(Date start, Integer uid, Integer reportType) {
+
+        Integer[] result = new Integer[7];
+
+        TbDietMealReport report;
+        for (int i = 0; i < 7; i++) {
+            report = reportService.getDietMealReport(start, reportType, uid);
+            if (report != null) {
+                result[i] = report.getEnergyEvaluation();
+            }
+            start = DateUtils.getTomorrow(start);
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @param start 每周开始第一天
+     * @param uid 用户编号
+     * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
+     * @return 一周结构评价
+     */
+    private Integer[] getWeeklyStructureEvaluationByType(Date start, Integer uid, Integer reportType) {
+
+        Integer[] result = new Integer[7];
+
+        TbDietMealReport report;
+        for (int i = 0; i < 7; i++) {
+            report = reportService.getDietMealReport(start, reportType, uid);
+            if (report != null) {
+                result[i] = report.getStructureEvaluation();
+            }
+            start = DateUtils.getTomorrow(start);
+        }
+        return result;
     }
 
 }

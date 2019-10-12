@@ -68,8 +68,8 @@ public class DateUtils {
     /**
      * 获取本周, 开始日期
      *
-     * @param now
-     * @return
+     * @param now 本周日期
+     * @return 周日 00:00:00
      */
     public static Date getCurrentWeekStart(Date now) {
         Calendar no = Calendar.getInstance();
@@ -85,8 +85,8 @@ public class DateUtils {
     /**
      * 获取本周, 结束日期
      *
-     * @param now
-     * @return
+     * @param now 本周日期
+     * @return 周日 23:59:59
      */
     public static Date getCurrentWeekEnd(Date now) {
         Calendar no = Calendar.getInstance();

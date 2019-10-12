@@ -1,7 +1,6 @@
 package com.bkit.fatdown.service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +36,7 @@ public interface ITimelineService {
      * @param date 当周日期
      * @return 当周能量
      */
-    Map<String, List<Double>> getWeeklyEnergy(Integer uid, Date date);
+    Map<String, Double[]> getWeeklyEnergy(Integer uid, Date date);
 
     /**
      * 获取当周能量评价
@@ -45,7 +44,15 @@ public interface ITimelineService {
      * @param date 当周日期
      * @return 当周能量评价
      */
-    Map<String, Integer> getWeeklyEnergyEvaluation(Integer uid,Date date);
+    Map<String, Integer[]> getWeeklyEnergyEvaluation(Integer uid,Date date);
+
+    /**
+     * 获取当周结构评价
+     * @param uid 用户id
+     * @param date 当周日期
+     * @return 当周能量评价
+     */
+    Map<String,Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date);
 
     /**
      * 获取当月能量评价
@@ -53,7 +60,7 @@ public interface ITimelineService {
      * @param date 当月日期
      * @return 当月能量
      */
-    Map<String, Object> getMonthEnergy(Integer uid,Date date);
+    Map<String,Double[]> getMonthEnergy(Integer uid,Date date);
 
     /**
      * 获取当月能量评价
@@ -61,7 +68,7 @@ public interface ITimelineService {
      * @param date 当月日期
      * @return 当月能量评价
      */
-    Map<String, Integer> getMonthEnergyEvaluation(Integer uid,Date date);
+    Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid,Date date);
 
     /**
      * 获取每周隐私数据
