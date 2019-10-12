@@ -95,7 +95,7 @@ public class TimelineServiceImpl implements ITimelineService {
         Map<String, Double[]> map = new HashMap<>(3);
 
         // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
+        Date weekStart = DateUtils.getCurrentWeekStart(date);
 
         map.put("breakfast", getWeeklyEnergyByType(weekStart, uid, BREAKFAST));
         map.put("lunch", getWeeklyEnergyByType(weekStart, uid, LUNCH));
@@ -117,7 +117,7 @@ public class TimelineServiceImpl implements ITimelineService {
         Map<String, Integer[]> map = new HashMap<>(3);
 
         // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
+        Date weekStart = DateUtils.getCurrentWeekStart(date);
 
         map.put("breakfast", getWeeklyEvaluationByType(weekStart, uid, BREAKFAST));
         map.put("lunch", getWeeklyEvaluationByType(weekStart, uid, LUNCH));
@@ -131,7 +131,7 @@ public class TimelineServiceImpl implements ITimelineService {
         Map<String, Integer[]> map = new HashMap<>(3);
 
         // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(new Date());
+        Date weekStart = DateUtils.getCurrentWeekStart(date);
 
         map.put("breakfast", getWeeklyStructureEvaluationByType(weekStart, uid, BREAKFAST));
         map.put("lunch", getWeeklyStructureEvaluationByType(weekStart, uid, LUNCH));
