@@ -5,6 +5,7 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.group.GroupParam;
 import com.bkit.fatdown.entity.TbUserGroup;
 import com.bkit.fatdown.service.IAdminService;
+import com.bkit.fatdown.service.IUserBasicInfoService;
 import com.bkit.fatdown.service.IUserGroupService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,9 @@ public class UserGroupController {
 
     @Resource
     private IAdminService adminService;
+
+    @Resource
+    private IUserBasicInfoService infoService;
 
     @ApiOperation("添加分组")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
@@ -119,10 +123,10 @@ public class UserGroupController {
 
     @ApiOperation("查看分组(成员)")
     @RequestMapping(value = "/list/user/{groupId}", method = RequestMethod.GET)
-    public CommonResultDTO listGroup(@PathVariable Integer groupId) {
+    public CommonResultDTO listGroup(@PathVariable Integer groupId, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         if (groupService.count(groupId) == 0) {
             return CommonResultDTO.validateFailed();
         }
-        return CommonResultDTO.success(CommonPageDTO.restPage(groupService.list(groupId)));
+        return CommonResultDTO.success(CommonPageDTO.restPage(infoService.listByUserGroup(groupId, pageSize, pageNum)));
     }
 }

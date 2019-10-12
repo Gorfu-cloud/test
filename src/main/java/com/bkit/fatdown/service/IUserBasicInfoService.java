@@ -111,4 +111,13 @@ public interface IUserBasicInfoService {
 
     List<TbUserBasicInfo> listByUserLever(Integer userLever, Integer pageSize, Integer pageNum);
 
+    /**
+     * 获取分组成员
+     * @param groupId 分组信息
+     * @param pageSize 页大小
+     * @param pageNum 页数
+     * @return 成员列表
+     */
+    List<TbUserBasicInfo> listByUserGroup(Integer groupId,Integer pageSize,Integer pageNum);
+
 }

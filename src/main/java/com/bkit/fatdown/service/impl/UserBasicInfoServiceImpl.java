@@ -1,12 +1,11 @@
 package com.bkit.fatdown.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bkit.fatdown.common.utils.WxUtil;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserBasicInfoExample;
-import com.bkit.fatdown.entity.TbUserLifeStyle;
 import com.bkit.fatdown.mappers.TbUserBasicInfoMapper;
 import com.bkit.fatdown.service.IUserBasicInfoService;
-import com.bkit.fatdown.common.utils.WxUtil;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +64,23 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
         TbUserBasicInfoExample example = new TbUserBasicInfoExample();
         example.createCriteria()
                 .andUserLevelEqualTo(userLever);
+        return userBasicInfoMapper.selectByExample(example);
+    }
+
+    /**
+     * 获取分组成员
+     *
+     * @param groupId  分组信息
+     * @param pageSize 页大小
+     * @param pageNum  页数
+     * @return 成员列表
+     */
+    @Override
+    public List<TbUserBasicInfo> listByUserGroup(Integer groupId, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageSize, pageNum);
+        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+        example.createCriteria()
+                .andGroupIdEqualTo(groupId);
         return userBasicInfoMapper.selectByExample(example);
     }
 

@@ -1,7 +1,6 @@
 package com.bkit.fatdown.service;
 
 import com.bkit.fatdown.dto.group.GroupParam;
-import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.entity.TbUserGroup;
 
 import java.util.List;
@@ -76,11 +75,4 @@ public interface IUserGroupService {
      * @return 记录数
      */
     int updateStatus(Integer status,List<Integer> list);
-
-    /**
-     * 获取分组成员
-     * @param id 编号
-     * @return 分组信息列表
-     */
-    List<TbUserBasicInfo> list(Integer id);
 }
