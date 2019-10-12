@@ -31,6 +31,15 @@ public interface ITimelineService {
     Integer[] getDailyEnergyEvaluation(Integer uid, Date date);
 
     /**
+     * 获取每天结构评价
+     * @param uid 用户id
+     * @param date 当周日期
+     * @return 当周能量评价
+     */
+    Integer[] getDailyStructureEvaluation(Integer uid, Date date);
+
+
+    /**
      * 获取每周能量
      * @param uid 用户id
      * @param date 当周日期

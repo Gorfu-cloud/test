@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import cn.hutool.core.date.DateUtil;
+import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.ITimelineService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @file: TimelineController
@@ -32,7 +34,7 @@ public class TimelineController {
     private IDietReportService reportService;
 
     private final static Integer MIN_MEAL_OF_DAY = 3;
-    private final static Integer MIN_MEAL_OF_WEEKLY = 5;
+    private final static Integer MIN_MEAL_OF_WEEKLY = 10;
 
     @ApiOperation("个人: 查看一天能量变化")
     @RequestMapping(value = "/energy/daily/{uid}", method = RequestMethod.GET)
@@ -51,34 +53,16 @@ public class TimelineController {
         return CommonResultDTO.success(energy);
     }
 
-
-    @ApiOperation("个人: 查看一天能量变化")
+    @ApiOperation("个人: 查看一周能量变化")
     @RequestMapping(value = "/energy/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyEnergy(@RequestParam String date, @PathVariable Integer uid) {
-
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietDailyReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
             return CommonResultDTO.validateFailed();
         }
 
-        Double[] energy = timelineService.getDailyEnergy(uid, inputDate);
-        if (energy == null) {
-            return CommonResultDTO.failed();
-        }
-
-        return CommonResultDTO.success(energy);
-    }
-
-
-    @ApiOperation("个人: 查看一天饮食评价变化")
-    @RequestMapping(value = "/evaluation/daily/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO getDailyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
-        Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
-            return CommonResultDTO.validateFailed();
-        }
-
-        Integer[] evaluation = timelineService.getDailyEnergyEvaluation(uid, inputDate);
+        Map<String, Double[]> evaluation = timelineService.getWeeklyEnergy(uid, inputDate);
         if (evaluation == null) {
             return CommonResultDTO.failed();
         }
@@ -86,5 +70,71 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
+    @ApiOperation("个人: 查看一天能量评价变化")
+    @RequestMapping(value = "/evaluation/energy/daily/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getDailyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+            return CommonResultDTO.validateFailed();
+        }
 
+        Integer[] evaluation = timelineService.getDailyEnergyEvaluation(uid, inputDate);
+
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看一周能量评价变化")
+    @RequestMapping(value = "/evaluation/energy/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Integer[]> evaluation = timelineService.getWeeklyEnergyEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看一天结构评价变化")
+    @RequestMapping(value = "/evaluation/structure/daily/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getDailyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Integer[] evaluation = timelineService.getDailyStructureEvaluation(uid, inputDate);
+
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看一周结构评价变化")
+    @RequestMapping(value = "/evaluation/structure/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Integer[]> evaluation = timelineService.getWeeklyStructureEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
 }

@@ -37,10 +37,6 @@ public class TimelineServiceImpl implements ITimelineService {
     @Override
     public Double[] getDailyEnergy(Integer uid, Date date) {
 
-        if (reportService.countDietMealReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid) == 0) {
-            return null;
-        }
-
         Double[] meals = new Double[3];
 
         int dinnerType = 2;
@@ -56,6 +52,29 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
+     * 获取每天结构评价
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周能量评价
+     */
+    @Override
+    public Integer[] getDailyStructureEvaluation(Integer uid, Date date) {
+        Integer[] evaluations = new Integer[3];
+
+        int dinnerType = 2;
+
+        for (int i = 0; i <= dinnerType; i++) {
+            TbDietMealReport report = reportService.getDietMealReport(date, i, uid);
+            if (report != null) {
+                evaluations[i] = report.getStructureEvaluation();
+            }
+        }
+
+        return evaluations;
+    }
+
+    /**
      * 获取每天能量评价
      *
      * @param uid  用户id
@@ -64,10 +83,6 @@ public class TimelineServiceImpl implements ITimelineService {
      */
     @Override
     public Integer[] getDailyEnergyEvaluation(Integer uid, Date date) {
-
-        if (reportService.countDietMealReport(DateUtils.getDateStart(date), DateUtils.getDateEnd(date), uid) == 0) {
-            return null;
-        }
 
         Integer[] evaluations = new Integer[3];
 

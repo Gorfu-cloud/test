@@ -25,11 +25,31 @@ public class TimelineServiceImplTest {
     @Resource
     private TimelineServiceImpl timelineService;
 
+    private Date date = DateUtils.getCurrentWeekStart(DateUtil.parseDate("2019-08-18"));
+    private final static int uid = 65;
+
     @Test
     public void getWeeklyEnergyByType() {
         Date date = DateUtils.getCurrentWeekStart(DateUtil.parseDate("2019-08-18"));
-        int uid = 65;
-        int reportType = 0;
+//        int uid = 65;
+//        int reportType = 0;
+        System.out.println(DateUtil.dayOfMonth(date));
 //        System.out.println(timelineService.getWeeklyEnergyByType(date, uid, reportType));
+    }
+
+    @Test
+    public void getWeeklyEnergy() {
+        System.out.println(timelineService.getWeeklyEnergy(uid, date));
+    }
+
+    @Test
+    public void getWeeklyEnergyEvaluation() {
+
+        System.out.println(timelineService.getWeeklyEnergyEvaluation(uid, date));
+    }
+
+    @Test
+    public void getWeeklyStructureEvaluation() {
+        System.out.println(timelineService.getWeeklyStructureEvaluation(uid, date));
     }
 }
