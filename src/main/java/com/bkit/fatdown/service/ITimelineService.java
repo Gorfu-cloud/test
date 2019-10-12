@@ -20,7 +20,7 @@ public interface ITimelineService {
      * @param date 日期
      * @return 当天三餐能量
      */
-    Map<String, Double> getDailyEnergy(Integer uid, Date date);
+    Double[] getDailyEnergy(Integer uid, Date date);
 
     /**
      * 获取每天能量评价
@@ -29,7 +29,7 @@ public interface ITimelineService {
      * @param date 日期
      * @return 当天三餐能量评价
      */
-    Map<String, Integer> getDailyEnergyEvaluation(Integer uid, Date date);
+    Integer[] getDailyEnergyEvaluation(Integer uid, Date date);
 
     /**
      * 获取每周能量
