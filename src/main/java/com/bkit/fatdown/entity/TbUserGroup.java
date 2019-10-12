@@ -12,6 +12,8 @@ public class TbUserGroup implements Serializable {
 
     private Integer adminId;
 
+    private Integer status;
+
     private Date gmtCreate;
 
     private Date gmtModified;
@@ -50,6 +52,14 @@ public class TbUserGroup implements Serializable {
         this.adminId = adminId;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Date getGmtCreate() {
         return gmtCreate;
     }
@@ -76,6 +86,7 @@ public class TbUserGroup implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", note=").append(note);
         sb.append(", adminId=").append(adminId);
+        sb.append(", status=").append(status);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
         sb.append(", serialVersionUID=").append(serialVersionUID);
