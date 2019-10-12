@@ -37,4 +37,13 @@ public class DateUtilsTest {
     @Test
     public void getTomorrow() {
     }
+
+    @Test
+    public void getDaysOfMonth() {
+        System.out.println(DateUtils.getDaysOfMonth(DateUtil.parse("2019-02-01")));
+        System.out.println(DateUtils.getDaysOfMonth(DateUtil.parse("2000-02-01")));
+        System.out.println(DateUtils.getDaysOfMonth(DateUtil.parse("2012-02-01")));
+        System.out.println(DateUtils.getDaysOfMonth(DateUtil.parse("2016-02-01")));
+        System.out.println(DateUtils.getDaysOfMonth(DateUtil.parse("2020-02-27")));
+    }
 }

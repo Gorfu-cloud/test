@@ -27,6 +27,8 @@ public class TimelineServiceImpl implements ITimelineService {
     private final static Integer LUNCH = 1;
     private final static Integer DINNER = 2;
 
+    private final static Integer WEEKLY = 7;
+
     /**
      * 获取每天能量
      *
@@ -110,11 +112,11 @@ public class TimelineServiceImpl implements ITimelineService {
         Map<String, Double[]> map = new HashMap<>(3);
 
         // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(date);
+        Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getWeeklyEnergyByType(weekStart, uid, BREAKFAST));
-        map.put("lunch", getWeeklyEnergyByType(weekStart, uid, LUNCH));
-        map.put("dinner", getWeeklyEnergyByType(weekStart, uid, DINNER));
+        map.put("breakfast", getEnergyByType(start, WEEKLY, uid, BREAKFAST));
+        map.put("lunch", getEnergyByType(start, WEEKLY, uid, LUNCH));
+        map.put("dinner", getEnergyByType(start, WEEKLY, uid, DINNER));
 
         return map;
     }
@@ -132,31 +134,38 @@ public class TimelineServiceImpl implements ITimelineService {
         Map<String, Integer[]> map = new HashMap<>(3);
 
         // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(date);
+        Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getWeeklyEvaluationByType(weekStart, uid, BREAKFAST));
-        map.put("lunch", getWeeklyEvaluationByType(weekStart, uid, LUNCH));
-        map.put("dinner", getWeeklyEvaluationByType(weekStart, uid, DINNER));
-
-        return map;
-    }
-
-    @Override
-    public Map<String,Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date) {
-        Map<String, Integer[]> map = new HashMap<>(3);
-
-        // 获取日期循环
-        Date weekStart = DateUtils.getCurrentWeekStart(date);
-
-        map.put("breakfast", getWeeklyStructureEvaluationByType(weekStart, uid, BREAKFAST));
-        map.put("lunch", getWeeklyStructureEvaluationByType(weekStart, uid, LUNCH));
-        map.put("dinner", getWeeklyStructureEvaluationByType(weekStart, uid, DINNER));
+        map.put("breakfast", getEvaluationByType(start, WEEKLY, uid, BREAKFAST));
+        map.put("lunch", getEvaluationByType(start, WEEKLY, uid, LUNCH));
+        map.put("dinner", getEvaluationByType(start, WEEKLY, uid, DINNER));
 
         return map;
     }
 
     /**
-     * 获取当月能量评价
+     * 获取当周结构评价
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周能量评价
+     */
+    @Override
+    public Map<String, Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date) {
+        Map<String, Integer[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date start = DateUtils.getCurrentWeekStart(date);
+
+        map.put("breakfast", getStructureEvaluationByType(start, WEEKLY, uid, BREAKFAST));
+        map.put("lunch", getStructureEvaluationByType(start, WEEKLY, uid, LUNCH));
+        map.put("dinner", getStructureEvaluationByType(start, WEEKLY, uid, DINNER));
+
+        return map;
+    }
+
+    /**
+     * 获取当月能量
      *
      * @param uid  用户id
      * @param date 当月日期
@@ -164,7 +173,17 @@ public class TimelineServiceImpl implements ITimelineService {
      */
     @Override
     public Map<String, Double[]> getMonthEnergy(Integer uid, Date date) {
-        return null;
+        Map<String, Double[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date start = DateUtils.getMonthStartDate(date);
+        int daysOfMonth = DateUtils.getDaysOfMonth(start);
+
+        map.put("breakfast", getEnergyByType(start, daysOfMonth, uid, BREAKFAST));
+        map.put("lunch", getEnergyByType(start, daysOfMonth, uid, LUNCH));
+        map.put("dinner", getEnergyByType(start, daysOfMonth, uid, DINNER));
+
+        return map;
     }
 
     /**
@@ -176,34 +195,65 @@ public class TimelineServiceImpl implements ITimelineService {
      */
     @Override
     public Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid, Date date) {
-        return null;
+        Map<String, Integer[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date start = DateUtils.getCurrentWeekStart(date);
+        int daysOfMonth = DateUtils.getDaysOfMonth(start);
+
+        map.put("breakfast", getEvaluationByType(start, daysOfMonth, uid, BREAKFAST));
+        map.put("lunch", getEvaluationByType(start, daysOfMonth, uid, LUNCH));
+        map.put("dinner", getEvaluationByType(start, daysOfMonth, uid, DINNER));
+
+        return map;
     }
 
     /**
-     * 获取每周隐私数据
+     * 获取当周结构评价
      *
      * @param uid  用户id
      * @param date 当周日期
-     * @return 一周的隐私数据
+     * @return 当周能量评价
      */
     @Override
-    public Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date) {
-        return null;
+    public Map<String, Integer[]> getMonthStructureEvaluation(Integer uid, Date date) {
+        Map<String, Integer[]> map = new HashMap<>(3);
+
+        // 获取日期循环
+        Date start = DateUtils.getCurrentWeekStart(date);
+        int daysOfMonth = DateUtils.getDaysOfMonth(start);
+
+        map.put("breakfast", getStructureEvaluationByType(start, daysOfMonth, uid, BREAKFAST));
+        map.put("lunch", getStructureEvaluationByType(start, daysOfMonth, uid, LUNCH));
+        map.put("dinner", getStructureEvaluationByType(start, daysOfMonth, uid, DINNER));
+
+        return map;
     }
+
+//    /**
+//     * 获取每周隐私数据
+//     *
+//     * @param uid  用户id
+//     * @param date 当周日期
+//     * @return 一周的隐私数据
+//     */
+//    @Override
+//    public Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date) {
+//        return null;
+//    }
 
 
     /**
-     *
-     * @param start 每周开始第一天
-     * @param uid 用户编号
+     * @param start      每周开始第一天
+     * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周摄入能量
      */
-    private Double[] getWeeklyEnergyByType(Date start, Integer uid, Integer reportType) {
+    private Double[] getEnergyByType(Date start, Integer size, Integer uid, Integer reportType) {
 
-        Double[] result = new Double[7];
+        Double[] result = new Double[size];
         TbDietMealReport report;
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < size; i++) {
             report = reportService.getDietMealReport(start, reportType, uid);
             if (report != null) {
                 result[i] = report.getRealEnergy();
@@ -215,18 +265,17 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
-     *
-     * @param start 每周开始第一天
-     * @param uid 用户编号
+     * @param start      每周开始第一天
+     * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周饮食评价
      */
-    private Integer[] getWeeklyEvaluationByType(Date start, Integer uid, Integer reportType) {
+    private Integer[] getEvaluationByType(Date start, Integer size, Integer uid, Integer reportType) {
 
-        Integer[] result = new Integer[7];
+        Integer[] result = new Integer[size];
 
         TbDietMealReport report;
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < size; i++) {
             report = reportService.getDietMealReport(start, reportType, uid);
             if (report != null) {
                 result[i] = report.getEnergyEvaluation();
@@ -237,18 +286,17 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
-     *
-     * @param start 每周开始第一天
-     * @param uid 用户编号
+     * @param start      每周开始第一天
+     * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周结构评价
      */
-    private Integer[] getWeeklyStructureEvaluationByType(Date start, Integer uid, Integer reportType) {
+    private Integer[] getStructureEvaluationByType(Date start, Integer size, Integer uid, Integer reportType) {
 
-        Integer[] result = new Integer[7];
+        Integer[] result = new Integer[size];
 
         TbDietMealReport report;
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < size; i++) {
             report = reportService.getDietMealReport(start, reportType, uid);
             if (report != null) {
                 result[i] = report.getStructureEvaluation();

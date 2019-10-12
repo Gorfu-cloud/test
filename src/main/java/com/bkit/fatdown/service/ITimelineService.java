@@ -79,13 +79,15 @@ public interface ITimelineService {
      */
     Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid,Date date);
 
-    /**
-     * 获取每周隐私数据
-     *
-     * @param uid       用户id
-     * @param date 当周日期
-     * @return 一周的隐私数据
-     */
-    Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date);
+    Map<String, Integer[]> getMonthStructureEvaluation(Integer uid, Date date);
+
+//    /**
+//     * 获取每周隐私数据
+//     *
+//     * @param uid       用户id
+//     * @param date 当周日期
+//     * @return 一周的隐私数据
+//     */
+//    Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date);
 
 }

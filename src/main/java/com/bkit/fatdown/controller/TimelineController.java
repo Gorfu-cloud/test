@@ -34,9 +34,11 @@ public class TimelineController {
     private IDietReportService reportService;
 
     private final static Integer MIN_MEAL_OF_DAY = 3;
-    private final static Integer MIN_MEAL_OF_WEEKLY = 10;
+    private final static Integer MIN_MEAL_OF_WEEKLY = 15;
+    // 为了测试
+    private final static Integer MIN_MEAL_OF_MONTHLY = 15;
 
-    @ApiOperation("个人: 查看一天能量变化")
+    @ApiOperation("个人: 查看每天能量变化")
     @RequestMapping(value = "/energy/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyEnergy(@RequestParam String date, @PathVariable Integer uid) {
 
@@ -53,7 +55,7 @@ public class TimelineController {
         return CommonResultDTO.success(energy);
     }
 
-    @ApiOperation("个人: 查看一周能量变化")
+    @ApiOperation("个人: 查看每周能量变化")
     @RequestMapping(value = "/energy/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyEnergy(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -70,7 +72,24 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
-    @ApiOperation("个人: 查看一天能量评价变化")
+    @ApiOperation("个人: 查看每月能量变化")
+    @RequestMapping(value = "/energy/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyEnergy(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Double[]> evaluation = timelineService.getMonthEnergy(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每天能量评价变化")
     @RequestMapping(value = "/evaluation/energy/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -87,7 +106,7 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
-    @ApiOperation("个人: 查看一周能量评价变化")
+    @ApiOperation("个人: 查看每周能量评价变化")
     @RequestMapping(value = "/evaluation/energy/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -104,7 +123,24 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
-    @ApiOperation("个人: 查看一天结构评价变化")
+    @ApiOperation("个人: 查看每月能量评价变化")
+    @RequestMapping(value = "/evaluation/energy/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Integer[]> evaluation = timelineService.getMonthEnergyEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每天结构评价变化")
     @RequestMapping(value = "/evaluation/structure/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -121,7 +157,7 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
-    @ApiOperation("个人: 查看一周结构评价变化")
+    @ApiOperation("个人: 查看每周结构评价变化")
     @RequestMapping(value = "/evaluation/structure/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -131,6 +167,23 @@ public class TimelineController {
         }
 
         Map<String, Integer[]> evaluation = timelineService.getWeeklyStructureEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每月结构评价变化")
+    @RequestMapping(value = "/evaluation/structure/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Integer[]> evaluation = timelineService.getMonthStructureEvaluation(uid, inputDate);
         if (evaluation == null) {
             return CommonResultDTO.failed();
         }

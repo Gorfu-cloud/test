@@ -164,6 +164,19 @@ public class DateUtils {
     }
 
     /**
+     * 获取本月有多少天
+     * @param date 本月日期
+     * @return 天数
+     */
+    public static int getDaysOfMonth(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+    }
+
+    /**
      * 获取七天后的日期
      *
      * @param date
