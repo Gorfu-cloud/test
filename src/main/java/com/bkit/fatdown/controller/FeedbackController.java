@@ -487,7 +487,6 @@ public class FeedbackController {
         FeedbackInfoDTO infoDTO = new FeedbackInfoDTO(info);
         String typeName = typeService.get(info.getTypeId()).getTypeName();
         infoDTO.setTypeName(typeName);
-
         return infoDTO;
     }
 }

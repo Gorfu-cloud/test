@@ -24,6 +24,7 @@ public class FeedbackInfoDTO implements Serializable {
     private String typeName;
     private String content;
     private Integer status;
+    private Integer userId;
     private Date gmtCreate;
     private Set<String> imgUrlSet;
 
@@ -48,7 +49,16 @@ public class FeedbackInfoDTO implements Serializable {
         this.content = info.getContent();
         this.status = info.getStatus();
         this.gmtCreate = info.getGmtCreate();
+        this.userId = info.getUserId();
         this.imgUrlSet = DataTransferUtils.string2Set(info.getImgUrlSet());
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -115,8 +125,9 @@ public class FeedbackInfoDTO implements Serializable {
                 ", typeName='" + typeName + '\'' +
                 ", content='" + content + '\'' +
                 ", status=" + status +
+                ", userId=" + userId +
                 ", gmtCreate=" + gmtCreate +
-                ", imgUrlSet=" + imgUrlSet.toString() +
+                ", imgUrlSet=" + imgUrlSet +
                 '}';
     }
 }
