@@ -33,7 +33,7 @@ public class CodeController {
 
     @ApiOperation("校验测试码,并返回信息")
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public CommonResultDTO checking(@RequestParam String code) {
+    public CommonResultDTO checkingCode(@RequestParam String code) {
         if (code == null || code.isEmpty() || code.length() != TEST_CODE_LENGTH) {
             return CommonResultDTO.validateFailed();
         }
@@ -47,7 +47,7 @@ public class CodeController {
 
     @ApiOperation("创建测试码")
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public CommonResultDTO create(@RequestBody RedeemCodeDTO param) {
+    public CommonResultDTO createCode(@RequestBody RedeemCodeDTO param) {
         if (param == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -61,7 +61,7 @@ public class CodeController {
 
     @ApiOperation("删除测试码")
     @RequestMapping(value = "/test/{id}", method = RequestMethod.DELETE)
-    public CommonResultDTO delete(@PathVariable Long id) {
+    public CommonResultDTO deleteCode(@PathVariable Long id) {
         if (id == null || !codeService.count(id)) {
             return CommonResultDTO.validateFailed();
         }
@@ -75,7 +75,7 @@ public class CodeController {
 
     @ApiOperation("获取测试码信息")
     @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
-    public CommonResultDTO get(@PathVariable Long id) {
+    public CommonResultDTO getCode(@PathVariable Long id) {
         if (id == null || !codeService.count(id)) {
             return CommonResultDTO.validateFailed();
         }
@@ -91,7 +91,7 @@ public class CodeController {
 
     @ApiOperation("搜索测试码")
     @RequestMapping(value = "/test/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO search(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
+    public CommonResultDTO searchCode(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
             @RequestParam Integer status, @RequestParam(required = false) String keyword) {
         if (pageNum == null || pageSize == null || pageNum < 0 || pageSize < 0) {
             return CommonResultDTO.validateFailed();
@@ -102,7 +102,7 @@ public class CodeController {
 
     @ApiOperation("更新测试码")
     @RequestMapping(value = "/test/{id}", method = RequestMethod.PUT)
-    public CommonResultDTO update(@PathVariable Long id, @RequestBody RedeemCodeDTO param) {
+    public CommonResultDTO updateCode(@PathVariable Long id, @RequestBody RedeemCodeDTO param) {
         if (param == null || !codeService.count(id)) {
             return CommonResultDTO.validateFailed();
         }
@@ -116,7 +116,7 @@ public class CodeController {
 
     @ApiOperation("批量修改测试码状态")
     @RequestMapping(value = "/test/status", method = RequestMethod.PUT)
-    public CommonResultDTO updateStatusByList(@RequestParam List<Long> idList, @RequestParam Integer status) {
+    public CommonResultDTO updateCodeStatusByList(@RequestParam List<Long> idList, @RequestParam Integer status) {
         if (status > 1 || status < 0 || idList == null) {
             return CommonResultDTO.validateFailed();
         }
@@ -132,7 +132,7 @@ public class CodeController {
 
     @ApiOperation("批量删除测试码")
     @RequestMapping(value = "/test/list", method = RequestMethod.DELETE)
-    public CommonResultDTO deleteByList(@RequestParam List<Long> idList) {
+    public CommonResultDTO deleteCodeByList(@RequestParam List<Long> idList) {
         if (idList == null) {
             return CommonResultDTO.validateFailed();
         }

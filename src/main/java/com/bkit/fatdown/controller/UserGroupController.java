@@ -23,9 +23,9 @@ import java.util.List;
  * @version: 1.0
  */
 
-@Api(value = "/user/group", tags = "分组管理控制器")
+@Api(value = "/group", tags = "分组管理控制器")
 @RestController
-@RequestMapping("/user/group")
+@RequestMapping("/group")
 @CrossOrigin
 public class UserGroupController {
 
@@ -40,7 +40,7 @@ public class UserGroupController {
 
     @ApiOperation("添加分组")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public CommonResultDTO create(@RequestBody GroupParam param) {
+    public CommonResultDTO createGroup(@RequestBody GroupParam param) {
 
         if (groupService.insert(param)) {
             return CommonResultDTO.success();
@@ -51,7 +51,7 @@ public class UserGroupController {
 
     @ApiOperation("删除分组")
     @RequestMapping(value = "/{groupId}", method = RequestMethod.DELETE)
-    public CommonResultDTO delete(@PathVariable Integer groupId) {
+    public CommonResultDTO deleteGroup(@PathVariable Integer groupId) {
         if (groupService.count(groupId) == 0) {
             return CommonResultDTO.validateFailed();
         }
@@ -66,7 +66,7 @@ public class UserGroupController {
 
     @ApiOperation("编辑分组")
     @RequestMapping(value = "/{groupId}", method = RequestMethod.PUT)
-    public CommonResultDTO update(@PathVariable Integer groupId, @RequestBody GroupParam param) {
+    public CommonResultDTO updateGroup(@PathVariable Integer groupId, @RequestBody GroupParam param) {
         if (groupService.count(groupId) == 0) {
             return CommonResultDTO.validateFailed();
         }
@@ -80,7 +80,7 @@ public class UserGroupController {
 
     @ApiOperation("获取分组信息")
     @RequestMapping(value = "/{groupId}", method = RequestMethod.GET)
-    public CommonResultDTO get(@PathVariable Integer groupId) {
+    public CommonResultDTO getGroup(@PathVariable Integer groupId) {
         if (groupService.count(groupId) == 0) {
             return CommonResultDTO.validateFailed();
         }
@@ -96,14 +96,14 @@ public class UserGroupController {
 
     @ApiOperation("分页: 查找分组信息")
     @RequestMapping(value = "/list/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO search(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
+    public CommonResultDTO searchGroup(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
                                   @RequestParam(required = false) String keyWord) {
         return CommonResultDTO.success(CommonPageDTO.restPage(groupService.list(keyWord, pageNum, pageSize)));
     }
 
     @ApiOperation("设置状态")
     @RequestMapping(value = "/list/status", method = RequestMethod.PUT)
-    public CommonResultDTO updateStatus(@RequestParam Integer status, @RequestParam List<Integer> list) {
+    public CommonResultDTO updateGroupStatus(@RequestParam Integer status, @RequestParam List<Integer> list) {
         if (list.size() == 0 || status > 1 || status < -1) {
             return CommonResultDTO.validateFailed();
         }
@@ -113,7 +113,7 @@ public class UserGroupController {
 
     @ApiOperation("设置管理员")
     @RequestMapping(value = "/list/admin", method = RequestMethod.PUT)
-    public CommonResultDTO updateAdmin(@RequestParam Integer adminId, @RequestParam List<Integer> list) {
+    public CommonResultDTO updateGroupAdmin(@RequestParam Integer adminId, @RequestParam List<Integer> list) {
         if (list.size() == 0 || adminService.count(adminId) == 0) {
             return CommonResultDTO.validateFailed();
         }

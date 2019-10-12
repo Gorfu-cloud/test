@@ -32,7 +32,7 @@ public class PermissionController {
 
     @ApiOperation("添加权限")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public CommonResultDTO create(@RequestBody PermissionParam permission) {
+    public CommonResultDTO createPermission(@RequestBody PermissionParam permission) {
         int count = permissionService.insert(permission);
         if (count > 0) {
             return CommonResultDTO.success(count);
@@ -42,7 +42,7 @@ public class PermissionController {
 
     @ApiOperation("修改权限")
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public CommonResultDTO update(@PathVariable Integer id, @RequestBody PermissionParam permission) {
+    public CommonResultDTO updatePermission(@PathVariable Integer id, @RequestBody PermissionParam permission) {
         int count = permissionService.update(id, permission);
         if (count > 0) {
             return CommonResultDTO.success(count);
@@ -52,7 +52,7 @@ public class PermissionController {
 
     @ApiOperation("搜索权限")
     @RequestMapping(value = "/search/{pageNum}/{pageSize}", method = RequestMethod.GET)
-    public CommonResultDTO listByPage(@RequestParam(required = false) String keyWord, @PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam Integer status, @RequestParam Integer type) {
+    public CommonResultDTO listPermissionByPage(@RequestParam(required = false) String keyWord, @PathVariable Integer pageNum, @PathVariable Integer pageSize, @RequestParam Integer status, @RequestParam Integer type) {
         if (pageNum == null || pageSize == null || status > 2 || status < -1 || type > 3 || type < -1) {
             return CommonResultDTO.validateFailed();
         }
@@ -64,7 +64,7 @@ public class PermissionController {
 
     @ApiOperation("根据id批量删除权限")
     @RequestMapping(value = "/list", method = RequestMethod.DELETE)
-    public CommonResultDTO delete(@RequestParam("ids") List<Integer> ids) {
+    public CommonResultDTO deletePermission(@RequestParam("ids") List<Integer> ids) {
         int count = permissionService.delete(ids);
         if (count > 0) {
             return CommonResultDTO.success(count);
@@ -74,21 +74,21 @@ public class PermissionController {
 
     @ApiOperation("以层级结构返回所有权限")
     @RequestMapping(value = "/treeList", method = RequestMethod.GET)
-    public CommonResultDTO<List<PermissionNode>> treeList() {
+    public CommonResultDTO<List<PermissionNode>> treePermissionList() {
         List<PermissionNode> permissionNodeList = permissionService.treeList();
         return CommonResultDTO.success(permissionNodeList);
     }
 
     @ApiOperation("获取所有权限列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public CommonResultDTO<List<TbPermission>> list() {
+    public CommonResultDTO<List<TbPermission>> listPermission() {
         List<TbPermission> permissionList = permissionService.list();
         return CommonResultDTO.success(permissionList);
     }
 
     @ApiOperation("获取父权限列表")
     @RequestMapping(value = "/list/{type}", method = RequestMethod.GET)
-    public CommonResultDTO<List<TbPermission>> listByType(@PathVariable Integer type) {
+    public CommonResultDTO<List<TbPermission>> listPermissionByType(@PathVariable Integer type) {
         if (type < 0 || type > 2) {
             return CommonResultDTO.validateFailed();
         }
