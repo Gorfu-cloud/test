@@ -32,7 +32,8 @@ public interface ITimelineService {
 
     /**
      * 获取每天结构评价
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当周日期
      * @return 当周能量评价
      */
@@ -41,7 +42,8 @@ public interface ITimelineService {
 
     /**
      * 获取每周能量
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当周日期
      * @return 当周能量
      */
@@ -49,45 +51,93 @@ public interface ITimelineService {
 
     /**
      * 获取当周能量评价
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当周日期
      * @return 当周能量评价
      */
-    Map<String, Integer[]> getWeeklyEnergyEvaluation(Integer uid,Date date);
+    Map<String, Integer[]> getWeeklyEnergyEvaluation(Integer uid, Date date);
 
     /**
      * 获取当周结构评价
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当周日期
      * @return 当周能量评价
      */
-    Map<String,Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date);
+    Map<String, Integer[]> getWeeklyStructureEvaluation(Integer uid, Date date);
 
     /**
      * 获取当月能量评价
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当月日期
      * @return 当月能量
      */
-    Map<String,Double[]> getMonthEnergy(Integer uid,Date date);
+    Map<String, Double[]> getMonthEnergy(Integer uid, Date date);
 
     /**
      * 获取当月能量评价
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param date 当月日期
      * @return 当月能量评价
      */
-    Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid,Date date);
+    Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid, Date date);
 
+    /**
+     * 获取当月结构评价
+     *
+     * @param uid  用户id
+     * @param date 当月日期
+     * @return 当月能量评价
+     */
     Map<String, Integer[]> getMonthStructureEvaluation(Integer uid, Date date);
 
-//    /**
-//     * 获取每周隐私数据
-//     *
-//     * @param uid       用户id
-//     * @param date 当周日期
-//     * @return 一周的隐私数据
-//     */
+
+    /**
+     * 获取当月主要营养素评价
+     *
+     * @param uid  用户id
+     * @param date 当月日期
+     * @return 当月营养素评价
+     */
+    Map<String, Integer[]> getMonthNutrientsEvaluation(Integer uid, Date date);
+
+    /**
+     * 获取当周主要营养素
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周营养素
+     */
+    Map<String, Double[]> getWeeklyNutrients(Integer uid, Date date);
+
+    /**
+     * 获取当周主要营养素评价
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周营养素评价
+     */
+    Map<String, Integer[]> getWeeklyNutrientsEvaluation(Integer uid, Date date);
+
+    /**
+     * 获取当月主要营养素
+     *
+     * @param uid  用户id
+     * @param date 当月日期
+     * @return 当月营养素
+     */
+    Map<String, Double[]> getMonthNutrients(Integer uid, Date date);
+
+    //    /**
+    //     * 获取每周隐私数据
+    //     *
+    //     * @param uid       用户id
+    //     * @param date 当周日期
+    //     * @return 一周的隐私数据
+    //     */
 //    Map<String, Object> getWeeklyPrivacyInfo(Integer uid, Date date);
 
 }
