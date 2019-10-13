@@ -138,7 +138,7 @@ public class DietReportServiceImpl implements IDietReportService {
 
         // 营养素评价统计
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
-        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate,WEEKLY_NAME));
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate, WEEKLY_NAME));
         nutrientsEvaluation.setScore(ReportHelper.getWeeklyScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
 
@@ -244,7 +244,7 @@ public class DietReportServiceImpl implements IDietReportService {
     @Override
     public TbDietMealReport getDietMealReport(Date date, int type, int uid) {
         List<TbDietMealReport> list = listDietMealReport(date, type, uid);
-        if (list.size()==0){
+        if (list.size() == 0) {
             return null;
         }
 
@@ -442,10 +442,10 @@ public class DietReportServiceImpl implements IDietReportService {
     public NutrientsEvaluation countNutrientEvaluation(int uid, Date startDate, Date endDate, String name) {
         Evaluation proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation;
 
-        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate,name);
-        fatEvaluation = countFatEvaluation(uid, startDate, endDate,name);
-        colEvaluation = countColEvaluation(uid, startDate, endDate,name);
-        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate,name);
+        proteinEvaluation = countProteinEvaluation(uid, startDate, endDate, name);
+        fatEvaluation = countFatEvaluation(uid, startDate, endDate, name);
+        colEvaluation = countColEvaluation(uid, startDate, endDate, name);
+        fibrinEvaluation = countFibrinEvaluation(uid, startDate, endDate, name);
 
         return new NutrientsEvaluation(proteinEvaluation, fatEvaluation, colEvaluation, fibrinEvaluation);
     }
@@ -510,7 +510,12 @@ public class DietReportServiceImpl implements IDietReportService {
      */
     @Override
     public TbDietDailyReport getDietDailyReport(Date date, int uid) {
-        return listDietDailyReport(date, date, uid).get(0);
+        List<TbDietDailyReport> list = listDietDailyReport(date, date, uid);
+        if (list.size() == 0) {
+            return null;
+        }
+
+        return list.get(0);
     }
 
     /**
@@ -617,7 +622,7 @@ public class DietReportServiceImpl implements IDietReportService {
         return foodIdList;
     }
 
-    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate,String name) {
+    private Evaluation countProteinEvaluation(int uid, Date startDate, Date endDate, String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countProteinEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countProteinEvaluation(uid, startDate, endDate, GOOD);
@@ -626,14 +631,14 @@ public class DietReportServiceImpl implements IDietReportService {
         double score;
         if (WEEKLY_NAME.equals(name)) {
             score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
-        }else {
+        } else {
             score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
         }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate,String name) {
+    private Evaluation countFatEvaluation(int uid, Date startDate, Date endDate, String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countFatEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countFatEvaluation(uid, startDate, endDate, GOOD);
@@ -642,14 +647,14 @@ public class DietReportServiceImpl implements IDietReportService {
         double score;
         if (WEEKLY_NAME.equals(name)) {
             score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
-        }else {
+        } else {
             score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
         }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate,String name) {
+    private Evaluation countColEvaluation(int uid, Date startDate, Date endDate, String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countColEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countColEvaluation(uid, startDate, endDate, GOOD);
@@ -658,14 +663,14 @@ public class DietReportServiceImpl implements IDietReportService {
         double score;
         if (WEEKLY_NAME.equals(name)) {
             score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
-        }else {
+        } else {
             score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
         }
 
         return new Evaluation(excellentTotal, goodTotal, badTotal, score);
     }
 
-    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate,String name) {
+    private Evaluation countFibrinEvaluation(int uid, Date startDate, Date endDate, String name) {
         int excellentTotal, goodTotal, badTotal;
         excellentTotal = countFibrinEvaluation(uid, startDate, endDate, EXCELLENT);
         goodTotal = countFibrinEvaluation(uid, startDate, endDate, GOOD);
@@ -674,7 +679,7 @@ public class DietReportServiceImpl implements IDietReportService {
         double score;
         if (WEEKLY_NAME.equals(name)) {
             score = ReportHelper.getWeeklyScore(excellentTotal, goodTotal, badTotal, 0);
-        }else {
+        } else {
             score = ReportHelper.getMonthScore(excellentTotal, goodTotal, badTotal, 0);
         }
 
@@ -819,18 +824,18 @@ public class DietReportServiceImpl implements IDietReportService {
 
         TbDietUserStandard userStandard = foodService.getDietStandard(uid);
 
-        DietMonthReport report = ReportHelper.getDietMonthReport(userStandard,record,reportList,recordList);
+        DietMonthReport report = ReportHelper.getDietMonthReport(userStandard, record, reportList, recordList);
 
         // 营养素评价统计
         WeeklyNutrientsEvaluation nutrientsEvaluation = report.getWeeklyNutrientsEvaluation();
-        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate,MONTH_NAME));
+        nutrientsEvaluation.setNutrientsEvaluation(countNutrientEvaluation(uid, startDate, endDate, MONTH_NAME));
         nutrientsEvaluation.setScore(ReportHelper.getMonthScore(nutrientsEvaluation, WEEKLY_NUTRIENT_SIZE));
         report.setWeeklyNutrientsEvaluation(nutrientsEvaluation);
 
         // 早午晚餐能量评价统计
-        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST,MONTH_NAME));
-        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH,MONTH_NAME));
-        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER,MONTH_NAME));
+        report.setBreakfast(countMealEnergyEvaluation(uid, startDate, endDate, BREAKFAST, MONTH_NAME));
+        report.setLunch(countMealEnergyEvaluation(uid, startDate, endDate, LUNCH, MONTH_NAME));
+        report.setDinner(countMealEnergyEvaluation(uid, startDate, endDate, DINNER, MONTH_NAME));
 
 //        // 储存报告
 //        if (isFinishMeal(date, MONTH)) {
