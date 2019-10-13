@@ -77,7 +77,7 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
      */
     @Override
     public List<TbUserBasicInfo> listByUserGroup(Integer groupId, Integer pageSize, Integer pageNum) {
-        PageHelper.startPage(pageSize, pageNum);
+        PageHelper.startPage(pageNum, pageSize);
         TbUserBasicInfoExample example = new TbUserBasicInfoExample();
         example.createCriteria()
                 .andGroupIdEqualTo(groupId);
