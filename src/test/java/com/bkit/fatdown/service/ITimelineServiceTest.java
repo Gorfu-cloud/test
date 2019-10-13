@@ -49,4 +49,20 @@ public class ITimelineServiceTest {
     public void getWeeklyEnergyEvaluation() {
         System.out.println(service.getWeeklyEnergyEvaluation(uid,date));
     }
+
+    @Test
+    public void getMonthNutrientsEvaluation() {
+    }
+
+    @Test
+    public void getWeeklyNutrients() {
+    }
+
+    @Test
+    public void getWeeklyNutrientsEvaluation() {
+    }
+
+    @Test
+    public void getMonthNutrients() {
+    }
 }

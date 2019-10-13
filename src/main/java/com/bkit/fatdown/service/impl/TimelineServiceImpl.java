@@ -303,8 +303,8 @@ public class TimelineServiceImpl implements ITimelineService {
         Double[] result = new Double[size];
         TbDietMealReport report;
         for (int i = 0; i < size; i++) {
-            report = reportService.getDietMealReport(start, reportType, uid);
-            if (report != null) {
+            if (reportService.countDietMealReport(start, reportType, uid) > 0) {
+                report = reportService.getDietMealReport(start, reportType, uid);
                 result[i] = report.getRealEnergy();
             }
             start = DateUtils.getTomorrow(start);
@@ -325,8 +325,8 @@ public class TimelineServiceImpl implements ITimelineService {
 
         TbDietMealReport report;
         for (int i = 0; i < size; i++) {
-            report = reportService.getDietMealReport(start, reportType, uid);
-            if (report != null) {
+            if (reportService.countDietMealReport(start, reportType, uid) > 0) {
+                report = reportService.getDietMealReport(start, reportType, uid);
                 result[i] = report.getEnergyEvaluation();
             }
             start = DateUtils.getTomorrow(start);
@@ -346,8 +346,8 @@ public class TimelineServiceImpl implements ITimelineService {
 
         TbDietMealReport report;
         for (int i = 0; i < size; i++) {
-            report = reportService.getDietMealReport(start, reportType, uid);
-            if (report != null) {
+            if (reportService.countDietMealReport(start, reportType, uid) > 0) {
+                report = reportService.getDietMealReport(start, reportType, uid);
                 result[i] = report.getStructureEvaluation();
             }
             start = DateUtils.getTomorrow(start);
@@ -369,8 +369,9 @@ public class TimelineServiceImpl implements ITimelineService {
 
         TbDietDailyReport report;
         for (int i = 0; i < size; i++) {
-            report = reportService.getDietDailyReport(start, uid);
-            if (report != null) {
+            if (reportService.countDietDailyReport(start, uid) > 0) {
+                report = reportService.getDietDailyReport(start, uid);
+
                 fat[i] = report.getFatEvaluation();
                 col[i] = report.getColEvaluation();
                 fibrin[i] = report.getFibrinEvaluation();
@@ -403,8 +404,9 @@ public class TimelineServiceImpl implements ITimelineService {
 
         TbDietDailyReport report;
         for (int i = 0; i < size; i++) {
-            report = reportService.getDietDailyReport(start, uid);
-            if (report != null) {
+            if (reportService.countDietDailyReport(start, uid) > 0) {
+                report = reportService.getDietDailyReport(start, uid);
+
                 fat[i] = report.getFatPer();
                 col[i] = report.getColPer();
                 fibrin[i] = report.getFibrinPer();

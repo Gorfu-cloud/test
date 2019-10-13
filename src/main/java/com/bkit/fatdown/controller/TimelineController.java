@@ -38,6 +38,9 @@ public class TimelineController {
     // 为了测试
     private final static Integer MIN_MEAL_OF_MONTHLY = 15;
 
+    private final static Integer MIN_DAY_OF_WEEKLY = 5;
+    private final static Integer MIN_DAY_OF_MONTHLY = 22;
+
     @ApiOperation("个人: 查看每天能量变化")
     @RequestMapping(value = "/energy/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyEnergy(@RequestParam String date, @PathVariable Integer uid) {
@@ -191,5 +194,71 @@ public class TimelineController {
         return CommonResultDTO.success(evaluation);
     }
 
+    @ApiOperation("个人: 查看每周营养素评价变化")
+    @RequestMapping(value = "/evaluation/nutrients/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyNutrientsEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietDailyReport(DateUtils.getCurrentWeekStart(inputDate),
+                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
+            return CommonResultDTO.validateFailed();
+        }
 
+        Map<String, Integer[]> evaluation = timelineService.getWeeklyNutrientsEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每月营养素评价变化")
+    @RequestMapping(value = "/evaluation/nutrients/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyNutrientsEvaluation(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietDailyReport(DateUtils.getMonthStartDate(inputDate),
+                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_DAY_OF_MONTHLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Integer[]> evaluation = timelineService.getMonthNutrientsEvaluation(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每周营养素摄入变化")
+    @RequestMapping(value = "/nutrients/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyNutrients(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietDailyReport(DateUtils.getCurrentWeekStart(inputDate),
+                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Double[]> evaluation = timelineService.getWeeklyNutrients(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每月营养素摄入变化")
+    @RequestMapping(value = "/nutrients/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyNutrients(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+        if (reportService.countDietDailyReport(DateUtils.getMonthStartDate(inputDate),
+                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_DAY_OF_MONTHLY) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        Map<String, Double[]> evaluation = timelineService.getMonthNutrients(uid, inputDate);
+        if (evaluation == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(evaluation);
+    }
 }
