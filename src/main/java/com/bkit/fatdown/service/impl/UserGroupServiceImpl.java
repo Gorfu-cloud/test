@@ -88,18 +88,22 @@ public class UserGroupServiceImpl implements IUserGroupService {
      * 查找
      *
      * @param keyWord  关键词
+     * @param status   状态: -1 全部, 0 关闭, 1 开启
      * @param pageNum  页号
      * @param pageSize 页记录条数
      * @return 分组信息列表
      */
     @Override
-    public List<TbUserGroup> list(String keyWord, Integer pageNum, Integer pageSize) {
+    public List<TbUserGroup> list(String keyWord, Integer status, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         TbUserGroupExample example = new TbUserGroupExample();
-
+        TbUserGroupExample.Criteria criteria = example.createCriteria();
         if (keyWord != null) {
-            example.createCriteria()
-                    .andNameLike("%" + keyWord + "%");
+            criteria.andNameLike("%" + keyWord + "%");
+        }
+
+        if (status != -1) {
+            criteria.andStatusEqualTo(status);
         }
 
         return groupMapper.selectByExample(example);

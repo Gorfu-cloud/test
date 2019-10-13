@@ -23,7 +23,7 @@ import java.util.List;
  * @version: 1.0
  */
 
-@Api(value = "/group", tags = "分组管理控制器")
+@Api(value = "/group", tags = "分组管理模块")
 @RestController
 @RequestMapping("/group")
 @CrossOrigin
@@ -97,8 +97,12 @@ public class UserGroupController {
     @ApiOperation("分页: 查找分组信息")
     @RequestMapping(value = "/list/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO searchGroup(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
-                                  @RequestParam(required = false) String keyWord) {
-        return CommonResultDTO.success(CommonPageDTO.restPage(groupService.list(keyWord, pageNum, pageSize)));
+                                       @RequestParam Integer status, @RequestParam(required = false) String keyWord) {
+        if (status > 1 || status < -1) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(groupService.list(keyWord, status, pageNum, pageSize)));
     }
 
     @ApiOperation("设置状态")
