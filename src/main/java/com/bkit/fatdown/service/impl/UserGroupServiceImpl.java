@@ -2,11 +2,15 @@ package com.bkit.fatdown.service.impl;
 
 import com.bkit.fatdown.dto.group.GroupParam;
 import com.bkit.fatdown.entity.TbUserGroup;
+import com.bkit.fatdown.entity.TbUserGroupExample;
 import com.bkit.fatdown.mappers.TbUserGroupMapper;
 import com.bkit.fatdown.service.IUserGroupService;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +36,13 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public boolean insert(GroupParam param) {
-        return false;
+        TbUserGroup group = new TbUserGroup();
+        BeanUtils.copyProperties(param, group);
+
+        group.setGmtCreate(new Date());
+        group.setGmtModified(new Date());
+
+        return groupMapper.insertSelective(group) > 0;
     }
 
     /**
@@ -44,7 +54,12 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public boolean update(Integer id, GroupParam param) {
-        return false;
+        TbUserGroup group = new TbUserGroup();
+        BeanUtils.copyProperties(param, group);
+
+        group.setId(id);
+        group.setGmtModified(new Date());
+        return groupMapper.updateByPrimaryKeySelective(group) > 0;
     }
 
     /**
@@ -55,7 +70,7 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public boolean delete(Integer id) {
-        return false;
+        return groupMapper.deleteByPrimaryKey(id) > 0;
     }
 
     /**
@@ -66,7 +81,7 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public TbUserGroup get(Integer id) {
-        return null;
+        return groupMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -79,7 +94,15 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public List<TbUserGroup> list(String keyWord, Integer pageNum, Integer pageSize) {
-        return null;
+        PageHelper.startPage(pageNum, pageSize);
+        TbUserGroupExample example = new TbUserGroupExample();
+
+        if (keyWord != null) {
+            example.createCriteria()
+                    .andNameLike("%" + keyWord + "%");
+        }
+
+        return groupMapper.selectByExample(example);
     }
 
     /**
@@ -90,7 +113,10 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public int count(Integer id) {
-        return 0;
+        TbUserGroupExample example = new TbUserGroupExample();
+        example.createCriteria()
+                .andIdEqualTo(id);
+        return (int) groupMapper.countByExample(example);
     }
 
     /**
@@ -102,7 +128,15 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public int updateAdmin(Integer adminId, List<Integer> list) {
-        return 0;
+        TbUserGroup group = new TbUserGroup();
+        group.setGmtModified(new Date());
+        group.setAdminId(adminId);
+
+        TbUserGroupExample example = new TbUserGroupExample();
+        example.createCriteria()
+                .andIdIn(list);
+
+        return groupMapper.updateByExampleSelective(group, example);
     }
 
     /**
@@ -114,6 +148,14 @@ public class UserGroupServiceImpl implements IUserGroupService {
      */
     @Override
     public int updateStatus(Integer status, List<Integer> list) {
-        return 0;
+        TbUserGroup group = new TbUserGroup();
+        group.setGmtModified(new Date());
+        group.setStatus(status);
+
+        TbUserGroupExample example = new TbUserGroupExample();
+        example.createCriteria()
+                .andIdIn(list);
+
+        return groupMapper.updateByExampleSelective(group, example);
     }
 }

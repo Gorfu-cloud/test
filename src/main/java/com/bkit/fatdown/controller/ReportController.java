@@ -1,10 +1,18 @@
 package com.bkit.fatdown.controller;
 
-import com.bkit.fatdown.dto.*;
-import com.bkit.fatdown.dto.diet.*;
-import com.bkit.fatdown.entity.TbFoodRecord;
-import com.bkit.fatdown.service.*;
+import com.bkit.fatdown.common.utils.DataTransferUtils;
 import com.bkit.fatdown.common.utils.DateUtils;
+import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.dto.diet.DietDailyReport;
+import com.bkit.fatdown.dto.diet.DietMealReport;
+import com.bkit.fatdown.dto.diet.DietMonthReport;
+import com.bkit.fatdown.dto.diet.DietWeeklyReport;
+import com.bkit.fatdown.entity.TbDietDailyReport;
+import com.bkit.fatdown.entity.TbFoodRecord;
+import com.bkit.fatdown.service.IDietFoodService;
+import com.bkit.fatdown.service.IDietRecordService;
+import com.bkit.fatdown.service.IDietReportService;
+import com.bkit.fatdown.service.IUserBasicInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -12,7 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @file: DietController
@@ -163,13 +173,13 @@ public class ReportController {
             return CommonResultDTO.failed("数据不足,无法进行评价");
         }
 
-//        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
-//            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
-//            if (report == null) {
-//                return CommonResultDTO.failed("记录为空");
-//            }
-//            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
-//        }
+        if (reportService.countDietDailyReport(inputDate, uid) >= DATA_EXIST) {
+            TbDietDailyReport report = reportService.getDietDailyReport(inputDate, uid);
+            if (report == null) {
+                return CommonResultDTO.failed("记录为空");
+            }
+            return CommonResultDTO.success(DataTransferUtils.transferDailyReport(report));
+        }
 
         // 生成每日饮食报告
         DietDailyReport dailyReport = reportService.generateDailyReport(inputDate, uid);
@@ -191,18 +201,18 @@ public class ReportController {
 
         Date inputDate = DateUtils.string2Date(date);
 
-//        if (reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST) {
-//            DietWeeklyReport report = DataTransferUtils.transferWeeklyReport(reportService.getDietWeeklyReport(inputDate, uid));
-//            if (report == null) {
-//                return CommonResultDTO.failed("获取报告失败");
-//            }
-//            return CommonResultDTO.success(report);
-//        }
+        if (reportService.countWeeklyReport(inputDate, uid) >= DATA_EXIST) {
+            DietWeeklyReport report = DataTransferUtils.transferWeeklyReport(reportService.getDietWeeklyReport(inputDate, uid));
+            if (report == null) {
+                return CommonResultDTO.failed("获取报告失败");
+            }
+            return CommonResultDTO.success(report);
+        }
 
         // 少于15次报告，无法生成数据
-//        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
-//            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
-//        }
+        if (reportService.countDietMealReport(inputDate, uid) < WEEKLY_REPORT_MIN_TOTAL) {
+            return CommonResultDTO.failed("用餐数据少于15餐，无法生成有效数据");
+        }
 
         // 生成每周报告记录
         DietWeeklyReport report = reportService.generateWeeklyReport(inputDate, uid);
@@ -225,11 +235,9 @@ public class ReportController {
         Date inputDate = DateUtils.string2Date(date);
 
         //  少于65次报告，无法生成数据
-        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
-            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
-        }
-
-        // 存在报告记录，直接返回记录
+//        if (reportService.countDietMealReport(inputDate, uid) < MOUTH_REPORT_MIN_TOTAL) {
+//            return CommonResultDTO.failed("用餐数据少于65餐，无法生成有效数据");
+//        }
 
         // 生成每月报告记录
         DietMonthReport report = reportService.generateMonthReport(inputDate, uid);
