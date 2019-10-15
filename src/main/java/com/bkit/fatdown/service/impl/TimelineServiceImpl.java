@@ -115,9 +115,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getEnergyByType(start, WEEKLY, uid, BREAKFAST));
-        map.put("lunch", getEnergyByType(start, WEEKLY, uid, LUNCH));
-        map.put("dinner", getEnergyByType(start, WEEKLY, uid, DINNER));
+        map.put("breakfast", getEnergyByType(start, WEEKLY, uid, BREAKFAST, false));
+        map.put("lunch", getEnergyByType(start, WEEKLY, uid, LUNCH, false));
+        map.put("dinner", getEnergyByType(start, WEEKLY, uid, DINNER, false));
 
         return map;
     }
@@ -136,9 +136,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getEvaluationByType(start, WEEKLY, uid, BREAKFAST));
-        map.put("lunch", getEvaluationByType(start, WEEKLY, uid, LUNCH));
-        map.put("dinner", getEvaluationByType(start, WEEKLY, uid, DINNER));
+        map.put("breakfast", getEvaluationByType(start, WEEKLY, uid, BREAKFAST, false));
+        map.put("lunch", getEvaluationByType(start, WEEKLY, uid, LUNCH, false));
+        map.put("dinner", getEvaluationByType(start, WEEKLY, uid, DINNER, false));
 
         return map;
     }
@@ -157,9 +157,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getStructureEvaluationByType(start, WEEKLY, uid, BREAKFAST));
-        map.put("lunch", getStructureEvaluationByType(start, WEEKLY, uid, LUNCH));
-        map.put("dinner", getStructureEvaluationByType(start, WEEKLY, uid, DINNER));
+        map.put("breakfast", getStructureEvaluationByType(start, WEEKLY, uid, BREAKFAST, false));
+        map.put("lunch", getStructureEvaluationByType(start, WEEKLY, uid, LUNCH, false));
+        map.put("dinner", getStructureEvaluationByType(start, WEEKLY, uid, DINNER, false));
 
         return map;
     }
@@ -172,16 +172,16 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月能量
      */
     @Override
-    public Map<String, Double[]> getMonthEnergy(Integer uid, Date date) {
+    public Map<String, Double[]> getMonthEnergy(Integer uid, Date date, boolean isCompress) {
         Map<String, Double[]> map = new HashMap<>(3);
 
         // 获取日期循环
         Date start = DateUtils.getMonthStartDate(date);
         int daysOfMonth = DateUtils.getDaysOfMonth(start);
 
-        map.put("breakfast", getEnergyByType(start, daysOfMonth, uid, BREAKFAST));
-        map.put("lunch", getEnergyByType(start, daysOfMonth, uid, LUNCH));
-        map.put("dinner", getEnergyByType(start, daysOfMonth, uid, DINNER));
+        map.put("breakfast", getEnergyByType(start, daysOfMonth, uid, BREAKFAST, isCompress));
+        map.put("lunch", getEnergyByType(start, daysOfMonth, uid, LUNCH, isCompress));
+        map.put("dinner", getEnergyByType(start, daysOfMonth, uid, DINNER, isCompress));
 
         return map;
     }
@@ -194,16 +194,16 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月能量评价
      */
     @Override
-    public Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid, Date date) {
+    public Map<String, Integer[]> getMonthEnergyEvaluation(Integer uid, Date date, boolean isCompress) {
         Map<String, Integer[]> map = new HashMap<>(3);
 
         // 获取日期循环
         Date start = DateUtils.getMonthStartDate(date);
         int daysOfMonth = DateUtils.getDaysOfMonth(start);
 
-        map.put("breakfast", getEvaluationByType(start, daysOfMonth, uid, BREAKFAST));
-        map.put("lunch", getEvaluationByType(start, daysOfMonth, uid, LUNCH));
-        map.put("dinner", getEvaluationByType(start, daysOfMonth, uid, DINNER));
+        map.put("breakfast", getEvaluationByType(start, daysOfMonth, uid, BREAKFAST, isCompress));
+        map.put("lunch", getEvaluationByType(start, daysOfMonth, uid, LUNCH, isCompress));
+        map.put("dinner", getEvaluationByType(start, daysOfMonth, uid, DINNER, isCompress));
 
         return map;
     }
@@ -216,16 +216,16 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月能量评价
      */
     @Override
-    public Map<String, Integer[]> getMonthStructureEvaluation(Integer uid, Date date) {
+    public Map<String, Integer[]> getMonthStructureEvaluation(Integer uid, Date date, boolean isCompress) {
         Map<String, Integer[]> map = new HashMap<>(3);
 
         // 获取日期循环
         Date start = DateUtils.getMonthStartDate(date);
         int daysOfMonth = DateUtils.getDaysOfMonth(start);
 
-        map.put("breakfast", getStructureEvaluationByType(start, daysOfMonth, uid, BREAKFAST));
-        map.put("lunch", getStructureEvaluationByType(start, daysOfMonth, uid, LUNCH));
-        map.put("dinner", getStructureEvaluationByType(start, daysOfMonth, uid, DINNER));
+        map.put("breakfast", getStructureEvaluationByType(start, daysOfMonth, uid, BREAKFAST, isCompress));
+        map.put("lunch", getStructureEvaluationByType(start, daysOfMonth, uid, LUNCH, isCompress));
+        map.put("dinner", getStructureEvaluationByType(start, daysOfMonth, uid, DINNER, isCompress));
 
         return map;
     }
@@ -242,7 +242,7 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        return getNutrients(start, WEEKLY, uid);
+        return getNutrients(start, WEEKLY, uid, false);
     }
 
     /**
@@ -253,12 +253,12 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月营养素
      */
     @Override
-    public Map<String, Double[]> getMonthNutrients(Integer uid, Date date) {
+    public Map<String, Double[]> getMonthNutrients(Integer uid, Date date, boolean isCompress) {
         // 获取日期循环
         Date start = DateUtils.getMonthStartDate(date);
         int daysOfMonth = DateUtils.getDaysOfMonth(start);
 
-        return getNutrients(start, daysOfMonth, uid);
+        return getNutrients(start, daysOfMonth, uid, isCompress);
     }
 
     /**
@@ -273,7 +273,7 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        return getNutrientsEvaluation(start, WEEKLY, uid);
+        return getNutrientsEvaluation(start, WEEKLY, uid, false);
     }
 
     /**
@@ -284,21 +284,21 @@ public class TimelineServiceImpl implements ITimelineService {
      * @return 当月营养素评价
      */
     @Override
-    public Map<String, Integer[]> getMonthNutrientsEvaluation(Integer uid, Date date) {
+    public Map<String, Integer[]> getMonthNutrientsEvaluation(Integer uid, Date date, boolean isCompress) {
         // 获取日期循环
         Date start = DateUtils.getMonthStartDate(date);
         int daysOfMonth = DateUtils.getDaysOfMonth(start);
 
-        return getNutrientsEvaluation(start, daysOfMonth, uid);
+        return getNutrientsEvaluation(start, daysOfMonth, uid, isCompress);
     }
 
     /**
-     * @param start      每周开始第一天
+     * @param start      第一天
      * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周摄入能量
      */
-    private Double[] getEnergyByType(Date start, Integer size, Integer uid, Integer reportType) {
+    private Double[] getEnergyByType(Date start, Integer size, Integer uid, Integer reportType, boolean isCompress) {
 
         Double[] result = new Double[size];
         TbDietMealReport report;
@@ -310,7 +310,7 @@ public class TimelineServiceImpl implements ITimelineService {
             start = DateUtils.getTomorrow(start);
         }
 
-        return result;
+        return isCompress ? compress(result) : result;
     }
 
     /**
@@ -319,7 +319,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周饮食评价
      */
-    private Integer[] getEvaluationByType(Date start, Integer size, Integer uid, Integer reportType) {
+    private Integer[] getEvaluationByType(Date start, Integer size, Integer uid, Integer reportType, boolean isCompress) {
 
         Integer[] result = new Integer[size];
 
@@ -331,7 +331,8 @@ public class TimelineServiceImpl implements ITimelineService {
             }
             start = DateUtils.getTomorrow(start);
         }
-        return result;
+
+        return isCompress ? compress(result) : result;
     }
 
     /**
@@ -340,7 +341,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
      * @return 一周结构评价
      */
-    private Integer[] getStructureEvaluationByType(Date start, Integer size, Integer uid, Integer reportType) {
+    private Integer[] getStructureEvaluationByType(Date start, Integer size, Integer uid, Integer reportType, boolean isCompress) {
 
         Integer[] result = new Integer[size];
 
@@ -352,7 +353,8 @@ public class TimelineServiceImpl implements ITimelineService {
             }
             start = DateUtils.getTomorrow(start);
         }
-        return result;
+
+        return isCompress ? compress(result) : result;
     }
 
     /**
@@ -360,7 +362,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @param uid   用户编号
      * @return 一周摄入主要营养素评价
      */
-    private Map<String, Integer[]> getNutrientsEvaluation(Date start, Integer size, Integer uid) {
+    private Map<String, Integer[]> getNutrientsEvaluation(Date start, Integer size, Integer uid, boolean isCompress) {
 
         Integer[] fat = new Integer[size];
         Integer[] col = new Integer[size];
@@ -382,10 +384,17 @@ public class TimelineServiceImpl implements ITimelineService {
 
         Map<String, Integer[]> map = new HashMap<>(4);
 
-        map.put("fat", fat);
-        map.put("protein", protein);
-        map.put("fibrin", fibrin);
-        map.put("col", col);
+        if (isCompress) {
+            map.put("fat", compress(fat));
+            map.put("protein", compress(protein));
+            map.put("fibrin", compress(fibrin));
+            map.put("col", compress(col));
+        } else {
+            map.put("fat", fat);
+            map.put("protein", protein);
+            map.put("fibrin", fibrin);
+            map.put("col", col);
+        }
 
         return map;
     }
@@ -395,7 +404,7 @@ public class TimelineServiceImpl implements ITimelineService {
      * @param uid   用户编号
      * @return 一周摄入主要营养素评价
      */
-    private Map<String, Double[]> getNutrients(Date start, Integer size, Integer uid) {
+    private Map<String, Double[]> getNutrients(Date start, Integer size, Integer uid, boolean isCompress) {
 
         Double[] fat = new Double[size];
         Double[] col = new Double[size];
@@ -417,11 +426,109 @@ public class TimelineServiceImpl implements ITimelineService {
 
         Map<String, Double[]> map = new HashMap<>(4);
 
-        map.put("fat", fat);
-        map.put("protein", protein);
-        map.put("fibrin", fibrin);
-        map.put("col", col);
+        if (isCompress) {
+            map.put("fat", compress(fat));
+            map.put("protein", compress(protein));
+            map.put("fibrin", compress(fibrin));
+            map.put("col", compress(col));
+        } else {
+            map.put("fat", fat);
+            map.put("protein", protein);
+            map.put("fibrin", fibrin);
+            map.put("col", col);
+        }
 
         return map;
+    }
+
+    /**
+     * 将每三个数据整合为一个数据
+     *
+     * @param input 输入数据
+     * @return 整合后数据
+     */
+    private Integer[] compress(Integer[] input) {
+        int size = input.length / 3;
+        Integer[] num = new Integer[size];
+        Integer[] arr;
+
+        for (int i = 0; i < size; i += 3) {
+            arr = new Integer[3];
+            arr[0] = input[i];
+            arr[1] = input[i + 1];
+            arr[2] = input[i + 2];
+            num[i] = getMeanValue(arr);
+        }
+
+        return num;
+    }
+
+    /**
+     * 将每三个数据整合为一个数据
+     *
+     * @param input 输入数据
+     * @return 整合后数据
+     */
+    private Double[] compress(Double[] input) {
+        int size = input.length / 3;
+        Double[] num = new Double[size];
+        Double[] arr;
+
+        // 这里将三个点合并为一个
+        for (int i = 0; i < size; i += 3) {
+            arr = new Double[3];
+            arr[0] = input[i];
+            arr[1] = input[i + 1];
+            arr[2] = input[i + 2];
+            num[i] = getMeanValue(arr);
+        }
+
+        return num;
+    }
+
+    /**
+     * 获取均值
+     *
+     * @param num 数据
+     * @return 均值
+     */
+    private Integer getMeanValue(Integer[] num) {
+        // 有效数据长度
+        int count = 0;
+        // 总数
+        int total = 0;
+
+        for (Integer integer : num) {
+            // 当输入值不为空
+            if (integer != null) {
+                count++;
+                total += integer;
+            }
+        }
+
+        return count == 0 ? null : total / count;
+    }
+
+    /**
+     * 获取均值
+     *
+     * @param num 数据
+     * @return 均值
+     */
+    private Double getMeanValue(Double[] num) {
+        // 有效数据长度
+        double count = 0;
+        // 总数
+        double total = 0;
+
+        for (Double value : num) {
+            // 当输入值不为空
+            if (value != null) {
+                count++;
+                total += value;
+            }
+        }
+
+        return count == 0 ? null : total / count;
     }
 }
