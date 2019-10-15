@@ -450,14 +450,19 @@ public class TimelineServiceImpl implements ITimelineService {
     private Integer[] compress(Integer[] input) {
         int size = input.length / 3;
         Integer[] num = new Integer[size];
-        Integer[] arr;
+        Integer[] arr = new Integer[3];
 
-        for (int i = 0; i < size; i += 3) {
-            arr = new Integer[3];
-            arr[0] = input[i];
-            arr[1] = input[i + 1];
-            arr[2] = input[i + 2];
+        // 这里将三个点合并为一个
+        for (int i = 0, j = 0; i < size; i++) {
+            arr[0] = input[j];
+            arr[1] = input[j + 1];
+            arr[2] = input[j + 2];
+
+            // 结果
             num[i] = getMeanValue(arr);
+
+            // 原来的三个点
+            j += 3;
         }
 
         return num;
@@ -472,15 +477,19 @@ public class TimelineServiceImpl implements ITimelineService {
     private Double[] compress(Double[] input) {
         int size = input.length / 3;
         Double[] num = new Double[size];
-        Double[] arr;
+        Double[] arr = new Double[3];
 
         // 这里将三个点合并为一个
-        for (int i = 0; i < size; i += 3) {
-            arr = new Double[3];
-            arr[0] = input[i];
-            arr[1] = input[i + 1];
-            arr[2] = input[i + 2];
+        for (int i = 0, j = 0; i < size; i++) {
+            arr[0] = input[j];
+            arr[1] = input[j + 1];
+            arr[2] = input[j + 2];
+
+            // 结果
             num[i] = getMeanValue(arr);
+
+            // 原来的三个点
+            j += 3;
         }
 
         return num;
