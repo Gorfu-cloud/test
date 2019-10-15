@@ -3,6 +3,7 @@ package com.bkit.fatdown.controller;
 import cn.hutool.core.date.DateUtil;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
+import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.ITimelineService;
 import io.swagger.annotations.Api;
@@ -32,6 +33,9 @@ public class TimelineController {
 
     @Resource
     private IDietReportService reportService;
+
+    @Resource
+    private IDietRecordService recordService;
 
     private final static Integer MIN_MEAL_OF_DAY = 3;
     private final static Integer MIN_MEAL_OF_WEEKLY = 15;
@@ -345,5 +349,88 @@ public class TimelineController {
         }
 
         return CommonResultDTO.success(evaluation);
+    }
+
+    @ApiOperation("个人: 查看每周维生素摄入变化")
+    @RequestMapping(value = "/vitamin/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyVitamin(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+        Map<String, Double[]> value = timelineService.getWeeklyVitamin(uid, inputDate);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
+    }
+
+    @ApiOperation("个人: 查看每月维生素摄入变化(压缩)")
+    @RequestMapping(value = "/vitamin/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+
+
+        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, true);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
+    }
+
+    @ApiOperation("个人: 查看每月维生素摄入变化")
+    @RequestMapping(value = "/vitamin/monthly/compress{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getCompressMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+
+        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, false);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
+    }
+
+    @ApiOperation("个人: 查看每周矿物质摄入变化")
+    @RequestMapping(value = "/minerals/weekly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getWeeklyMinerals(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+        Map<String, Double[]> value = timelineService.getWeeklyMinerals(uid, inputDate);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
+    }
+
+    @ApiOperation("个人: 查看每月矿物质摄入变化(压缩)")
+    @RequestMapping(value = "/minerals/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+
+        Map<String, Double[]> value = timelineService.getMonthMinerals(uid, inputDate, true);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
+    }
+
+    @ApiOperation("个人: 查看每月矿物质摄入变化")
+    @RequestMapping(value = "/minerals/monthly/compress{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getCompressMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
+        Date inputDate = DateUtil.parseDate(date);
+
+
+        Map<String, Double[]> value = timelineService.getMonthMinerals(uid, inputDate, false);
+        if (value == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(value);
     }
 }

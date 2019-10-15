@@ -3,12 +3,18 @@ package com.bkit.fatdown.service.impl;
 import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.entity.TbDietDailyReport;
 import com.bkit.fatdown.entity.TbDietMealReport;
+import com.bkit.fatdown.entity.TbDietRecord;
+import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
 import com.bkit.fatdown.service.ITimelineService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.bkit.fatdown.common.utils.MathUtils.compress;
 
 /**
  * @file: TimelineServiceImpl
@@ -21,14 +27,30 @@ import java.util.*;
 @Service
 public class TimelineServiceImpl implements ITimelineService {
 
+    /**
+     * 获取评价报告
+     */
     @Resource
     private IDietReportService reportService;
 
+    /**
+     * 获取摄入量统计
+     */
+    @Resource
+    private IDietRecordService recordService;
+
+    /**
+     * 报告类型: 0 早餐， 1 午餐， 2 晚餐， 3 加餐， 4 每日， 5 每周， 6每月
+     */
     private final static Integer BREAKFAST = 0;
     private final static Integer LUNCH = 1;
     private final static Integer DINNER = 2;
+    private final static Integer DAY = 4;
 
-    private final static Integer WEEKLY = 7;
+    /**
+     * 一周 7天
+     */
+    private final static Integer WEEKLY_SIZE = 7;
 
     /**
      * 获取每天能量
@@ -45,9 +67,9 @@ public class TimelineServiceImpl implements ITimelineService {
         int dinnerType = 2;
 
         for (int i = 0; i <= dinnerType; i++) {
-            TbDietMealReport report = reportService.getDietMealReport(date, i, uid);
-            if (report != null) {
-                meals[i] = report.getRealEnergy();
+            TbDietRecord record = recordService.getDietRecord(date, uid, i);
+            if (record != null) {
+                meals[i] = record.getEnergy();
             }
         }
 
@@ -115,9 +137,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getEnergyByType(start, WEEKLY, uid, BREAKFAST, false));
-        map.put("lunch", getEnergyByType(start, WEEKLY, uid, LUNCH, false));
-        map.put("dinner", getEnergyByType(start, WEEKLY, uid, DINNER, false));
+        map.put("breakfast", getEnergyByType(start, WEEKLY_SIZE, uid, BREAKFAST, false));
+        map.put("lunch", getEnergyByType(start, WEEKLY_SIZE, uid, LUNCH, false));
+        map.put("dinner", getEnergyByType(start, WEEKLY_SIZE, uid, DINNER, false));
 
         return map;
     }
@@ -136,9 +158,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getEvaluationByType(start, WEEKLY, uid, BREAKFAST, false));
-        map.put("lunch", getEvaluationByType(start, WEEKLY, uid, LUNCH, false));
-        map.put("dinner", getEvaluationByType(start, WEEKLY, uid, DINNER, false));
+        map.put("breakfast", getEvaluationByType(start, WEEKLY_SIZE, uid, BREAKFAST, false));
+        map.put("lunch", getEvaluationByType(start, WEEKLY_SIZE, uid, LUNCH, false));
+        map.put("dinner", getEvaluationByType(start, WEEKLY_SIZE, uid, DINNER, false));
 
         return map;
     }
@@ -157,9 +179,9 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        map.put("breakfast", getStructureEvaluationByType(start, WEEKLY, uid, BREAKFAST, false));
-        map.put("lunch", getStructureEvaluationByType(start, WEEKLY, uid, LUNCH, false));
-        map.put("dinner", getStructureEvaluationByType(start, WEEKLY, uid, DINNER, false));
+        map.put("breakfast", getStructureEvaluationByType(start, WEEKLY_SIZE, uid, BREAKFAST, false));
+        map.put("lunch", getStructureEvaluationByType(start, WEEKLY_SIZE, uid, LUNCH, false));
+        map.put("dinner", getStructureEvaluationByType(start, WEEKLY_SIZE, uid, DINNER, false));
 
         return map;
     }
@@ -242,7 +264,7 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        return getNutrients(start, WEEKLY, uid, false);
+        return getNutrients(start, WEEKLY_SIZE, uid, false);
     }
 
     /**
@@ -273,7 +295,7 @@ public class TimelineServiceImpl implements ITimelineService {
         // 获取日期循环
         Date start = DateUtils.getCurrentWeekStart(date);
 
-        return getNutrientsEvaluation(start, WEEKLY, uid, false);
+        return getNutrientsEvaluation(start, WEEKLY_SIZE, uid, false);
     }
 
     /**
@@ -292,6 +314,93 @@ public class TimelineServiceImpl implements ITimelineService {
         return getNutrientsEvaluation(start, daysOfMonth, uid, isCompress);
     }
 
+//    /**
+//     * 获取当天维生素
+//     *
+//     * @param uid  用户id
+//     * @param date 当天日期
+//     * @return 当天维生素
+//     */
+//    @Override
+//    public Map<String, Double[]> getDailyVitamin(Integer uid, Date date) {
+//        return getVitamin(date, 1, uid, false);
+//    }
+
+    /**
+     * 获取当周维生素
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周维生素
+     */
+    @Override
+    public Map<String, Double[]> getWeeklyVitamin(Integer uid, Date date) {
+        // 获取日期循环
+        Date start = DateUtils.getCurrentWeekStart(date);
+        return getVitamin(start, WEEKLY_SIZE, uid, false);
+    }
+
+    /**
+     * 获取当月维生素
+     *
+     * @param uid        用户id
+     * @param date       当月日期
+     * @param isCompress 是否压缩
+     * @return 当月维生素
+     */
+    @Override
+    public Map<String, Double[]> getMonthVitamin(Integer uid, Date date, boolean isCompress) {
+        // 获取日期循环
+        Date start = DateUtils.getMonthStartDate(date);
+        int daysOfMonth = DateUtils.getDaysOfMonth(start);
+
+        return getVitamin(start, daysOfMonth, uid, isCompress);
+    }
+
+//    /**
+//     * 获取当天矿物质
+//     *
+//     * @param uid  用户id
+//     * @param date 当周日期
+//     * @return 当周矿物质
+//     */
+//    @Override
+//    public Map<String, Double[]> getDailyMinerals(Integer uid, Date date) {
+//
+//        return null;
+//    }
+
+    /**
+     * 获取当周矿物质
+     *
+     * @param uid  用户id
+     * @param date 当周日期
+     * @return 当周矿物质
+     */
+    @Override
+    public Map<String, Double[]> getWeeklyMinerals(Integer uid, Date date) {
+        // 获取日期循环
+        Date start = DateUtils.getCurrentWeekStart(date);
+        return getMinerals(start, WEEKLY_SIZE, uid, false);
+    }
+
+    /**
+     * 获取当月矿物质
+     *
+     * @param uid        用户id
+     * @param date       当月日期
+     * @param isCompress 是否压缩
+     * @return 当月矿物质
+     */
+    @Override
+    public Map<String, Double[]> getMonthMinerals(Integer uid, Date date, boolean isCompress) {
+        // 获取日期循环
+        Date start = DateUtils.getMonthStartDate(date);
+        int daysOfMonth = DateUtils.getDaysOfMonth(start);
+
+        return getMinerals(start, daysOfMonth, uid, isCompress);
+    }
+
     /**
      * @param start      第一天
      * @param uid        用户编号
@@ -301,12 +410,13 @@ public class TimelineServiceImpl implements ITimelineService {
     private Double[] getEnergyByType(Date start, Integer size, Integer uid, Integer reportType, boolean isCompress) {
 
         Double[] result = new Double[size];
-        TbDietMealReport report;
+        TbDietRecord record;
         for (int i = 0; i < size; i++) {
-            if (reportService.countDietMealReport(start, reportType, uid) > 0) {
-                report = reportService.getDietMealReport(start, reportType, uid);
-                result[i] = report.getRealEnergy();
+            if (recordService.countDietRecord(start, uid, reportType) > 0) {
+                record = recordService.getDietRecord(start, uid, reportType);
+                result[i] = record.getEnergy();
             }
+
             start = DateUtils.getTomorrow(start);
         }
 
@@ -314,6 +424,8 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
+     * 获取饮食评价
+     *
      * @param start      每周开始第一天
      * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
@@ -336,6 +448,8 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
+     * 获取结构评价
+     *
      * @param start      每周开始第一天
      * @param uid        用户编号
      * @param reportType 报告类型: 0 1 2 (早 午 晚 餐)
@@ -358,6 +472,8 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
+     * 获取营养素评价
+     *
      * @param start 开始第一天
      * @param uid   用户编号
      * @return 一周摄入主要营养素评价
@@ -400,9 +516,11 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
+     * 获取摄入营养素
+     *
      * @param start 开始第一天
      * @param uid   用户编号
-     * @return 一周摄入主要营养素评价
+     * @return 一周摄入主要营养素
      */
     private Map<String, Double[]> getNutrients(Date start, Integer size, Integer uid, boolean isCompress) {
 
@@ -411,16 +529,17 @@ public class TimelineServiceImpl implements ITimelineService {
         Double[] fibrin = new Double[size];
         Double[] protein = new Double[size];
 
-        TbDietDailyReport report;
+        TbDietRecord record;
         for (int i = 0; i < size; i++) {
-            if (reportService.countDietDailyReport(start, uid) > 0) {
-                report = reportService.getDietDailyReport(start, uid);
+            if (recordService.countDietRecord(start, uid, DAY) > 0) {
+                record = recordService.getDietRecord(start, uid, DAY);
 
-                fat[i] = report.getFatPer();
-                col[i] = report.getColPer();
-                fibrin[i] = report.getFibrinPer();
-                protein[i] = report.getProteinPer();
+                fat[i] = record.getFat();
+                col[i] = record.getCarbs();
+                fibrin[i] = record.getInsolubleFiber();
+                protein[i] = record.getProtein();
             }
+
             start = DateUtils.getTomorrow(start);
         }
 
@@ -442,102 +561,126 @@ public class TimelineServiceImpl implements ITimelineService {
     }
 
     /**
-     * 将每三个数据整合为一个数据
+     * 获取摄入矿物质
      *
-     * @param input 输入数据
-     * @return 整合后数据
+     * @param start 开始第一天
+     * @param uid   用户编号
+     * @return 摄入矿物质
      */
-    private Integer[] compress(Integer[] input) {
-        int size = input.length / 3;
-        Integer[] num = new Integer[size];
-        Integer[] arr = new Integer[3];
+    private Map<String, Double[]> getMinerals(Date start, Integer size, Integer uid, boolean isCompress) {
 
-        // 这里将三个点合并为一个
-        for (int i = 0, j = 0; i < size; i++) {
-            arr[0] = input[j];
-            arr[1] = input[j + 1];
-            arr[2] = input[j + 2];
+        Double[] ca = new Double[size];
+        Double[] p = new Double[size];
+        Double[] k = new Double[size];
+        Double[] mg = new Double[size];
+        Double[] fe = new Double[size];
+        Double[] zn = new Double[size];
+        Double[] se = new Double[size];
+        Double[] cu = new Double[size];
+        Double[] na = new Double[size];
+        Double[] mn = new Double[size];
 
-            // 结果
-            num[i] = getMeanValue(arr);
+        TbDietRecord record;
+        for (int i = 0; i < size; i++) {
+            if (recordService.countDietRecord(start, uid, DAY) > 0) {
+                record = recordService.getDietRecord(start, uid, DAY);
 
-            // 原来的三个点
-            j += 3;
-        }
-
-        return num;
-    }
-
-    /**
-     * 将每三个数据整合为一个数据
-     *
-     * @param input 输入数据
-     * @return 整合后数据
-     */
-    private Double[] compress(Double[] input) {
-        int size = input.length / 3;
-        Double[] num = new Double[size];
-        Double[] arr = new Double[3];
-
-        // 这里将三个点合并为一个
-        for (int i = 0, j = 0; i < size; i++) {
-            arr[0] = input[j];
-            arr[1] = input[j + 1];
-            arr[2] = input[j + 2];
-
-            // 结果
-            num[i] = getMeanValue(arr);
-
-            // 原来的三个点
-            j += 3;
-        }
-
-        return num;
-    }
-
-    /**
-     * 获取均值
-     *
-     * @param num 数据
-     * @return 均值
-     */
-    private Integer getMeanValue(Integer[] num) {
-        // 有效数据长度
-        int count = 0;
-        // 总数
-        int total = 0;
-
-        for (Integer integer : num) {
-            // 当输入值不为空
-            if (integer != null) {
-                count++;
-                total += integer;
+                ca[i] = record.getCa();
+                p[i] = record.getP();
+                k[i] = record.getK();
+                mg[i] = record.getMn();
+                fe[i] = record.getFe();
+                zn[i] = record.getZn();
+                se[i] = record.getSe();
+                cu[i] = record.getCu();
+                na[i] = record.getNa();
             }
+
+            start = DateUtils.getTomorrow(start);
         }
 
-        return count == 0 ? null : total / count;
+        Map<String, Double[]> map = new HashMap<>(4);
+
+        if (isCompress) {
+            map.put("ca", compress(ca));
+            map.put("p", compress(p));
+            map.put("k", compress(k));
+            map.put("mg", compress(mg));
+            map.put("fe", compress(fe));
+            map.put("zn", compress(zn));
+            map.put("se", compress(se));
+            map.put("cu", compress(cu));
+            map.put("na", compress(na));
+            map.put("mn", compress(mn));
+
+        } else {
+            map.put("ca", ca);
+            map.put("p", p);
+            map.put("k", k);
+            map.put("mg", mg);
+            map.put("fe", fe);
+            map.put("zn", zn);
+            map.put("se", se);
+            map.put("cu", cu);
+            map.put("na", na);
+            map.put("mn", mn);
+        }
+
+        return map;
     }
 
     /**
-     * 获取均值
+     * 获取摄入维生素
      *
-     * @param num 数据
-     * @return 均值
+     * @param start 开始第一天
+     * @param uid   用户编号
+     * @return 摄入维生素
      */
-    private Double getMeanValue(Double[] num) {
-        // 有效数据长度
-        double count = 0;
-        // 总数
-        double total = 0;
+    private Map<String, Double[]> getVitamin(Date start, Integer size, Integer uid, boolean isCompress) {
 
-        for (Double value : num) {
-            // 当输入值不为空
-            if (value != null) {
-                count++;
-                total += value;
+        Double[] a = new Double[size];
+        Double[] b1 = new Double[size];
+        Double[] b2 = new Double[size];
+        Double[] b3 = new Double[size];
+        Double[] c = new Double[size];
+        Double[] e = new Double[size];
+
+        TbDietRecord record;
+        for (int i = 0; i < size; i++) {
+            if (recordService.countDietRecord(start, uid, DAY) > 0) {
+                record = recordService.getDietRecord(start, uid, DAY);
+
+
+                a[i] = record.getVitaminA();
+                b1[i] = record.getVitaminB1();
+                b2[i] = record.getVitaminB2();
+                b3[i] = record.getVitaminB3();
+                c[i] = record.getVitaminC();
+                e[i] = record.getVitaminE();
             }
+
+            start = DateUtils.getTomorrow(start);
         }
 
-        return count == 0 ? null : total / count;
+        Map<String, Double[]> map = new HashMap<>(4);
+
+        if (isCompress) {
+            map.put("a", compress(a));
+            map.put("b1", compress(b1));
+            map.put("b2", compress(b2));
+            map.put("b3", compress(b3));
+            map.put("c", compress(c));
+            map.put("e", compress(e));
+        } else {
+            map.put("a", a);
+            map.put("b1", b1);
+            map.put("b2", b2);
+            map.put("b3", b3);
+            map.put("c", c);
+            map.put("e", e);
+        }
+
+        return map;
     }
+
 }
