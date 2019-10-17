@@ -50,9 +50,9 @@ public class TimelineController {
     public CommonResultDTO getDailyEnergy(@RequestParam String date, @PathVariable Integer uid) {
 
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Double[] energy = timelineService.getDailyEnergy(uid, inputDate);
         if (energy == null) {
@@ -66,10 +66,10 @@ public class TimelineController {
     @RequestMapping(value = "/energy/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyEnergy(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
-                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+//                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> evaluation = timelineService.getWeeklyEnergy(uid, inputDate);
         if (evaluation == null) {
@@ -83,10 +83,10 @@ public class TimelineController {
     @RequestMapping(value = "/energy/monthly/compress/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getCompressMonthlyEnergy(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> evaluation = timelineService.getMonthEnergy(uid, inputDate, true);
         if (evaluation == null) {
@@ -100,10 +100,10 @@ public class TimelineController {
     @RequestMapping(value = "/energy/monthly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getMonthlyEnergy(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> evaluation = timelineService.getMonthEnergy(uid, inputDate, false);
         if (evaluation == null) {
@@ -117,9 +117,9 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/energy/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Integer[] evaluation = timelineService.getDailyEnergyEvaluation(uid, inputDate);
 
@@ -134,10 +134,10 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/energy/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
-                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+//                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getWeeklyEnergyEvaluation(uid, inputDate);
         if (evaluation == null) {
@@ -148,13 +148,13 @@ public class TimelineController {
     }
 
     @ApiOperation("个人: 查看每月能量评价变化(压缩)")
-    @RequestMapping(value = "/evaluation/energy/monthly/compress{uid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/evaluation/energy/monthly/compress/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getCompressMonthlyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getMonthEnergyEvaluation(uid, inputDate, true);
         if (evaluation == null) {
@@ -168,10 +168,10 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/energy/monthly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getMonthlyEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getMonthEnergyEvaluation(uid, inputDate, false);
         if (evaluation == null) {
@@ -185,9 +185,9 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/structure/daily/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getDailyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(inputDate, uid) < MIN_MEAL_OF_DAY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Integer[] evaluation = timelineService.getDailyStructureEvaluation(uid, inputDate);
 
@@ -202,10 +202,10 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/structure/weekly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getWeeklyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
-                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getCurrentWeekStart(inputDate),
+//                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_MEAL_OF_WEEKLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getWeeklyStructureEvaluation(uid, inputDate);
         if (evaluation == null) {
@@ -219,10 +219,10 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/structure/monthly/compress/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getCompressMonthlyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getMonthStructureEvaluation(uid, inputDate, true);
         if (evaluation == null) {
@@ -236,10 +236,10 @@ public class TimelineController {
     @RequestMapping(value = "/evaluation/structure/monthly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getMonthlyStructureEvaluation(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
-        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-            return CommonResultDTO.validateFailed();
-        }
+//        if (reportService.countDietMealReport(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Integer[]> evaluation = timelineService.getMonthStructureEvaluation(uid, inputDate, false);
         if (evaluation == null) {
@@ -356,11 +356,11 @@ public class TimelineController {
     public CommonResultDTO getWeeklyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getCurrentWeekStart(inputDate),
-                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getCurrentWeekStart(inputDate),
+//                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getWeeklyVitamin(uid, inputDate);
         if (value == null) {
@@ -375,11 +375,11 @@ public class TimelineController {
     public CommonResultDTO getMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, true);
         if (value == null) {
@@ -394,11 +394,11 @@ public class TimelineController {
     public CommonResultDTO getCompressMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, false);
         if (value == null) {
@@ -413,11 +413,11 @@ public class TimelineController {
     public CommonResultDTO getWeeklyMinerals(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getCurrentWeekStart(inputDate),
-                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getCurrentWeekStart(inputDate),
+//                DateUtils.getCurrentWeekEnd(inputDate), uid) < MIN_DAY_OF_WEEKLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getWeeklyMinerals(uid, inputDate);
         if (value == null) {
@@ -432,11 +432,11 @@ public class TimelineController {
     public CommonResultDTO getMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getMonthMinerals(uid, inputDate, true);
         if (value == null) {
@@ -451,11 +451,11 @@ public class TimelineController {
     public CommonResultDTO getCompressMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
-        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
-                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
-
-            return CommonResultDTO.validateFailed();
-        }
+//        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
+//                DateUtils.getNextMonthStartDate(inputDate), uid) < MIN_MEAL_OF_MONTHLY) {
+//
+//            return CommonResultDTO.validateFailed();
+//        }
 
         Map<String, Double[]> value = timelineService.getMonthMinerals(uid, inputDate, false);
         if (value == null) {
