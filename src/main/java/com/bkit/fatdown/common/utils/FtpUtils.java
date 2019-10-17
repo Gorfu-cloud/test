@@ -24,10 +24,10 @@ import java.util.*;
 
 public class FtpUtils {
 
-    private static final String FTP_ADDRESS = "134.175.135.105";
+    private static final String FTP_ADDRESS = "106.54.43.85";
     private static final Integer FTP_PORT = 21;
     private static final String FTP_USERNAME = "ftpuser";
-    private static final String FTP_PASSWORD = "ftpuser";
+    private static final String FTP_PASSWORD = "jkgl2019@";
     private static final String FTP_BASE_PATH = "/";
     private static final String IMAGE_BASE_URL_HTTP = "http://image.sunnyqcloud.com";
     private static final DateFormat DF = new SimpleDateFormat("/yyyy/MM/dd");
