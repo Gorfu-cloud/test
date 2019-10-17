@@ -220,6 +220,24 @@ public class DietRecordServiceImpl implements IDietRecordService {
     /**
      * 统计饮食成分记录
      *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 记录数
+     */
+    @Override
+    public int countDailyDietRecord(Date startDate, Date endDate, int uid) {
+        TbDietRecordExample example = new TbDietRecordExample();
+        example.createCriteria()
+                .andUserIdEqualTo(uid)
+                .andTypeEqualTo(4)
+                .andGmtCreateBetween(startDate, endDate);
+        return (int) dietRecordMapper.countByExample(example);
+    }
+
+    /**
+     * 统计饮食成分记录
+     *
      * @param date 记录日期
      * @param uid  用户id
      * @param type 饮食类型：0 早餐， 1 午餐， 2 晚餐， 3 加餐， 4 每日， 5 每周， 6每月
@@ -234,7 +252,6 @@ public class DietRecordServiceImpl implements IDietRecordService {
                 .andGmtCreateBetween(DateUtils.getDateStart(date), DateUtils.getDateEnd(date));
         return (int) dietRecordMapper.countByExample(example);
     }
-
 
     /**
      * 获取一天饮食三餐记录

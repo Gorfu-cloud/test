@@ -138,6 +138,16 @@ public interface IDietRecordService {
     /**
      * 统计饮食成分记录
      *
+     * @param startDate 开始日期
+     * @param endDate   结束日期
+     * @param uid       用户id
+     * @return 记录数
+     */
+    int countDailyDietRecord(Date startDate, Date endDate, int uid);
+
+    /**
+     * 统计饮食成分记录
+     *
      * @param date 某周的一天
      * @param uid  用户编号
      * @return 记录数
