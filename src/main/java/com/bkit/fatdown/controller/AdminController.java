@@ -140,7 +140,7 @@ public class AdminController {
     @ApiOperation("获取当前登陆用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public CommonResultDTO getAdminInfo(Principal principal) {
-        if (principal==null){
+        if (principal == null) {
             return CommonResultDTO.validateFailed();
         }
 
@@ -229,6 +229,10 @@ public class AdminController {
     @RequestMapping(value = "/info/{pageNum}/{pageSize}", method = RequestMethod.GET)
     public CommonResultDTO searchAdminInfo(@RequestParam(required = false) String name, @RequestParam Integer status,
                                            @PathVariable Integer pageNum, @PathVariable Integer pageSize) {
+        if (status > 1 || status < -1) {
+            return CommonResultDTO.validateFailed();
+        }
+
         List<TbAdmin> adminList = adminService.list(name, status, pageSize, pageNum);
         return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
     }

@@ -10,12 +10,10 @@ import com.bkit.fatdown.mappers.dao.AdminPermissionRelationDao;
 import com.bkit.fatdown.mappers.dao.AdminRoleRelationDao;
 import com.bkit.fatdown.service.IAdminService;
 import com.github.pagehelper.PageHelper;
-import jdk.nashorn.internal.ir.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -181,7 +179,7 @@ public class AdminServiceImpl implements IAdminService {
         PageHelper.startPage(pageNum, pageSize);
         TbAdminExample example = new TbAdminExample();
         TbAdminExample.Criteria criteria = example.createCriteria();
-        if (status != null&&status!=-1){
+        if (status!=-1){
             criteria.andStatusEqualTo(status);
         }
         if (!StringUtils.isEmpty(name)) {
