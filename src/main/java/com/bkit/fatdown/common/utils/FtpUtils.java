@@ -26,9 +26,9 @@ public class FtpUtils {
 
     private static final String FTP_ADDRESS = "106.54.43.85";
     private static final Integer FTP_PORT = 21;
-    private static final String FTP_USERNAME = "ftpuser";
+    private static final String FTP_USERNAME = "ftpuser1";
     private static final String FTP_PASSWORD = "jkgl2019@";
-    private static final String FTP_BASE_PATH = "/";
+    private static final String FTP_BASE_PATH = "/home/ftpuser1";
     private static final String IMAGE_BASE_URL_HTTP = "http://image.sunnyqcloud.com";
     private static final DateFormat DF = new SimpleDateFormat("/yyyy/MM/dd");
 
@@ -57,6 +57,7 @@ public class FtpUtils {
                 ftp.disconnect();
                 return false;
             }
+
             if (!ftp.changeWorkingDirectory(basePath + filePath)) {
                 String[] dirs = filePath.split("/");
                 String tempPath = basePath;
@@ -75,10 +76,13 @@ public class FtpUtils {
                     }
                 }
             }
+
             // 每次开启不同的端口来传输数据，防止出现阻塞。
             ftp.enterLocalPassiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setControlEncoding("UTF-8");
+            // 启动本地链接
+            ftp.enterLocalPassiveMode();
             if (!ftp.storeFile(filename, input)) {
                 logger.error("ftp，存储文件失败");
                 return false;
