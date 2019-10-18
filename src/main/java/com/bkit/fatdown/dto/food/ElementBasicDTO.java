@@ -1,7 +1,6 @@
 package com.bkit.fatdown.dto.food;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @file: ElementBasicDTO
@@ -21,6 +20,8 @@ public class ElementBasicDTO implements Serializable {
     private Integer animalFat;
 
     private Double eatPer;
+
+    private Double dryPer;
 
     private Double water;
 
@@ -75,16 +76,17 @@ public class ElementBasicDTO implements Serializable {
     public ElementBasicDTO() {
     }
 
-    public ElementBasicDTO(String name, Integer type, Integer goodProtein, Integer animalFat, Double eatPer, Double water,
-                           Double energy, Double protein, Double fat, Double carbs, Double vitaminA, Double vitaminB1,
-                           Double vitaminB2, Double vitaminB3, Double vitaminC, Double vitaminE, Double ca, Double zn,
-                           Double mn, Double p, Double k, Double na, Double mg, Double fe, Double cu, Double se,
-                           Double solubleFiber, Double insolubleFiber, Double cholesterol) {
+    public ElementBasicDTO(String name, Integer type, Integer goodProtein, Integer animalFat, Double eatPer,
+                           Double dryPer, Double water, Double energy, Double protein, Double fat, Double carbs,
+                           Double vitaminA, Double vitaminB1, Double vitaminB2, Double vitaminB3, Double vitaminC,
+                           Double vitaminE, Double ca, Double zn, Double mn, Double p, Double k, Double na, Double mg,
+                           Double fe, Double cu, Double se, Double solubleFiber, Double insolubleFiber, Double cholesterol) {
         this.name = name;
         this.type = type;
         this.goodProtein = goodProtein;
         this.animalFat = animalFat;
         this.eatPer = eatPer;
+        this.dryPer = dryPer;
         this.water = water;
         this.energy = energy;
         this.protein = protein;
@@ -347,6 +349,14 @@ public class ElementBasicDTO implements Serializable {
         return serialVersionUID;
     }
 
+    public Double getDryPer() {
+        return dryPer;
+    }
+
+    public void setDryPer(Double dryPer) {
+        this.dryPer = dryPer;
+    }
+
     @Override
     public String toString() {
         return "ElementBasicDTO{" +
@@ -355,6 +365,7 @@ public class ElementBasicDTO implements Serializable {
                 ", goodProtein=" + goodProtein +
                 ", animalFat=" + animalFat +
                 ", eatPer=" + eatPer +
+                ", dryPer=" + dryPer +
                 ", water=" + water +
                 ", energy=" + energy +
                 ", protein=" + protein +
