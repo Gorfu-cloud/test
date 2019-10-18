@@ -8,13 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @file: FtpUtils
@@ -53,8 +50,8 @@ public class FtpUtils {
             int reply;
             ftp.connect(host, port);
             ftp.login(username, password);
+            ftp.enterLocalActiveMode();
             reply = ftp.getReplyCode();
-            logger.info("file upload reply: {}",reply);
             if (!FTPReply.isPositiveCompletion(reply)) {
                 logger.error("ftp连接失败,返回码：" + ftp.getReplyCode());
                 ftp.disconnect();
@@ -82,7 +79,9 @@ public class FtpUtils {
                 }
             }
 
-
+            // 这里因为主动与被动模式, 详情请看: https://blog.csdn.net/zhangyuan12805/article/details/71425385/
+            // 每次开启不同的端口来传输数据，防止出现阻塞。
+//            ftp.enterLocalPassiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setControlEncoding("UTF-8");
             if (!ftp.storeFile(filename, input)) {
@@ -156,7 +155,7 @@ public class FtpUtils {
     public static Map<String, String> uploadPicture2Dir(MultipartFile uploadFile, String dirName) {
         logger.info("上传图片开始");
         //图片上传 http://image.sunnyqcloud.com/pictures/4/2019/07/22/1563806098299320.jpg
-        String imagePath = "/"+dirName;
+        String imagePath = "/" + dirName;
         Map<String, String> map = new HashMap<>(3);
         //取原始文件名
         String oldPictureName = uploadFile.getOriginalFilename();

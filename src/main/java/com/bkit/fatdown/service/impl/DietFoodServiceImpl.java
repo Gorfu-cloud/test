@@ -474,7 +474,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 logger.info("elementBasic , id:{} and type:{} and goodProtein: {} and animalFat: {}",
                         elementBasic.getId(), elementBasic.getType(), elementBasic.getGoodProtein(), elementBasic.getAnimalFat());
 
-                double elementPer = entry.getValue() / FOOD_GRAM_BASE;
+                // 元素重量基于100g元素成分,转换为干重比的后的比例
+                double elementPer = (entry.getValue() / FOOD_GRAM_BASE) * elementBasic.getDryPer();
                 // 能量摄入
                 energy += (elementPer) * elementBasic.getEnergy();
                 // 营养素
