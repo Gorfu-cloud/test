@@ -2094,6 +2094,66 @@ public class TbElementBasicExample {
             addCriterion("gmt_modified not between", value1, value2, "gmtModified");
             return (Criteria) this;
         }
+
+        public Criteria andDryPerIsNull() {
+            addCriterion("dry_per is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerIsNotNull() {
+            addCriterion("dry_per is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerEqualTo(Double value) {
+            addCriterion("dry_per =", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerNotEqualTo(Double value) {
+            addCriterion("dry_per <>", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerGreaterThan(Double value) {
+            addCriterion("dry_per >", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerGreaterThanOrEqualTo(Double value) {
+            addCriterion("dry_per >=", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerLessThan(Double value) {
+            addCriterion("dry_per <", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerLessThanOrEqualTo(Double value) {
+            addCriterion("dry_per <=", value, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerIn(List<Double> values) {
+            addCriterion("dry_per in", values, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerNotIn(List<Double> values) {
+            addCriterion("dry_per not in", values, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerBetween(Double value1, Double value2) {
+            addCriterion("dry_per between", value1, value2, "dryPer");
+            return (Criteria) this;
+        }
+
+        public Criteria andDryPerNotBetween(Double value1, Double value2) {
+            addCriterion("dry_per not between", value1, value2, "dryPer");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

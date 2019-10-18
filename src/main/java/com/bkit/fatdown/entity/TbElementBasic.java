@@ -70,6 +70,8 @@ public class TbElementBasic implements Serializable {
 
     private Date gmtModified;
 
+    private Double dryPer;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -336,6 +338,14 @@ public class TbElementBasic implements Serializable {
         this.gmtModified = gmtModified;
     }
 
+    public Double getDryPer() {
+        return dryPer;
+    }
+
+    public void setDryPer(Double dryPer) {
+        this.dryPer = dryPer;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -375,6 +385,7 @@ public class TbElementBasic implements Serializable {
         sb.append(", ash=").append(ash);
         sb.append(", gmtCreate=").append(gmtCreate);
         sb.append(", gmtModified=").append(gmtModified);
+        sb.append(", dryPer=").append(dryPer);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

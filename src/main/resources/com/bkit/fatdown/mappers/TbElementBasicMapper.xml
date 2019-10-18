@@ -35,6 +35,7 @@
     <result column="ash" jdbcType="DOUBLE" property="ash" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="dry_per" jdbcType="DOUBLE" property="dryPer" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -98,7 +99,7 @@
     id, name, type, good_protein, animal_fat, eat_per, water, energy, protein, fat, carbs, 
     vitamin_a, vitamin_b1, vitamin_b2, vitamin_b3, vitamin_c, vitamin_e, ca, zn, mn, 
     p, k, na, mg, fe, cu, se, soluble_fiber, insoluble_fiber, cholesterol, ash, gmt_create, 
-    gmt_modified
+    gmt_modified, dry_per
   </sql>
   <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbElementBasicExample" resultMap="BaseResultMap">
     select
@@ -131,36 +132,35 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.bkit.fatdown.entity.TbElementBasic">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into tb_element_basic (name, type, good_protein, 
-      animal_fat, eat_per, water, 
-      energy, protein, fat, 
-      carbs, vitamin_a, vitamin_b1, 
-      vitamin_b2, vitamin_b3, vitamin_c, 
-      vitamin_e, ca, zn, mn, 
-      p, k, na, mg, 
-      fe, cu, se, soluble_fiber, 
-      insoluble_fiber, cholesterol, ash, 
-      gmt_create, gmt_modified)
-    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{goodProtein,jdbcType=INTEGER}, 
-      #{animalFat,jdbcType=INTEGER}, #{eatPer,jdbcType=DOUBLE}, #{water,jdbcType=DOUBLE}, 
-      #{energy,jdbcType=DOUBLE}, #{protein,jdbcType=DOUBLE}, #{fat,jdbcType=DOUBLE}, 
-      #{carbs,jdbcType=DOUBLE}, #{vitaminA,jdbcType=DOUBLE}, #{vitaminB1,jdbcType=DOUBLE}, 
-      #{vitaminB2,jdbcType=DOUBLE}, #{vitaminB3,jdbcType=DOUBLE}, #{vitaminC,jdbcType=DOUBLE}, 
-      #{vitaminE,jdbcType=DOUBLE}, #{ca,jdbcType=DOUBLE}, #{zn,jdbcType=DOUBLE}, #{mn,jdbcType=DOUBLE}, 
-      #{p,jdbcType=DOUBLE}, #{k,jdbcType=DOUBLE}, #{na,jdbcType=DOUBLE}, #{mg,jdbcType=DOUBLE}, 
-      #{fe,jdbcType=DOUBLE}, #{cu,jdbcType=DOUBLE}, #{se,jdbcType=DOUBLE}, #{solubleFiber,jdbcType=DOUBLE}, 
-      #{insolubleFiber,jdbcType=DOUBLE}, #{cholesterol,jdbcType=DOUBLE}, #{ash,jdbcType=DOUBLE}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
+    insert into tb_element_basic (id, name, type, 
+      good_protein, animal_fat, eat_per, 
+      water, energy, protein, 
+      fat, carbs, vitamin_a, 
+      vitamin_b1, vitamin_b2, vitamin_b3, 
+      vitamin_c, vitamin_e, ca, 
+      zn, mn, p, k, 
+      na, mg, fe, cu, 
+      se, soluble_fiber, insoluble_fiber, 
+      cholesterol, ash, gmt_create, 
+      gmt_modified, dry_per)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{goodProtein,jdbcType=INTEGER}, #{animalFat,jdbcType=INTEGER}, #{eatPer,jdbcType=DOUBLE}, 
+      #{water,jdbcType=DOUBLE}, #{energy,jdbcType=DOUBLE}, #{protein,jdbcType=DOUBLE}, 
+      #{fat,jdbcType=DOUBLE}, #{carbs,jdbcType=DOUBLE}, #{vitaminA,jdbcType=DOUBLE}, 
+      #{vitaminB1,jdbcType=DOUBLE}, #{vitaminB2,jdbcType=DOUBLE}, #{vitaminB3,jdbcType=DOUBLE}, 
+      #{vitaminC,jdbcType=DOUBLE}, #{vitaminE,jdbcType=DOUBLE}, #{ca,jdbcType=DOUBLE}, 
+      #{zn,jdbcType=DOUBLE}, #{mn,jdbcType=DOUBLE}, #{p,jdbcType=DOUBLE}, #{k,jdbcType=DOUBLE}, 
+      #{na,jdbcType=DOUBLE}, #{mg,jdbcType=DOUBLE}, #{fe,jdbcType=DOUBLE}, #{cu,jdbcType=DOUBLE}, 
+      #{se,jdbcType=DOUBLE}, #{solubleFiber,jdbcType=DOUBLE}, #{insolubleFiber,jdbcType=DOUBLE}, 
+      #{cholesterol,jdbcType=DOUBLE}, #{ash,jdbcType=DOUBLE}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{dryPer,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbElementBasic">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into tb_element_basic
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="name != null">
         name,
       </if>
@@ -257,8 +257,14 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="dryPer != null">
+        dry_per,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -354,6 +360,9 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dryPer != null">
+        #{dryPer,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -465,6 +474,9 @@
       <if test="record.gmtModified != null">
         gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.dryPer != null">
+        dry_per = #{record.dryPer,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -504,7 +516,8 @@
       cholesterol = #{record.cholesterol,jdbcType=DOUBLE},
       ash = #{record.ash,jdbcType=DOUBLE},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP},
+      dry_per = #{record.dryPer,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -608,6 +621,9 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
+      <if test="dryPer != null">
+        dry_per = #{dryPer,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -644,7 +660,8 @@
       cholesterol = #{cholesterol,jdbcType=DOUBLE},
       ash = #{ash,jdbcType=DOUBLE},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      dry_per = #{dryPer,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
