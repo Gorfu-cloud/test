@@ -53,11 +53,13 @@ public class FtpUtils {
             ftp.enterLocalActiveMode();
             reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
-                logger.error("ftp连接失败：" + ftp.getReplyCode());
+                logger.error("ftp连接失败,返回码：" + ftp.getReplyCode());
                 ftp.disconnect();
+                logger.info("关闭ftp连接");
                 return false;
             }
 
+            // 创建目录和文件夹
             if (!ftp.changeWorkingDirectory(basePath + filePath)) {
                 String[] dirs = filePath.split("/");
                 String tempPath = basePath;
@@ -77,12 +79,11 @@ public class FtpUtils {
                 }
             }
 
+            // 这里因为主动与被动模式, 详情请看: https://blog.csdn.net/zhangyuan12805/article/details/71425385/
             // 每次开启不同的端口来传输数据，防止出现阻塞。
-            ftp.enterLocalPassiveMode();
+            // ftp.enterLocalPassiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setControlEncoding("UTF-8");
-            // 启动本地链接
-            ftp.enterLocalPassiveMode();
             if (!ftp.storeFile(filename, input)) {
                 logger.error("ftp，存储文件失败");
                 return false;
