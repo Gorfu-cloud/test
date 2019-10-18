@@ -8,10 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @file: FtpUtils
@@ -50,8 +53,8 @@ public class FtpUtils {
             int reply;
             ftp.connect(host, port);
             ftp.login(username, password);
-            ftp.enterLocalActiveMode();
             reply = ftp.getReplyCode();
+            logger.info("file upload reply: {}",reply);
             if (!FTPReply.isPositiveCompletion(reply)) {
                 logger.error("ftp连接失败,返回码：" + ftp.getReplyCode());
                 ftp.disconnect();
@@ -79,9 +82,7 @@ public class FtpUtils {
                 }
             }
 
-            // 这里因为主动与被动模式, 详情请看: https://blog.csdn.net/zhangyuan12805/article/details/71425385/
-            // 每次开启不同的端口来传输数据，防止出现阻塞。
-            // ftp.enterLocalPassiveMode();
+
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setControlEncoding("UTF-8");
             if (!ftp.storeFile(filename, input)) {

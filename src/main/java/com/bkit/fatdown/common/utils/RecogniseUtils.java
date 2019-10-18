@@ -101,6 +101,7 @@ public class RecogniseUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("识别工具错误:{}",e.getMessage());
         }
         // 解析返回结果
         if (buffer==null){

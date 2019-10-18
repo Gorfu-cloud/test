@@ -24,7 +24,7 @@ public class FtpUtilsTest {
             //登录
             ftp.login("ftpuser1", "jkgl2019@");
             //设置上传路径
-            String path = "/home/ftpuser/image";
+            String path = "/home/ftpuser1/image";
             //检查上传路径是否存在 如果不存在返回false
             boolean flag = ftp.changeWorkingDirectory(path);
             if (!flag) {

@@ -13,6 +13,8 @@ import com.bkit.fatdown.entity.TbPictureType;
 import com.bkit.fatdown.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -270,13 +276,14 @@ public class PictureController {
     @CrossOrigin
     @RequestMapping(value = "/recognise/{num}", method = RequestMethod.POST)
     public CommonResultDTO recogniseById(@PathVariable Integer num, @RequestParam MultipartFile file) {
+        if (file.isEmpty()){
+            return CommonResultDTO.validateFailed();
+        }
         HashMap<String, Object> map = new HashMap<>(2);
         String foodData = "data";
         // 解析识别返回结果数组
         JSONObject jsonObject = RecogniseUtils.recognise(file);
         try {
-
-
             if (jsonObject.getJSONArray(foodData).size() == DATA_NOT_EXIST) {
                 return CommonResultDTO.validateFailed("无法识别或识别结果为空");
             }
@@ -288,6 +295,10 @@ public class PictureController {
         map.put("num", num);
         return CommonResultDTO.success(map);
     }
+
+//    public CommonResultDTO uploadFile(){
+//
+//    }
 
     @ApiOperation("获取早餐饮食图库")
     @CrossOrigin
