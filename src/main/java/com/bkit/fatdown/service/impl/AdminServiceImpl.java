@@ -178,14 +178,18 @@ public class AdminServiceImpl implements IAdminService {
     public List<TbAdmin> list(String name,Integer status, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         TbAdminExample example = new TbAdminExample();
-        TbAdminExample.Criteria criteria = example.createCriteria();
+        TbAdminExample.Criteria criteria1 = example.createCriteria();
+        TbAdminExample.Criteria criteria2 = example.createCriteria();
         if (status!=-1){
-            criteria.andStatusEqualTo(status);
+            criteria1.andStatusEqualTo(status);
+            criteria2.andStatusEqualTo(status);
         }
+
         if (!StringUtils.isEmpty(name)) {
-            criteria.andUserNameLike("%" + name + "%");
-            example.or(example.createCriteria().andNickNameLike("%" + name + "%"));
+            criteria1.andUserNameLike("%" + name + "%");
+            example.or(criteria2.andNickNameLike("%" + name + "%"));
         }
+
         return adminMapper.selectByExample(example);
     }
 
