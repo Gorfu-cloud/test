@@ -104,6 +104,9 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
         // 解决swagger的js文件无法访问
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        // 解决swagger-bootstrap 无法访问
+        registry.addResourceHandler("doc.html").
+                addResourceLocations("classpath:/META-INF/resources/");
     }
 
     private List<ApiKey> securitySchemes() {
