@@ -31,7 +31,7 @@ import java.util.List;
 @Api(value = "/user", tags = "用户信息模块")
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserInfoController {
 
     @Resource
     private IUserBasicInfoService basicInfoService;
@@ -45,7 +45,7 @@ public class UserController {
     @Resource
     private IDietFoodService dietFoodService;
 
-    private static Logger logger = Logger.getLogger(UserController.class);
+    private static Logger logger = Logger.getLogger(UserInfoController.class);
 
     @ApiOperation("小程序用户登录,注册,传入session_code")
     @CrossOrigin
