@@ -26,7 +26,7 @@ spring:
     # Redis服务器连接端口
     port: 6379
     # Redis密码
-    password: baokang2019Yujian
+    password: baokang2019Yujian95
     # 连接超时时间（毫秒）
     timeout: 10000ms
     jedis:
