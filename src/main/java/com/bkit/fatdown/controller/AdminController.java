@@ -1,6 +1,7 @@
 package com.bkit.fatdown.controller;
 
 import com.bkit.fatdown.dto.CommonPageDTO;
+import com.bkit.fatdown.dto.NameIdDTO;
 import com.bkit.fatdown.dto.power.AdminLoginInfoDTO;
 import com.bkit.fatdown.dto.power.AdminParam;
 import com.bkit.fatdown.dto.CommonResultDTO;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -186,6 +188,22 @@ public class AdminController {
         return CommonResultDTO.success(admin);
     }
 
+    @ApiOperation("获取管理员信息(名称)")
+    @RequestMapping(value = "/info/name/{id}", method = RequestMethod.GET)
+    public CommonResultDTO getAdminNameById(@PathVariable Integer id) {
+        if (adminService.count(id) == 0) {
+            return CommonResultDTO.validateFailed();
+        }
+
+        TbAdmin admin = adminService.get(id);
+
+        if (admin == null) {
+            return CommonResultDTO.failed();
+        }
+
+        return CommonResultDTO.success(admin.getNickName());
+    }
+
     @ApiOperation("删除管理员信息")
     @RequestMapping(value = "/info/{id}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteAdminInfo(@PathVariable Integer id) {
@@ -235,6 +253,24 @@ public class AdminController {
 
         List<TbAdmin> adminList = adminService.list(name, status, pageSize, pageNum);
         return CommonResultDTO.success(CommonPageDTO.restPage(adminList));
+    }
+
+    @ApiOperation("根据输入获取管理员姓名和ID列表")
+    @RequestMapping(value = "/info/name", method = RequestMethod.GET)
+    public CommonResultDTO searchAdminInfoNameAndId(@RequestParam(required = false) String name) {
+
+        int all = -1;
+        int pageSize = 10;
+        int pageNum = 1;
+
+        List<TbAdmin> adminList = adminService.list(name, all, pageSize, pageNum);
+
+        List<NameIdDTO> result = new ArrayList<>();
+        for (TbAdmin admin : adminList) {
+            result.add(new NameIdDTO(admin.getUserName(), admin.getId()));
+        }
+
+        return CommonResultDTO.success(result);
     }
 
     @ApiOperation("设置一组账号状态")
