@@ -144,4 +144,11 @@ public interface IAdminService {
      * @return 成功次数
      */
     int updateRole(List<Integer> adminIdList,List<Integer> roleIdList);
+
+    /**
+     * 通过名称获取id
+     * @param name 管理员名称
+     * @return id
+     */
+    int getIdByAdminName(String name);
 }

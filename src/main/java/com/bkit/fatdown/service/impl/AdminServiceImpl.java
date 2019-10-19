@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 @Service
 public class AdminServiceImpl implements IAdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
-//    @Resource
+    //    @Resource
 //    private AuthenticationManager authenticationManager;
     @Resource
     private UserDetailsService userDetailsService;
@@ -175,12 +175,12 @@ public class AdminServiceImpl implements IAdminService {
      * @param pageNum  页号
      */
     @Override
-    public List<TbAdmin> list(String name,Integer status, Integer pageSize, Integer pageNum) {
+    public List<TbAdmin> list(String name, Integer status, Integer pageSize, Integer pageNum) {
         PageHelper.startPage(pageNum, pageSize);
         TbAdminExample example = new TbAdminExample();
         TbAdminExample.Criteria criteria1 = example.createCriteria();
         TbAdminExample.Criteria criteria2 = example.createCriteria();
-        if (status!=-1){
+        if (status != -1) {
             criteria1.andStatusEqualTo(status);
             criteria2.andStatusEqualTo(status);
         }
@@ -209,7 +209,7 @@ public class AdminServiceImpl implements IAdminService {
         String encodePassword = passwordEncoder.encode(password);
         admin.setPassword(encodePassword);
 
-        return adminMapper.updateByPrimaryKeySelective(admin)>0;
+        return adminMapper.updateByPrimaryKeySelective(admin) > 0;
     }
 
     /**
@@ -229,7 +229,6 @@ public class AdminServiceImpl implements IAdminService {
         admin.setPassword(null);
         return adminMapper.updateByPrimaryKeySelective(admin);
     }
-
 
 
     /**
@@ -335,6 +334,26 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     /**
+     * 通过名称获取id
+     *
+     * @param name 管理员名称
+     * @return id
+     */
+    @Override
+    public int getIdByAdminName(String name) {
+        TbAdminExample example = new TbAdminExample();
+        example.createCriteria()
+                .andUserNameEqualTo(name);
+        List<TbAdmin> list = adminMapper.selectByExample(example);
+
+        if (list.isEmpty()) {
+            return 0;
+        } else {
+            return list.get(0).getId();
+        }
+    }
+
+    /**
      * 设置一组用户角色
      *
      * @param adminIdList 用户列表
@@ -344,12 +363,12 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public int updateRole(List<Integer> adminIdList, List<Integer> roleIdList) {
         int count = 0;
-        if (adminIdList.isEmpty()){
+        if (adminIdList.isEmpty()) {
             return count;
         }
 
         for (Integer adminId : adminIdList) {
-            count += updateRole(adminId,roleIdList);
+            count += updateRole(adminId, roleIdList);
         }
         return count;
     }
@@ -370,7 +389,7 @@ public class AdminServiceImpl implements IAdminService {
         example.createCriteria()
                 .andIdIn(ids);
 
-        return adminMapper.updateByExampleSelective(admin,example);
+        return adminMapper.updateByExampleSelective(admin, example);
     }
 
     /**

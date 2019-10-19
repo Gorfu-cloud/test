@@ -257,7 +257,7 @@ public class AdminController {
 
     @ApiOperation("根据输入获取管理员姓名和ID列表")
     @RequestMapping(value = "/info/name", method = RequestMethod.GET)
-    public CommonResultDTO searchAdminInfoNameAndId(@RequestParam(required = false) String name) {
+    public CommonResultDTO searchAdminInfoNameAndId(@RequestParam String name) {
 
         int all = -1;
         int pageSize = 10;
@@ -271,6 +271,17 @@ public class AdminController {
         }
 
         return CommonResultDTO.success(result);
+    }
+
+    @ApiOperation("根据输入管理员姓名,获取ID")
+    @RequestMapping(value = "/info/id", method = RequestMethod.GET)
+    public CommonResultDTO searchAdminInfoNameReturnId(@RequestParam String name) {
+
+        if (adminService.getIdByAdminName(name) == 0) {
+            return CommonResultDTO.success(null);
+        }
+
+        return CommonResultDTO.success(adminService.getAdminByUsername(name));
     }
 
     @ApiOperation("设置一组账号状态")
