@@ -475,7 +475,8 @@ public class DietFoodServiceImpl implements IDietFoodService {
                         elementBasic.getId(), elementBasic.getType(), elementBasic.getGoodProtein(), elementBasic.getAnimalFat());
 
                 // 元素重量基于100g元素成分,转换为干重比的后的比例
-                double elementPer = (entry.getValue() / FOOD_GRAM_BASE) * elementBasic.getDryPer();
+                double trueGram = entry.getValue() * elementBasic.getDryPer();
+                double elementPer = (trueGram / FOOD_GRAM_BASE);
                 // 能量摄入
                 energy += (elementPer) * elementBasic.getEnergy();
                 // 营养素

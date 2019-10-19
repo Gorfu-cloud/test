@@ -115,7 +115,7 @@ public class FoodElementServiceImpl implements IFoodElementService {
             element.setUpdateDate(relation.getGmtModified());
             element.setElementName(elementBasic.getName());
             element.setGram(gram);
-            element.setEnergy(gram / 100 * elementBasic.getEnergy());
+            element.setEnergy(gram / 100 *elementBasic.getDryPer()* elementBasic.getEnergy());
 
             elementList.add(element);
         }
