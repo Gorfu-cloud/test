@@ -1,7 +1,6 @@
 package com.bkit.fatdown.controller;
 
 import cn.hutool.core.date.DateUtil;
-import com.bkit.fatdown.common.utils.DateUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.service.IDietRecordService;
 import com.bkit.fatdown.service.IDietReportService;
@@ -390,7 +389,7 @@ public class TimelineController {
     }
 
     @ApiOperation("个人: 查看每月维生素摄入变化")
-    @RequestMapping(value = "/vitamin/monthly/compress{uid}", method = RequestMethod.GET)
+    @RequestMapping(value = "/vitamin/monthly/compress/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getCompressMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
@@ -428,8 +427,8 @@ public class TimelineController {
     }
 
     @ApiOperation("个人: 查看每月矿物质摄入变化(压缩)")
-    @RequestMapping(value = "/minerals/monthly/{uid}", method = RequestMethod.GET)
-    public CommonResultDTO getMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
+    @RequestMapping(value = "/minerals/monthly/compress/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getCompressMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
 //        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
@@ -447,8 +446,8 @@ public class TimelineController {
     }
 
     @ApiOperation("个人: 查看每月矿物质摄入变化")
-    @RequestMapping(value = "/minerals/monthly/compress{uid}", method = RequestMethod.GET)
-    public CommonResultDTO getCompressMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
+    @RequestMapping(value = "/minerals/monthly/{uid}", method = RequestMethod.GET)
+    public CommonResultDTO getMonthlyMinerals(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
 
 //        if (recordService.countDailyDietRecord(DateUtils.getMonthStartDate(inputDate),
