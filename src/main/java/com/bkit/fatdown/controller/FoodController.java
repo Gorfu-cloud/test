@@ -119,11 +119,22 @@ public class FoodController {
         return CommonResultDTO.success(CommonPageDTO.restPage(foodBasicService.listByPage(foodName, pageNum, pageSize)));
     }
 
+    @ApiOperation("分页: 查找菜式名编号")
+    @CrossOrigin
+    @RequestMapping(value = "/name", method = RequestMethod.GET)
+    public CommonResultDTO listFoodNameAndId(@RequestParam String foodName) {
+
+        int pageNum = 1;
+        int pageSize = 10;
+
+        return CommonResultDTO.success(CommonPageDTO.restPage(foodBasicService.listByName(foodName, pageNum, pageSize)));
+    }
+
     @ApiOperation("获取菜式成分")
     @CrossOrigin
     @RequestMapping(value = "/relation/{foodId}", method = RequestMethod.GET)
     public CommonResultDTO listElementRelation(@PathVariable Integer foodId) {
-        if (foodId == null || foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST ) {
+        if (foodId == null || foodBasicService.countFoodBasic(foodId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed();
         }
 
@@ -177,7 +188,7 @@ public class FoodController {
     @CrossOrigin
     @RequestMapping(value = "/relation/{relationId}", method = RequestMethod.DELETE)
     public CommonResultDTO deleteElementRelation(@PathVariable Integer relationId) {
-        if (relationId == null || foodElementService.count(relationId)==DATA_NOT_EXIST) {
+        if (relationId == null || foodElementService.count(relationId) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed();
         }
 

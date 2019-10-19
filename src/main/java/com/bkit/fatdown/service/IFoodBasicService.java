@@ -1,7 +1,7 @@
 package com.bkit.fatdown.service;
 
+import com.bkit.fatdown.dto.NameIdDTO;
 import com.bkit.fatdown.entity.TbFoodBasic;
-import com.bkit.fatdown.entity.TbFoodRecord;
 
 import java.util.List;
 
@@ -62,6 +62,15 @@ public interface IFoodBasicService {
      * @return
      */
     List<TbFoodBasic> listByPage(String foodName,Integer pageNum,Integer pageSize);
+
+    /**
+     *
+     * @param foodName 食物名
+     * @param pageNum 页号
+     * @param pageSize 页数
+     * @return 名称列表
+     */
+    List<NameIdDTO> listByName(String foodName,Integer pageNum,Integer pageSize);
 
     /**
      *

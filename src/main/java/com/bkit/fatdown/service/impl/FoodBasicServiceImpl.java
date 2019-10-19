@@ -1,5 +1,6 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.dto.NameIdDTO;
 import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.entity.TbFoodBasicExample;
 import com.bkit.fatdown.mappers.TbFoodBasicMapper;
@@ -8,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -122,6 +124,30 @@ public class FoodBasicServiceImpl implements IFoodBasicService {
         example.createCriteria()
                 .andFoodNameEqualTo(foodName);
         return foodBasicMapper.selectByExample(example);
+    }
+
+    /**
+     * @param foodName 食物名
+     * @param pageNum  页号
+     * @param pageSize 页数
+     * @return 名称列表
+     */
+    @Override
+    public List<NameIdDTO> listByName(String foodName, Integer pageNum, Integer pageSize) {
+
+        List<TbFoodBasic> list = listByPage(foodName, pageNum, pageSize);
+
+        if (list.isEmpty()) {
+
+            return null;
+        }
+        List<NameIdDTO> result = new ArrayList<>();
+
+        for (TbFoodBasic foodBasic : list) {
+            result.add(new NameIdDTO(foodBasic.getFoodName(), foodBasic.getId()));
+        }
+
+        return result;
     }
 
     /**
