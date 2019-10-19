@@ -369,7 +369,7 @@ public class TimelineController {
         return CommonResultDTO.success(value);
     }
 
-    @ApiOperation("个人: 查看每月维生素摄入变化(压缩)")
+    @ApiOperation("个人: 查看每月维生素摄入变化")
     @RequestMapping(value = "/vitamin/monthly/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -380,7 +380,7 @@ public class TimelineController {
 //            return CommonResultDTO.validateFailed();
 //        }
 
-        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, true);
+        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, false);
         if (value == null) {
             return CommonResultDTO.failed();
         }
@@ -388,7 +388,7 @@ public class TimelineController {
         return CommonResultDTO.success(value);
     }
 
-    @ApiOperation("个人: 查看每月维生素摄入变化")
+    @ApiOperation("个人: 查看每月维生素摄入变化(压缩)")
     @RequestMapping(value = "/vitamin/monthly/compress/{uid}", method = RequestMethod.GET)
     public CommonResultDTO getCompressMonthlyVitamin(@RequestParam String date, @PathVariable Integer uid) {
         Date inputDate = DateUtil.parseDate(date);
@@ -399,7 +399,7 @@ public class TimelineController {
 //            return CommonResultDTO.validateFailed();
 //        }
 
-        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, false);
+        Map<String, Double[]> value = timelineService.getMonthVitamin(uid, inputDate, true);
         if (value == null) {
             return CommonResultDTO.failed();
         }
