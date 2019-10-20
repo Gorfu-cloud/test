@@ -69,4 +69,20 @@ public interface IMemberService {
      */
     boolean verifyAuthCode(String phone, String authCode);
 
+    /**
+     * 登录功能
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 生成的JWT的token
+     */
+    String login(String username, String password);
+
+    /**
+     * 刷新token
+     *
+     * @param oldToken 原来的token
+     * @return 新token
+     */
+    String refreshToken(String oldToken);
 }

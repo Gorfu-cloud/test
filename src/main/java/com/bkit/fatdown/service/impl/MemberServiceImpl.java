@@ -1,12 +1,21 @@
 package com.bkit.fatdown.service.impl;
 
+import com.bkit.fatdown.common.power.JwtTokenUtil;
 import com.bkit.fatdown.common.utils.AliSendSmsUtils;
 import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.entity.TbUserBasicInfo;
 import com.bkit.fatdown.service.IMemberService;
 import com.bkit.fatdown.service.IRedisService;
 import com.bkit.fatdown.service.IUserBasicInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +37,8 @@ import java.util.Random;
 @Service
 public class MemberServiceImpl implements IMemberService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemberServiceImpl.class);
+
     @Resource
     private IRedisService redisService;
 
@@ -36,6 +47,16 @@ public class MemberServiceImpl implements IMemberService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+
+
+    @Resource
+    private UserDetailsService userDetailsService;
 
     @Value("${redis.key.prefix.authCode}")
     private String REDIS_KEY_PREFIX_AUTH_CODE;
@@ -160,4 +181,48 @@ public class MemberServiceImpl implements IMemberService {
         return authCode.equals(realAuthCode);
     }
 
+    /**
+     * 登录功能
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 生成的JWT的token
+     */
+    @Override
+    public String login(String username, String password) {
+        String token = null;
+
+        //密码需要客户端加密后传递
+        try {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+                throw new BadCredentialsException("密码不正确");
+            }
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+                    null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            token = jwtTokenUtil.generateToken(userDetails);
+//            updateLoginTimeByUsername(username);
+//            insertLoginLog(username);
+
+        } catch (AuthenticationException e) {
+            LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+        return token;
+    }
+
+    /**
+     * 刷新token
+     *
+     * @param oldToken 原来的token
+     * @return 新token
+     */
+    @Override
+    public String refreshToken(String oldToken) {
+        String token = oldToken.substring(tokenHead.length());
+        if (jwtTokenUtil.canRefresh(token)) {
+            return jwtTokenUtil.refreshToken(token);
+        }
+        return null;
+    }
 }
