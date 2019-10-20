@@ -130,7 +130,7 @@ public class DietController {
             return CommonResultDTO.validateFailed();
         }
         logger.info("insert foodRecord uid:{} and date:{},foodName:{} and eatPer:{} and  picture :{} gram: {}", uid, date, foodName, eatPer, picture.toString(), gram);
-        Date inputDate = DateUtil.parse(date);
+        Date inputDate = DateUtil.parseTime(date);
         String empty = "msg", urlOfString = "url", flagOfExist = "flag";
 
         // 获取上传结果
@@ -244,7 +244,8 @@ public class DietController {
             return CommonResultDTO.validateFailed();
         }
 
-        Date inputDate = DateUtil.parse(date);
+        Date inputDate = DateUtil.parseTime(date);
+
 
         // 查找食物基础信息是否存在？
         List<TbFoodBasic> foodList = foodBasicService.listByName(foodName);

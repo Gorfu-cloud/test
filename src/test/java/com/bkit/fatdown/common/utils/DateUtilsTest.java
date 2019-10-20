@@ -21,9 +21,8 @@ public class DateUtilsTest {
 
     @Test
     public void test(){
-        String strDate  ="2019-10-1 11:00:00";
-        System.out.println(DateUtil.parse(strDate));
-        System.out.println(DateUtil.parse("2019-10-01"));
+        String strDate  ="2019-10-1 4:32:24";
+//        System.out.println(DateUtil.parse(strDate));
         System.out.println(DateUtil.parseDateTime(strDate));
     }
 
