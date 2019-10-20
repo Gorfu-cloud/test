@@ -91,12 +91,12 @@ public class FoodElementServiceImpl implements IFoodElementService {
      */
     @Override
     public List<FoodElementDTO> listFoodElement(Integer foodId) {
-        if (foodElementService.countFoodId(foodId)==0){
+        if (foodElementService.countFoodId(foodId) == 0) {
             return null;
         }
         List<TbFoodElementRelation> relationList = foodElementService.listByFoodId(foodId);
 
-        if (relationList.size() ==0) {
+        if (relationList.size() == 0) {
             // TODO 打点日志
             return null;
         }
@@ -115,7 +115,10 @@ public class FoodElementServiceImpl implements IFoodElementService {
             element.setUpdateDate(relation.getGmtModified());
             element.setElementName(elementBasic.getName());
             element.setGram(gram);
-            element.setEnergy(gram / 100 *elementBasic.getDryPer()* elementBasic.getEnergy());
+            // 计算干重
+            element.setDryGram(gram * elementBasic.getDryPer());
+            // 计算干重对应的能量
+            element.setEnergy(gram / 100 * elementBasic.getDryPer() * elementBasic.getEnergy());
 
             elementList.add(element);
         }

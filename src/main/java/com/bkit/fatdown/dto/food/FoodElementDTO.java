@@ -24,6 +24,8 @@ public class FoodElementDTO implements Serializable {
     private String elementName;
     @ApiModelProperty(value="重量",name="gram",example="10.0")
     private Double gram;
+    @ApiModelProperty(value = "干重",name = "dryGram",example = "8.0")
+    private Double dryGram;
     @ApiModelProperty(value="能量(根据重量计算后)",name="energy",example="100.0")
     private Double energy;
     @ApiModelProperty(value="更新日期",name="updateDate",example="2019年8月28日 10点25分")
@@ -32,10 +34,13 @@ public class FoodElementDTO implements Serializable {
     public FoodElementDTO() {
     }
 
-    public FoodElementDTO(Integer elementId, String elementName, Double gram, Double energy, Date updateDate) {
+    public FoodElementDTO(Integer relationId, Integer elementId, String elementName, Double gram,
+                          Double dryGram, Double energy, Date updateDate) {
+        this.relationId = relationId;
         this.elementId = elementId;
         this.elementName = elementName;
         this.gram = gram;
+        this.dryGram = dryGram;
         this.energy = energy;
         this.updateDate = updateDate;
     }
@@ -72,6 +77,14 @@ public class FoodElementDTO implements Serializable {
         this.gram = gram;
     }
 
+    public Double getDryGram() {
+        return dryGram;
+    }
+
+    public void setDryGram(Double dryGram) {
+        this.dryGram = dryGram;
+    }
+
     public Double getEnergy() {
         return energy;
     }
@@ -91,9 +104,11 @@ public class FoodElementDTO implements Serializable {
     @Override
     public String toString() {
         return "FoodElementDTO{" +
-                "elementId=" + elementId +
+                "relationId=" + relationId +
+                ", elementId=" + elementId +
                 ", elementName='" + elementName + '\'' +
                 ", gram=" + gram +
+                ", dryGram=" + dryGram +
                 ", energy=" + energy +
                 ", updateDate=" + updateDate +
                 '}';
