@@ -8,10 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @file: FtpUtils
@@ -30,9 +31,8 @@ public class FtpUtils {
     private static final String FTP_PASSWORD = "jkgl2019@";
     private static final String FTP_BASE_PATH = "/home/ftpuser1";
     private static final String IMAGE_BASE_URL_HTTP = "http://image.sunnyqcloud.com";
-    private static final DateFormat DF = new SimpleDateFormat("/yyyy/MM/dd");
 
-    private static Logger logger = LoggerFactory.getLogger(FtpUtils.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(FtpUtils.class);
 
     /**
      * @description: 连接服务器，传送文件
@@ -43,19 +43,18 @@ public class FtpUtils {
      */
     private static boolean uploadFile(String host, int port, String username, String password, String basePath, String filePath,
                                       String filename, InputStream input) {
-        logger.info("ftp传送文件开始");
+        LOGGER.info("ftp传送文件开始");
         boolean result = false;
         FTPClient ftp = new FTPClient();
         try {
             int reply;
             ftp.connect(host, port);
             ftp.login(username, password);
-            ftp.enterLocalActiveMode();
             reply = ftp.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
-                logger.error("ftp连接失败,返回码：" + ftp.getReplyCode());
+                LOGGER.error("ftp连接失败,返回码：" + ftp.getReplyCode());
                 ftp.disconnect();
-                logger.info("关闭ftp连接");
+                LOGGER.info("关闭ftp连接");
                 return false;
             }
 
@@ -70,7 +69,7 @@ public class FtpUtils {
                     tempPath += "/" + dir;
                     if (!ftp.changeWorkingDirectory(tempPath)) {
                         if (!ftp.makeDirectory(tempPath)) {
-                            logger.error("ftp，创建上传临时文件夹失败：" + tempPath);
+                            LOGGER.error("ftp，创建上传临时文件夹失败：" + tempPath);
                             return false;
                         } else {
                             ftp.changeWorkingDirectory(tempPath);
@@ -78,33 +77,33 @@ public class FtpUtils {
                     }
                 }
             }
-
-            // 这里因为主动与被动模式, 详情请看: https://blog.csdn.net/zhangyuan12805/article/details/71425385/
-            // 每次开启不同的端口来传输数据，防止出现阻塞。
-//            ftp.enterLocalPassiveMode();
+            // 主动模式和被动模式的区别可看.https://blog.csdn.net/zhangyuan12805/article/details/71425385
+            // 腾讯云关于ftp 服务器可看. https://cloud.tencent.com/document/product/213/10912
+            // 开启主动连接
+            ftp.enterLocalActiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
             ftp.setControlEncoding("UTF-8");
             if (!ftp.storeFile(filename, input)) {
-                logger.error("ftp，存储文件失败");
+                LOGGER.error("ftp，存储文件失败");
                 return false;
             }
             input.close();
             ftp.logout();
             result = true;
         } catch (Exception e) {
-            logger.error("ftp，传送文件失败：" + e);
+            LOGGER.error("ftp，传送文件失败：" + e);
             e.printStackTrace();
         } finally {
             if (ftp.isConnected()) {
                 try {
                     ftp.disconnect();
                 } catch (IOException e) {
-                    logger.error("ftp，传送文件，连接关闭失败：" + e);
+                    LOGGER.error("ftp，传送文件，连接关闭失败：" + e);
                     e.printStackTrace();
                 }
             }
         }
-        logger.info("ftp,传送文件结束");
+        LOGGER.info("ftp,传送文件结束");
         return result;
     }
 
@@ -118,7 +117,7 @@ public class FtpUtils {
      * @return imgUrl：图片路径，flag：是否上传成功（true、false）
      */
     public static Map<String, String> uploadPicture(MultipartFile uploadFile, int uid, Date date) {
-        logger.info("上传图片开始");
+        LOGGER.info("上传图片开始");
         Map<String, String> map = new HashMap<>(3);
         //取原始文件名
         String oldPictureName = uploadFile.getOriginalFilename();
@@ -130,7 +129,7 @@ public class FtpUtils {
         //构建出一个新的文件名
         newPictureName = newPictureName + postfix;
         //图片上传 http://image.sunnyqcloud.com/pictures/4/2019/07/22/1563806098299320.jpg
-        String imagePath = "/pictures/" + uid + DF.format(date);
+        String imagePath = "/pictures/" + uid;
 
         boolean result = false;
         try {
@@ -140,7 +139,7 @@ public class FtpUtils {
             map.put("imgUrl", imgUrl);
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("上传图片到云数据库失败" + e);
+            LOGGER.error("上传图片到云数据库失败" + e);
         }
         map.put("flag", Boolean.toString(result));
         return map;
@@ -153,9 +152,10 @@ public class FtpUtils {
      * @return imgUrl：图片路径，flag：是否上传成功（true、false）
      */
     public static Map<String, String> uploadPicture2Dir(MultipartFile uploadFile, String dirName) {
-        logger.info("上传图片开始");
+        LOGGER.info("上传图片开始");
         //图片上传 http://image.sunnyqcloud.com/pictures/4/2019/07/22/1563806098299320.jpg
         String imagePath = "/" + dirName;
+
         Map<String, String> map = new HashMap<>(3);
         //取原始文件名
         String oldPictureName = uploadFile.getOriginalFilename();
@@ -173,9 +173,10 @@ public class FtpUtils {
                     imagePath, newPictureName, uploadFile.getInputStream());
             String imgUrl = IMAGE_BASE_URL_HTTP + imagePath + "/" + newPictureName;
             map.put("imgUrl", imgUrl);
+            LOGGER.info("uploadFile success !");
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("上传图片到云数据库失败" + e);
+            LOGGER.error("上传图片到云数据库失败" + e.getMessage());
         }
         map.put("flag", Boolean.toString(result));
         return map;

@@ -81,7 +81,7 @@ public class MemberController {
         return CommonResultDTO.failed();
     }
 
-    @ApiOperation("获取用户是否存在")
+    @ApiOperation("获取用户是否存在,存在返回成功,不存在返回失败")
     @RequestMapping(value = "/phone/verify", method = RequestMethod.GET)
     public CommonResultDTO verifyPhone(@RequestParam String phone) {
         if (StringUtils.isEmpty(phone)) {
