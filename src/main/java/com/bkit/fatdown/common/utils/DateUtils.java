@@ -50,6 +50,12 @@ public class DateUtils {
         return no.getTime();
     }
 
+    public static Date parseDateTime(String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ParsePosition pos = new ParsePosition(0);
+        return formatter.parse(strDate, pos);
+    }
+
     /**
      * 返回下一个月第一天
      *

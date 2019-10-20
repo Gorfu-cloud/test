@@ -3,9 +3,9 @@ package com.bkit.fatdown.common.utils;
 import cn.hutool.core.date.DateUtil;
 import org.junit.Test;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 /**
  * @file: DateUtilsTest
@@ -17,13 +17,32 @@ import static org.junit.Assert.*;
  */
 public class DateUtilsTest {
 
-   private final static String strDate  ="2019-10-1 11:00:00";
+//   private final static String strDate  ="2019-10-1 11:00:00";
 
     @Test
-    public void test(){
-        String strDate  ="2019-10-1 4:32:24";
-//        System.out.println(DateUtil.parse(strDate));
-        System.out.println(DateUtil.parseDateTime(strDate));
+    public void test() {
+        String strDate1 = "2019-10-1 4:2:24";
+        String strDate2 = "2019-10-1 4:2:0";
+        String strDate3 = "2019-10-11 4:2:4";
+        String strDate4 = "2019-10-10 1:00:00";
+        Date date = parseDateTime(strDate1);
+
+        System.out.println(date);
+
+        date = parseDateTime(strDate2);
+        System.out.println(date);
+
+        date = parseDateTime(strDate3);
+        System.out.println(date);
+
+        date = parseDateTime(strDate4);
+        System.out.println(date);
+    }
+
+    public static Date parseDateTime(String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        ParsePosition pos = new ParsePosition(0);
+        return formatter.parse(strDate, pos);
     }
 
     @Test
