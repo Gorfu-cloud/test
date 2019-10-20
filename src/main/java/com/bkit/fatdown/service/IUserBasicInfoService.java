@@ -120,4 +120,11 @@ public interface IUserBasicInfoService {
      */
     List<TbUserBasicInfo> listByUserGroup(Integer groupId,Integer pageSize,Integer pageNum);
 
+    /**
+     * 用户存在个数
+     *
+     * @param phone 手机号
+     * @return 存在个数
+     */
+    int countByPhone(String phone);
 }

@@ -68,6 +68,22 @@ public class UserBasicInfoServiceImpl implements IUserBasicInfoService {
     }
 
     /**
+     * 用户存在个数
+     *
+     * @param phone 手机号
+     * @return 存在个数
+     */
+    @Override
+    public int countByPhone(String phone) {
+        TbUserBasicInfoExample example = new TbUserBasicInfoExample();
+
+        example.createCriteria()
+                .andPhoneEqualTo(phone);
+
+        return (int) userBasicInfoMapper.countByExample(example);
+    }
+
+    /**
      * 获取分组成员
      *
      * @param groupId  分组信息
