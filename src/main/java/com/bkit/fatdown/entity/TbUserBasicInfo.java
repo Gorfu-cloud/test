@@ -8,6 +8,10 @@ public class TbUserBasicInfo implements Serializable {
 
     private String openId;
 
+    private String phone;
+
+    private String password;
+
     private Integer groupId;
 
     private String avatarUrl;
@@ -19,8 +23,6 @@ public class TbUserBasicInfo implements Serializable {
     private Integer gender;
 
     private Integer age;
-
-    private String phone;
 
     private String province;
 
@@ -54,6 +56,22 @@ public class TbUserBasicInfo implements Serializable {
 
     public void setOpenId(String openId) {
         this.openId = openId == null ? null : openId.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public Integer getGroupId() {
@@ -102,14 +120,6 @@ public class TbUserBasicInfo implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
     }
 
     public String getProvince() {
@@ -184,13 +194,14 @@ public class TbUserBasicInfo implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", openId=").append(openId);
+        sb.append(", phone=").append(phone);
+        sb.append(", password=").append(password);
         sb.append(", groupId=").append(groupId);
         sb.append(", avatarUrl=").append(avatarUrl);
         sb.append(", nickName=").append(nickName);
         sb.append(", trueName=").append(trueName);
         sb.append(", gender=").append(gender);
         sb.append(", age=").append(age);
-        sb.append(", phone=").append(phone);
         sb.append(", province=").append(province);
         sb.append(", city=").append(city);
         sb.append(", job=").append(job);

@@ -4,13 +4,14 @@
   <resultMap id="BaseResultMap" type="com.bkit.fatdown.entity.TbUserBasicInfo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="group_id" jdbcType="INTEGER" property="groupId" />
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
     <result column="true_name" jdbcType="VARCHAR" property="trueName" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="job" jdbcType="VARCHAR" property="job" />
@@ -79,8 +80,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, open_id, group_id, avatar_url, nick_name, true_name, gender, age, phone, province, 
-    city, job, type, flag, user_level, gmt_create, gmt_modified
+    id, open_id, phone, password, group_id, avatar_url, nick_name, true_name, gender, 
+    age, province, city, job, type, flag, user_level, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.bkit.fatdown.entity.TbUserBasicInfoExample" resultMap="BaseResultMap">
     select
@@ -113,17 +114,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.bkit.fatdown.entity.TbUserBasicInfo">
-    insert into tb_user_basic_info (id, open_id, group_id, 
-      avatar_url, nick_name, true_name, 
-      gender, age, phone, 
-      province, city, job, 
-      type, flag, user_level, 
+    insert into tb_user_basic_info (id, open_id, phone, 
+      password, group_id, avatar_url, 
+      nick_name, true_name, gender, 
+      age, province, city, 
+      job, type, flag, user_level, 
       gmt_create, gmt_modified)
-    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
-      #{avatarUrl,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{trueName,jdbcType=VARCHAR}, 
-      #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{userLevel,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, #{avatarUrl,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{trueName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+      #{age,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{userLevel,jdbcType=INTEGER}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.bkit.fatdown.entity.TbUserBasicInfo">
@@ -134,6 +135,12 @@
       </if>
       <if test="openId != null">
         open_id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        password,
       </if>
       <if test="groupId != null">
         group_id,
@@ -152,9 +159,6 @@
       </if>
       <if test="age != null">
         age,
-      </if>
-      <if test="phone != null">
-        phone,
       </if>
       <if test="province != null">
         province,
@@ -188,6 +192,12 @@
       <if test="openId != null">
         #{openId,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
       <if test="groupId != null">
         #{groupId,jdbcType=INTEGER},
       </if>
@@ -205,9 +215,6 @@
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
         #{province,jdbcType=VARCHAR},
@@ -250,6 +257,12 @@
       <if test="record.openId != null">
         open_id = #{record.openId,jdbcType=VARCHAR},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
       <if test="record.groupId != null">
         group_id = #{record.groupId,jdbcType=INTEGER},
       </if>
@@ -267,9 +280,6 @@
       </if>
       <if test="record.age != null">
         age = #{record.age,jdbcType=INTEGER},
-      </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.province != null">
         province = #{record.province,jdbcType=VARCHAR},
@@ -304,13 +314,14 @@
     update tb_user_basic_info
     set id = #{record.id,jdbcType=INTEGER},
       open_id = #{record.openId,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
       group_id = #{record.groupId,jdbcType=INTEGER},
       avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
       nick_name = #{record.nickName,jdbcType=VARCHAR},
       true_name = #{record.trueName,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=INTEGER},
       age = #{record.age,jdbcType=INTEGER},
-      phone = #{record.phone,jdbcType=VARCHAR},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
@@ -329,6 +340,12 @@
       <if test="openId != null">
         open_id = #{openId,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
       <if test="groupId != null">
         group_id = #{groupId,jdbcType=INTEGER},
       </if>
@@ -346,9 +363,6 @@
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="province != null">
         province = #{province,jdbcType=VARCHAR},
@@ -380,13 +394,14 @@
   <update id="updateByPrimaryKey" parameterType="com.bkit.fatdown.entity.TbUserBasicInfo">
     update tb_user_basic_info
     set open_id = #{openId,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
       group_id = #{groupId,jdbcType=INTEGER},
       avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
       true_name = #{trueName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},
-      phone = #{phone,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
