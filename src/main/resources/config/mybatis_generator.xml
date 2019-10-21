@@ -54,7 +54,7 @@
                              targetProject="E:\IdeaProject\FatDown\src\main\java" type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
-        <table tableName="tb_element_basic" enableCountByExample="true" enableDeleteByExample="true"
+        <table tableName="tb_user_basic_info" enableCountByExample="true" enableDeleteByExample="true"
                enableSelectByExample="true"               enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

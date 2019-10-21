@@ -29,7 +29,7 @@ public class AliSendSmsUtils {
     private final static String ACCESS_SECRET = "oeT2Xb5dW5BGrqmYIgdsnuK9gCkSPG";
     private final static String DOMAIN = "dysmsapi.aliyuncs.com";
     private final static String VERSION = "2017-05-25";
-    private final static String SIGN_NAME = "广东健康服务管理";
+    private final static String SIGN_NAME = "广东葆康信息科技有限公司";
 
 
     /**
