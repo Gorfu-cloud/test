@@ -234,16 +234,18 @@ public class DietFoodServiceImpl implements IDietFoodService {
         // 记录为1时，直接返回
         if (recordList.size() == 1) {
             int foodId = recordList.get(0).getFoodId();
+            double foodGram = recordList.get(0).getFoodQuantity();
             double eatPer = recordList.get(0).getEatPer();
-            logger.info("recordList size: 1, and foodId:{} and eatPer:{} ", foodId, eatPer);
-            return generateDietRecord(foodId, eatPer);
+            logger.info("recordList size: 1, and foodId:{} and eatPer:{} and foodGram :{} ", foodId, eatPer, foodGram);
+            return generateDietRecord(foodId, eatPer, foodGram);
         }
 
         for (TbFoodRecord record : recordList) {
             int foodId = record.getFoodId();
+            double foodGram = recordList.get(0).getFoodQuantity();
             double eatPer = record.getEatPer();
-            logger.info("recordList size: {}, and foodId:{} and eatPer:{} ", recordList.size(), foodId, eatPer);
-            TbDietRecord temp = generateDietRecord(foodId, eatPer);
+            logger.info("recordList size: {}, and foodId:{} and eatPer:{} and foodGram :{}", recordList.size(), foodId, eatPer, foodGram);
+            TbDietRecord temp = generateDietRecord(foodId, eatPer, foodGram);
             target = mergeDietRecord(target, temp);
         }
 
@@ -450,10 +452,11 @@ public class DietFoodServiceImpl implements IDietFoodService {
      *
      * @param foodId 食物编号
      * @param eatPer 食用度
+     * @param gram   菜式重量
      * @return
      */
     @Override
-    public TbDietRecord generateDietRecord(int foodId, double eatPer) {
+    public TbDietRecord generateDietRecord(int foodId, double eatPer, double gram) {
         // 能量 ,  脂肪，  蛋白质，  碳水化合物，  膳食纤维 , 动物性脂肪， 优质蛋白质
         double energy = 0, fat = 0, protein = 0, carbs = 0, insolubleFiber = 0, animalFat = 0, goodProtein = 0;
         double vitaminA = 0, vitaminB1 = 0, vitaminB2 = 0, vitaminB3 = 0, vitaminC = 0, vitaminE = 0;
@@ -474,8 +477,10 @@ public class DietFoodServiceImpl implements IDietFoodService {
                 logger.info("elementBasic , id:{} and type:{} and goodProtein: {} and animalFat: {}",
                         elementBasic.getId(), elementBasic.getType(), elementBasic.getGoodProtein(), elementBasic.getAnimalFat());
 
+                // 用户输入重量占菜式预计重量
+                double foodPer = gram / foodBasic.getQuantity();
                 // 元素重量基于100g元素成分,转换为干重比的后的比例
-                double trueGram = entry.getValue() * elementBasic.getDryPer();
+                double trueGram = foodPer * entry.getValue() * elementBasic.getDryPer();
                 double elementPer = (trueGram / FOOD_GRAM_BASE);
                 // 能量摄入
                 energy += (elementPer) * elementBasic.getEnergy();
@@ -716,7 +721,7 @@ public class DietFoodServiceImpl implements IDietFoodService {
             }
 
             // 生成已经拆解的菜式信息
-            record1 = generateDietRecord(foodRecord1.getFoodId(), foodRecord1.getEatPer());
+            record1 = generateDietRecord(foodRecord1.getFoodId(), foodRecord1.getEatPer(),foodRecord1.getFoodQuantity());
             ElementInfo info = new ElementInfo();
             // 复制 record 中的属性
             BeanUtils.copyProperties(record1, info);

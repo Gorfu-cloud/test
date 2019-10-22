@@ -5,6 +5,7 @@ import com.bkit.fatdown.dto.CommonResultDTO;
 import com.bkit.fatdown.dto.food.ElementBasicDTO;
 import com.bkit.fatdown.entity.TbDietRecord;
 import com.bkit.fatdown.entity.TbElementBasic;
+import com.bkit.fatdown.entity.TbFoodBasic;
 import com.bkit.fatdown.service.IDietFoodService;
 import com.bkit.fatdown.service.IElementBasicService;
 import com.bkit.fatdown.service.IFoodBasicService;
@@ -45,7 +46,9 @@ public class ElementController {
         if (foodBasicService.countFoodBasic(id) == DATA_NOT_EXIST) {
             return CommonResultDTO.validateFailed("id错误");
         }
-        return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100));
+        TbFoodBasic foodBasic = foodBasicService.getFoodBasic(id);
+
+        return CommonResultDTO.success(foodService.generateDietRecord(id, eatPer / 100, foodBasic.getQuantity()));
     }
 
     @ApiOperation("分页：查找名称,指定元素成分（名称可空、所有类型：-1）")
@@ -93,12 +96,12 @@ public class ElementController {
     @ApiOperation("更新元素成分")
     @CrossOrigin
     @RequestMapping(value = "/basic/{id}", method = RequestMethod.PUT)
-    public CommonResultDTO updateElementBasic(@RequestBody ElementBasicDTO elementBasic,@PathVariable Integer id) {
-        if (elementBasic == null||id==null) {
+    public CommonResultDTO updateElementBasic(@RequestBody ElementBasicDTO elementBasic, @PathVariable Integer id) {
+        if (elementBasic == null || id == null) {
             return CommonResultDTO.validateFailed();
         }
 
-        if (elementBasicService.update(id,elementBasic)) {
+        if (elementBasicService.update(id, elementBasic)) {
             return CommonResultDTO.success();
         }
 

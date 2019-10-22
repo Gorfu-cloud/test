@@ -142,9 +142,10 @@ public interface IDietFoodService {
      *
      * @param foodId 食物编号
      * @param eatPer 食用度
+     * @param gram 食物重量
      * @return 元素总和
      */
-    TbDietRecord generateDietRecord(int foodId, double eatPer);
+    TbDietRecord generateDietRecord(int foodId, double eatPer,double gram);
 
     /**
      * 返回元素总和
